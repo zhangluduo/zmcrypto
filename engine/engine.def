@@ -1,0 +1,21 @@
+LIBRARY "zmengine"
+EXPORTS
+    aes_new
+    aes_free
+    aes_init
+    aes_block_size
+    aes_ksize_min
+    aes_ksize_max
+    aes_ksize_multiple
+    aes_set_ekey
+    aes_set_dkey
+    aes_enc_block
+    aes_dec_block
+    md5_new
+    md5_free
+    md5_digest_size
+    md5_block_size
+    md5_init
+    md5_starts
+    md5_update
+    md5_final
