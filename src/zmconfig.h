@@ -34,22 +34,22 @@
 /* Less than or equal to zero fails, greater than zero succeeds */
 typedef int32_t zmerror;
 
-#define ZMCRYPTO_ERR_SUCCESSED                 (zmerror)(0x00000001L)
-#define ZMCRYPTO_ERR_BASE                      (zmerror)(0x00000000L)
-#define ZMCRYPTO_ERR_NULL_PTR                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x0001) /* NULL pointer  */
-#define ZMCRYPTO_ERR_INVALID_KSIZE             (zmerror)(ZMCRYPTO_ERR_BASE - 0x0002) /* invalid key size */
-#define ZMCRYPTO_ERR_INVALID_DSIZE             (zmerror)(ZMCRYPTO_ERR_BASE - 0x0003) /* invalid data size */
-#define ZMCRYPTO_ERR_INVALID_BSIZE             (zmerror)(ZMCRYPTO_ERR_BASE - 0x0004) /* invalid block size */
-#define ZMCRYPTO_ERR_INVALID_TSIZE             (zmerror)(ZMCRYPTO_ERR_BASE - 0x0005) /* invalid tag/MAC size */
-#define ZMCRYPTO_ERR_INVALID_IVSIZE            (zmerror)(ZMCRYPTO_ERR_BASE - 0x0006) /* invalid IV/N-once size */
-#define ZMCRYPTO_ERR_INVALID_PAD               (zmerror)(ZMCRYPTO_ERR_BASE - 0x0007) /* invalid padding */
-#define ZMCRYPTO_ERR_INVALID_DATA              (zmerror)(ZMCRYPTO_ERR_BASE - 0x0009) /* invalid input data */
-#define ZMCRYPTO_ERR_INVALID_CHAR              (zmerror)(ZMCRYPTO_ERR_BASE - 0x000a) /* invalid character */
-#define ZMCRYPTO_ERR_WEAK_KEY                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000b) /* Weak keys for DES, RC4, IDEA, Blowfish etc. */
-#define ZMCRYPTO_ERR_MALLOC_FAILED             (zmerror)(ZMCRYPTO_ERR_BASE - 0x000c) /* malloc memory failed */
-#define ZMCRYPTO_ERR_OVERFLOW                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000d) /* buffer to small, or array out of bounds */
-#define ZMCRYPTO_ERR_CALLBACK                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000e) /* The callback function returns failed */
-#define ZMCRYPTO_ERR_SEQUENCE                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000f) /* Incorrect order of function call */
+#define ZMCRYPTO_ERR_SUCCESSED                 (zmerror)(0x00000001UL)
+#define ZMCRYPTO_ERR_BASE                      (zmerror)(0x00000000UL)
+#define ZMCRYPTO_ERR_NULL_PTR                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x0001U) /* NULL pointer  */
+#define ZMCRYPTO_ERR_INVALID_KSIZE             (zmerror)(ZMCRYPTO_ERR_BASE - 0x0002U) /* invalid key size */
+#define ZMCRYPTO_ERR_INVALID_DSIZE             (zmerror)(ZMCRYPTO_ERR_BASE - 0x0003U) /* invalid data size */
+#define ZMCRYPTO_ERR_INVALID_BSIZE             (zmerror)(ZMCRYPTO_ERR_BASE - 0x0004U) /* invalid block size */
+#define ZMCRYPTO_ERR_INVALID_TSIZE             (zmerror)(ZMCRYPTO_ERR_BASE - 0x0005U) /* invalid tag/MAC size */
+#define ZMCRYPTO_ERR_INVALID_IVSIZE            (zmerror)(ZMCRYPTO_ERR_BASE - 0x0006U) /* invalid IV/N-once size */
+#define ZMCRYPTO_ERR_INVALID_PAD               (zmerror)(ZMCRYPTO_ERR_BASE - 0x0007U) /* invalid padding */
+#define ZMCRYPTO_ERR_INVALID_DATA              (zmerror)(ZMCRYPTO_ERR_BASE - 0x0009U) /* invalid input data */
+#define ZMCRYPTO_ERR_INVALID_CHAR              (zmerror)(ZMCRYPTO_ERR_BASE - 0x000aU) /* invalid character */
+#define ZMCRYPTO_ERR_WEAK_KEY                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000bU) /* Weak keys for DES, RC4, IDEA, Blowfish etc. */
+#define ZMCRYPTO_ERR_MALLOC_FAILED             (zmerror)(ZMCRYPTO_ERR_BASE - 0x000cU) /* malloc memory failed */
+#define ZMCRYPTO_ERR_OVERFLOW                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000dU) /* buffer to small, or array out of bounds */
+#define ZMCRYPTO_ERR_CALLBACK                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000eU) /* The callback function returns failed */
+#define ZMCRYPTO_ERR_SEQUENCE                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000fU) /* Incorrect order of function call */
 
 #define ZMCRYPTO_IS_ERROR(code)     (code <= ZMCRYPTO_ERR_BASE)
 #define ZMCRYPTO_IS_SUCCESSED(code) (code > ZMCRYPTO_ERR_BASE)
@@ -57,10 +57,6 @@ typedef int32_t zmerror;
 #define MAX_BLOCKSIZE   (128)
 #define MAX_DIGESTSIZE  (128)
 #define MAX_STRLEN  (1048576)
-
-#define ZMCRYPTO_DEBUG 1
-#define ZMCRYPTO_OUTPUT (x, l)\
-for (uint32_t i = 0; i < l; i++) { printf ("%02x ", ((uint8_t*)x)[i]); } printf("\n");
 
 /*
 Use the following macros to make this library do clipping

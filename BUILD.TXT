@@ -1,8 +1,10 @@
-1. enter the 'bin' directory
+1. create a bin directory
+   cmd: mkdir bin
+2. enter the 'bin' directory
    cmd: cd bin
-2. generate the make file
+3. generate the make file
    cmd: cmake ../build/linux
-3. Execute the compilation process
+4. Execute the compilation process
    cmd: make
-4. run test case
+5. run test case
    cmd: ./test
