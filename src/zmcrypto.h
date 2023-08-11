@@ -146,7 +146,7 @@ extern "C" {
         API int32_t zm_##name##_digest_size(void);\
         API int32_t zm_##name##_block_size(void);\
         API void zm_##name##_init(CONTEXT_TYPE_PTR(name) ctx);\
-        API void zm_##name##_starts(CONTEXT_TYPE_PTR(name));\
+        API void zm_##name##_starts(CONTEXT_TYPE_PTR(name) ctx);\
         API void zm_##name##_update(CONTEXT_TYPE_PTR(name), uint8_t* data, uint32_t dlen);\
         API void zm_##name##_final(CONTEXT_TYPE_PTR(name), uint8_t* output);\
         typedef CONTEXT_TYPE_PTR(name) (*pfn_##name##_new)(void);\
@@ -154,7 +154,7 @@ extern "C" {
         typedef int32_t (*pfn_##name##_digest_size)(void);\
         typedef int32_t (*pfn_##name##_block_size)(void);\
         typedef void (*pfn_##name##_init)(CONTEXT_TYPE_PTR(name) ctx);\
-        typedef void (*pfn_##name##_starts)(CONTEXT_TYPE_PTR(name));\
+        typedef void (*pfn_##name##_starts)(CONTEXT_TYPE_PTR(name) ctx);\
         typedef void (*pfn_##name##_update)(CONTEXT_TYPE_PTR(name), uint8_t* data, uint32_t dlen);\
         typedef void (*pfn_##name##_final)(CONTEXT_TYPE_PTR(name), uint8_t* output);
 
