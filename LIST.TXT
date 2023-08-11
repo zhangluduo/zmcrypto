@@ -1,0 +1,114 @@
+
+==== Alogrithm list and development Plan ====
+
++-----------+-----------------+-----------------------+-------------------------+
+|    NO.    |    alogrithm    |    completion date    |    note                 |
++-----------+-----------------+-----------------------+-------------------------+
+|      1    |    adler32      |    Nov 2022           |                         |
+|      2    |    aes          |    Jan 2023           |                         |
+|      3    |    anubis       |                       |                         |
+|      4    |    aria         |                       |                         |
+|      5    |    asn1         |                       | code need to tidying up |
+|      6    |    base16       |                       | code need to tidying up |
+|      7    |    base32       |                       | code need to tidying up |
+|      8    |    base58       |                       | code need to tidying up |
+|      9    |    base64       |    Apr 2023           |                         |
+|     10    |    bcrypt       |                       |                         |
+|     11    |    blake2b      |                       |                         |
+|     12    |    blake2s      |                       |                         |
+|     13    |    blockpad     |    Jan 2023           |                         |
+|     14    |    blowfish     |                       | code need to tidying up |
+|     15    |    camellia     |                       | code need to tidying up |
+|     16    |    case256      |                       | code need to tidying up |
+|     17    |    cast128      |                       | code need to tidying up |
+|     18    |    cbc          |    Jan 2023           |                         |
+|     19    |    ccm          |                       |                         |
+|     20    |    cfb          |    Jan 2023           |                         |
+|     21    |    chacha20     |                       | code need to tidying up |
+|     22    |    cmac         |    Apr 2023           |                         |
+|     23    |    cbcmac       |                       |                         |
+|     24    |    crc16        |                       |                         |
+|     25    |    crc24        |                       |                         |
+|     26    |    crc32        |    Nov 2022           |                         |
+|     27    |    crc64        |                       |                         |
+|     28    |    ctr          |    Jan 2023           |                         |
+|     29    |    des          |    Jan 2023           |                         |
+|     30    |    dsa          |                       |                         |
+|     31    |    eax          |                       |                         |
+|     32    |    ecb          |    Jan 2023           |                         |
+|     33    |    ecdh         |                       |                         |
+|     34    |    ecdsa        |                       |                         |
+|     35    |    ed25519      |                       |                         |
+|     36    |    ed2k         |                       | code need to tidying up |
+|     37    |    eddsa        |                       |                         |
+|     38    |    fletcher16   |                       |                         |
+|     39    |    fletcher32   |                       |                         |
+|     40    |    fletcher64   |                       |                         |
+|     41    |    gcm          |                       |                         |
+|     42    |    gmac         |                       |                         |
+|     43    |    gost         |                       |                         |
+|     44    |    hmac         |    Jan 2023           |                         |
+|     45    |    idea         |                       | code need to tidying up |
+|     46    |    kasumi       |                       |                         |
+|     47    |    lion         |                       |                         |
+|     48    |    mars         |                       |                         |
+|     49    |    md2          |                       | code need to tidying up |
+|     50    |    md4          |                       | code need to tidying up |
+|     51    |    md5          |    Dec 2022           |                         |
+|     52    |    md6          |                       | code need to tidying up |
+|     53    |    mpi          |                       | code need to tidying up |
+|     54    |    noekeon      |                       |                         |
+|     55    |    ocb          |                       |                         |
+|     56    |    ofb          |    Jan 2023           |                         |
+|     57    |    omac         |                       |                         |
+|     58    |    pbkdf1       |                       |                         |
+|     59    |    pbkdf2       |    Jan 2023           |                         |
+|     60    |    pem          |                       |                         |
+|     61    |    pmac         |                       |                         |
+|     62    |    poly1305     |                       |                         |
+|     63    |    rabbit       |                       |                         |
+|     64    |    rc2          |                       | code need to tidying up |
+|     65    |    rc4          |                       | code need to tidying up |
+|     66    |    rc5          |                       | code need to tidying up |
+|     67    |    rc6          |                       | code need to tidying up |
+|     68    |    ripemd128    |                       | code need to tidying up |
+|     69    |    ripemd160    |                       | code need to tidying up |
+|     70    |    ripemd256    |                       | code need to tidying up |
+|     71    |    ripemd320    |                       | code need to tidying up |
+|     72    |    rng          |                       |                         |
+|     73    |    rsa          |                       | code need to tidying up |
+|     74    |    safer        |                       | code need to tidying up |
+|     75    |    salsa20      |                       | code need to tidying up |
+|     76    |    scrypt       |                       |                         |
+|     77    |    seed         |                       | code need to tidying up |
+|     78    |    serpent      |                       | code need to tidying up |
+|     79    |    sha1         |    Dec 2022           |                         |
+|     80    |    sha3         |                       | code need to tidying up |
+|     81    |    sha256       |                       | code need to tidying up |
+|     82    |    sha512       |                       | code need to tidying up |
+|     83    |    shacal2      |                       |                         |
+|     84    |    shake        |                       |                         |
+|     85    |    siphash      |                       |                         |
+|     86    |    skein        |                       |                         |
+|     87    |    skipjack     |                       |                         |
+|     88    |    sm2          |                       | code need to tidying up |
+|     89    |    sm3          |                       | code need to tidying up |
+|     90    |    sm4          |                       | code need to tidying up |
+|     91    |    sm9          |                       |                         |
+|     92    |    sober        |                       |                         |
+|     93    |    sosemanuk    |                       |                         |
+|     94    |    square       |                       |                         |
+|     95    |    tea          |                       | code need to tidying up |
+|     96    |    threefish    |                       | code need to tidying up |
+|     97    |    threeway     |                       | code need to tidying up |
+|     98    |    tiger        |                       | code need to tidying up |
+|     99    |    tripledes    |                       | code need to tidying up |
+|    100    |    twofish      |                       | code need to tidying up |
+|    101    |    whirlpool    |                       | code need to tidying up |
+|    102    |    x509         |                       |                         |
+|    103    |    xcbc         |                       |                         |
+|    104    |    xsalsa20     |                       |                         |
+|    105    |    xtea         |                       | code need to tidying up |
+|    106    |    xts          |                       |                         |
+|    107    |    zuc          |                       |                         |
++-----------+-----------------+-----------------------+-------------------------+
