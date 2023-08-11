@@ -33,12 +33,12 @@
 |     27    |    crc64        |                       |                         |
 |     28    |    ctr          |    Jan 2023           |                         |
 |     29    |    des          |    Jan 2023           |                         |
-|     30    |    dsa          |                       |                         |
+|     30    |    dsa          |                       | code need to tidying up |
 |     31    |    eax          |                       |                         |
 |     32    |    ecb          |    Jan 2023           |                         |
-|     33    |    ecdh         |                       |                         |
-|     34    |    ecdsa        |                       |                         |
-|     35    |    ed25519      |                       |                         |
+|     33    |    ecdh         |                       | code need to tidying up |
+|     34    |    ecdsa        |                       | code need to tidying up |
+|     35    |    ed25519      |                       | code need to tidying up |
 |     36    |    ed2k         |                       | code need to tidying up |
 |     37    |    eddsa        |                       |                         |
 |     38    |    fletcher16   |                       |                         |
