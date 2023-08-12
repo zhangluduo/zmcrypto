@@ -44,14 +44,14 @@ where:
     }
 
     zmerror pbkdf2(
-        void*   (*hash_new)        (void),
-        void(*hash_free)           (void* ctx),
-        int32_t(*hash_digest_size) (void),
-        int32_t(*hash_block_size)  (void),
-        void(*hash_init)           (void* ctx),
-        void(*hash_starts)         (void* ctx),
-        void(*hash_update)         (void* ctx, uint8_t* data, uint32_t dlen),
-        void(*hash_final)          (void* ctx, uint8_t* output),
+        void*   (*hash_new)         (void),
+        void    (*hash_free)        (void* ctx),
+        int32_t (*hash_digest_size) (void),
+        int32_t (*hash_block_size)  (void),
+        void    (*hash_init)        (void* ctx),
+        void    (*hash_starts)      (void* ctx),
+        void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dlen),
+        void    (*hash_final)       (void* ctx, uint8_t* output),
         uint8_t* p, uint32_t plen, uint8_t* s, uint32_t slen, uint32_t c, uint8_t* dk, uint32_t dklen)
     {
         if (!hash_new || !hash_free || !hash_digest_size || !hash_block_size || !hash_init ||
