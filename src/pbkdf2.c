@@ -36,14 +36,6 @@ where:
 		#error The macro 'ZMCRYPTO_ALGO_HMAC' is undefined.
 	#endif
 
-    #if !defined DIGEST_MAX_SIZE
-        #define DIGEST_MAX_SIZE       64
-    #endif
-
-    #if !defined DIGEST_MAX_BLOCK_SIZE
-        #define DIGEST_MAX_BLOCK_SIZE (1024/8)
-    #endif
-
     void pbkdf2_do_xor(uint8_t* buf, const uint8_t* mask, uint32_t count)
     {
         for (uint32_t i = 0; i < count; i++){
