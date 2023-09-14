@@ -27,11 +27,17 @@ add_library(
 	../../src/adler32.c
 	../../src/blockpad.c
 	../../src/base64.c
+	../../src/base58.c
+	../../src/base32.c
 	../../src/crc32.c
 	../../src/md5.c
 	../../src/sha1.c
+	../../src/sha2.c
+	../../src/sha3.c
 	../../src/aes.c
+	../../src/blowfish.c
 	../../src/des.c
+	../../src/twofish.c
 	../../src/ecb.c
 	../../src/cbc.c
 	../../src/cfb.c
@@ -41,9 +47,11 @@ add_library(
 	../../src/cmac.c
 	../../src/ccm.c
 	../../src/pbkdf2.c
+	../../src/rc4.c
 	../../src/mem.c
-	../../src/zmcrypto.c
 	../../src/dlmain.c
+	../../src/debug.c
+	../../src/zmcrypto.c
 )
 
 include_directories(

@@ -52,7 +52,7 @@ example:
 extern "C" {
 #endif
 
-    API uint32_t zm_version_num(void);
+    API const uint32_t zm_version_num(void);
     API const char* zm_version_str(void);
     API const char* zm_error_str(int32_t code);
     API const void* zm_replace_fnc(const char* fname, void* pfn);
@@ -341,6 +341,14 @@ extern "C" {
         BINTXT_FUNCTION_DECLARA(base64)
     #endif
 
+    #if defined ZMCRYPTO_ALGO_BASE58
+        BINTXT_FUNCTION_DECLARA(base58)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_BASE32
+        BINTXT_FUNCTION_DECLARA(base32)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_ADLER32
         CHECKSUM_FUNCTION_DECLARA(adler32)
     #endif
@@ -357,12 +365,34 @@ extern "C" {
         BLOCKCIPHER_FUNCTION_DECLARA(aes)
     #endif
 
+    #if defined ZMCRYPTO_ALGO_BLOWFISH
+        BLOCKCIPHER_FUNCTION_DECLARA(blowfish)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_DES
         BLOCKCIPHER_FUNCTION_DECLARA(des)
     #endif
 
+    #if defined ZMCRYPTO_ALGO_TWOFISH
+        BLOCKCIPHER_FUNCTION_DECLARA(twofish)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_SHA1
         HASH_FUNCTION_DECLARA(sha1)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_SHA2
+        HASH_FUNCTION_DECLARA(sha224)
+        HASH_FUNCTION_DECLARA(sha256)
+        HASH_FUNCTION_DECLARA(sha384)
+        HASH_FUNCTION_DECLARA(sha512)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_SHA3
+        HASH_FUNCTION_DECLARA(sha3_224)
+        HASH_FUNCTION_DECLARA(sha3_256)
+        HASH_FUNCTION_DECLARA(sha3_384)
+        HASH_FUNCTION_DECLARA(sha3_512)
     #endif
 
     #if defined ZMCRYPTO_ALGO_HMAC

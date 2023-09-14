@@ -98,8 +98,8 @@
         }
 
         /*
-        CT = ENC(PT ^ IV, KEY);
-        IV = CT; // update IV
+        CT := ENC(PT ^ IV, KEY);
+        IV := CT; // update IV
         */
         zmerror cbc_enc (struct cbc_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)
         {
@@ -122,8 +122,8 @@
         }
 
         /*
-        PT = DEC(CT, KEY) ^ IV;
-        IV = CT; // update IV
+        PT := DEC(KEY, CT) ^ IV;
+        IV := PT; // update IV
         */
         zmerror cbc_dec (struct cbc_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)
         {

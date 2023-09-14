@@ -24,14 +24,14 @@
 
 #if defined ZMCRYPTO_ALGO_GCM
 
-   gcm_ctx* gcm_new (void)
+   struct gcm_ctx* gcm_new (void)
    {
       struct gcm_ctx* ctx = (struct gcm_ctx*)zmcrypto_malloc(sizeof(struct gcm_ctx));
       zmcrypto_memset(ctx, 0, sizeof(struct gcm_ctx));
       return ctx;
    }
 
-   void gcm_free (gcm_ctx* ctx)
+   void gcm_free (struct gcm_ctx* ctx)
    {
       if (ctx)
       {
@@ -46,7 +46,7 @@
    }
 
    void gcm_init (
-      gcm_ctx* ctx,
+      struct gcm_ctx* ctx,
       void*   (*cipher_new)            (void),
       void    (*cipher_free)           (void* ctx),
       void    (*cipher_init)           (void* ctx),
@@ -55,7 +55,9 @@
       int32_t (*cipher_ksize_max)      (void),
       int32_t (*cipher_ksize_multiple) (void),
       int32_t (*cipher_set_ekey)       (void* ctx, uint8_t* key, uint32_t ksize),
-      void    (*cipher_enc_block)      (void* ctx, uint8_t* plaintext, uint8_t* ciphertext)
+      int32_t (*cipher_set_dkey)       (void* ctx, uint8_t* key, uint32_t ksize),
+      void    (*cipher_enc_block)      (void* ctx, uint8_t* plaintext, uint8_t* ciphertext),
+      void    (*cipher_dec_block)      (void* ctx, uint8_t* plaintext, uint8_t* ciphertext)
    )
    {
       ctx->cipher_new            = cipher_new            ;
@@ -73,7 +75,7 @@
    }
 
    zmerror gcm_starts (
-      gcm_ctx* ctx,
+      struct gcm_ctx* ctx,
       uint8_t *key, uint32_t klen,
       uint8_t *iv, uint32_t ivlen,
       uint32_t direction
@@ -83,7 +85,7 @@
    }
 
    zmerror gcm_update_aad (
-      gcm_ctx* ctx,
+      struct gcm_ctx* ctx,
       uint8_t *aad,  
       uint32_t alen
    )
@@ -92,7 +94,7 @@
    }
 
    zmerror gcm_update_data (
-      gcm_ctx* ctx,
+      struct gcm_ctx* ctx,
       uint8_t *data, 
       uint32_t dlen, 
       uint8_t *output
@@ -102,7 +104,7 @@
    }
 
    zmerror gcm_final (
-      gcm_ctx* ctx,
+      struct gcm_ctx* ctx,
       uint8_t *tag
    )
    {

@@ -360,7 +360,7 @@
         { 0xfe, 0xe0, 0xfe, 0xe0, 0xfe, 0xf1, 0xfe, 0xf1 }
     };
     
-    int32_t is_weak_key(uint8_t key[8])
+    int32_t des_is_weak_key(uint8_t key[8])
     {
         uint32_t i;
 
@@ -408,7 +408,7 @@
             return ZMCRYPTO_ERR_INVALID_KSIZE;
         }
 
-        if (is_weak_key(key)){
+        if (des_is_weak_key(key)){
             return ZMCRYPTO_ERR_WEAK_KEY;
         }
 
@@ -422,7 +422,7 @@
             return ZMCRYPTO_ERR_INVALID_KSIZE;
         }
 
-        if (is_weak_key(key)){
+        if (des_is_weak_key(key)){
             return ZMCRYPTO_ERR_WEAK_KEY;
         }
 

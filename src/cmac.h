@@ -40,8 +40,8 @@ extern "C" {
 
             void* cipher_ctx;
             int32_t unprocessed_len;
-            uint8_t unprocessed_block[MAX_BLOCKSIZE];
-            uint8_t state[MAX_BLOCKSIZE];
+            uint8_t unprocessed_block[ZMCRYPTO_MAX_BLOCKSIZE];
+            uint8_t state[ZMCRYPTO_MAX_BLOCKSIZE];
         } ;
 
         struct cmac_ctx* cmac_new (

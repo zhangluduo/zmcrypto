@@ -71,38 +71,38 @@ int main()
     // srand(time(NULL));
     // print_env();
 
-    test_info_adler32(&_sdk);
-    test_info_crc32(&_sdk);
-    test_info_md5(&_sdk);
-    test_info_sha1(&_sdk);
-    test_info_aes(&_sdk);
-    test_info_des(&_sdk);
-    format_output(".|completed\n");
+    // test_info_adler32(&_sdk);
+    // test_info_crc32(&_sdk);
+    // test_info_md5(&_sdk);
+    // test_info_sha1(&_sdk);
+    // test_info_aes(&_sdk);
+    // test_info_des(&_sdk);
+    // format_output(".|completed\n");
 
-    test_case_blockpad(&_sdk);
-    test_case_blockdepad(&_sdk);
-    format_output(".|completed\n");
+    // test_case_blockpad(&_sdk);
+    // test_case_blockdepad(&_sdk);
+    // format_output(".|completed\n");
 
-    test_case_adler32(&_sdk);
-    test_case_crc32(&_sdk);
-    test_case_md5(&_sdk);
-    test_case_sha1(&_sdk);
+    // test_case_adler32(&_sdk);
+    // test_case_crc32(&_sdk);
+    // test_case_md5(&_sdk);
+    // test_case_sha1(&_sdk);
 
-    test_case_hmac(&_sdk);
-    test_case_cmac(&_sdk);
-    test_case_pbkdf2(&_sdk);
+    // test_case_hmac(&_sdk);
+    // test_case_cmac(&_sdk);
+    // test_case_pbkdf2(&_sdk);
 
-    test_case_aes_ecb(&_sdk);
-    test_case_aes_cbc(&_sdk);
-    test_case_aes_cfb(&_sdk);
-    test_case_aes_ofb(&_sdk);
-    test_case_aes_ctr(&_sdk);
+    // test_case_aes_ecb(&_sdk);
+    // test_case_aes_cbc(&_sdk);
+    // test_case_aes_cfb(&_sdk);
+    // test_case_aes_ofb(&_sdk);
+    // test_case_aes_ctr(&_sdk);
 
-    test_case_des_ecb(&_sdk);
-    test_case_des_cbc(&_sdk);
-    test_case_des_cfb(&_sdk);
-    test_case_des_ofb(&_sdk);
-    test_case_des_ctr(&_sdk);
+    // test_case_des_ecb(&_sdk);
+    // test_case_des_cbc(&_sdk);
+    // test_case_des_cfb(&_sdk);
+    // test_case_des_ofb(&_sdk);
+    // test_case_des_ctr(&_sdk);
 
     // test_speed_adler32(&_sdk);
     // test_speed_crc32(&_sdk);

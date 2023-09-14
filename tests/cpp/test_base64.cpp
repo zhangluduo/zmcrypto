@@ -19,6 +19,7 @@
 #include "time_stamp.h"
 #include "test_config.h"
 #include "test_base64.h"
+#include <memory.h>
 
 #if defined TEST_FOR_CRYPTOPP
     #include "cryptopp820/include/cryptlib.h"

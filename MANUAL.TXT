@@ -262,6 +262,58 @@ void zm_aes_dec_block(
     uint8_t* plaintext
 );
 
+CONTEXT_TYPE_PTR(blowfish) zm_blowfish_new(
+    void
+);
+
+void zm_blowfish_free(
+    CONTEXT_TYPE_PTR(blowfish) ctx
+);
+
+void zm_blowfish_init(
+    CONTEXT_TYPE_PTR(blowfish) ctx
+);
+
+int32_t zm_blowfish_block_size(
+    void
+);
+
+int32_t zm_blowfish_ksize_min(
+    void
+);
+
+int32_t zm_blowfish_ksize_max(
+    void
+);
+
+int32_t zm_blowfish_ksize_multiple(
+    void
+);
+
+zmerror zm_blowfish_set_ekey(
+    CONTEXT_TYPE_PTR(blowfish) ctx, 
+    uint8_t* key, 
+    uint32_t ksize
+);
+
+    zmerror zm_blowfish_set_dkey(
+    CONTEXT_TYPE_PTR(blowfish) ctx, 
+    uint8_t* key, 
+    uint32_t ksize
+);
+
+void zm_blowfish_enc_block(
+    CONTEXT_TYPE_PTR(blowfish) ctx, 
+    uint8_t* plaintext, 
+    uint8_t* ciphertext
+);
+
+void zm_blowfish_dec_block(
+    CONTEXT_TYPE_PTR(blowfish) ctx, 
+    uint8_t* ciphertext, 
+    uint8_t* plaintext
+);
+
 CONTEXT_TYPE_PTR(des) zm_des_new(
     void
 );
@@ -307,6 +359,58 @@ void zm_des_enc_block(
 
 void zm_des_dec_block(
     CONTEXT_TYPE_PTR(des) ctx, 
+    uint8_t* ciphertext, 
+    uint8_t* plaintext
+);
+
+CONTEXT_TYPE_PTR(twofish) zm_twofish_new(
+    void
+);
+
+void zm_twofish_free(
+    CONTEXT_TYPE_PTR(twofish) ctx
+);
+
+void zm_twofish_init(
+    CONTEXT_TYPE_PTR(twofish) ctx
+);
+
+int32_t zm_twofish_block_size(
+    void
+);
+
+int32_t zm_twofish_ksize_min(
+    void
+);
+
+int32_t zm_twofish_ksize_max(
+    void
+);
+
+int32_t zm_twofish_ksize_multiple(
+    void
+);
+
+zmerror zm_twofish_set_ekey(
+    CONTEXT_TYPE_PTR(twofish) ctx, 
+    uint8_t* key, 
+    uint32_t ksize
+);
+
+    zmerror zm_twofish_set_dkey(
+    CONTEXT_TYPE_PTR(twofish) ctx, 
+    uint8_t* key, 
+    uint32_t ksize
+);
+
+void zm_twofish_enc_block(
+    CONTEXT_TYPE_PTR(twofish) ctx, 
+    uint8_t* plaintext, 
+    uint8_t* ciphertext
+);
+
+void zm_twofish_dec_block(
+    CONTEXT_TYPE_PTR(twofish) ctx, 
     uint8_t* ciphertext, 
     uint8_t* plaintext
 );

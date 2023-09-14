@@ -48,10 +48,8 @@
         switch (dwReason)
         {
             case DLL_PROCESS_ATTACH:
-                load_so();
                 break;
             case DLL_PROCESS_DETACH:
-                unload_so();
                 break;
             case DLL_THREAD_ATTACH:
                 break;

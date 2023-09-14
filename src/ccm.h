@@ -9,7 +9,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Sep 2023
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
@@ -40,21 +40,28 @@ extern "C" {
             void    (*cipher_dec_block)      (void* ctx, uint8_t* ciphertext, uint8_t* plaintext);
 
             void*    cipher_ctx;
-            uint64_t ilen,                 /* length that will be enc / dec */
-                     aadlen,               /* length of the aad */
-                     current_ilen,         /* current processed length */
-                     current_aadlen;       /* length of the currently provided add */
+            uint64_t dlen;                 /* length that will be enc / dec */
+            uint64_t aadlen;               /* length of the aad */
+            uint32_t L;                    /* L value */
+            uint32_t noncelen;             /* length of the nonce */
+            uint32_t taglen;               /* length of the tag */
 
-            uint32_t L,                    /* L value */
-                     noncelen,             /* length of the nonce */
-                     taglen;               /* length of the tag (encoded in M value) */
+            uint64_t current_aadlen;       /* length of the currently provided aad */
+            uint64_t current_datalen;      /* length of the currently provided data */
 
-            uint8_t pad[16],               /* flags | Nonce N | l(m) */
-                    ctr[16],
-                    ctr_pad[16],
-                    ctr_len;
+            uint32_t direction;            /* 0=encrypt, 1=decrypt */
 
-            uint32_t x;                    /* index in PAD */
+            #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
+                uint8_t b[16]; /* B_n ^ X_n */
+            #endif
+
+            uint8_t bx[16];
+            uint8_t x[16]; /* X_0, X_1 ... X_n */
+            uint8_t a[16]; /* A_0, A_1 ... A_n, this is a counter*/
+            uint8_t s[16]; /* S_0, S_1 ... S_n */
+            uint32_t b_len; /* used length of b[16] */
+
+            uint32_t state;
         } ccm_ctx;
 
         ccm_ctx* ccm_new (
@@ -85,21 +92,23 @@ extern "C" {
             uint8_t *key, uint32_t klen,              /* the key of block cipher */
             uint8_t *nonce, uint32_t noncelen,        /* N-Once of counter, and it length, nust between 7 and 13 in rfc3610 */
             uint64_t datalen,                         /* 0 <= l(m) < 2^(8L) */
-            uint32_t taglen,                          /* Valid values are 4, 6, 8, 10, 12, 14, and 16 */
             uint64_t aadlen,                          /* the length of additional authenticated data, 0 <= l(a) < 2^64 */
+            uint32_t taglen,                          /* Valid values are 4, 6, 8, 10, 12, 14, and 16 */
             uint32_t direction                        /* 0=encrypt or 1=decrypt */
         );
 
         zmerror ccm_update_aad (
             ccm_ctx *ctx, 
             uint8_t *aad,  
-            uint32_t alen
+            uint32_t alen                             /* Updating data at one time, up to 4 bytes, 
+                                                         and a total data length of up to 8 bytes */
         );
 
         zmerror ccm_update_data (
             ccm_ctx *ctx, 
             uint8_t *data, 
-            uint32_t dlen, 
+            uint32_t dlen,                            /* Updating data at one time, up to 4 bytes, 
+                                                         and a total data length of up to 8 bytes */
             uint8_t *output
         );
 

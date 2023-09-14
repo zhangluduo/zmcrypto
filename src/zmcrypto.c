@@ -15,12 +15,18 @@
 
 #include "zmcrypto.h"
 #include "base64.h"
+#include "base58.h"
+#include "base32.h"
 #include "adler32.h"
 #include "crc32.h"
 #include "md5.h"
 #include "sha1.h"
+#include "sha2.h"
+#include "sha3.h"
 #include "aes.h"
+#include "blowfish.h"
 #include "des.h"
+#include "twofish.h"
 #include "pbkdf2.h"
 #include "hmac.h"
 #include "cmac.h"
@@ -35,7 +41,7 @@
 extern "C" {
 #endif
 
-    uint32_t zm_version_num(void) 
+    const uint32_t zm_version_num(void) 
         { return ZMCRYPTO_VERSION_NUM; }
         
     const char* zm_version_str(void) 
@@ -46,6 +52,7 @@ extern "C" {
         const int32_t val;
         const char* const str;
     } static const zm_error_code_map[] = {
+        ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_SUCCESSED),
         ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_BASE),
         ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_NULL_PTR),
         ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_INVALID_KSIZE),
@@ -56,10 +63,11 @@ extern "C" {
         ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_INVALID_PAD),
         ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_INVALID_DATA),
         ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_INVALID_CHAR),
-        ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_MALLOC_FAILED),
+        ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_WEAK_KEY),
+        ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_MALLOC),
         ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_OVERFLOW),
         ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_CALLBACK),
-        ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_SEQUENCE),        
+        ZM_VALSTR_STRUCT(ZMCRYPTO_ERR_SEQUENCE),     
     };
 
     const char* zm_error_str(int32_t code)
@@ -429,6 +437,14 @@ extern "C" {
         BINTXT_FUNCTION_IMPL(base64)
     #endif
 
+    #if defined ZMCRYPTO_ALGO_BASE58
+        BINTXT_FUNCTION_IMPL(base58)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_BASE32
+        BINTXT_FUNCTION_IMPL(base32)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_ADLER32
         CHECKSUM_FUNCTION_IMPL(adler32)
     #endif
@@ -445,12 +461,34 @@ extern "C" {
         HASH_FUNCTION_IMPL(sha1)
     #endif
 
+    #if defined ZMCRYPTO_ALGO_SHA2
+        HASH_FUNCTION_IMPL(sha224)
+        HASH_FUNCTION_IMPL(sha256)
+        HASH_FUNCTION_IMPL(sha384)
+        HASH_FUNCTION_IMPL(sha512)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_SHA3
+        HASH_FUNCTION_IMPL(sha3_224)
+        HASH_FUNCTION_IMPL(sha3_256)
+        HASH_FUNCTION_IMPL(sha3_384)
+        HASH_FUNCTION_IMPL(sha3_512)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_AES
         BLOCKCIPHER_FUNCTION_IMPL(aes)
     #endif
 
+    #if defined ZMCRYPTO_ALGO_BLOWFISH
+        BLOCKCIPHER_FUNCTION_IMPL(blowfish)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_DES
         BLOCKCIPHER_FUNCTION_IMPL(des)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_TWOFISH
+        BLOCKCIPHER_FUNCTION_IMPL(twofish)
     #endif
 
     #if defined ZMCRYPTO_ALGO_ECB
@@ -479,7 +517,7 @@ extern "C" {
         char* s2 = (char*)s;
         while (*s2)
         {
-            if (len >= MAX_STRLEN) { break; }
+            if (len >= ZMCRYPTO_MAX_STRLEN) { break; }
             len++; s2++;
         }
         return len;

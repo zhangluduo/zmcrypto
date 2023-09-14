@@ -23,9 +23,9 @@ Author: Tom St Denis
 
 #if defined ZMCRYPTO_ALGO_MEM
 
-    #error Some functions(malloc, free, memcpy, memset, ...) on specific platforms are not implemented here
+    //#error Some functions(malloc, free, memcpy, memset, ...) on specific platforms are not implemented here
 
-    #if 0
+    #if 1
     void* zm_malloc (size_t __size) 
     {
         return 0;

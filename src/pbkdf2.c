@@ -16,6 +16,8 @@
 #include "pbkdf2.h"
 #include "hmac.h"
 
+/* rfc2898 */
+
 /*
 DK = PBKDF2(PRF, Password, Salt, c, dkLen)
 

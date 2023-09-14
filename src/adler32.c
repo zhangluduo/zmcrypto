@@ -21,6 +21,23 @@
 #include "adler32.h"
 
 #if defined ZMCRYPTO_ALGO_ADLER32
+
+    /* slowly
+    // const uint32_t MOD_ADLER = 65521;
+    // uint32_t adler32(unsigned char *data, size_t len)
+    // {
+    //     uint32_t a = 1, b = 0;
+    //     size_t index;
+    //     // Process each byte of the data in order
+    //     for (index = 0; index < len; ++index)
+    //     {
+    //     a = (a + data[index]) % MOD_ADLER;
+    //     b = (b + a) % MOD_ADLER;
+    //     }
+    //     return (b << 16) | a;
+    // }
+    */
+
     #define BASE 65521 /* largest prime smaller than 65536 */
     #define NMAX 5552
     /* NMAX is the largest n such that 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */

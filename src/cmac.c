@@ -96,7 +96,7 @@
     * We can't use the padding option from the cipher layer, as it only works for
     * CBC and we use ECB mode, and anyway we need to XOR K1 or K2 in addition.
     */
-    void cmac_pad(uint8_t padded_block[MAX_BLOCKSIZE], uint32_t padded_block_len, const uint8_t *last_block, uint32_t last_block_len)
+    void cmac_pad(uint8_t padded_block[ZMCRYPTO_MAX_BLOCKSIZE], uint32_t padded_block_len, const uint8_t *last_block, uint32_t last_block_len)
     {
         for(uint32_t j = 0; j < padded_block_len; j++)
         {
@@ -221,8 +221,8 @@
         ctx->cipher_ctx = NULL;
         ctx->unprocessed_len = 0;
 
-        zmcrypto_memset(ctx->unprocessed_block, 0, MAX_BLOCKSIZE);
-        zmcrypto_memset(ctx->state, 0, MAX_BLOCKSIZE);
+        zmcrypto_memset(ctx->unprocessed_block, 0, ZMCRYPTO_MAX_BLOCKSIZE);
+        zmcrypto_memset(ctx->state, 0, ZMCRYPTO_MAX_BLOCKSIZE);
     }
 
     void cmac_update (struct cmac_ctx* ctx, uint8_t* data, uint32_t dlen) 
@@ -263,9 +263,9 @@
     void cmac_final (struct cmac_ctx* ctx, uint8_t* output) 
     {
         unsigned char *last_block;
-        unsigned char K1[MAX_BLOCKSIZE];
-        unsigned char K2[MAX_BLOCKSIZE];
-        unsigned char M_last[MAX_BLOCKSIZE];
+        unsigned char K1[ZMCRYPTO_MAX_BLOCKSIZE];
+        unsigned char K2[ZMCRYPTO_MAX_BLOCKSIZE];
+        unsigned char M_last[ZMCRYPTO_MAX_BLOCKSIZE];
     
         zmcrypto_memset (&K1, 0, sizeof(K1));
         zmcrypto_memset (&K2, 0, sizeof(K2));

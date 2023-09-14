@@ -22,10 +22,23 @@
  * int64_t, int32_t, int16_t, int8_t,
  * size_t
  */
-#include <stdint.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
+
+#if defined _WIN32
+    #if defined _MSC_VER && _MSC_VER < 1800
+        #include "msinttypes/inttypes.h"
+        #include "msinttypes/stdint.h"
+    #else
+        #include <stdint.h>
+        #include <stddef.h>
+        #include <stdio.h>
+        #include <stdlib.h>
+    #endif
+#else
+    #include <stdint.h>
+    #include <stddef.h>
+    #include <stdio.h>
+    #include <stdlib.h>
+#endif
 
 /**
  * About error code handling
@@ -46,7 +59,7 @@ typedef int32_t zmerror;
 #define ZMCRYPTO_ERR_INVALID_DATA              (zmerror)(ZMCRYPTO_ERR_BASE - 0x0009U) /* invalid input data */
 #define ZMCRYPTO_ERR_INVALID_CHAR              (zmerror)(ZMCRYPTO_ERR_BASE - 0x000aU) /* invalid character */
 #define ZMCRYPTO_ERR_WEAK_KEY                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000bU) /* Weak keys for DES, RC4, IDEA, Blowfish etc. */
-#define ZMCRYPTO_ERR_MALLOC_FAILED             (zmerror)(ZMCRYPTO_ERR_BASE - 0x000cU) /* malloc memory failed */
+#define ZMCRYPTO_ERR_MALLOC                    (zmerror)(ZMCRYPTO_ERR_BASE - 0x000cU) /* malloc memory failed */
 #define ZMCRYPTO_ERR_OVERFLOW                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000dU) /* buffer to small, or array out of bounds */
 #define ZMCRYPTO_ERR_CALLBACK                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000eU) /* The callback function returns failed */
 #define ZMCRYPTO_ERR_SEQUENCE                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000fU) /* Incorrect order of function call */
@@ -54,9 +67,31 @@ typedef int32_t zmerror;
 #define ZMCRYPTO_IS_ERROR(code)     (code <= ZMCRYPTO_ERR_BASE)
 #define ZMCRYPTO_IS_SUCCESSED(code) (code > ZMCRYPTO_ERR_BASE)
 
-#define MAX_BLOCKSIZE   (128)
-#define MAX_DIGESTSIZE  (128)
-#define MAX_STRLEN  (1048576)
+#define ZMCRYPTO_MAX_BLOCKSIZE   (128)
+#define ZMCRYPTO_MAX_DIGESTSIZE  (128)
+#define ZMCRYPTO_MAX_STRLEN  (1048576)
+
+#define ZMCRYPTO_DEBUG 1
+
+/* for VC++ 6.0 workaround */
+#if defined _WIN32
+    #if defined _MSC_VER && _MSC_VER <= 1200
+        #define for if (0); else for 
+    #endif
+#endif
+
+#if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1 
+    #define ZMCRYPTO_OUTPUT(name, data, dlen)         \
+        do{                                           \
+            printf ("%s", name);                      \
+            for (uint32_t x = 0; x < dlen; x++){      \
+                printf ("%02x ", data[x]);            \
+            }                                         \
+            printf ("\n");                            \
+        } while (0);
+#else
+    #define ZMCRYPTO_OUTPUT(name, data, dlen)
+#endif
 
 /*
 Use the following macros to make this library do clipping
@@ -73,8 +108,7 @@ Use the following macros to make this library do clipping
     #define ZMCRYPTO_ALGO_MD6
     #define ZMCRYPTO_ALGO_ED2K
     #define ZMCRYPTO_ALGO_SHA1
-    #define ZMCRYPTO_ALGO_SHA256
-    #define ZMCRYPTO_ALGO_SHA512
+    #define ZMCRYPTO_ALGO_SHA2
     #define ZMCRYPTO_ALGO_SHA3
     #define ZMCRYPTO_ALGO_RIPEMD128
     #define ZMCRYPTO_ALGO_RIPEMD160
@@ -119,7 +153,7 @@ Use the following macros to make this library do clipping
     #define ZMCRYPTO_ALGO_XTEA
 
 /* Stream Cipher */
-    #define ZMCRYPTO_ALGO_ARC4
+    #define ZMCRYPTO_ALGO_RC4
     #define ZMCRYPTO_ALGO_SALSA20
     #define ZMCRYPTO_ALGO_XSALSA20
     #define ZMCRYPTO_ALGO_CHACHA20
@@ -257,7 +291,11 @@ Use the following macros to make this library do clipping
 
 /* detects MIPS */
 #if (defined(_mips) || defined(__mips__) || defined(mips))
-    #define ENDIAN_64BITWORD
+    #if defined(__LP64__) /* 2023-08-21, fixed by Zhang Luduo */
+        #define ENDIAN_64BITWORD
+    #else
+        #define ENDIAN_32BITWORD
+    #endif
     #if defined(_MIPSEB) || defined(__MIPSEB) || defined(__MIPSEB__)
         #define ENDIAN_BIG
     #else
@@ -309,6 +347,12 @@ Use the following macros to make this library do clipping
     #endif
 #endif
 
+/* detect ARM64/AARCH64 */
+#if defined(__aarch64__)
+    #define ENDIAN_LITTLE
+    #define ENDIAN_64BITWORD
+#endif
+
 /* detect IBM S390(x) */
 #if defined(__s390x__) || defined(__s390__)
     #define ENDIAN_BIG
@@ -317,12 +361,6 @@ Use the following macros to make this library do clipping
     #else
         #define ENDIAN_32BITWORD
     #endif
-#endif
-
-/* detect ARM64/AARCH64 */
-#if defined(__aarch64__)
-    #define ENDIAN_LITTLE
-    #define ENDIAN_64BITWORD
 #endif
 
 /* endianness fallback */
