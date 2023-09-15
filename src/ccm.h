@@ -52,14 +52,14 @@ extern "C" {
             uint32_t direction;            /* 0=encrypt, 1=decrypt */
 
             #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
-                uint8_t b[16]; /* B_n ^ X_n */
+                uint8_t b[16]; /* B_0, B_1 ... B_n */
             #endif
 
-            uint8_t bx[16]; /* b ^ x */
-            uint8_t x[16]; /* X_0, X_1 ... X_n */
-            uint8_t a[16]; /* A_0, A_1 ... A_n, this is a counter*/
-            uint8_t s[16]; /* S_0, S_1 ... S_n */
-            uint32_t b_len; /* used length of b[16] */
+            uint8_t bx[16];                /* B_n ^ X_n */
+            uint8_t x[16];                 /* X_0, X_1 ... X_n */
+            uint8_t a[16];                 /* A_0, A_1 ... A_n, this is a counter*/
+            uint8_t s[16];                 /* S_0, S_1 ... S_n */
+            uint32_t b_len;                /* used length of b[16] */
         } ccm_ctx;
 
         ccm_ctx* ccm_new (
