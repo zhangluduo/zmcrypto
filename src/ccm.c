@@ -253,15 +253,6 @@
         uint32_t direction                        /* 0=encrypt or 1=decrypt */
     )
     {
-        ZMCRYPTO_LOG("");
-
-        if (ctx->state != 0)
-        {
-            return ZMCRYPTO_ERR_SEQUENCE;
-        }
-
-        ctx->state = 1;
-
         int32_t ret;
 
         if (taglen < 4 || taglen > 16 || taglen % 2 != 0)
@@ -345,11 +336,6 @@
     */
     zmerror ccm_update_aad (ccm_ctx *ctx, uint8_t *aad, uint32_t alen)
     { 
-        if (ctx->state != 1)
-        {
-            return ZMCRYPTO_ERR_SEQUENCE;
-        }
-
         if (ctx->current_aadlen + alen > ctx->aadlen)
         {
             return ZMCRYPTO_ERR_INVALID_DATA;
@@ -416,12 +402,6 @@
             }
         }
 
-
-        if (ctx->current_aadlen == ctx->aadlen)
-        {
-            ctx->state = 2;
-        }
-
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 
@@ -435,11 +415,6 @@
     */
     zmerror ccm_update_data (ccm_ctx *ctx, uint8_t *data, uint32_t dlen, uint8_t *output)
     {
-        if (ctx->state != 2)
-        {
-            return ZMCRYPTO_ERR_SEQUENCE;
-        }
-
         if (ctx->current_datalen + dlen > ctx->dlen)
         {
             return ZMCRYPTO_ERR_INVALID_DATA;
@@ -514,21 +489,11 @@
             ZMCRYPTO_OUTPUT("MAC: ", ctx->x, ctx->taglen);
         }
 
-        if (ctx->current_datalen == ctx->dlen)
-        {
-            ctx->state = 3;
-        }
-
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 
     zmerror ccm_final (ccm_ctx *ctx, uint8_t *tag)
     {
-        if (ctx->state != 3)
-        {
-            return ZMCRYPTO_ERR_SEQUENCE;
-        }
-
         uint32_t a_len = 0;
         ctx->a[a_len++] = ctx->L - 1;
         a_len += ctx->noncelen;

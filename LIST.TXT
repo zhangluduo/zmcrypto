@@ -24,7 +24,7 @@
 |     18    |    cbc          |    Jan 2023           |                         |
 |     19    |    ccm          |                       |                         |
 |     20    |    cfb          |    Jan 2023           |                         |
-|     21    |    chacha20     |                       | code need to tidying up |
+|     21    |    chacha20     |    Sep 2023           |                         |
 |     22    |    cmac         |    Apr 2023           |                         |
 |     23    |    cbcmac       |                       |                         |
 |     24    |    crc16        |                       |                         |
@@ -68,7 +68,7 @@
 |     62    |    poly1305     |                       |                         |
 |     63    |    rabbit       |                       |                         |
 |     64    |    rc2          |                       | code need to tidying up |
-|     65    |    rc4          |   Sep. 2023           |                         |
+|     65    |    rc4          |   Sep  2023           |                         |
 |     66    |    rc5          |                       | code need to tidying up |
 |     67    |    rc6          |                       | code need to tidying up |
 |     68    |    ripemd128    |                       | code need to tidying up |

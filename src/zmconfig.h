@@ -62,7 +62,6 @@ typedef int32_t zmerror;
 #define ZMCRYPTO_ERR_MALLOC                    (zmerror)(ZMCRYPTO_ERR_BASE - 0x000cU) /* malloc memory failed */
 #define ZMCRYPTO_ERR_OVERFLOW                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000dU) /* buffer to small, or array out of bounds */
 #define ZMCRYPTO_ERR_CALLBACK                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000eU) /* The callback function returns failed */
-#define ZMCRYPTO_ERR_SEQUENCE                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000fU) /* Incorrect order of function call */
 
 #define ZMCRYPTO_IS_ERROR(code)     (code <= ZMCRYPTO_ERR_BASE)
 #define ZMCRYPTO_IS_SUCCESSED(code) (code > ZMCRYPTO_ERR_BASE)
