@@ -15,18 +15,20 @@
  */
 
 #if defined __linux__
-  #if !defined API
-    #define API __attribute__ ((visibility("default")))
-  #endif
-#elif defined _WIN32
-  #if !defined API
-    #if defined DLL_IMPORTS
-      #define API _declspec(dllimport)
-    #else /* DLL_EXPORTS */
-      #define API _declspec(dllexport)
+    #if !defined API
+        #define API __attribute__ ((visibility("default")))
     #endif
-  #endif
+#elif defined _WIN32
+    #if !defined API
+        #if defined DLL_IMPORTS
+            #define API _declspec(dllimport)
+        #else /* DLL_EXPORTS */
+            #define API _declspec(dllexport)
+        #endif
+    #endif
 #endif
+
+#include "debug.h"
 
 #if defined __linux__
     void __attribute__ ((constructor)) load_so(void);
@@ -34,6 +36,8 @@
 
     void load_so(void)
     {
+        ZMCRYPTO_LOG("");
+        zmcrypto_printf("~!@# [%d]\n", 1234);
     }
 
     void unload_so(void)

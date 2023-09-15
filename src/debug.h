@@ -30,6 +30,23 @@ extern "C" {
         #define ZMCRYPTO_LOG(...)
     #endif
 
+#if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1 
+    #if !defined ZMCRYPTO_OUTPUT
+        #define ZMCRYPTO_OUTPUT(name, data, dlen)         \
+            do{                                           \
+                printf ("%s", name);                      \
+                for (uint32_t x = 0; x < dlen; x++){      \
+                    printf ("%02x ", data[x]);            \
+                }                                         \
+                printf ("\n");                            \
+            } while (0);
+    #endif
+#else
+    #if !defined ZMCRYPTO_OUTPUT
+        #define ZMCRYPTO_OUTPUT(name, data, dlen)
+    #endif
+#endif
+
 #ifdef  __cplusplus
 }
 #endif

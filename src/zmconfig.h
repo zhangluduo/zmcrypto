@@ -79,19 +79,6 @@ typedef int32_t zmerror;
     #endif
 #endif
 
-#if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1 
-    #define ZMCRYPTO_OUTPUT(name, data, dlen)         \
-        do{                                           \
-            printf ("%s", name);                      \
-            for (uint32_t x = 0; x < dlen; x++){      \
-                printf ("%02x ", data[x]);            \
-            }                                         \
-            printf ("\n");                            \
-        } while (0);
-#else
-    #define ZMCRYPTO_OUTPUT(name, data, dlen)
-#endif
-
 /*
 Use the following macros to make this library do clipping
 */
@@ -219,6 +206,7 @@ Use the following macros to make this library do clipping
     #define zmcrypto_memcpy(dst, src, size)        zm_memcpy((dst), (src), (size))
     #define zmcrypto_memcmp(s1, s2, size)          zm_memcmp((s1), (s2), (size))
     #define zmcrypto_memset(s, c, size)            zm_memset ((s), (c), (size))
+    #define zmcrypto_printf(...)                   printf (__VA_ARGS__)
 #else
     #include <memory.h>
     /*default to libc stuff*/
@@ -228,6 +216,7 @@ Use the following macros to make this library do clipping
     #define zmcrypto_memcpy(dst, src, size)        memcpy((dst), (src), (size))
     #define zmcrypto_memcmp(s1, s2, size)          memcmp((s1), (s2), (size))
     #define zmcrypto_memset(s, c, size)            memset ((s), (c), (size))
+    #define zmcrypto_printf(...)                   printf (__VA_ARGS__)
 #endif
 
 /*

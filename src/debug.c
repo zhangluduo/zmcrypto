@@ -16,18 +16,21 @@
 #include "debug.h"
 
 #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
-    #include <stdarg.h>
-    void zmcrypto_log(char* file, char* fn, int ln, char* fmt, ...)
-    {
-        char* pstr = NULL;
-        va_list args;
-        va_start(args, fmt);
+    #if defined _WIN32
+        /* TODO */
+    #else
+        #include <stdarg.h>
+        void zmcrypto_log(char* file, char* fn, int ln, char* fmt, ...)
+        {
+            char* pstr = NULL;
+            va_list args;
+            va_start(args, fmt);
 
-        (void)vasprintf(&pstr, fmt, args);
-        va_end(args);
-        printf ("[%s:%d:%s] %s\n", file, ln, fn, pstr);
-        free(pstr);
-        pstr = NULL;
-    }
-
+            (void)vasprintf(&pstr, fmt, args);
+            va_end(args);
+            zmcrypto_printf ("[%s:%d:%s] %s\n", file, ln, fn, pstr);
+            free(pstr);
+            pstr = NULL;
+        }
+    #endif
 #endif /* ZMCRYPTO_DEBUG */
