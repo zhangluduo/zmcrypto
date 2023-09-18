@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{70714C10-6CC6-4F1F-9C9A-B56ECBF43E74}</ProjectGuid>
+    <ProjectGuid>{70CF6139-4D9F-4B3F-A202-D8C3F5672723}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>zmcrypto</RootNamespace>
   </PropertyGroup>
@@ -41,7 +41,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Download\zmcrypto_git\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -53,8 +52,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ZMCRYPTO_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>false</SDLCheck>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -81,69 +78,139 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\adler32.c" />
     <ClCompile Include="..\..\src\aes.c" />
+    <ClCompile Include="..\..\src\asn1.c" />
     <ClCompile Include="..\..\src\base32.c" />
     <ClCompile Include="..\..\src\base58.c" />
     <ClCompile Include="..\..\src\base64.c" />
+    <ClCompile Include="..\..\src\bcrypt.c" />
+    <ClCompile Include="..\..\src\bignum.c" />
+    <ClCompile Include="..\..\src\blake2b.c" />
+    <ClCompile Include="..\..\src\blake2s.c" />
     <ClCompile Include="..\..\src\blockpad.c" />
     <ClCompile Include="..\..\src\blowfish.c" />
+    <ClCompile Include="..\..\src\camellia.c" />
     <ClCompile Include="..\..\src\cbc.c" />
     <ClCompile Include="..\..\src\ccm.c" />
     <ClCompile Include="..\..\src\cfb.c" />
+    <ClCompile Include="..\..\src\chacha20.c" />
     <ClCompile Include="..\..\src\cmac.c" />
     <ClCompile Include="..\..\src\crc32.c" />
     <ClCompile Include="..\..\src\ctr.c" />
     <ClCompile Include="..\..\src\debug.c" />
     <ClCompile Include="..\..\src\des.c" />
     <ClCompile Include="..\..\src\dlmain.c" />
+    <ClCompile Include="..\..\src\dsa.c" />
     <ClCompile Include="..\..\src\ecb.c" />
+    <ClCompile Include="..\..\src\ecdh.c" />
     <ClCompile Include="..\..\src\ecdsa.c" />
+    <ClCompile Include="..\..\src\ed25519.c" />
+    <ClCompile Include="..\..\src\ed2k.c" />
     <ClCompile Include="..\..\src\gcm.c" />
     <ClCompile Include="..\..\src\hmac.c" />
+    <ClCompile Include="..\..\src\idea.c" />
+    <ClCompile Include="..\..\src\md2.c" />
+    <ClCompile Include="..\..\src\md4.c" />
     <ClCompile Include="..\..\src\md5.c" />
+    <ClCompile Include="..\..\src\md6.c" />
     <ClCompile Include="..\..\src\mem.c" />
     <ClCompile Include="..\..\src\ofb.c" />
     <ClCompile Include="..\..\src\pbkdf2.c" />
+    <ClCompile Include="..\..\src\poly1305.c" />
+    <ClCompile Include="..\..\src\rc2.c" />
     <ClCompile Include="..\..\src\rc4.c" />
+    <ClCompile Include="..\..\src\rc5.c" />
+    <ClCompile Include="..\..\src\rc6.c" />
+    <ClCompile Include="..\..\src\ripemd128.c" />
+    <ClCompile Include="..\..\src\ripemd160.c" />
+    <ClCompile Include="..\..\src\ripemd256.c" />
+    <ClCompile Include="..\..\src\ripemd320.c" />
     <ClCompile Include="..\..\src\rsa.c" />
+    <ClCompile Include="..\..\src\safer.c" />
+    <ClCompile Include="..\..\src\salsa20.c" />
+    <ClCompile Include="..\..\src\seed.c" />
+    <ClCompile Include="..\..\src\serpent.c" />
     <ClCompile Include="..\..\src\sha1.c" />
     <ClCompile Include="..\..\src\sha2.c" />
     <ClCompile Include="..\..\src\sha3.c" />
+    <ClCompile Include="..\..\src\sm2.c" />
+    <ClCompile Include="..\..\src\sm3.c" />
+    <ClCompile Include="..\..\src\sm4.c" />
+    <ClCompile Include="..\..\src\tea.c" />
     <ClCompile Include="..\..\src\twofish.c" />
+    <ClCompile Include="..\..\src\whirlpool.c" />
+    <ClCompile Include="..\..\src\x509.c" />
+    <ClCompile Include="..\..\src\xtea.c" />
     <ClCompile Include="..\..\src\zmcrypto.c" />
+    <ClCompile Include="..\..\src\zuc.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\adler32.h" />
     <ClInclude Include="..\..\src\aes.h" />
+    <ClInclude Include="..\..\src\asn1.h" />
     <ClInclude Include="..\..\src\base32.h" />
     <ClInclude Include="..\..\src\base58.h" />
     <ClInclude Include="..\..\src\base64.h" />
+    <ClInclude Include="..\..\src\bcrypt.h" />
+    <ClInclude Include="..\..\src\bignum.h" />
+    <ClInclude Include="..\..\src\blake2b.h" />
+    <ClInclude Include="..\..\src\blake2s.h" />
     <ClInclude Include="..\..\src\blockpad.h" />
     <ClInclude Include="..\..\src\blowfish.h" />
+    <ClInclude Include="..\..\src\camellia.h" />
     <ClInclude Include="..\..\src\cbc.h" />
     <ClInclude Include="..\..\src\ccm.h" />
     <ClInclude Include="..\..\src\cfb.h" />
+    <ClInclude Include="..\..\src\chacha20.h" />
     <ClInclude Include="..\..\src\cmac.h" />
     <ClInclude Include="..\..\src\crc32.h" />
     <ClInclude Include="..\..\src\ctr.h" />
     <ClInclude Include="..\..\src\debug.h" />
     <ClInclude Include="..\..\src\des.h" />
     <ClInclude Include="..\..\src\dlmain.h" />
+    <ClInclude Include="..\..\src\dsa.h" />
     <ClInclude Include="..\..\src\ecb.h" />
+    <ClInclude Include="..\..\src\ecdh.h" />
     <ClInclude Include="..\..\src\ecdsa.h" />
+    <ClInclude Include="..\..\src\ed25519.h" />
+    <ClInclude Include="..\..\src\ed2k.h" />
     <ClInclude Include="..\..\src\gcm.h" />
     <ClInclude Include="..\..\src\hmac.h" />
+    <ClInclude Include="..\..\src\idea.h" />
+    <ClInclude Include="..\..\src\md2.h" />
+    <ClInclude Include="..\..\src\md4.h" />
     <ClInclude Include="..\..\src\md5.h" />
+    <ClInclude Include="..\..\src\md6.h" />
     <ClInclude Include="..\..\src\mem.h" />
     <ClInclude Include="..\..\src\ofb.h" />
     <ClInclude Include="..\..\src\pbkdf2.h" />
+    <ClInclude Include="..\..\src\poly1305.h" />
+    <ClInclude Include="..\..\src\rc2.h" />
     <ClInclude Include="..\..\src\rc4.h" />
+    <ClInclude Include="..\..\src\rc5.h" />
+    <ClInclude Include="..\..\src\rc6.h" />
+    <ClInclude Include="..\..\src\ripemd128.h" />
+    <ClInclude Include="..\..\src\ripemd160.h" />
+    <ClInclude Include="..\..\src\ripemd256.h" />
+    <ClInclude Include="..\..\src\ripemd320.h" />
     <ClInclude Include="..\..\src\rsa.h" />
+    <ClInclude Include="..\..\src\safer.h" />
+    <ClInclude Include="..\..\src\salsa20.h" />
+    <ClInclude Include="..\..\src\seed.h" />
+    <ClInclude Include="..\..\src\serpent.h" />
     <ClInclude Include="..\..\src\sha1.h" />
     <ClInclude Include="..\..\src\sha2.h" />
     <ClInclude Include="..\..\src\sha3.h" />
+    <ClInclude Include="..\..\src\sm2.h" />
+    <ClInclude Include="..\..\src\sm3.h" />
+    <ClInclude Include="..\..\src\sm4.h" />
+    <ClInclude Include="..\..\src\tea.h" />
     <ClInclude Include="..\..\src\twofish.h" />
+    <ClInclude Include="..\..\src\whirlpool.h" />
+    <ClInclude Include="..\..\src\x509.h" />
+    <ClInclude Include="..\..\src\xtea.h" />
     <ClInclude Include="..\..\src\zmconfig.h" />
     <ClInclude Include="..\..\src\zmcrypto.h" />
+    <ClInclude Include="..\..\src\zuc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

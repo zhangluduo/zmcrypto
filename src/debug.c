@@ -17,7 +17,20 @@
 
 #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
     #if defined _WIN32
-        /* TODO */
+        #include <stdarg.h>
+        void zmcrypto_log(char* file, char* fn, int ln, char* fmt, ...)
+        {
+            char* pstr = (char*)zmcrypto_malloc(4096);
+			zmcrypto_memset(pstr, 0, 4096);
+            va_list args;
+            va_start(args, fmt);
+
+            (void)vsprintf(pstr, fmt, args);
+            va_end(args);
+            zmcrypto_printf ("[%s:%d:%s] %s\n", file, ln, fn, pstr);
+            zmcrypto_free(pstr);
+            pstr = NULL;
+        }
     #else
         #include <stdarg.h>
         void zmcrypto_log(char* file, char* fn, int ln, char* fmt, ...)
@@ -29,7 +42,7 @@
             (void)vasprintf(&pstr, fmt, args);
             va_end(args);
             zmcrypto_printf ("[%s:%d:%s] %s\n", file, ln, fn, pstr);
-            free(pstr);
+            zmcrypto_free(pstr);
             pstr = NULL;
         }
     #endif

@@ -30,6 +30,8 @@
 #include "pbkdf2.h"
 #include "hmac.h"
 #include "cmac.h"
+#include "ccm.h"
+#include "gcm.h"
 #include "ecb.h"
 #include "cbc.h"
 #include "cfb.h"
@@ -430,6 +432,52 @@ extern "C" {
         {
             _pfn_cmac_init(ctx, CMAC_INIT_ARGS); 
         }
+    #endif
+
+    #define AEAD_FUNCTION_IMPL(name, cipher_param, cipher_args, starts_param, starts_args)\
+        pfn_##name##_new             _pfn_##name##_new         = name##_new         ;\
+        pfn_##name##_free            _pfn_##name##_free        = name##_free        ;\
+        pfn_##name##_init            _pfn_##name##_init        = name##_init        ;\
+        pfn_##name##_starts          _pfn_##name##_starts      = name##_starts      ;\
+        pfn_##name##_update_aad      _pfn_##name##_update_aad  = name##_update_aad  ;\
+        pfn_##name##_update_data     _pfn_##name##_update_data = name##_update_data ;\
+        pfn_##name##_final           _pfn_##name##_final       = name##_final       ;\
+\
+        CONTEXT_TYPE_PTR(name) zm_##name##_new (void)\
+        {\
+            return _pfn_##name##_new();\
+        }\
+        void zm_##name##_free(CONTEXT_TYPE_PTR(name) ctx)\
+        {\
+            _pfn_##name##_free(ctx);\
+        }\
+        void zm_##name##_init(CONTEXT_TYPE_PTR(name) ctx, cipher_param)\
+        {\
+            _pfn_##name##_init(ctx, cipher_args);\
+        }\
+        zmerror zm_##name##_starts(CONTEXT_TYPE_PTR(name) ctx, starts_param)\
+        {\
+            return _pfn_##name##_starts(ctx, starts_args);\
+        }\
+        zmerror zm_##name##_update_aad(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen)\
+        {\
+            return _pfn_##name##_update_aad(ctx, data, dlen);\
+        }\
+        zmerror zm_##name##_update_data(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen, uint8_t *output)\
+        {\
+            return _pfn_##name##_update_data(ctx, data, dlen, output);\
+        }\
+        zmerror zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output)\
+        {\
+            return _pfn_##name##_final(ctx, output);\
+        }
+
+    #if defined ZMCRYPTO_ALGO_CCM
+        AEAD_FUNCTION_IMPL(ccm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, CCM_STARTS_PARAM, CCM_STARTS_ARGS)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_GCM
+        AEAD_FUNCTION_IMPL(gcm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, GCM_STARTS_PARAM, GCM_STARTS_ARGS)
     #endif
 
     #if defined ZMCRYPTO_ALGO_BASE64

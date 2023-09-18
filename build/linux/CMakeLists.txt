@@ -46,6 +46,7 @@ add_library(
 	../../src/hmac.c
 	../../src/cmac.c
 	../../src/ccm.c
+	../../src/gcm.c
 	../../src/pbkdf2.c
 	../../src/rc4.c
 	../../src/mem.c

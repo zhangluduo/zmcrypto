@@ -1,136 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="..\..\tests\cpp\format_output.cpp" />
+    <ClCompile Include="..\..\tests\cpp\machine_info.cpp" />
+    <ClCompile Include="..\..\tests\cpp\main.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_adler32.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_aes.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_base64.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_blockpad.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_ccm.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_cmac.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_crc32.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_des.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_engine.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_hmac.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_md5.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_pbkdf2.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_sha1.cpp" />
+    <ClCompile Include="..\..\tests\cpp\time_stamp.cpp" />
+    <ClCompile Include="..\..\tests\cpp\vector_file.cpp" />
+    <ClCompile Include="..\..\tests\cpp\zmcryptosdk.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\tests\cpp\format_output.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\machine_info.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\test_adler32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\test_aes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\test_base64.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\test_blockpad.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\test_ccm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\test_cmac.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\test_crc32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\test_des.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\test_engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\test_hmac.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\test_md5.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\test_pbkdf2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\test_sha1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\time_stamp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\vector_file.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\cpp\zmcryptosdk.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\tests\cpp\format_output.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\machine_info.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_adler32.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_aes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_base64.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_blockpad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_ccm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_cmac.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_crc32.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_des.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_hmac.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_md5.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_pbkdf2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\test_sha1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\time_stamp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\vector_file.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\cpp\zmcryptosdk.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="..\..\tests\cpp\format_output.h" />
+    <ClInclude Include="..\..\tests\cpp\machine_info.h" />
+    <ClInclude Include="..\..\tests\cpp\test_adler32.h" />
+    <ClInclude Include="..\..\tests\cpp\test_aes.h" />
+    <ClInclude Include="..\..\tests\cpp\test_base64.h" />
+    <ClInclude Include="..\..\tests\cpp\test_blockpad.h" />
+    <ClInclude Include="..\..\tests\cpp\test_ccm.h" />
+    <ClInclude Include="..\..\tests\cpp\test_cmac.h" />
+    <ClInclude Include="..\..\tests\cpp\test_config.h" />
+    <ClInclude Include="..\..\tests\cpp\test_crc32.h" />
+    <ClInclude Include="..\..\tests\cpp\test_des.h" />
+    <ClInclude Include="..\..\tests\cpp\test_engine.h" />
+    <ClInclude Include="..\..\tests\cpp\test_hmac.h" />
+    <ClInclude Include="..\..\tests\cpp\test_md5.h" />
+    <ClInclude Include="..\..\tests\cpp\test_pbkdf2.h" />
+    <ClInclude Include="..\..\tests\cpp\test_sha1.h" />
+    <ClInclude Include="..\..\tests\cpp\time_stamp.h" />
+    <ClInclude Include="..\..\tests\cpp\vector_file.h" />
+    <ClInclude Include="..\..\tests\cpp\zmcryptosdk.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\tests\cpp\test_report.txt" />

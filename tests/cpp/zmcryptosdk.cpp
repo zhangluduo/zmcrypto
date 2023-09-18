@@ -460,24 +460,6 @@ namespace zmcrypto
             return ZMCRYPTO_ERR_NULL_PTR;\
         }
 
-    #define CIPHER_MODE_POINTER_TYPEDEF(name, param)\
-        typedef CONTEXT_TYPE_PTR(name) (*pfn_##name##_new) (void);\
-        typedef void (*pfn_##name##_free) (CONTEXT_TYPE_PTR(name) ctx);\
-        typedef void (*pfn_##name##_init) (CONTEXT_TYPE_PTR(name) ctx, param);\
-        typedef zmerror (*pfn_##name##_set_ekey) (CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t ksize);\
-        typedef zmerror (*pfn_##name##_set_dkey) (CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t ksize);\
-        typedef zmerror (*pfn_##name##_enc) (CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output);\
-        typedef zmerror (*pfn_##name##_dec) (CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output);
-
-    #define CIPHER_MODE_WITH_IV_POINTER_TYPEDEF(name, param)\
-        typedef CONTEXT_TYPE_PTR(name) (*pfn_##name##_new) (void);\
-        typedef void (*pfn_##name##_free) (CONTEXT_TYPE_PTR(name) ctx);\
-        typedef void (*pfn_##name##_init) (CONTEXT_TYPE_PTR(name) ctx, param);\
-        typedef zmerror (*pfn_##name##_set_ekey) (CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t ksize, uint8_t* iv, uint32_t ivsize);\
-        typedef zmerror (*pfn_##name##_set_dkey) (CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t ksize, uint8_t* iv, uint32_t ivsize);\
-        typedef zmerror (*pfn_##name##_enc) (CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output);\
-        typedef zmerror (*pfn_##name##_dec) (CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output);
-
     #define CIPHER_MODE_POINTER_DECLARA(name)\
         pfn_##name##_new        _pfn_##name##_new      = NULL;\
         pfn_##name##_free       _pfn_##name##_free     = NULL;\
@@ -594,6 +576,73 @@ namespace zmcrypto
             return ZMCRYPTO_ERR_NULL_PTR;\
         }
 
+     #define ADAE_POINTER_DECLARA(name)\
+        pfn_##name##_new          _pfn_##name##_new          = NULL;\
+        pfn_##name##_free         _pfn_##name##_free         = NULL;\
+        pfn_##name##_init         _pfn_##name##_init         = NULL;\
+        pfn_##name##_starts       _pfn_##name##_starts       = NULL;\
+        pfn_##name##_update_aad   _pfn_##name##_update_aad   = NULL;\
+        pfn_##name##_update_data  _pfn_##name##_update_data  = NULL;\
+        pfn_##name##_final        _pfn_##name##_final        = NULL;
+
+     #define AEAD_POINTER_LOAD(name)\
+        _pfn_##name##_new         = (pfn_##name##_new        )GetProcAddress(m_modulehandle, "zm_" #name "_new"        );\
+        _pfn_##name##_free        = (pfn_##name##_free       )GetProcAddress(m_modulehandle, "zm_" #name "_free"       );\
+        _pfn_##name##_init        = (pfn_##name##_init       )GetProcAddress(m_modulehandle, "zm_" #name "_init"       );\
+        _pfn_##name##_starts      = (pfn_##name##_starts     )GetProcAddress(m_modulehandle, "zm_" #name "_starts"     );\
+        _pfn_##name##_update_aad  = (pfn_##name##_update_aad )GetProcAddress(m_modulehandle, "zm_" #name "_update_aad" );\
+        _pfn_##name##_update_data = (pfn_##name##_update_data)GetProcAddress(m_modulehandle, "zm_" #name "_update_data");\
+        _pfn_##name##_final       = (pfn_##name##_final      )GetProcAddress(m_modulehandle, "zm_" #name "_final"      );
+
+     #define AEAD_POINTER_IMPL(name, cipher_param, cipher_args, starts_param, starts_args)\
+        CONTEXT_TYPE_PTR(name) sdk::zm_##name##_new (void)\
+        {\
+            if (_pfn_##name##_new){\
+                return _pfn_##name##_new();\
+            }\
+            return NULL;\
+        }\
+        void sdk::zm_##name##_free(CONTEXT_TYPE_PTR(name) ctx)\
+        {\
+            if (_pfn_##name##_free){\
+                _pfn_##name##_free(ctx);\
+            }\
+        }\
+        void sdk::zm_##name##_init(CONTEXT_TYPE_PTR(name) ctx, cipher_param)\
+        {\
+            if (_pfn_##name##_init){\
+                _pfn_##name##_init(ctx, cipher_args);\
+            }\
+        }\
+        zmerror sdk::zm_##name##_starts(CONTEXT_TYPE_PTR(name) ctx, starts_param)\
+        {\
+            if (_pfn_##name##_starts){\
+                return _pfn_##name##_starts(ctx, starts_args);\
+            }\
+            return ZMCRYPTO_ERR_NULL_PTR;\
+        }\
+        zmerror sdk::zm_##name##_update_aad(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen)\
+        {\
+            if (_pfn_##name##_update_aad) { \
+                return _pfn_##name##_update_aad(ctx, data, dlen); \
+            }\
+            return ZMCRYPTO_ERR_NULL_PTR;\
+        }\
+        zmerror sdk::zm_##name##_update_data(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen, uint8_t *output)\
+        {\
+            if (_pfn_##name##_update_data) { \
+                return _pfn_##name##_update_data(ctx, data, dlen, output); \
+            }\
+            return ZMCRYPTO_ERR_NULL_PTR;\
+        }\
+        zmerror sdk::zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output)\
+        {\
+            if (_pfn_##name##_final) { \
+                return _pfn_##name##_final(ctx, output); \
+            }\
+            return ZMCRYPTO_ERR_NULL_PTR;\
+        }
+
     #if defined ZMCRYPTO_ALGO_BASE64
         BINTXT_POINTER_DECLARA(base64)
         BINTXT_POINTER_IMPL(base64)
@@ -640,33 +689,38 @@ namespace zmcrypto
     #endif
 
     #if defined ZMCRYPTO_ALGO_ECB
-        CIPHER_MODE_POINTER_TYPEDEF(ecb, CIPHER_MODE_INIT_PARAM)
         CIPHER_MODE_POINTER_DECLARA(ecb)
         CIPHER_MODE_POINTER_IMPL(ecb, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS)
     #endif
 
     #if defined ZMCRYPTO_ALGO_CBC
-        CIPHER_MODE_WITH_IV_POINTER_TYPEDEF(cbc, CIPHER_MODE_INIT_PARAM)
         CIPHER_MODE_POINTER_DECLARA(cbc)
         CIPHER_MODE_WITH_IV_POINTER_IMPL(cbc, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS)
     #endif
     
     #if defined ZMCRYPTO_ALGO_CFB
-        CIPHER_MODE_WITH_IV_POINTER_TYPEDEF(cfb, CIPHER_MODE_INIT_PARAM_2)
         CIPHER_MODE_POINTER_DECLARA(cfb)
         CIPHER_MODE_WITH_IV_POINTER_IMPL(cfb, CIPHER_MODE_INIT_PARAM_2, CIPHER_MODE_INIT_ARGS_2)
     #endif
     
     #if defined ZMCRYPTO_ALGO_OFB
-        CIPHER_MODE_WITH_IV_POINTER_TYPEDEF(ofb, CIPHER_MODE_INIT_PARAM_2)
         CIPHER_MODE_POINTER_DECLARA(ofb)
         CIPHER_MODE_WITH_IV_POINTER_IMPL(ofb, CIPHER_MODE_INIT_PARAM_2, CIPHER_MODE_INIT_ARGS_2)
     #endif
     
     #if defined ZMCRYPTO_ALGO_CTR
-        CIPHER_MODE_WITH_IV_POINTER_TYPEDEF(ctr, CIPHER_MODE_INIT_PARAM_2)
         CIPHER_MODE_POINTER_DECLARA(ctr)
         CIPHER_MODE_WITH_IV_POINTER_IMPL(ctr, CIPHER_MODE_INIT_PARAM_2, CIPHER_MODE_INIT_ARGS_2)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_CCM
+        ADAE_POINTER_DECLARA(ccm)
+        AEAD_POINTER_IMPL(ccm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, CCM_STARTS_PARAM, CCM_STARTS_ARGS)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_GCM
+        ADAE_POINTER_DECLARA(gcm)
+        AEAD_POINTER_IMPL(gcm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, GCM_STARTS_PARAM, GCM_STARTS_ARGS)
     #endif
 
 #if defined __linux__
@@ -798,6 +852,14 @@ namespace zmcrypto
         
         #if defined ZMCRYPTO_ALGO_CTR
             CIPHER_MODE_POINTER_LOAD(ctr)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_CCM
+            AEAD_POINTER_LOAD(ccm)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_GCM
+            AEAD_POINTER_LOAD(gcm)
         #endif
     }
 

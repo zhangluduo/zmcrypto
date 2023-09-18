@@ -47,7 +47,7 @@ extern "C" {
         );
 
         void gcm_free (
-		    struct gcm_ctx* ctx
+            struct gcm_ctx* ctx
         );
 
         void gcm_init (

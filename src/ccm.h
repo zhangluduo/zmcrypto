@@ -25,7 +25,7 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_CCM
 
-        typedef struct
+        struct ccm_ctx
         {
             void*   (*cipher_new)            (void);
             void    (*cipher_free)           (void* ctx);
@@ -60,18 +60,18 @@ extern "C" {
             uint8_t a[16];                 /* A_0, A_1 ... A_n, this is a counter*/
             uint8_t s[16];                 /* S_0, S_1 ... S_n */
             uint32_t b_len;                /* used length of b[16] */
-        } ccm_ctx;
+        } ;
 
-        ccm_ctx* ccm_new (
+        struct ccm_ctx* ccm_new (
             void
         );
 
         void ccm_free (
-            ccm_ctx* ctx
+            struct ccm_ctx* ctx
         );
 
         void ccm_init (
-            ccm_ctx* ctx,
+            struct ccm_ctx* ctx,
             void*   (*cipher_new)            (void),
             void    (*cipher_free)           (void* ctx),
             void    (*cipher_init)           (void* ctx),
@@ -86,7 +86,7 @@ extern "C" {
         );
 
         zmerror ccm_starts (
-            ccm_ctx* ctx, 
+            struct ccm_ctx* ctx, 
             uint8_t *key, uint32_t klen,              /* the key of block cipher */
             uint8_t *nonce, uint32_t noncelen,        /* N-Once of counter, and it length, nust between 7 and 13 in rfc3610 */
             uint64_t datalen,                         /* 0 <= l(m) < 2^(8L) */
@@ -96,14 +96,14 @@ extern "C" {
         );
 
         zmerror ccm_update_aad (
-            ccm_ctx *ctx, 
+            struct ccm_ctx *ctx, 
             uint8_t *aad,  
             uint32_t alen                             /* Updating data at one time, up to 4 bytes, 
                                                          and a total data length of up to 8 bytes */
         );
 
         zmerror ccm_update_data (
-            ccm_ctx *ctx, 
+            struct ccm_ctx *ctx, 
             uint8_t *data, 
             uint32_t dlen,                            /* Updating data at one time, up to 4 bytes, 
                                                          and a total data length of up to 8 bytes */
@@ -111,7 +111,7 @@ extern "C" {
         );
 
         zmerror ccm_final (
-            ccm_ctx *ctx, 
+            struct ccm_ctx *ctx, 
             uint8_t *tag                              /* tag buffer length same as parameter 
                                                          'taglen' in 'ccm_starts' function */
         );

@@ -336,6 +336,42 @@ extern "C" {
         typedef zmerror (*pfn_##name##_set_dkey) (CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t ksize, uint8_t* iv, uint32_t ivsize);\
         typedef zmerror (*pfn_##name##_dec) (CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output);
 
+    #define CCM_STARTS_PARAM \
+            uint8_t *key, uint32_t klen, uint8_t *nonce, uint32_t noncelen,\
+            uint64_t datalen, uint64_t aadlen, uint32_t taglen, uint32_t direction
+
+    #define CCM_STARTS_ARGS \
+            key, klen, nonce, noncelen, datalen, aadlen, taglen, direction
+
+    #define GCM_STARTS_PARAM \
+            uint8_t *key, uint32_t klen, uint8_t *iv, uint32_t ivlen, uint32_t direction
+
+    #define GCM_STARTS_ARGS \
+            key, klen, iv, ivlen, direction
+
+    #define AEAD_FUNCTION_DECLARA(name, cipher_param, starts_param)\
+        API CONTEXT_TYPE_PTR(name) zm_##name##_new (void);\
+        API void    zm_##name##_free(CONTEXT_TYPE_PTR(name) ctx);\
+        API void    zm_##name##_init(CONTEXT_TYPE_PTR(name) ctx, cipher_param);\
+        API zmerror zm_##name##_starts(CONTEXT_TYPE_PTR(name) ctx, starts_param);\
+        API zmerror zm_##name##_update_aad(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen);\
+        API zmerror zm_##name##_update_data(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen, uint8_t *output);\
+        API zmerror zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output);\
+        typedef CONTEXT_TYPE_PTR(name) (*pfn_##name##_new) (void);\
+        typedef void    (*pfn_##name##_free)(CONTEXT_TYPE_PTR(name) ctx);\
+        typedef void    (*pfn_##name##_init)(CONTEXT_TYPE_PTR(name) ctx, cipher_param);\
+        typedef zmerror (*pfn_##name##_starts)(CONTEXT_TYPE_PTR(name) ctx, starts_param);\
+        typedef zmerror (*pfn_##name##_update_aad)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen);\
+        typedef zmerror (*pfn_##name##_update_data)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen, uint8_t *output);\
+        typedef zmerror (*pfn_##name##_final)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output);
+
+    #if defined ZMCRYPTO_ALGO_CCM
+        AEAD_FUNCTION_DECLARA(ccm, CIPHER_MODE_INIT_PARAM, CCM_STARTS_PARAM)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_GCM
+        AEAD_FUNCTION_DECLARA(gcm, CIPHER_MODE_INIT_PARAM, GCM_STARTS_PARAM)
+    #endif
 
     #if defined ZMCRYPTO_ALGO_BASE64
         BINTXT_FUNCTION_DECLARA(base64)
@@ -426,7 +462,7 @@ extern "C" {
         CIPHER_MODE_WITH_IV_FUNCTION_DECLARA(ctr, CIPHER_MODE_INIT_PARAM_2)
         CIPHER_MODE_WITH_IV_FUNCTION_DECLARA_2(ctr, CIPHER_MODE_INIT_PARAM_2)
     #endif
-    
+
 #ifdef __cplusplus
 }
 #endif

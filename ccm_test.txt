@@ -1,40 +1,5 @@
 
-/**
- *  Copyright 2022 The ZmCrypto Project. All Rights Reserved.
- *
- *  Licensed under the Apache License, Version 2.0 (the License); you may
- *  not use this file except in compliance with the License.
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
- * 
- * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
- *   Home: https://zmcrypto.cn/
- *         https://github.com/zhangluduo/zmcrypto/
- */
-
-#if defined __linux__
-    #if !defined API
-        #define API __attribute__ ((visibility("default")))
-    #endif
-#elif defined _WIN32
-    #if !defined API
-        #if defined DLL_IMPORTS
-            #define API _declspec(dllimport)
-        #else /* DLL_EXPORTS */
-            #define API _declspec(dllexport)
-        #endif
-    #endif
-#endif
-
-#include "debug.h"
-
-#include "ccm.h"
-#include "aes.h"
-void test()
-{
-
+void test_ccm1(){
 
 //from rfc3610
 //#   =============== packet vector #1 ==================
@@ -75,18 +40,18 @@ void test()
     uint32_t ct_len    = sizeof(ct);
     uint32_t tag_len   = sizeof(tag);
 
-    uint8_t* pt2  = (uint8_t*)malloc(pt_len);
-    uint8_t* ct2  = (uint8_t*)malloc(ct_len);
-    uint8_t* tag2 = (uint8_t*)malloc(tag_len);
+    uint8_t* pt2 = malloc(pt_len);
+    uint8_t* ct2 = malloc(ct_len);
+    uint8_t* tag2 = malloc(tag_len);
 
-    struct ccm_ctx ctx;
+    ccm_ctx ctx;
     zmerror err;
     ccm_init (&ctx, aes_new, aes_free, aes_init, aes_block_size, aes_ksize_min, aes_ksize_max, aes_ksize_multiple, aes_set_ekey, aes_set_dkey, aes_enc_block, aes_dec_block);
-    err = ccm_starts(&ctx, key, key_len, nonce, nonce_len, pt_len, aad_len, tag_len, 1); printf ("ret: %08x\n", err);
+    err = ccm_starts(&ctx, key, key_len, nonce, nonce_len, pt_len, tag_len, aad_len, 0); printf ("ret: %08x\n", err);
 
-    //for (int i = 0; i < 256; i++){
+    //for (int i = 0; i < aad_len; i++){
     err = ccm_update_aad(&ctx, aad, aad_len); printf ("ret: %08x\n", err);//}
-    err = ccm_update_data(&ctx, ct, pt_len, ct2); printf ("ret: %08x\n", err);
+    err = ccm_update_data(&ctx, pt, pt_len, ct2); printf ("ret: %08x\n", err);
     err = ccm_final(&ctx, tag2); printf ("ret: %08x\n", err);
 
     printf("ct: ");
@@ -98,7 +63,6 @@ void test()
         printf ("[%02x] ", tag2[i]);
     }   printf("\n");
 }
-
 
 void test_ccm2(){
 // from crypto++
@@ -128,69 +92,4 @@ void test_ccm2(){
     uint32_t pt_len    = sizeof(pt);
     uint32_t ct_len    = sizeof(ct);
     uint32_t tag_len   = sizeof(tag);
-
-
-    uint8_t* pt2  = (uint8_t*)malloc(pt_len);
-    uint8_t* ct2  = (uint8_t*)malloc(ct_len);
-    uint8_t* tag2 = (uint8_t*)malloc(tag_len);
-
-    struct ccm_ctx ctx;
-    zmerror err;
-    ccm_init (&ctx, aes_new, aes_free, aes_init, aes_block_size, aes_ksize_min, aes_ksize_max, aes_ksize_multiple, aes_set_ekey, aes_set_dkey, aes_enc_block, aes_dec_block);
-    err = ccm_starts(&ctx, key, key_len, nonce, nonce_len, pt_len, aad_len * 256, tag_len, 0); printf ("ret: %08x\n", err);
-
-    for (int i = 0; i < 256; i++){
-    err = ccm_update_aad(&ctx, aad, aad_len); printf ("ret: %08x\n", err);}
-    err = ccm_update_data(&ctx, pt, pt_len, ct2); printf ("ret: %08x\n", err);
-    err = ccm_final(&ctx, tag2); printf ("ret: %08x\n", err);
-  
-
-    printf("ct: ");
-    for (uint32_t i = 0; i < ct_len; i++){
-        printf ("[%02x] ", ct2[i]);
-    }   printf("\n");
-    printf("tag: ");
-    for (uint32_t i = 0; i < tag_len; i++){
-        printf ("[%02x] ", tag2[i]);
-    }   printf("\n");
 }
-
-#if defined __linux__
-    void __attribute__ ((constructor)) load_so(void);
-    void __attribute__ ((destructor)) unload_so(void);
-
-    void load_so(void)
-    {
-        ZMCRYPTO_LOG("");
-        zmcrypto_printf("~!@# [%d]\n", 1234);
-        test();
-    }
-
-    void unload_so(void)
-    {
-    }
-#endif
-
-#if defined WIN32
-#include <windows.h>
-    API BOOL DllMain(HANDLE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
-    {
-       switch (dwReason)
-        {
-            case DLL_PROCESS_ATTACH:
-            ZMCRYPTO_LOG("");
-            zmcrypto_printf("~!@# [%d]\n", 1234);
-            //test_ccm2();
-            //test();
-                break;
-            case DLL_PROCESS_DETACH:
-                break;
-            case DLL_THREAD_ATTACH:
-                break;
-            case DLL_THREAD_DETACH:
-                break;
-        }
-        return TRUE;
-    }
-#endif
-

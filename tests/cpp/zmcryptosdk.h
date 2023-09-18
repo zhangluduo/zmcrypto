@@ -151,6 +151,14 @@ namespace zmcrypto
             CIPHER_MODE_WITH_IV_FUNCTION_DECLARA_2(ctr, CIPHER_MODE_INIT_PARAM_2)
         #endif
 
+        #if defined ZMCRYPTO_ALGO_CCM
+            AEAD_FUNCTION_DECLARA(ccm, CIPHER_MODE_INIT_PARAM, CCM_STARTS_PARAM)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_GCM
+            AEAD_FUNCTION_DECLARA(gcm, CIPHER_MODE_INIT_PARAM, GCM_STARTS_PARAM)
+        #endif
+
     private:
 
         const char* m_modulefile;
