@@ -111,6 +111,14 @@ namespace zmcrypto
             BLOCKCIPHER_FUNCTION_DECLARA(des)
         #endif
 
+        #if defined ZMCRYPTO_ALGO_BLOWFISH
+            BLOCKCIPHER_FUNCTION_DECLARA(blowfish)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_TWOFISH
+            BLOCKCIPHER_FUNCTION_DECLARA(twofish)
+        #endif
+
         /**
          * MAC functions
          */

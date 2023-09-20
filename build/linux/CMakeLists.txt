@@ -35,8 +35,8 @@ add_library(
 	../../src/sha2.c
 	../../src/sha3.c
 	../../src/aes.c
-	../../src/blowfish.c
 	../../src/des.c
+	../../src/blowfish.c
 	../../src/twofish.c
 	../../src/ecb.c
 	../../src/cbc.c
@@ -92,6 +92,7 @@ add_executable(
 	../../tests/cpp/test_pbkdf2.cpp
 	../../tests/cpp/test_aes.cpp
 	../../tests/cpp/test_des.cpp
+	../../tests/cpp/test_blowfish.cpp
 	../../tests/cpp/test_blockpad.cpp
 	../../tests/cpp/test_engine.cpp
 )

@@ -25,6 +25,7 @@
 #include "test_pbkdf2.h"
 #include "test_aes.h"
 #include "test_des.h"
+#include "test_blowfish.h"
 #include "test_engine.h"
 #include "test_config.h"
 #include "test_blockpad.h"
@@ -64,7 +65,16 @@ int main()
     // print_env();
 
     zmcrypto::sdk _sdk;
-    test_case_ccm(&_sdk);
+
+test_case_blowfish_ecb(&_sdk);
+test_case_blowfish_cbc(&_sdk);
+test_case_blowfish_cfb(&_sdk);
+test_case_blowfish_ofb(&_sdk);
+test_case_blowfish_ctr(&_sdk);
+test_speed_blowfish   (&_sdk);
+test_info_blowfish    (&_sdk);
+
+    // test_case_ccm(&_sdk);
 
     // test_case_base64(&_sdk);
     // test_case_base64_line_break(&_sdk);

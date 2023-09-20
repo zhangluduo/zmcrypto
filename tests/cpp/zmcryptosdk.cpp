@@ -678,6 +678,16 @@ namespace zmcrypto
         BLOCKCIPHER_POINTER_IMPL(des)
     #endif
 
+    #if defined ZMCRYPTO_ALGO_BLOWFISH
+        BLOCKCIPHER_POINTER_DECLARA(blowfish)
+        BLOCKCIPHER_POINTER_IMPL(blowfish)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_TWOFISH
+        BLOCKCIPHER_POINTER_DECLARA(twofish)
+        BLOCKCIPHER_POINTER_IMPL(twofish)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_HMAC
         MAC_POINTER_DECLARA(hmac)
         MAC_POINTER_IMPL(hmac, HMAC_INIT_PARAM, HMAC_INIT_ARGS)
@@ -824,6 +834,14 @@ namespace zmcrypto
 
         #if defined ZMCRYPTO_ALGO_DES
             BLOCKCIPHER_POINTER_LOAD(des)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_BLOWFISH
+            BLOCKCIPHER_POINTER_LOAD(blowfish)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_TWOFISH
+            BLOCKCIPHER_POINTER_LOAD(twofish)
         #endif
 
         #if defined ZMCRYPTO_ALGO_HMAC

@@ -1,118 +1,91 @@
-// test_blowfish_data.h: interface for the test_blowfish_data class.
-//
-//////////////////////////////////////////////////////////////////////
+#source: 
+comment: #1
+algorithm: blowfish-ecb
+key: 0x00010203
+plaintext:  0x0001020304050607
+ciphertext: 0x89CABEC800ACB2D7
 
-#if !defined(AFX_TEST_BLOWFISH_DATA_H__BB64C11E_DC8A_4356_A454_E47C15BCBB9E__INCLUDED_)
-#define AFX_TEST_BLOWFISH_DATA_H__BB64C11E_DC8A_4356_A454_E47C15BCBB9E__INCLUDED_
+#source: 
+comment: #2
+algorithm: blowfish-ecb
+key: 0x000102030405060708090A0B0C0D0E0F000102030405060708090A0B0C0D0E0F000102030405060708090A0B0C0D0E0F0001020304050607
+plaintext:  0x0001020304050607
+ciphertext: 0xFC9A58ACD954B918
 
-#include "data_info_blockcipher.h"
+#source: 
+comment: #3
+algorithm: blowfish-ecb
+key: 0x00010203
+plaintext:  0x00010203040506070001020304050607
+ciphertext: 0x89cabec800acb2d789cabec800acb2d7
 
-static BLOCKCIPHER_DATA_INFO vec_blowfish_none[] = 
-{
-    {
-        "blowfish", 
-        "\x00\x01\x02\x03", 4, 
-        0 /* NULL */,
-        "\x00\x01\x02\x03\x04\x05\x06\x07", 8, 
-        "\x89\xCA\xBE\xC8\x00\xAC\xB2\xD7", 8, 
-    },
-    {
-        "blowfish", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07", 56,
-        0 /* NULL */,
-        "\x00\x01\x02\x03\x04\x05\x06\x07", 8, 
-        "\xFC\x9A\x58\xAC\xD9\x54\xB9\x18", 8, 
-    },
-};
+#source: 
+comment: #4
+algorithm: blowfish-ecb
+key: 0x000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f0001020304050607
+plaintext:  0x00010203040506070001020304050607
+ciphertext: 0xfc9a58acd954b918fc9a58acd954b918
 
-static BLOCKCIPHER_DATA_INFO vec_blowfish_ecb[] = 
-{
-    {
-        "blowfish<ecb>", 
-        "\x00\x01\x02\x03", 4, 
-        0 /* NULL */,
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01\x02\x03\x04\x05\x06\x07", 16, 
-        "\x89\xCA\xBE\xC8\x00\xAC\xB2\xD7\x89\xCA\xBE\xC8\x00\xAC\xB2\xD7", 16, 
-    },
-    {
-        "blowfish<ecb>", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07", 56,
-        0 /* NULL */,
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01\x02\x03\x04\x05\x06\x07", 16, 
-        "\xFC\x9A\x58\xAC\xD9\x54\xB9\x18\xFC\x9A\x58\xAC\xD9\x54\xB9\x18", 16, 
-    },
-};
+#source: 
+comment: #5
+algorithm: blowfish-cbc
+key: 0x00010203
+iv: 0x0001020304050607
+plaintext:  0x00010203040506070001020304050607
+ciphertext: 0x787a7460a3abcf1cda811e5362eff4e2
 
-static BLOCKCIPHER_DATA_INFO vec_blowfish_cbc[] = 
-{
-    {
-        "blowfish<cbc>", 
-        "\x00\x01\x02\x03", 4, 
-        "\x00\x01\x02\x03\x04\x05\x06\x07", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01\x02\x03\x04\x05\x06\x07", 16, 
-        "\x78\x7A\x74\x60\xA3\xAB\xCF\x1C\xDA\x81\x1E\x53\x62\xEF\xF4\xE2", 16, 
-    },
-    {
-        "blowfish<cbc>", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07", 56,
-        "\x00\x01\x02\x03\x04\x05\x06\x07", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01\x02\x03\x04\x05\x06\x07", 16, 
-        "\x62\x15\xC5\x69\xB5\xE0\xEE\xE9\x7D\xD4\xAE\x50\x0C\x0D\x33\x49", 16, 
-    },
-};
+#source: 
+comment: #6
+algorithm: blowfish-cbc
+key: 0x000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f0001020304050607
+iv: 0x0001020304050607
+plaintext:  0x00010203040506070001020304050607
+ciphertext: 0x6215c569b5e0eee97dd4ae500c0d3349
 
-static BLOCKCIPHER_DATA_INFO vec_blowfish_cfb[] = 
-{
-    {
-        "blowfish<cfb>", 
-        "\x00\x01\x02\x03", 4, 
-        "\x00\x01\x02\x03\x04\x05\x06\x07", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01", 18, 
-        "\x89\xCB\xBC\xCB\x04\xA9\xB4\xD0\x7C\x79\xFB\xA5\x8F\x8B\x16\xDA\x42\x52", 18, 
-    },
-    {
-        "blowfish<cfb>", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07", 56,
-        "\x00\x01\x02\x03\x04\x05\x06\x07", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01", 18, 
-        "\xFC\x9B\x5A\xAF\xDD\x51\xBF\x1F\xE5\x72\x62\x3F\x3F\xDB\x0B\xFC\x90\xB3", 18, 
-    },
-};
+#source: 
+comment: #7
+algorithm: blowfish-cfb
+key: 0x00010203
+iv: 0x0001020304050607
+plaintext:  0x000102030405060700010203040506070001
+ciphertext: 0x89cbbccb04a9b4d07c79fba58f8b16da4252
 
-static BLOCKCIPHER_DATA_INFO vec_blowfish_ofb[] = 
-{
-    {
-        "blowfish<ofb>", 
-        "\x00\x01\x02\x03", 4, 
-        "\x00\x01\x02\x03\x04\x05\x06\x07", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01", 18, 
-        "\x89\xCB\xBC\xCB\x04\xA9\xB4\xD0\xE4\x3F\x4B\x25\x88\xDF\xA1\xA7\x99\x06", 18, 
-    },
-    {
-        "blowfish<ofb>", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07", 56,
-        "\x00\x01\x02\x03\x04\x05\x06\x07", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01", 18, 
-        "\xFC\x9B\x5A\xAF\xDD\x51\xBF\x1F\x3A\x5A\x31\x28\xE4\x75\x38\x73\x39\xC6", 18, 
-    },
-};
+#source: 
+comment: #8
+algorithm: blowfish-cfb
+key: 0x000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f0001020304050607
+iv: 0x0001020304050607
+plaintext:  0x000102030405060700010203040506070001
+ciphertext: 0xfc9b5aafdd51bf1fe572623f3fdb0bfc90b3
 
-static BLOCKCIPHER_DATA_INFO vec_blowfish_ctr[] = 
-{
-    {
-        "blowfish<ctr>", 
-        "\x00\x01\x02\x03", 4, 
-        "\x00\x01\x02\x03\x04\x05\x06\x07", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01", 18, 
-        "\x89\xCB\xBC\xCB\x04\xA9\xB4\xD0\x04\x72\x7D\xF1\xC9\x7B\x00\xA8\x44\x13", 18, 
-    },
-    {
-        "blowfish<ctr>", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x00\x01\x02\x03\x04\x05\x06\x07", 56,
-        "\x00\x01\x02\x03\x04\x05\x06\x07", 
-        "\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01\x02\x03\x04\x05\x06\x07\x00\x01", 18, 
-        "\xFC\x9B\x5A\xAF\xDD\x51\xBF\x1F\xDD\x42\x59\x84\xB3\xC6\x77\x9C\xE4\x9D", 18, 
-    },
-};
+#source: 
+comment: #9
+algorithm: blowfish-ofb
+key: 0x00010203
+iv: 0x0001020304050607
+plaintext:  0x000102030405060700010203040506070001
+ciphertext: 0x89cbbccb04a9b4d0e43f4b2588dfa1a79906
 
-#endif // !defined(AFX_TEST_BLOWFISH_DATA_H__BB64C11E_DC8A_4356_A454_E47C15BCBB9E__INCLUDED_)
+#source: 
+comment: #10
+algorithm: blowfish-ofb
+key: 0x000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f0001020304050607
+iv: 0x0001020304050607
+plaintext:  0x000102030405060700010203040506070001
+ciphertext: 0xfc9b5aafdd51bf1f3a5a3128e475387339c6
+
+#source: 
+comment: #11
+algorithm: blowfish-ctr
+key: 0x00010203
+iv: 0x0001020304050607
+plaintext:  0x000102030405060700010203040506070001
+ciphertext: 0x89cbbccb04a9b4d004727df1c97b00a84413
+
+#source: 
+comment: #12
+algorithm: blowfish-ctr
+key: 0x000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f000102030405060708090a0b0c0d0e0f0001020304050607
+iv: 0x0001020304050607
+plaintext:  0x000102030405060700010203040506070001
+ciphertext: 0xfc9b5aafdd51bf1fdd425984b3c6779ce49d
