@@ -85,7 +85,7 @@
     #define CCM_DO_UPATE_CTR                              \
         do                                                \
         {                                                 \
-            for(uint32_t i = 15; i > 1; i--)              \
+            for(uint32_t i = 15; i > 15 - ctx->L; i--)    \
             {                                             \
                 if(++(ctx->a[i]) != 0) { break; }         \
             }                                             \
@@ -171,25 +171,23 @@
         Another way say the same thing is:  Flags = 64*Adata + 8*M' + L'.
         */
 
-       uint32_t x = 0;
-
-       /* store b_0 flags */
-       b_0[x++] = (uint8_t)(
+        /* store b_0 flags */
+        b_0[0] = (uint8_t)(
                 ((ctx->aadlen > 0) ? (1 << 6) : 0) | /* Adata */
-                ((ctx->taglen - 2) >> 1) << 3 |      /* M' */
+                (((ctx->taglen - 2)>>1)<<3) |        /* M' */
                 (ctx->L - 1)                         /* L' is size of l(m), the value is limited between 2-8 bytes*/
                 );
 
         /* store Nonce N */
-        for (uint32_t i = 0; i < 15 - ctx->L; i++) 
+        for (uint32_t i = 0; i < noncelen; i++) 
         {
-            b_0[x++] = nonce[i];
+            b_0[i + 1] = nonce[i];
         }
 
         /* store l(m) */
         for (uint32_t i = 16 - ctx->L; i < 16; i++)
         {
-            b_0[x++] = (uint8_t)(ctx->dlen >> ((16 - 1 - i) * 8));
+            b_0[i] = (uint8_t)(ctx->dlen >> ((16 - 1 - i) * 8));
         }
     }
 
@@ -253,11 +251,12 @@
         uint32_t direction                        /* 0=encrypt or 1=decrypt */
     )
     {
-        ZMCRYPTO_LOG("");
+        ZMCRYPTO_LOG("begin");
         int32_t ret;
 
         if (taglen < 4 || taglen > 16 || taglen % 2 != 0)
         {
+            ZMCRYPTO_LOG("failed");
             return ZMCRYPTO_ERR_INVALID_TSIZE;
         }
 
@@ -270,14 +269,9 @@
             datalen >>= 8;
         }
 
-        /* parameter L can take on the values from 2 to 8 (recall, the value L=1 is reserved) */
+        if ((15 - noncelen) > ctx->L)  { ctx->L = 15 - noncelen; }
+        if (ctx->L > 8) { ctx->L = 8; }
         if (ctx->L <= 1) { ctx->L = 2; } 
-
-        if (ctx->L + noncelen != 15)
-        {
-            ZMCRYPTO_LOG("");
-            return ZMCRYPTO_ERR_INVALID_IVSIZE;
-        }
 
         ctx->taglen    = taglen;
         ctx->noncelen  = noncelen;
@@ -288,7 +282,7 @@
         if (ctx->cipher_block_size() != 16)
         {
             /* block size of underlying block cipher is not 16 */
-            ZMCRYPTO_LOG("");
+            ZMCRYPTO_LOG("failed");
             return ZMCRYPTO_ERR_INVALID_BSIZE;
         }
 
@@ -307,27 +301,31 @@
         ret = ctx->cipher_set_ekey(ctx->cipher_ctx, key, klen);
         if (ZMCRYPTO_IS_ERROR(ret))
         {
-            ZMCRYPTO_LOG("");
+            ZMCRYPTO_LOG("failed");
             return ret;
         }
 
-        ccm_encode_B_0(ctx, nonce, noncelen, ctx->bx);
-        ZMCRYPTO_OUTPUT("B_0: ", ctx->bx, 16);
-
         /* setup ctr */
-
         uint32_t a_len = 0;
         ctx->a[a_len++] = ctx->L - 1;
+
         for (uint32_t i = 0; i < noncelen; i++) 
             { ctx->a[a_len++] = nonce[i]; }
+
         for (uint32_t i = noncelen + 1/*flag*/; i < 16; i++) 
             { ctx->a[a_len++] = 0; }
-        ZMCRYPTO_OUTPUT("A_0: ", ctx->a, 16);
 
         ctx->cipher_enc_block(ctx->cipher_ctx, ctx->a, ctx->s); 
+
+        ccm_encode_B_0(ctx, nonce, noncelen, ctx->bx);
+        ctx->cipher_enc_block(ctx->cipher_ctx, ctx->bx, ctx->x); 
+
+        ZMCRYPTO_OUTPUT("B_0: ", ctx->bx, 16);
+        ZMCRYPTO_OUTPUT("X_1: ", ctx->x, 16);
+        ZMCRYPTO_OUTPUT("A_0: ", ctx->a, 16);
         ZMCRYPTO_OUTPUT("S_0: ", ctx->s, 16);
 
-        ZMCRYPTO_LOG("");
+        ZMCRYPTO_LOG("successed");
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 
@@ -337,51 +335,60 @@
     */
     zmerror ccm_update_aad (struct ccm_ctx *ctx, uint8_t *aad, uint32_t alen)
     { 
-        ZMCRYPTO_LOG("");
+        ZMCRYPTO_LOG("begin");
+        
+        if (alen == 0)
+        {
+            ZMCRYPTO_LOG("successed");
+            return ZMCRYPTO_ERR_SUCCESSED;
+        }
+
         if (ctx->current_aadlen + alen > ctx->aadlen)
         {
+            ZMCRYPTO_LOG("failed");
             return ZMCRYPTO_ERR_INVALID_DATA;
         }
 
         if (ctx->current_aadlen == 0)
         {
-            ctx->b_len = 0;
-            ctx->cipher_enc_block(ctx->cipher_ctx, ctx->bx, ctx->x); 
-            ZMCRYPTO_OUTPUT("X_1: ", ctx->x, 16);
-
             /* setup flag of B_1 */
+            ctx->b_len = 0;
+
+            #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
+                ccm_encode_l_a(ctx, ctx->b);
+            #endif
+
             ctx->b_len += ccm_encode_l_a(ctx, ctx->bx);
             for (uint32_t i = 0; i < ctx->b_len; i++)
             {
                 ctx->bx[i] ^= ctx->x[i];
             }
-
-            #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
-                (void)ccm_encode_l_a(ctx, ctx->b);
-            #endif
         }
 
         for (uint32_t i = 0; i < alen; i++)
         {
             ctx->bx[ctx->b_len] = ctx->x[ctx->b_len] ^ aad[i];
+
             #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
                 ctx->b[ctx->b_len] = aad[i];
             #endif
+
             ctx->b_len++;
             ctx->current_aadlen++;
+
             if (ctx->b_len == 16){
                 ctx->b_len = 0;
 
                 ctx->cipher_enc_block(ctx->cipher_ctx, ctx->bx, ctx->x); 
-                #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
-                    ZMCRYPTO_OUTPUT("B_[n]: ", ctx->b, 16);
-                    ZMCRYPTO_OUTPUT("X_[n]: ", ctx->x, 16);
-                    ZMCRYPTO_OUTPUT("A_[n]: ", ctx->a, 16);
-                #endif
+
+                ZMCRYPTO_OUTPUT("B_[n]: ", ctx->b, 16);
+                ZMCRYPTO_OUTPUT("BX_[n]: ", ctx->bx, 16);
+                ZMCRYPTO_OUTPUT("X_[n]: ", ctx->x, 16);
+                ZMCRYPTO_OUTPUT("A_[n]: ", ctx->a, 16);
             }
         }
 
-        if (ctx->current_aadlen == ctx->aadlen && ctx->b_len < 16)
+        if (ctx->current_aadlen == ctx->aadlen && (ctx->b_len > 0 && ctx->b_len < 16))
         {
             for (uint32_t i = ctx->b_len; i < 16; i++)
             {
@@ -389,21 +396,24 @@
                 #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
                     ctx->b[ctx->b_len] = 0;
                 #endif
+
                 ctx->b_len++;
+                ctx->current_aadlen++;
                 
                 if (ctx->b_len == 16){
+
                     ctx->b_len = 0;
                     ctx->cipher_enc_block(ctx->cipher_ctx, ctx->bx, ctx->x);
-                    #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
-                        ZMCRYPTO_OUTPUT("B_[n]: ", ctx->b, 16);
-                        ZMCRYPTO_OUTPUT("Bx_[n]: ", ctx->bx, 16);
-                        ZMCRYPTO_OUTPUT("X_[n]: ", ctx->x, 16);
-                        ZMCRYPTO_OUTPUT("A_[n]: ", ctx->a, 16);
-                    #endif
+
+                    ZMCRYPTO_OUTPUT("B_[n]: ", ctx->b, 16);
+                    ZMCRYPTO_OUTPUT("Bx_[n]: ", ctx->bx, 16);
+                    ZMCRYPTO_OUTPUT("X_[n]: ", ctx->x, 16);
+                    ZMCRYPTO_OUTPUT("A_[n]: ", ctx->a, 16);
                 }
             }
         }
 
+        ZMCRYPTO_LOG("successed");
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 
@@ -417,21 +427,33 @@
     */
     zmerror ccm_update_data (struct ccm_ctx *ctx, uint8_t *data, uint32_t dlen, uint8_t *output)
     {
-        ZMCRYPTO_LOG("");
+        ZMCRYPTO_LOG("begin");
         if (ctx->current_datalen + dlen > ctx->dlen)
         {
+            ZMCRYPTO_LOG("failed");
             return ZMCRYPTO_ERR_INVALID_DATA;
+        }
+
+        if (dlen == 0)
+        {
+            ZMCRYPTO_LOG("successed");
+            return ZMCRYPTO_ERR_SUCCESSED;
         }
 
         if (ctx->current_datalen == 0)
         {
-            ctx->b_len = 0;
+            if (ctx->current_aadlen == 0)
+            {
+                ctx->b_len = 0;
+                ctx->cipher_enc_block(ctx->cipher_ctx, ctx->bx, ctx->x); 
+                ZMCRYPTO_OUTPUT("X_1: ", ctx->x, 16);
+            }
 
             CCM_DO_UPATE_CTR;
             ctx->cipher_enc_block(ctx->cipher_ctx, ctx->a, ctx->s); 
+
             ZMCRYPTO_OUTPUT("A_[n]: ", ctx->a, 16);
             ZMCRYPTO_OUTPUT("S_[n]: ", ctx->s, 16);
-            ZMCRYPTO_OUTPUT("X_[n]: ", ctx->x, 16);
         }
 
         for (uint32_t i = 0; i < dlen; i++)
@@ -445,6 +467,7 @@
             #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
                 ctx->b[ctx->b_len] = data[i];
             #endif
+
             ctx->b_len++;
             ctx->current_datalen++;
 
@@ -452,16 +475,15 @@
 
                 CCM_DO_UPATE_CTR;
                 ctx->cipher_enc_block(ctx->cipher_ctx, ctx->a, ctx->s); 
-                //ZMCRYPTO_OUTPUT("A_[n]: ", ctx->a, 16);
-                //ZMCRYPTO_OUTPUT("S_[n]: ", ctx->s, 16);
-                //ZMCRYPTO_OUTPUT("B_[n]: ", ctx->b, 16);
+
+                ZMCRYPTO_OUTPUT("A_[n]: ", ctx->a, 16);
+                ZMCRYPTO_OUTPUT("S_[n]: ", ctx->s, 16);
 
                 ctx->b_len = 0;
                 ctx->cipher_enc_block(ctx->cipher_ctx, ctx->bx, ctx->x);
-                #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
-                    //ZMCRYPTO_OUTPUT("BX_[n]: ", ctx->bx, 16);
-                    //ZMCRYPTO_OUTPUT("X_[n]: ", ctx->x, 16);
-                #endif
+
+                ZMCRYPTO_OUTPUT("BX_[n]: ", ctx->bx, 16);
+                ZMCRYPTO_OUTPUT("X_[n]: ", ctx->x, 16);
             }
         }
 
@@ -474,49 +496,58 @@
                 #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
                     ctx->b[ctx->b_len] = 0;
                 #endif
+
                 ctx->b_len++;
+                ctx->current_datalen++;
                 
                 if (ctx->b_len == 16){
+                    ctx->b_len = 0;
                     ctx->cipher_enc_block(ctx->cipher_ctx, ctx->bx, ctx->x);
+
                     ZMCRYPTO_OUTPUT("B_[n]: ", ctx->b, 16);
+                    ZMCRYPTO_OUTPUT("BX_[n]: ", ctx->bx, 16);
 
                     /*
-                    //CCM_DO_UPATE_CTR;
-                    //ctx->cipher_enc_block(ctx->cipher_ctx, ctx->a, ctx->s); 
-                    //ZMCRYPTO_OUTPUT("xA_[n]: ", ctx->a, 16);
-                    //ZMCRYPTO_OUTPUT("xS_[n]: ", ctx->s, 16);
+                    // CCM_DO_UPATE_CTR;
+                    // ctx->cipher_enc_block(ctx->cipher_ctx, ctx->a, ctx->s); 
+                    // ZMCRYPTO_OUTPUT("xA_[n]: ", ctx->a, 16);
+                    // ZMCRYPTO_OUTPUT("xS_[n]: ", ctx->s, 16);
                     */
-
-                    ctx->b_len = 0;
                 }
             }
         }
 
-        if (ctx->current_datalen == ctx->dlen)
-        {
-            ZMCRYPTO_OUTPUT("MAC: ", ctx->x, ctx->taglen);
-        }
+        #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
+            if (ctx->current_datalen == ctx->dlen)
+            {
+                ZMCRYPTO_OUTPUT("MAC: ", ctx->x, ctx->taglen);
+            }
+        #endif
 
+        ZMCRYPTO_LOG("successed");
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 
     zmerror ccm_final (struct ccm_ctx *ctx, uint8_t *tag)
     {
-        ZMCRYPTO_LOG("");
+        ZMCRYPTO_LOG("begin");
         uint32_t a_len = 0;
         ctx->a[a_len++] = ctx->L - 1;
         a_len += ctx->noncelen;
         for (uint32_t i = ctx->noncelen + 1/*flag*/; i < 16; i++) 
             { ctx->a[a_len++] = 0; }
-        ZMCRYPTO_OUTPUT("A_0: ", ctx->a, 16);
 
         ctx->cipher_enc_block(ctx->cipher_ctx, ctx->a, ctx->s); 
+
+        ZMCRYPTO_OUTPUT("A_0: ", ctx->a, 16);
         ZMCRYPTO_OUTPUT("S_0: ", ctx->s, 16);
 
         for (uint32_t i = 0; i < ctx->taglen; i++)
         {
             tag[i] = ctx->x[i] ^ ctx->s[i];
         }
+
+        ZMCRYPTO_LOG("successed");
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 
