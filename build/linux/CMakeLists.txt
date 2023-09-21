@@ -49,6 +49,7 @@ add_library(
 	../../src/gcm.c
 	../../src/pbkdf2.c
 	../../src/rc4.c
+	../../src/salsa20.c
 	../../src/mem.c
 	../../src/dlmain.c
 	../../src/debug.c
@@ -65,8 +66,8 @@ link_directories(
 )
 
 add_definitions(
-	-DTEST_FOR_CRYPTOPP
-	-DNOT_DETECT_MEM_LEAK_FOR_CRYPTOPP
+	#-DTEST_FOR_CRYPTOPP
+	#-DNOT_DETECT_MEM_LEAK_FOR_CRYPTOPP
 )
 
 add_executable(
@@ -99,5 +100,5 @@ add_executable(
 
 target_link_libraries (test LINK_PUBLIC 
 	dl
-	cryptopp #Crypto++ Library
+	#cryptopp #Crypto++ Library
 )

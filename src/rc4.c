@@ -45,7 +45,7 @@
             zmcrypto_memset(ctx, 0, sizeof(struct rc4_ctx));
         }
 
-        zmerror rc4_set_key(
+        zmerror rc4_set_ekey(
             struct rc4_ctx* ctx, 
             uint8_t* key, 
             uint32_t ksize
@@ -80,7 +80,16 @@
             return ZMCRYPTO_ERR_SUCCESSED;
         }
 
-        zmerror rc4_encrypt(
+        zmerror rc4_set_dkey(
+            struct rc4_ctx* ctx, 
+            uint8_t* key, 
+            uint32_t ksize
+        )
+        {
+            return rc4_set_ekey(ctx, key, ksize);
+        }
+
+        void rc4_encrypt(
             struct rc4_ctx* ctx,
             uint8_t* input, 
             uint32_t ilen, 
@@ -108,7 +117,16 @@
 
             ctx->x = x;
             ctx->y = y;
-            return ZMCRYPTO_ERR_SUCCESSED;
+        }
+
+        void rc4_decrypt(
+            struct rc4_ctx* ctx,
+            uint8_t* input, 
+            uint32_t ilen, 
+            uint8_t* output
+        )
+        {
+            rc4_encrypt(ctx, input, ilen, output);
         }
 
 #endif /* ZMCRYPTO_ALGO_RC4 */

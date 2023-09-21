@@ -52,31 +52,33 @@ namespace{
     #endif
 }
 
- template <class T_BlockCipher, bool T_IsEncryption>
- class CCM_Final2 : public CCM_Base
- {
- public:
-     static std::string StaticAlgorithmName()
-         {return T_BlockCipher::StaticAlgorithmName() + std::string("/CCM");}
-     bool IsForwardTransformation() const
-         {return T_IsEncryption;}
+#if defined TEST_FOR_CRYPTOPP
+     template <class T_BlockCipher, bool T_IsEncryption>
+     class CCM_Final2 : public CCM_Base
+     {
+     public:
+         static std::string StaticAlgorithmName()
+             {return T_BlockCipher::StaticAlgorithmName() + std::string("/CCM");}
+         bool IsForwardTransformation() const
+             {return T_IsEncryption;}
 
-    void SetDigestSize(int n){
-        m_digestSize = n;
-    }
+        void SetDigestSize(int n){
+            m_digestSize = n;
+        }
   
- private:
-     BlockCipher & AccessBlockCipher() {return m_cipher;}
-     int DefaultDigestSize() const {return m_digestSize;}
-     typename T_BlockCipher::Encryption m_cipher;
- };
+     private:
+         BlockCipher & AccessBlockCipher() {return m_cipher;}
+         int DefaultDigestSize() const {return m_digestSize;}
+         typename T_BlockCipher::Encryption m_cipher;
+     };
 
-template <class T_BlockCipher>
-struct CCM2 : public AuthenticatedSymmetricCipherDocumentation
-{
-    typedef CCM_Final2<T_BlockCipher, true> Encryption;
-    typedef CCM_Final2<T_BlockCipher, false> Decryption;
-};
+    template <class T_BlockCipher>
+    struct CCM2 : public AuthenticatedSymmetricCipherDocumentation
+    {
+        typedef CCM_Final2<T_BlockCipher, true> Encryption;
+        typedef CCM_Final2<T_BlockCipher, false> Decryption;
+    };
+#endif
 
 void test_case_ccm(zmcrypto::sdk* _sdk)
 {
@@ -169,14 +171,6 @@ void test_case_ccm(zmcrypto::sdk* _sdk)
                 }
                 else{
                     format_output("%s decryption by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
-
-                    for (int k = 0; k < ciphertext.size(); k++){
-                        printf ("%02x ", output[i]);
-                    }   printf ("\n");
-
-                    for (int k = 0; k < tag.size(); k++){
-                        printf ("%02x ", tag2[i]);
-                    }   printf ("\n");
                 }
 
                 delete[] output; output = NULL;

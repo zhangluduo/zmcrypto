@@ -38,6 +38,8 @@
 #include "ofb.h"
 #include "ctr.h"
 #include "blockpad.h"
+#include "rc4.h"
+#include "salsa20.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -472,6 +474,43 @@ extern "C" {
             return _pfn_##name##_final(ctx, output);\
         }
 
+    #define STREAMCIPHER_FUNCTION_IMPL(name)\
+        pfn_##name##_ksize_min        _pfn_##name##_ksize_min      = name##_ksize_min      ;\
+        pfn_##name##_ksize_max        _pfn_##name##_ksize_max      = name##_ksize_max      ;\
+        pfn_##name##_ksize_multiple   _pfn_##name##_ksize_multiple = name##_ksize_multiple ;\
+        pfn_##name##_new              _pfn_##name##_new            = name##_new            ;\
+        pfn_##name##_free             _pfn_##name##_free           = name##_free           ;\
+        pfn_##name##_init             _pfn_##name##_init           = name##_init           ;\
+        pfn_##name##_set_ekey         _pfn_##name##_set_ekey       = name##_set_ekey       ;\
+        pfn_##name##_set_dkey         _pfn_##name##_set_dkey       = name##_set_dkey       ;\
+        pfn_##name##_encrypt          _pfn_##name##_encrypt        = name##_encrypt        ;\
+        pfn_##name##_decrypt          _pfn_##name##_decrypt        = name##_decrypt        ;\
+\
+        int32_t zm_##name##_ksize_min (void) \
+            { return _pfn_##name##_ksize_min(); }\
+        int32_t zm_##name##_ksize_max (void) \
+            { return _pfn_##name##_ksize_max(); }\
+        int32_t zm_##name##_ksize_multiple (void) \
+            { return _pfn_##name##_ksize_multiple(); }\
+        CONTEXT_TYPE_PTR(name) zm_##name##_new (void) \
+            { return _pfn_##name##_new(); }\
+        void zm_##name##_free (CONTEXT_TYPE_PTR(name) ctx) \
+            { _pfn_##name##_free(ctx); }\
+        void zm_##name##_init (CONTEXT_TYPE_PTR(name) ctx) \
+            { _pfn_##name##_init(ctx); }\
+        zmerror zm_##name##_set_ekey(CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t ksize) \
+            { return _pfn_##name##_set_ekey(ctx, key, ksize); }\
+        zmerror zm_##name##_set_dkey(CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t ksize) \
+            { return _pfn_##name##_set_dkey(ctx, key, ksize); }\
+        void zm_##name##_encrypt(CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output) \
+            { _pfn_##name##_encrypt(ctx, input, ilen, output); }\
+        void zm_##name##_decrypt(CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output) \
+            { _pfn_##name##_decrypt(ctx, input, ilen, output); }
+
+    #define STREAMCIPHER_WITH_IV_FUNCTION_IMPL(name)\
+        pfn_##name##_set_iv _pfn_##name##_set_iv = name##_set_iv;\
+        void zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv) { _pfn_##name##_set_iv(ctx, iv); }
+
     #if defined ZMCRYPTO_ALGO_CCM
         AEAD_FUNCTION_IMPL(ccm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, CCM_STARTS_PARAM, CCM_STARTS_ARGS)
     #endif
@@ -556,6 +595,15 @@ extern "C" {
     
     #if defined ZMCRYPTO_ALGO_CTR
         CIPHER_MODE_WITH_IV_FUNCTION_IMPL(ctr, CIPHER_MODE_INIT_PARAM_2, CIPHER_MODE_INIT_ARGS_2)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_RC4
+        STREAMCIPHER_FUNCTION_IMPL(rc4)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_SALSA20
+        STREAMCIPHER_FUNCTION_IMPL(salsa20)
+        STREAMCIPHER_WITH_IV_FUNCTION_IMPL(salsa20)
     #endif
 
     uint32_t zm_strlen(const char* s)

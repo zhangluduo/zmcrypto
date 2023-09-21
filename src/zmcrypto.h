@@ -187,6 +187,36 @@ extern "C" {
         typedef void (*pfn_##name##_dec_block)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* ciphertext, uint8_t* plaintext);
 
     /**
+     * Stream cipher functions
+     */
+
+    #define STREAMCIPHER_FUNCTION_DECLARA(name)\
+        int32_t zm_##name##_ksize_min (void);\
+        int32_t zm_##name##_ksize_max (void);\
+        int32_t zm_##name##_ksize_multiple (void);\
+        CONTEXT_TYPE_PTR(name) zm_##name##_new (void);\
+        void zm_##name##_free (CONTEXT_TYPE_PTR(name) ctx);\
+        void zm_##name##_init (CONTEXT_TYPE_PTR(name) ctx);\
+        zmerror zm_##name##_set_ekey(CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t ksize);\
+        zmerror zm_##name##_set_dkey(CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t ksize);\
+        void zm_##name##_encrypt(CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output);\
+        void zm_##name##_decrypt(CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output);\
+        typedef int32_t (*pfn_##name##_ksize_min) (void);\
+        typedef int32_t (*pfn_##name##_ksize_max) (void);\
+        typedef int32_t (*pfn_##name##_ksize_multiple) (void);\
+        typedef CONTEXT_TYPE_PTR(name) (*pfn_##name##_new) (void);\
+        typedef void (*pfn_##name##_free )(CONTEXT_TYPE_PTR(name) ctx);\
+        typedef void (*pfn_##name##_init )(CONTEXT_TYPE_PTR(name) ctx);\
+        typedef zmerror (*pfn_##name##_set_ekey)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t ksize);\
+        typedef zmerror (*pfn_##name##_set_dkey)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t ksize);\
+        typedef void (*pfn_##name##_encrypt)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output);\
+        typedef void (*pfn_##name##_decrypt)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output);
+
+    #define STREAMCIPHER_WITH_IV_FUNCTION_DECLARA(name)\
+        void zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv);\
+        typedef void (*pfn_##name##_set_iv)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv);
+
+    /**
      * MAC function
      */
 
@@ -461,6 +491,15 @@ extern "C" {
     #if defined ZMCRYPTO_ALGO_CTR
         CIPHER_MODE_WITH_IV_FUNCTION_DECLARA(ctr, CIPHER_MODE_INIT_PARAM_2)
         CIPHER_MODE_WITH_IV_FUNCTION_DECLARA_2(ctr, CIPHER_MODE_INIT_PARAM_2)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_RC4
+        STREAMCIPHER_FUNCTION_DECLARA(rc4)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_SALSA20
+        STREAMCIPHER_FUNCTION_DECLARA(salsa20)
+        STREAMCIPHER_WITH_IV_FUNCTION_DECLARA(salsa20)
     #endif
 
 #ifdef __cplusplus

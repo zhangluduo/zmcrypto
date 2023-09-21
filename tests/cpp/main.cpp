@@ -65,7 +65,7 @@ int main()
     // print_env();
 
     zmcrypto::sdk _sdk;
-
+test_case_ccm(&_sdk);
 test_case_blowfish_ecb(&_sdk);
 test_case_blowfish_cbc(&_sdk);
 test_case_blowfish_cfb(&_sdk);

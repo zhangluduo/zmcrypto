@@ -55,22 +55,31 @@ extern "C" {
             struct rc4_ctx* ctx
         );
 
-        zmerror rc4_set_key(
+        zmerror rc4_set_ekey(
             struct rc4_ctx* ctx, 
             uint8_t* key, 
             uint32_t ksize
         );
 
-        zmerror rc4_encrypt(
+        zmerror rc4_set_dkey(
+            struct rc4_ctx* ctx, 
+            uint8_t* key, 
+            uint32_t ksize
+        );
+
+        void rc4_encrypt(
             struct rc4_ctx* ctx,
             uint8_t* input, 
             uint32_t ilen, 
             uint8_t* output
         );
 
-        #if !defined rc4_decrypt
-        #   define rc4_decrypt rc4_encrypt
-        #endif
+        void rc4_decrypt(
+            struct rc4_ctx* ctx,
+            uint8_t* input, 
+            uint32_t ilen, 
+            uint8_t* output
+        );
 
     #endif
 
