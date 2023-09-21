@@ -213,8 +213,8 @@ extern "C" {
         typedef void (*pfn_##name##_decrypt)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output);
 
     #define STREAMCIPHER_WITH_IV_FUNCTION_DECLARA(name)\
-        void zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv);\
-        typedef void (*pfn_##name##_set_iv)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv);
+        zmerror zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv, uint32_t ivsize);\
+        typedef zmerror (*pfn_##name##_set_iv)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv, uint32_t ivsize);
 
     /**
      * MAC function

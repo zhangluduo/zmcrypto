@@ -509,7 +509,7 @@ extern "C" {
 
     #define STREAMCIPHER_WITH_IV_FUNCTION_IMPL(name)\
         pfn_##name##_set_iv _pfn_##name##_set_iv = name##_set_iv;\
-        void zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv) { _pfn_##name##_set_iv(ctx, iv); }
+        zmerror zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv, uint32_t ivsize) { return _pfn_##name##_set_iv(ctx, iv, ivsize); }
 
     #if defined ZMCRYPTO_ALGO_CCM
         AEAD_FUNCTION_IMPL(ccm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, CCM_STARTS_PARAM, CCM_STARTS_ARGS)

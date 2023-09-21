@@ -26,7 +26,10 @@ extern "C" {
     #if defined ZMCRYPTO_ALGO_SALSA20
         struct salsa20_ctx
         {
-int n;
+            int n;
+            uint32_t state[16];
+            uint8_t buffer[64];
+            uint32_t position;
         } ;
 
         int32_t salsa20_ksize_min (
@@ -65,9 +68,10 @@ int n;
             uint32_t ksize
         );
 
-        void salsa20_set_iv(
+        zmerror salsa20_set_iv(
             struct salsa20_ctx* ctx, 
-            uint8_t* iv
+            uint8_t* iv,
+            uint32_t ivsize
         );
 
         void salsa20_encrypt(

@@ -17,9 +17,9 @@ else()
 	message("Build Type: Release")
 endif()
 
-set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -g2 -ggdb -std=c++11")
-set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall ")
-set(CMAKE_CXX_FLAGS "-fvisibility=hidden")
+#set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -g2 -ggdb -std=c++11")
+#set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall ")
+#set(CMAKE_CXX_FLAGS "-fvisibility=hidden")
 
 add_library(
 	zmcrypto

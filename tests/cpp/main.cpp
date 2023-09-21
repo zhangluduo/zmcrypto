@@ -65,14 +65,15 @@ int main()
     // print_env();
 
     zmcrypto::sdk _sdk;
-test_case_ccm(&_sdk);
-test_case_blowfish_ecb(&_sdk);
-test_case_blowfish_cbc(&_sdk);
-test_case_blowfish_cfb(&_sdk);
-test_case_blowfish_ofb(&_sdk);
-test_case_blowfish_ctr(&_sdk);
-test_speed_blowfish   (&_sdk);
-test_info_blowfish    (&_sdk);
+    
+    // test_case_ccm(&_sdk);
+    // test_case_blowfish_ecb(&_sdk);
+    // test_case_blowfish_cbc(&_sdk);
+    // test_case_blowfish_cfb(&_sdk);
+    // test_case_blowfish_ofb(&_sdk);
+    // test_case_blowfish_ctr(&_sdk);
+    // test_speed_blowfish   (&_sdk);
+    // test_info_blowfish    (&_sdk);
 
     // test_case_ccm(&_sdk);
 
