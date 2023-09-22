@@ -643,6 +643,112 @@ namespace zmcrypto
             return ZMCRYPTO_ERR_NULL_PTR;\
         }
 
+    #define STREAMCIPHER_POINTER_DECLARA(name)\
+        pfn_##name##_ksize_min        _pfn_##name##_ksize_min      = NULL; \
+        pfn_##name##_ksize_max        _pfn_##name##_ksize_max      = NULL; \
+        pfn_##name##_ksize_multiple   _pfn_##name##_ksize_multiple = NULL; \
+        pfn_##name##_new              _pfn_##name##_new            = NULL; \
+        pfn_##name##_free             _pfn_##name##_free           = NULL; \
+        pfn_##name##_init             _pfn_##name##_init           = NULL; \
+        pfn_##name##_set_ekey         _pfn_##name##_set_ekey       = NULL; \
+        pfn_##name##_set_dkey         _pfn_##name##_set_dkey       = NULL; \
+        pfn_##name##_encrypt          _pfn_##name##_encrypt        = NULL; \
+        pfn_##name##_decrypt          _pfn_##name##_decrypt        = NULL; \
+
+    #define STREAMCIPHER_WITH_IV_POINTER_DECLARA(name)\
+        pfn_##name##_set_iv           _pfn_##name##_set_iv         = NULL;
+
+    #define STREAMCIPHER_POINTER_LOAD(name)\
+        _pfn_##name##_ksize_min      = (pfn_##name##_ksize_min     )GetProcAddress(m_modulehandle, "zm_" #name "_ksize_min"     ); \
+        _pfn_##name##_ksize_max      = (pfn_##name##_ksize_max     )GetProcAddress(m_modulehandle, "zm_" #name "_ksize_max"     ); \
+        _pfn_##name##_ksize_multiple = (pfn_##name##_ksize_multiple)GetProcAddress(m_modulehandle, "zm_" #name "_ksize_multiple"); \
+        _pfn_##name##_new            = (pfn_##name##_new           )GetProcAddress(m_modulehandle, "zm_" #name "_new"           ); \
+        _pfn_##name##_free           = (pfn_##name##_free          )GetProcAddress(m_modulehandle, "zm_" #name "_free"          ); \
+        _pfn_##name##_init           = (pfn_##name##_init          )GetProcAddress(m_modulehandle, "zm_" #name "_init"          ); \
+        _pfn_##name##_set_ekey       = (pfn_##name##_set_ekey      )GetProcAddress(m_modulehandle, "zm_" #name "_set_ekey"      ); \
+        _pfn_##name##_set_dkey       = (pfn_##name##_set_dkey      )GetProcAddress(m_modulehandle, "zm_" #name "_set_dkey"      ); \
+        _pfn_##name##_encrypt        = (pfn_##name##_encrypt       )GetProcAddress(m_modulehandle, "zm_" #name "_encrypt"       ); \
+        _pfn_##name##_decrypt        = (pfn_##name##_decrypt       )GetProcAddress(m_modulehandle, "zm_" #name "_decrypt"       ); \
+
+    #define STREAMCIPHER_WITH_IV_POINTER_LOAD(name)\
+        _pfn_##name##_set_iv         = (pfn_##name##_set_iv        )GetProcAddress(m_modulehandle, "zm_" #name "_set_iv"        );
+
+    #define STREAMCIPHER_POINTER_IMPL(name)\
+        int32_t sdk::zm_##name##_ksize_min (void)\
+        {\
+            if (_pfn_##name##_ksize_min){\
+                return _pfn_##name##_ksize_min();\
+            }\
+            return ZMCRYPTO_ERR_NULL_PTR;\
+        }\
+        int32_t sdk::zm_##name##_ksize_max (void)\
+        {\
+            if (_pfn_##name##_ksize_max){\
+                return _pfn_##name##_ksize_max();\
+            }\
+            return ZMCRYPTO_ERR_NULL_PTR;\
+        }\
+        int32_t sdk::zm_##name##_ksize_multiple (void)\
+        {\
+            if (_pfn_##name##_ksize_multiple){\
+                return _pfn_##name##_ksize_multiple();\
+            }\
+            return ZMCRYPTO_ERR_NULL_PTR;\
+        }\
+        CONTEXT_TYPE_PTR(name) sdk::zm_##name##_new (void)\
+        {\
+            if (_pfn_##name##_new){\
+                return _pfn_##name##_new();\
+            }\
+            return NULL;\
+        }\
+        void sdk::zm_##name##_free (CONTEXT_TYPE_PTR(name) ctx)\
+        {\
+            if (_pfn_##name##_free){\
+                _pfn_##name##_free(ctx);\
+            }\
+        }\
+        void sdk::zm_##name##_init (CONTEXT_TYPE_PTR(name) ctx)\
+        {\
+            if (_pfn_##name##_init){\
+                _pfn_##name##_init(ctx);\
+            }\
+        }\
+        zmerror sdk::zm_##name##_set_ekey(CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t ksize)\
+        {\
+            if (_pfn_##name##_set_ekey){\
+                return _pfn_##name##_set_ekey(ctx, key, ksize);\
+            }\
+            return ZMCRYPTO_ERR_NULL_PTR;\
+        }\
+        zmerror sdk::zm_##name##_set_dkey(CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t ksize)\
+        {\
+            if (_pfn_##name##_set_dkey){\
+                return _pfn_##name##_set_dkey(ctx, key, ksize);\
+            }\
+            return ZMCRYPTO_ERR_NULL_PTR;\
+        }\
+        void sdk::zm_##name##_encrypt(CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output)\
+        {\
+            if (_pfn_##name##_encrypt){\
+                _pfn_##name##_encrypt(ctx, input, ilen, output);\
+            }\
+        }\
+        void sdk::zm_##name##_decrypt(CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output)\
+        {\
+            if (_pfn_##name##_decrypt){\
+                _pfn_##name##_decrypt(ctx, input, ilen, output);\
+            }\
+        }\
+
+    #define STREAMCIPHER_WITH_IV_POINTER_IMPL(name)\
+        zmerror sdk::zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv, uint32_t ivsize){\
+            if (_pfn_##name##_set_dkey){\
+                return _pfn_##name##_set_iv(ctx, iv, ivsize);\
+            }\
+            return ZMCRYPTO_ERR_NULL_PTR;\
+        }
+
     #if defined ZMCRYPTO_ALGO_BASE64
         BINTXT_POINTER_DECLARA(base64)
         BINTXT_POINTER_IMPL(base64)
@@ -731,6 +837,18 @@ namespace zmcrypto
     #if defined ZMCRYPTO_ALGO_GCM
         ADAE_POINTER_DECLARA(gcm)
         AEAD_POINTER_IMPL(gcm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, GCM_STARTS_PARAM, GCM_STARTS_ARGS)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_RC4
+        STREAMCIPHER_POINTER_DECLARA(rc4)
+        STREAMCIPHER_POINTER_IMPL(rc4)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_SALSA20
+        STREAMCIPHER_POINTER_DECLARA(salsa20)
+        STREAMCIPHER_WITH_IV_POINTER_DECLARA(salsa20)
+        STREAMCIPHER_POINTER_IMPL(salsa20)
+        STREAMCIPHER_WITH_IV_POINTER_IMPL(salsa20)
     #endif
 
 #if defined __linux__
@@ -878,6 +996,15 @@ namespace zmcrypto
 
         #if defined ZMCRYPTO_ALGO_GCM
             AEAD_POINTER_LOAD(gcm)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_RC4
+            STREAMCIPHER_POINTER_LOAD(rc4)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_SALSA20
+            STREAMCIPHER_POINTER_LOAD(salsa20)
+            STREAMCIPHER_WITH_IV_POINTER_LOAD(salsa20)
         #endif
     }
 

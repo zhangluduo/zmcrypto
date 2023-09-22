@@ -70,7 +70,7 @@ typedef int32_t zmerror;
 #define ZMCRYPTO_MAX_DIGESTSIZE  (128)
 #define ZMCRYPTO_MAX_STRLEN  (1048576)
 
-#define ZMCRYPTO_DEBUG 0
+#define ZMCRYPTO_DEBUG 1
 
 /* for VC++ 6.0 workaround */
 #if defined _WIN32

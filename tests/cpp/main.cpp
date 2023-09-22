@@ -59,12 +59,38 @@ void print_env(){
    format_output(".|completed\n");
 }
 
+void test(zmcrypto::sdk* _sdk){
+    uint8_t key[] = {0,1,2,3,4,5,6};
+    uint8_t pt[] = {0,1,2,3,4,5,6};
+    uint8_t ct[7];
+    CONTEXT_TYPE_PTR(rc4) ctx = _sdk->zm_rc4_new();
+    _sdk->zm_rc4_init(ctx);
+    _sdk->zm_rc4_set_ekey(ctx, key, sizeof(key));
+    _sdk->zm_rc4_encrypt(ctx, pt, sizeof(pt), ct);
+    _sdk->zm_rc4_free(ctx);
+}
+
+void test2(zmcrypto::sdk* _sdk){
+    uint8_t key[] = {0,1,2,3,4,5,6};
+    uint8_t pt[] = {0,1,2,3,4,5,6};
+    uint8_t ct[] = {0,1,2,3,4,5,6};
+    CONTEXT_TYPE_PTR(salsa20) ctx = _sdk->zm_salsa20_new();
+    _sdk->zm_salsa20_init(ctx);
+    _sdk->zm_salsa20_set_ekey(ctx, key, sizeof(key));
+    _sdk->zm_salsa20_set_iv(ctx, key, sizeof(key));
+    _sdk->zm_salsa20_encrypt(ctx, pt, sizeof(pt), ct);
+    _sdk->zm_salsa20_free(ctx);
+}
+
 int main()
 {
     // srand(time(NULL));
     // print_env();
 
     zmcrypto::sdk _sdk;
+    test(&_sdk);
+    test2(&_sdk);
+    return 0;
     
     // test_case_ccm(&_sdk);
     // test_case_blowfish_ecb(&_sdk);

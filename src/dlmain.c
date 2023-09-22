@@ -52,8 +52,8 @@
        switch (dwReason)
         {
             case DLL_PROCESS_ATTACH:
-            ZMCRYPTO_LOG("");
-            zmcrypto_printf("~!@# [%d]\n", 1234);
+                ZMCRYPTO_LOG("");
+                zmcrypto_printf("~!@# [%d]\n", 1234);
                 break;
             case DLL_PROCESS_DETACH:
                 break;

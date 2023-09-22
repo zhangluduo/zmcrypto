@@ -8,7 +8,6 @@
 #else
     #define TEST_VECTOR_PATH "../vectors/"
 #endif
-    
 
     #if !defined TEST_TOTAL_SEC
     #define TEST_TOTAL_SEC (3)
