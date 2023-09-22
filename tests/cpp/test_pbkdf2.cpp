@@ -63,8 +63,9 @@ void test_case_pbkdf2(zmcrypto::sdk* _sdk)
     }
 
     for (size_t i = 0; i < test_vec.size(); i++){
-        std::string algorithm, password, salt, iterations, derived_key, derived_len;
-
+        std::string algorithm, password, salt, iterations, derived_key, derived_len, comment;
+        if (!get_key_val_pair(test_vec, i, "comment", comment)){
+        }
         if (!get_key_val_pair(test_vec, i, "algorithm", algorithm)){
             printf("get key-value pair failed: algorithm\n");
             return;
@@ -112,10 +113,10 @@ void test_case_pbkdf2(zmcrypto::sdk* _sdk)
             }
 
             if (atoi(derived_len.c_str()) == derived_key.length() && derived_key == std::string((char*)dk2, atoi(derived_len.c_str()))){
-                format_output("%s by ZmCrypto|passed\n", algorithm.c_str());
+                format_output("%s by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s by ZmCrypto|failed\n", algorithm.c_str());
+                format_output("%s by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] dk2;
@@ -140,10 +141,10 @@ void test_case_pbkdf2(zmcrypto::sdk* _sdk)
                     atoi(iterations.c_str()));
 
                 if (atoi(derived_len.c_str()) == derived_key.length() && derived_key == std::string((char*)dk2, atoi(derived_len.c_str()))){
-                    format_output("%s by Crypto++|passed\n", algorithm.c_str());
+                    format_output("%s by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
                 }
                 else{
-                    format_output("%s by Crypto++|failed\n", algorithm.c_str());
+                    format_output("%s by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
                 }
 
                 delete[] dk2;
@@ -164,10 +165,10 @@ void test_case_pbkdf2(zmcrypto::sdk* _sdk)
                     atoi(iterations.c_str()));
 
                 if (atoi(derived_len.c_str()) == derived_key.length() && derived_key == std::string((char*)dk2, atoi(derived_len.c_str()))){
-                    format_output("%s by Crypto++|passed\n", algorithm.c_str());
+                    format_output("%s by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
                 }
                 else{
-                    format_output("%s by Crypto++|failed\n", algorithm.c_str());
+                    format_output("%s by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
                 }
 
                 delete[] dk2;

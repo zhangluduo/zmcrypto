@@ -56,7 +56,9 @@ void test_case_aes_ecb(zmcrypto::sdk* _sdk)
     }
 
     for (size_t i = 0; i < test_vec.size(); i++){
-        std::string algorithm, key, iv, plaintext, ciphertext, repeat;
+        std::string algorithm, key, iv, plaintext, ciphertext, repeat, comment;
+        if (!get_key_val_pair(test_vec, i, "comment", comment)){
+        }
         if (!get_key_val_pair(test_vec, i, "algorithm", algorithm)){
             printf("get key-value pair failed: algorithm\n");
             return;
@@ -143,10 +145,10 @@ void test_case_aes_ecb(zmcrypto::sdk* _sdk)
             _sdk->zm_ecb_free (ctx);
 
             if (ciphertext == std::string((char*)output, ciphertext.length())){
-                format_output("%s encryption by ZmCrypto|passed\n", algorithm.c_str());
+                format_output("%s encryption by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s encryption by ZmCrypto|failed\n", algorithm.c_str());
+                format_output("%s encryption by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output;
@@ -203,10 +205,10 @@ void test_case_aes_ecb(zmcrypto::sdk* _sdk)
             _sdk->zm_ecb_free (ctx);
 
             if (memcmp(pt, output, ciphertext.length()) == 0){
-                format_output("%s decryption by ZmCrypto|passed\n", algorithm.c_str());
+                format_output("%s decryption by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s decryption by ZmCrypto|failed\n", algorithm.c_str());
+                format_output("%s decryption by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
             }
             delete[] pt; pt = NULL;
             delete[] output; output = NULL;
@@ -253,10 +255,10 @@ void test_case_aes_ecb(zmcrypto::sdk* _sdk)
             }
 
             if (ciphertext == std::string((char*)output, ciphertext.length())){
-                format_output("%s encryption by Crypto++|passed\n", algorithm.c_str());
+                format_output("%s encryption by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s encryption by Crypto++|failed\n", algorithm.c_str());
+                format_output("%s encryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output; output = NULL;
@@ -295,10 +297,10 @@ void test_case_aes_ecb(zmcrypto::sdk* _sdk)
             pCipherMode->ProcessData(output, (CryptoPP::byte*)(ciphertext.c_str()), (uint32_t) (ciphertext.length()));
 
             if (memcmp(pt, output, ciphertext.length()) == 0){
-                format_output("%s decryption by Crypto++|passed\n", algorithm.c_str());
+                format_output("%s decryption by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s decryption by Crypto++|failed\n", algorithm.c_str());
+                format_output("%s decryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output; output = NULL;
@@ -321,7 +323,9 @@ void test_case_aes_cbc(zmcrypto::sdk* _sdk)
     }
 
     for (size_t i = 0; i < test_vec.size(); i++){
-        std::string algorithm, key, iv, plaintext, ciphertext, repeat;
+        std::string algorithm, key, iv, plaintext, ciphertext, repeat, comment;
+        if (!get_key_val_pair(test_vec, i, "comment", comment)){
+        }
         if (!get_key_val_pair(test_vec, i, "algorithm", algorithm)){
             printf("get key-value pair failed\n");
             return;
@@ -413,10 +417,10 @@ void test_case_aes_cbc(zmcrypto::sdk* _sdk)
             _sdk->zm_cbc_free (ctx);
 
             if (ciphertext == std::string((char*)output, ciphertext.length())){
-                format_output("%s encryption by ZmCrypto|passed\n", algorithm.c_str());
+                format_output("%s encryption by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s encryption by ZmCrypto|failed\n", algorithm.c_str());
+                format_output("%s encryption by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output;
@@ -478,10 +482,10 @@ void test_case_aes_cbc(zmcrypto::sdk* _sdk)
             _sdk->zm_cbc_free (ctx);
 
             if (memcmp(pt, output, ciphertext.length()) == 0){
-                format_output("%s decryption by ZmCrypto|passed\n", algorithm.c_str());
+                format_output("%s decryption by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s decryption by ZmCrypto|failed\n", algorithm.c_str());
+                format_output("%s decryption by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
             }
             delete[] pt; pt = NULL;
             delete[] output; output = NULL;
@@ -532,10 +536,10 @@ void test_case_aes_cbc(zmcrypto::sdk* _sdk)
             }
 
             if (ciphertext == std::string((char*)output, ciphertext.length())){
-                format_output("%s encryption by Crypto++|passed\n", algorithm.c_str());
+                format_output("%s encryption by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s encryption by Crypto++|failed\n", algorithm.c_str());
+                format_output("%s encryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output; output = NULL;
@@ -578,10 +582,10 @@ void test_case_aes_cbc(zmcrypto::sdk* _sdk)
             pCipherMode->ProcessData(output, (CryptoPP::byte*)(ciphertext.c_str()), (uint32_t) (ciphertext.length()));
 
             if (memcmp(pt, output, ciphertext.length()) == 0){
-                format_output("%s decryption by Crypto++|passed\n", algorithm.c_str());
+                format_output("%s decryption by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s decryption by Crypto++|failed\n", algorithm.c_str());
+                format_output("%s decryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output; output = NULL;
@@ -605,7 +609,9 @@ void test_case_aes_cfb(zmcrypto::sdk* _sdk)
     }
 
     for (size_t i = 0; i < test_vec.size(); i++){
-        std::string algorithm, key, iv, plaintext, ciphertext, repeat;
+        std::string algorithm, key, iv, plaintext, ciphertext, repeat, comment;
+        if (!get_key_val_pair(test_vec, i, "comment", comment)){
+        }
         if (!get_key_val_pair(test_vec, i, "algorithm", algorithm)){
             printf("get key-value pair failed\n");
             return;
@@ -698,10 +704,10 @@ void test_case_aes_cfb(zmcrypto::sdk* _sdk)
             _sdk->zm_cfb_free (ctx);
 
             if (ciphertext == std::string((char*)output, ciphertext.length())){
-                format_output("%s encryption by ZmCrypto|passed\n", algorithm.c_str());
+                format_output("%s encryption by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s encryption by ZmCrypto|failed\n", algorithm.c_str());
+                format_output("%s encryption by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output;
@@ -763,10 +769,10 @@ void test_case_aes_cfb(zmcrypto::sdk* _sdk)
             _sdk->zm_cfb_free (ctx);
 
             if (memcmp(pt, output, ciphertext.length()) == 0){
-                format_output("%s decryption by ZmCrypto|passed\n", algorithm.c_str());
+                format_output("%s decryption by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s decryption by ZmCrypto|failed\n", algorithm.c_str());
+                format_output("%s decryption by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
             }
             delete[] pt; pt = NULL;
             delete[] output; output = NULL;
@@ -817,10 +823,10 @@ void test_case_aes_cfb(zmcrypto::sdk* _sdk)
             }
 
             if (ciphertext == std::string((char*)output, ciphertext.length())){
-                format_output("%s encryption by Crypto++|passed\n", algorithm.c_str());
+                format_output("%s encryption by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s encryption by Crypto++|failed\n", algorithm.c_str());
+                format_output("%s encryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output; output = NULL;
@@ -864,10 +870,10 @@ void test_case_aes_cfb(zmcrypto::sdk* _sdk)
             pCipherMode->ProcessData(output, (CryptoPP::byte*)(ciphertext.c_str()), (uint32_t) (ciphertext.length()));
 
             if (memcmp(pt, output, ciphertext.length()) == 0){
-                format_output("%s decryption by Crypto++|passed\n", algorithm.c_str());
+                format_output("%s decryption by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s decryption by Crypto++|failed\n", algorithm.c_str());
+                format_output("%s decryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output; output = NULL;
@@ -891,7 +897,9 @@ void test_case_aes_ofb(zmcrypto::sdk* _sdk)
     }
 
     for (size_t i = 0; i < test_vec.size(); i++){
-        std::string algorithm, key, iv, plaintext, ciphertext, repeat;
+        std::string algorithm, key, iv, plaintext, ciphertext, repeat, comment;
+        if (!get_key_val_pair(test_vec, i, "comment", comment)){
+        }
         if (!get_key_val_pair(test_vec, i, "algorithm", algorithm)){
             printf("get key-value pair failed\n");
             return;
@@ -984,10 +992,10 @@ void test_case_aes_ofb(zmcrypto::sdk* _sdk)
             _sdk->zm_ofb_free (ctx);
 
             if (ciphertext == std::string((char*)output, ciphertext.length())){
-                format_output("%s encryption by ZmCrypto|passed\n", algorithm.c_str());
+                format_output("%s encryption by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s encryption by ZmCrypto|failed\n", algorithm.c_str());
+                format_output("%s encryption by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output;
@@ -1049,10 +1057,10 @@ void test_case_aes_ofb(zmcrypto::sdk* _sdk)
             _sdk->zm_ofb_free (ctx);
 
             if (memcmp(pt, output, ciphertext.length()) == 0){
-                format_output("%s decryption by ZmCrypto|passed\n", algorithm.c_str());
+                format_output("%s decryption by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s decryption by ZmCrypto|failed\n", algorithm.c_str());
+                format_output("%s decryption by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
             }
             delete[] pt; pt = NULL;
             delete[] output; output = NULL;
@@ -1103,10 +1111,10 @@ void test_case_aes_ofb(zmcrypto::sdk* _sdk)
             }
 
             if (ciphertext == std::string((char*)output, ciphertext.length())){
-                format_output("%s encryption by Crypto++|passed\n", algorithm.c_str());
+                format_output("%s encryption by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s encryption by Crypto++|failed\n", algorithm.c_str());
+                format_output("%s encryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output; output = NULL;
@@ -1150,10 +1158,10 @@ void test_case_aes_ofb(zmcrypto::sdk* _sdk)
             pCipherMode->ProcessData(output, (CryptoPP::byte*)(ciphertext.c_str()), (uint32_t) (ciphertext.length()));
 
             if (memcmp(pt, output, ciphertext.length()) == 0){
-                format_output("%s decryption by Crypto++|passed\n", algorithm.c_str());
+                format_output("%s decryption by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s decryption by Crypto++|failed\n", algorithm.c_str());
+                format_output("%s decryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output; output = NULL;
@@ -1177,7 +1185,9 @@ void test_case_aes_ctr(zmcrypto::sdk* _sdk)
     }
 
     for (size_t i = 0; i < test_vec.size(); i++){
-        std::string algorithm, key, iv, plaintext, ciphertext, repeat;
+        std::string algorithm, key, iv, plaintext, ciphertext, repeat, comment;
+        if (!get_key_val_pair(test_vec, i, "comment", comment)){
+        }
         if (!get_key_val_pair(test_vec, i, "algorithm", algorithm)){
             printf("get key-value pair failed\n");
             return;
@@ -1270,10 +1280,10 @@ void test_case_aes_ctr(zmcrypto::sdk* _sdk)
             _sdk->zm_ctr_free (ctx);
 
             if (ciphertext == std::string((char*)output, ciphertext.length())){
-                format_output("%s encryption by ZmCrypto|passed\n", algorithm.c_str());
+                format_output("%s encryption by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s encryption by ZmCrypto|failed\n", algorithm.c_str());
+                format_output("%s encryption by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output;
@@ -1335,10 +1345,10 @@ void test_case_aes_ctr(zmcrypto::sdk* _sdk)
             _sdk->zm_ctr_free (ctx);
 
             if (memcmp(pt, output, ciphertext.length()) == 0){
-                format_output("%s decryption by ZmCrypto|passed\n", algorithm.c_str());
+                format_output("%s decryption by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s decryption by ZmCrypto|failed\n", algorithm.c_str());
+                format_output("%s decryption by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
             }
             delete[] pt; pt = NULL;
             delete[] output; output = NULL;
@@ -1389,10 +1399,10 @@ void test_case_aes_ctr(zmcrypto::sdk* _sdk)
             }
 
             if (ciphertext == std::string((char*)output, ciphertext.length())){
-                format_output("%s encryption by Crypto++|passed\n", algorithm.c_str());
+                format_output("%s encryption by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s encryption by Crypto++|failed\n", algorithm.c_str());
+                format_output("%s encryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output; output = NULL;
@@ -1436,10 +1446,10 @@ void test_case_aes_ctr(zmcrypto::sdk* _sdk)
             pCipherMode->ProcessData(output, (CryptoPP::byte*)(ciphertext.c_str()), (uint32_t) (ciphertext.length()));
 
             if (memcmp(pt, output, ciphertext.length()) == 0){
-                format_output("%s decryption by Crypto++|passed\n", algorithm.c_str());
+                format_output("%s decryption by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s decryption by Crypto++|failed\n", algorithm.c_str());
+                format_output("%s decryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output; output = NULL;

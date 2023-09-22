@@ -150,3 +150,12 @@ void test_case_rc4(zmcrypto::sdk* _sdk)
         #endif
     }
 }
+
+void test_info_rc4(zmcrypto::sdk* _sdk){
+    int32_t min = _sdk->zm_rc4_ksize_min();
+    int32_t max = _sdk->zm_rc4_ksize_max();
+    int32_t mutiple = _sdk->zm_rc4_ksize_multiple();
+
+    printf ("RC4 min key size: %d, max key size: %d, key size multiple: %d\n",
+        min, max, mutiple);
+}

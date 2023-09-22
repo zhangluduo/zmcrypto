@@ -1,6 +1,6 @@
 
 #source: rfc3610
-comment: Packet Vector #1
+comment: #1
 algorithm: aes-ccm
 key: 0xc0 c1 c2 c3 c4 c5 c6 c7 c8 c9 ca cb cc cd ce cf
 iv: 0x00 00 00 03 02 01 00 a0 a1 a2 a3 a4 a5
@@ -10,7 +10,7 @@ ciphertext: 0x58 8c 97 9a 61 c6 63 d2 f0 66 d0 c2 c0 f9 89 80 6d 5f 6b 61 da c3 
 tag: 0x17 e8 d1 2c fd f9 26 e0
 
 #source: rfc3610
-comment: Packet Vector #2
+comment: #2
 algorithm: aes-ccm
 key: 0xc0 c1 c2 c3  c4 c5 c6 c7  c8 c9 ca cb  cc cd ce cf
 iv: 0x00 00 00 04  03 02 01 a0  a1 a2 a3 a4  a5
@@ -20,7 +20,7 @@ ciphertext: 0x72 c9 1a 36 e1 35 f8 cf 29 1c a8 94 08 5c 87 e3 cc 15 c4 39 c9 e4 
 tag: 0xa0 91 d5 6e  10 40 09 16
 
 #source: rfc3610
-comment: Packet Vector #3
+comment: #3
 algorithm: aes-ccm
 key: 0xc0 c1 c2 c3  c4 c5 c6 c7  c8 c9 ca cb  cc cd ce cf
 iv: 0x00 00 00 05  04 03 02 a0  a1 a2 a3 a4  a5
@@ -30,7 +30,7 @@ ciphertext: 0x51 b1 e5 f4  4a 19 7d 1d a4 6b 0f 8e  2d 28 2a e8  71 e8 38 bb  64
 tag: 0x4a da a7  6f bd 9f b0  c5
 
 #source: rfc3610
-comment: Packet Vector #4
+comment: #4
 algorithm: aes-ccm
 key: 0xc0 c1 c2 c3  c4 c5 c6 c7  c8 c9 ca cb  cc cd ce cf
 iv: 0x00 00 00 06  05 04 03 a0  a1 a2 a3 a4  a5
@@ -40,7 +40,7 @@ ciphertext: 0xa2 8c 68 65 93 9a 9a 79  fa aa 5c 4c  2a 9d 4a 91  cd ac 8c
 tag: 0x96 c8 61 b9 c9  e6 1e f1
 
 #source: rfc3610
-comment: Packet Vector #5
+comment: #5
 algorithm: aes-ccm
 key: 0xc0 c1 c2 c3  c4 c5 c6 c7  c8 c9 ca cb  cc cd ce cf
 iv: 0x00 00 00 07  06 05 04 a0  a1 a2 a3 a4  a5
@@ -50,7 +50,7 @@ ciphertext: 0xdc f1 fb 7b  5d 9e 23 fb  9d 4e 13 12  53 65 8a d8  6e bd ca 3e
 tag: 0x51 e8 3f 07  7d 9c 2d 93
 
 #source: rfc3610
-comment: Packet Vector #6
+comment: #6
 algorithm: aes-ccm
 key: 0xc0 c1 c2 c3  c4 c5 c6 c7  c8 c9 ca cb  cc cd ce cf
 iv: 0x00 00 00 08  07 06 05 a0  a1 a2 a3 a4  a5
@@ -60,7 +60,7 @@ ciphertext: 0x6f c1 b0 11 f0 06 56 8b  51 71 a4 2d  95 3d 46 9b  25 70 a4 bd 87
 tag: 0x40 5a 04  43 ac 91 cb  94
 
 #source: rfc3610
-comment: Packet Vector #7
+comment: #7
 algorithm: aes-ccm
 key: 0xc0 c1 c2 c3  c4 c5 c6 c7  c8 c9 ca cb  cc cd ce cf
 iv: 0x00 00 00 09  08 07 06 a0  a1 a2 a3 a4  a5
@@ -70,7 +70,7 @@ ciphertext: 0x01 35 d1 b2  c9 5f 41 d5 d1 d4 fe c1  85 d1 66 b8  09 4e 99 9d  fe
 tag: 0x04 8c 56 60 2c  97 ac bb 74  90
 
 #source: rfc3610
-comment: Packet Vector #8
+comment: #8
 algorithm: aes-ccm
 key: 0xc0 c1 c2 c3  c4 c5 c6 c7  c8 c9 ca cb  cc cd ce cf
 iv: 0x00 00 00 0a  09 08 07 a0  a1 a2 a3 a4  a5
@@ -80,7 +80,7 @@ ciphertext: 0x7b 75 39 9a  c0 83 1d d2 f0 bb d7 58  79 a2 fd 8f  6c ae 6b 6c  d9
 tag: 0xc1 7b 44 33  f4 34 96 3f  34 b4
 
 #source: rfc3610
-comment: Packet Vector #9
+comment: #9
 algorithm: aes-ccm
 key: 0x c0 c1 c2 c3  c4 c5 c6 c7  c8 c9 ca cb  cc cd ce cf
 iv: 0x00 00 00 0b  0a 09 08 a0  a1 a2 a3 a4  a5
@@ -90,7 +90,7 @@ ciphertext: 0x82 53 1a 60  cc 24 94 5a 4b 82 79 18  1a b5 c8 4d  f2 1c e7 f9  b7
 tag: 0xea 9c 07  e5 6b 5e b1  7e 5f 4e
 
 #source: rfc3610
-comment: Packet Vector #10
+comment: #10
 algorithm: aes-ccm
 key: 0x c0 c1 c2 c3  c4 c5 c6 c7  c8 c9 ca cb  cc cd ce cf
 iv: 0x00 00 00 0c  0b 0a 09 a0  a1 a2 a3 a4  a5
@@ -100,7 +100,7 @@ ciphertext: 0x07 34 25 94 15 77 85 15  2b 07 40 98  33 0a bb 14  1b 94 7b
 tag: 0x56 6a a9 40 6b  4d 99 99 88  dd
 
 #source: rfc3610
-comment: Packet Vector #11
+comment: #11
 algorithm: aes-ccm
 key: 0xc0 c1 c2 c3  c4 c5 c6 c7  c8 c9 ca cb  cc cd ce cf
 iv: 0x00 00 00 0d  0c 0b 0a a0  a1 a2 a3 a4  a5
@@ -110,7 +110,7 @@ ciphertext: 0x67 6b b2 03 80 b0 e3 01  e8 ab 79 59  0a 39 6d a7  8b 83 49 34
 tag: 0xf5 3a a2 e9  10 7a 8b 6c  02 2c
 
 #source: rfc3610
-comment: Packet Vector #12
+comment: #12
 algorithm: aes-ccm
 key: 0xc0 c1 c2 c3  c4 c5 c6 c7  c8 c9 ca cb  cc cd ce cf
 iv: 0x00 00 00 0e  0d 0c 0b a0  a1 a2 a3 a4  a5
@@ -120,7 +120,7 @@ ciphertext: 0xc0 ff a0 d6 f0 5b db 67  f2 4d 43 a4  33 8d 2a a4  be d7 b2 0e 43
 tag: 0xcd 1a a3  16 62 e7 ad  65 d6 db
 
 #source: rfc3610
-comment: Packet Vector #13
+comment: #13
 algorithm: aes-ccm
 key: 0xd7 82 8d 13  b2 b0 bd c3  25 a7 62 36  df 93 cc 6b
 iv: 0x00 41 2b 4e  a9 cd be 3c  96 96 76 6c  fa
@@ -130,7 +130,7 @@ ciphertext: 0x4c b9 7f 86  a2 a4 68 9a 87 79 47 ab  80 91 ef 53  86 a6 ff bd  d0
 tag: 0xe7 8c f7 cb 0c  dd d7 b3
 
 #source: rfc3610
-comment: Packet Vector #14
+comment: #14
 algorithm: aes-ccm
 key: 0xd7 82 8d 13  b2 b0 bd c3  25 a7 62 36  df 93 cc 6b
 iv: 0x00 33 56 8e  f7 b2 63 3c  96 96 76 6c  fa
@@ -140,7 +140,7 @@ ciphertext: 0x4c cb 1e 7c  a9 81 be fa a0 72 6c 55  d3 78 06 12 98 c8 5c 92  81 
 tag: 0xc5 2e e8 1d  7d 77 c0 8a
 
 #source: rfc3610
-comment: Packet Vector #15
+comment: #15
 algorithm: aes-ccm
 key: 0xd7 82 8d 13  b2 b0 bd c3  25 a7 62 36  df 93 cc 6b
 iv: 0x00 10 3f e4  13 36 71 3c  96 96 76 6c  fa
@@ -150,7 +150,7 @@ ciphertext: 0xb1 d2 3a 22  20 dd c0 ac 90 0d 9a a0  3c 61 fc f4  a5 59 a4 41  77
 tag: 0xa7 76 79  6e db 72 35  06
 
 #source: rfc3610
-comment: Packet Vector #16
+comment: #16
 algorithm: aes-ccm
 key: 0xd7 82 8d 13  b2 b0 bd c3  25 a7 62 36  df 93 cc 6b
 iv: 0x00 76 4c 63  b8 05 8e 3c  96 96 76 6c  fa
@@ -160,7 +160,7 @@ ciphertext: 0x14 d2 53 c3 96 7b 70 60  9b 7c bb 7c  49 91 60 28  32 45 26
 tag: 0x9a 6f 49 97 5b  ca de af
 
 #source: rfc3610
-comment: Packet Vector #17
+comment: #17
 algorithm: aes-ccm
 key: 0xd7 82 8d 13  b2 b0 bd c3  25 a7 62 36  df 93 cc 6b
 iv: 0x00 f8 b6 78  09 4e 3b 3c  96 96 76 6c  fa
@@ -170,7 +170,7 @@ ciphertext: 0x55 45 ff 1a 08 5e e2 ef  bf 52 b2 e0  4b ee 1e 23  36 c7 3e 3f
 tag: 0x76 2c 0c 77  44 fe 7e 3c
 
 #source: rfc3610
-comment: Packet Vector #18
+comment: #18
 algorithm: aes-ccm
 key: 0xd7 82 8d 13  b2 b0 bd c3  25 a7 62 36  df 93 cc 6b
 iv: 0x00 d5 60 91  2d 3f 70 3c  96 96 76 6c  fa
@@ -180,7 +180,7 @@ ciphertext: 0x00 97 69 ec ab df 48 62  55 94 c5 92  51 e6 03 57  22 67 5e 04 c8
 tag: 0x47 09 9e  5a e0 70 45  51
 
 #source: rfc3610
-comment: Packet Vector #19
+comment: #19
 algorithm: aes-ccm
 key: 0xd7 82 8d 13  b2 b0 bd c3  25 a7 62 36  df 93 cc 6b
 iv: 0x00 42 ff f8  f1 95 1c 3c  96 96 76 6c  fa
@@ -190,7 +190,7 @@ ciphertext: 0xbc 21 8d aa  94 74 27 b6 db 38 6a 99  ac 1a ef 23  ad e0 b5 29  39
 tag: 0x63 7c f9 be c2  40 88 97 c6  ba
 
 #source: rfc3610
-comment: Packet Vector #20
+comment: #20
 algorithm: aes-ccm
 key: 0xd7 82 8d 13  b2 b0 bd c3  25 a7 62 36  df 93 cc 6b
 iv: 0x00 92 0f 40  e5 6c dc 3c  96 96 76 6c  fa
@@ -200,7 +200,7 @@ ciphertext: 0x58 10 e6 fd  25 87 40 22 e8 03 61 a4  78 e3 e9 cf  48 4a b0 4f  44
 tag: 0xf0 a4 77 cc  2f c9 bf 54  89 44
 
 #source: rfc3610
-comment: Packet Vector #21
+comment: #21
 algorithm: aes-ccm
 key: 0xd7 82 8d 13  b2 b0 bd c3  25 a7 62 36  df 93 cc 6b
 iv: 0x00 27 ca 0c  71 20 bc 3c  96 96 76 6c  fa
@@ -210,7 +210,7 @@ ciphertext: 0xf2 be ed 7b  c5 09 8e 83 fe b5 b3 16  08 f8 e2 9c  38 81 9a 89  c8
 tag: 0x4d 41 51  a4 ed 3a 8b  87 b9 ce
 
 #source: rfc3610
-comment: Packet Vector #22
+comment: #22
 algorithm: aes-ccm
 key: 0xd7 82 8d 13  b2 b0 bd c3  25 a7 62 36  df 93 cc 6b
 iv: 0x00 5b 8c cb  cd 9a f8 3c  96 96 76 6c  fa
@@ -220,7 +220,7 @@ ciphertext: 0x31 d7 50 a0 9d a3 ed 7f  dd d4 9a 20  32 aa bf 17  ec 8e bf
 tag: 0x7d 22 c8 08 8c  66 6b e5 c1  97
 
 #source: rfc3610
-comment: Packet Vector #23
+comment: #23
 algorithm: aes-ccm
 key: 0xd7 82 8d 13  b2 b0 bd c3  25 a7 62 36  df 93 cc 6b
 iv: 0x00 3e be 94  04 4b 9a 3c  96 96 76 6c  fa
@@ -230,7 +230,7 @@ ciphertext: 0xe8 82 f1 db d3 8c e3 ed  a7 c2 3f 04  dd 65 07 1e  b4 13 42 ac
 tag: 0xdf 7e 00 dc  ce c7 ae 52  98 7d
 
 #source: rfc3610
-comment: Packet Vector #24
+comment: #24
 algorithm: aes-ccm
 key: 0xd7 82 8d 13  b2 b0 bd c3  25 a7 62 36  df 93 cc 6b
 iv: 0x00 8d 49 3b  30 ae 8b 3c  96 96 76 6c  fa
@@ -241,7 +241,7 @@ tag: 0x6d ce 9e  82 ef a1 6d  a6 20 59
 
 #-----------------------
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #25
+comment: #25
 algorithm: aes-ccm
 key: 0x404142434445464748494a4b4c4d4e4f
 iv: 0x10111213141516
@@ -251,7 +251,7 @@ ciphertext: 0x7162015b
 tag: 0x4dac255d
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #26
+comment: #26
 algorithm: aes-ccm
 key: 0x404142434445464748494a4b4c4d4e4f
 iv: 0x1011121314151617
@@ -261,7 +261,7 @@ ciphertext: 0xd2a1f0e051ea5f62081a7792073d593d
 tag: 0x1fc64fbfaccd
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #27
+comment: #27
 algorithm: aes-ccm
 key: 0x404142434445464748494a4b4c4d4e4f
 iv: 0x101112131415161718191a1b
@@ -271,7 +271,7 @@ ciphertext: 0xe3b201a9f5b71a7a9b1ceaeccd97e70b6176aad9a4428aa5
 tag: 0x484392fbc1b09951
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #28
+comment: #28
 algorithm: aes-ccm
 key: 0x404142434445464748494a4b4c4d4e4f
 iv: 0x101112131415161718191a1b1c
@@ -282,7 +282,7 @@ ciphertext: 0x69915dad1e84c6376a68c2967e4dab615ae0fd1faec44cc484828529463ccf72
 tag: 0xb4ac6bec93e8598e7f0dadbcea5b
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #29
+comment: #29
 algorithm: aes-ccm
 key: 0xc97c1f67ce371185514a8a19f2bdd52f
 iv: 0x005030f1844408b5039776e70c
@@ -292,7 +292,7 @@ ciphertext: 0xf3d0a2fe9a3dbf2342a643e43246e80c3c04d019
 tag: 0x7845ce0b16f97623
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #30
+comment: #30
 algorithm: aes-ccm
 key: 0x8f7a053fa577a5597529272097a603d5
 iv: 0x00eec1762c88de31f3cbba97ea
@@ -302,7 +302,7 @@ ciphertext: 0x814b6965d05bf2b2ed38d4beb069fe82714a610b
 tag: 0x542fbf8da06aa4ae
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #31
+comment: #31
 algorithm: aes-ccm
 key: 0x40cfb7a62e88013bd6d3affcc191041e
 iv: 0x00b6a88adf36912fdca0f3a5ae
@@ -312,7 +312,7 @@ ciphertext: 0x89d8580340b626a0b6d4d013bf18f291b89646c8
 tag: 0xfd1f1f61a9fb4bb3
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #32
+comment: #32
 algorithm: aes-ccm
 key: 0x8c89a2ebc96c7602707fcf24b32d3833
 iv: 0x078ef822734701f670a55a0fe3
@@ -322,7 +322,7 @@ ciphertext: 0x9d59b15f371448c230f4d739052e13ab3b1a7b10
 tag: 0x31fc88004f35ee3d
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #33
+comment: #33
 algorithm: aes-ccm
 key: 0xa574d5143bb25efddeff30122fdfd066
 iv: 0x0bf351946bc96ba7ffe03c0e37
@@ -332,7 +332,7 @@ ciphertext: 0xeb4ae4956a801da9624b7e0c18b23e615ec03af6
 tag: 0xce0c3be197d305eb
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #34
+comment: #34
 algorithm: aes-ccm
 key: 0xf71eea4e1f58804b9717230ad0614641
 iv: 0x0dbff943b9f9a66b81eca48989
@@ -342,7 +342,7 @@ ciphertext: 0x9a709b60a39d40b1dfb612e18b5f114badb6cc86
 tag: 0x309a8d5c466bbb71
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #35
+comment: #35
 algorithm: aes-ccm
 key: 0x1bdb34980e038124a1db1a892bec366a
 iv: 0x00efec952016915eec4073e723
@@ -352,7 +352,7 @@ ciphertext: 0x12c537ebf3ab584ef1fef9a1f3547a8c13b3225a
 tag: 0x2d0957ecfabe95b9
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #36
+comment: #36
 algorithm: aes-ccm
 key: 0x6eac1bf54bd54edb2321754303024c71
 iv: 0x0aca3f3aae60c4cefd996eccdd
@@ -362,7 +362,7 @@ ciphertext: 0x4bf281ef8ec7739f91591b97a87dc14b3fa17462
 tag: 0x6dba8ef7f08087dd
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #37
+comment: #37
 algorithm: aes-ccm
 key: 0x494b501e194675971a48d08c5bc353cb
 iv: 0x0aa4ad6d319985ba82e93437b3
@@ -372,7 +372,7 @@ ciphertext: 0x561a0d068eac2eadb0c57fe2d0a6cc7398b6ddbf
 tag: 0xcfe438cbea61fa9a
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #38
+comment: #38
 algorithm: aes-ccm
 key: 0x489e49bc3cfe3fce3895820e872ee1a3
 iv: 0x0053f869fe279acf1d3e75fea9
@@ -383,7 +383,7 @@ tag: 0xc868a725552c5565
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
 #!!!!!!!!!!!!!!!!!!!!!!!!!
-comment: Packet Vector #39
+comment: #39
 algorithm: aes-ccm
 key: 0x02be5c4545672a07e4e314d70f1f9e85
 iv: 0x0d347ceb9aabffd2d6596e55d4
@@ -393,7 +393,7 @@ ciphertext: 0x6315500f924295cd3eafbdc3e151b1df46465b71
 tag: 0x681fdee8513c62dc
 
 #source: aes-modes-src-07-10-08/Testvals/ccm.1, Basic Tests for CCM (compiled by B. R. Gladman)
-comment: Packet Vector #40
+comment: #40
 algorithm: aes-ccm
 key: 0x77077ed79453e4a18d60438cc6484d6e
 iv: 0x00d8ac5a7ec44450b01e77fd8e
@@ -403,7 +403,7 @@ ciphertext: 0xcf71b2ccbd590b20800792f359ed1cfd74d800b4
 tag: 0xfd0f41f426bb8f30
 
 #Source: aes-modes-src-07-10-08/Testvals/ccm.2, Vectors for IEEE P1619.1 CCM Mode
-comment: Packet Vector #41
+comment: #41
 algorithm: aes-ccm
 key: 0x0000000000000000000000000000000000000000000000000000000000000000
 iv: 0x000000000000000000000000
@@ -413,7 +413,7 @@ ciphertext: 0xc1944044c8e7aa95d2de9513c7f3dd8c
 tag: 0x4b0a3e5e51f151eb0ffae7c43d010fdb
 
 #Source: aes-modes-src-07-10-08/Testvals/ccm.2, Vectors for IEEE P1619.1 CCM Mode
-comment: Packet Vector #42
+comment: #42
 algorithm: aes-ccm
 key: 0x0000000000000000000000000000000000000000000000000000000000000000
 iv: 0x000000000000000000000000
@@ -423,7 +423,7 @@ ciphertext:
 tag: 0x904704e89fb216443cb9d584911fc3c2
 
 #Source: aes-modes-src-07-10-08/Testvals/ccm.2, Vectors for IEEE P1619.1 CCM Mode
-comment: Packet Vector #43
+comment: #43
 algorithm: aes-ccm
 key: 0x0000000000000000000000000000000000000000000000000000000000000000
 iv: 0x000000000000000000000000
@@ -433,7 +433,7 @@ ciphertext: 0xc1944044c8e7aa95d2de9513c7f3dd8c
 tag: 0x87314e9c1fa01abe6a6415943dc38521
 
 #Source: aes-modes-src-07-10-08/Testvals/ccm.2, Vectors for IEEE P1619.1 CCM Mode
-comment: Packet Vector #44
+comment: #44
 algorithm: aes-ccm
 key: 0xfb7615b23d80891dd470980bc79584c8b2fb64ce60978f4d17fce45a49e830b7
 iv: 0xdbd1a3636024b7b402da7d6f
@@ -443,7 +443,7 @@ ciphertext: 0xcc881261c6a7fa72b96a1739176b277f
 tag: 0x3472e1145f2c0cbe146349062cf0e423
 
 #Source: aes-modes-src-07-10-08/Testvals/ccm.2, Vectors for IEEE P1619.1 CCM Mode
-comment: Packet Vector #45
+comment: #45
 algorithm: aes-ccm
 key: 0x404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f
 iv: 0x101112131415161718191a1b
@@ -453,7 +453,7 @@ ciphertext: 0x04f883aeb3bd0730eaf50bb6de4fa2212034e4e41b0e75e5
 tag: 0x9bba3f3a107f3239bd63902923f80371
 
 #Source: aes-modes-src-07-10-08/Testvals/ccm.2, Vectors for IEEE P1619.1 CCM Mode
-comment: Packet Vector #46
+comment: #46
 algorithm: aes-ccm
 key: 0x404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f
 iv: 0x101112131415161718191a1b
@@ -464,7 +464,7 @@ ciphertext: 0x04f883aeb3bd0730eaf50bb6de4fa2212034e4e41b0e75e577f6bf2422c0f6d2
 tag: 0x3376d2cf256ef613c56454cbb5265834
 
 #Source: aes-modes-src-07-10-08/Testvals/ccm.2, Vectors for IEEE P1619.1 CCM Mode
-comment: Packet Vector #47
+comment: #47
 algorithm: aes-ccm
 key: 0x404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f
 iv: 0x101112131415161718191a1b
@@ -474,7 +474,7 @@ ciphertext: 0x24d8a38e939d2710cad52b96fe6f82010014c4c43b2e55c557d69f0402e0d6f2 0
 tag: 0xebb1fa9d28ccfe21bdfea7e6d91e0bab
 
 #Source: aes-modes-src-07-10-08/Testvals/ccm.2, Vectors for IEEE P1619.1 CCM Mode
-comment: Packet Vector #48
+comment: #48
 algorithm: aes-ccm
 key: 0xfb7615b23d80891dd470980bc79584c8b2fb64ce6097878d17fce45a49e830b7
 iv: 0xdbd1a3636024b7b402da7d6f
@@ -484,7 +484,7 @@ ciphertext: 0x9d
 tag: 0x3261b1cf931431e99a32806738ecbd2a
 
 #Source: aes-modes-src-07-10-08/Testvals/ccm.2, Vectors for IEEE P1619.1 CCM Mode
-comment: Packet Vector #49
+comment: #49
 algorithm: aes-ccm
 key: 0xf8d476cfd646ea6c2384cb1c27d6195dfef1a9f37b9c8d21a79c21f8cb90d289
 iv: 0xdbd1a3636024b7b402da7d6f

@@ -45,7 +45,9 @@ void test_case_md5(zmcrypto::sdk* _sdk)
     }
 
 	for (size_t i = 0; i < test_vec.size(); i++){
-        std::string algorithm, message, digest;
+        std::string algorithm, message, digest, comment;
+        if (!get_key_val_pair(test_vec, i, "comment", comment)){
+        }
         if (!get_key_val_pair(test_vec, i, "algorithm", algorithm)){
             printf("get key-value pair failed: algorithm\n");
             return;
@@ -69,10 +71,10 @@ void test_case_md5(zmcrypto::sdk* _sdk)
             _sdk->zm_md5_final (ctx, output);
             _sdk->zm_md5_free (ctx);
             if (digest == std::string((char*)output, _sdk->zm_md5_digest_size())){
-                format_output("%s by ZmCrypto|passed\n", algorithm.c_str());
+                format_output("%s by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s by ZmCrypto|failed\n", algorithm.c_str());
+                format_output("%s by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output;

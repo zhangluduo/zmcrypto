@@ -1,7 +1,15 @@
 
 #source: ${PATH}/cryptopp870/TestVectors/sha.txt
-#comment: -
+comment: #1
+algorithm: sha1
+message: abc
+repeat: 1
+digest: 0xA9993E364706816ABA3E25717850C26C9CD0D89D
+
+#source: ${PATH}/cryptopp870/TestVectors/sha.txt
+comment: #2
 algorithm: sha1
 message: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 repeat: 15625
 digest: 0x34AA973CD4C4DAA4F61EEB2BDBAD27316534016F
+

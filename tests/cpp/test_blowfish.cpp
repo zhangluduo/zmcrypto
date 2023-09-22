@@ -1528,7 +1528,7 @@ void test_info_blowfish(zmcrypto::sdk* _sdk)
     int32_t max = _sdk->zm_blowfish_ksize_max();
     int32_t mutiple = _sdk->zm_blowfish_ksize_multiple();
 
-    printf ("blowfish_ block size: %d, min key size: %d, max key size: %d, key size multiple: %d\n",
+    printf ("blowfish block size: %d, min key size: %d, max key size: %d, key size multiple: %d\n",
         blocksize, min, max, mutiple);
 #endif
 }
