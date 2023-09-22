@@ -67,7 +67,7 @@ link_directories(
 
 add_definitions(
 	#-DTEST_FOR_CRYPTOPP
-	#-DNOT_DETECT_MEM_LEAK_FOR_CRYPTOPP
+	#-DDONOT_DETECT_MEM_LEAK_FOR_CRYPTOPP
 )
 
 add_executable(
@@ -93,6 +93,7 @@ add_executable(
 	../../tests/cpp/test_pbkdf2.cpp
 	../../tests/cpp/test_aes.cpp
 	../../tests/cpp/test_des.cpp
+	../../tests/cpp/test_rc4.cpp
 	../../tests/cpp/test_blowfish.cpp
 	../../tests/cpp/test_blockpad.cpp
 	../../tests/cpp/test_engine.cpp
