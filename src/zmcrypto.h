@@ -213,8 +213,8 @@ extern "C" {
         typedef void (*pfn_##name##_decrypt)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* input, uint32_t ilen, uint8_t* output);
 
     #define STREAMCIPHER_WITH_IV_FUNCTION_DECLARA(name)\
-        API zmerror zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv, uint32_t ivsize);\
-        typedef zmerror (*pfn_##name##_set_iv)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv, uint32_t ivsize);
+        API zmerror zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv);\
+        typedef zmerror (*pfn_##name##_set_iv)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv);
 
     /**
      * MAC function
@@ -439,8 +439,20 @@ extern "C" {
         BLOCKCIPHER_FUNCTION_DECLARA(des)
     #endif
 
+    #if defined ZMCRYPTO_ALGO_TEA
+        BLOCKCIPHER_FUNCTION_DECLARA(tea)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_XTEA
+        BLOCKCIPHER_FUNCTION_DECLARA(xtea)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_TWOFISH
         BLOCKCIPHER_FUNCTION_DECLARA(twofish)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_SM4
+        BLOCKCIPHER_FUNCTION_DECLARA(sm4)
     #endif
 
     #if defined ZMCRYPTO_ALGO_SHA1
@@ -459,6 +471,10 @@ extern "C" {
         HASH_FUNCTION_DECLARA(sha3_256)
         HASH_FUNCTION_DECLARA(sha3_384)
         HASH_FUNCTION_DECLARA(sha3_512)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_SM3
+        HASH_FUNCTION_DECLARA(sm3)
     #endif
 
     #if defined ZMCRYPTO_ALGO_HMAC
@@ -500,6 +516,8 @@ extern "C" {
     #if defined ZMCRYPTO_ALGO_SALSA20
         STREAMCIPHER_FUNCTION_DECLARA(salsa20)
         STREAMCIPHER_WITH_IV_FUNCTION_DECLARA(salsa20)
+        STREAMCIPHER_FUNCTION_DECLARA(xsalsa20)
+        STREAMCIPHER_WITH_IV_FUNCTION_DECLARA(xsalsa20)
     #endif
 
 #ifdef __cplusplus

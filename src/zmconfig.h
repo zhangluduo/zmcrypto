@@ -190,8 +190,11 @@ Use the following macros to make this library do clipping
   #define ZMCRYPTO_ALGO_ECDH
 */
 
-/* others */
+/* others algorithm*/
     #define ZMCRYPTO_ALGO_BLOCKPAD
+
+/* Tools and helper */
+    #define ZMCRYPTO_TOOL_ASN1
 
 /* 
     Replace the following functions with platform-specific 
@@ -263,6 +266,38 @@ Use the following macros to make this library do clipping
     (b)[(i) + 2] = (unsigned char) ( (n) >> 16 );       \
     (b)[(i) + 3] = (unsigned char) ( (n) >> 24 );       \
 }
+#endif
+
+/* out ^= in */
+#ifndef XOR_BUFFER1
+#define XOR_BUFFER1(out,in,ilen)                        \
+{                                                       \
+    do                                                  \
+    {                                                   \
+        for (uint32_t i = 0; i < ilen; i++)             \
+        {                                               \
+            out[i] ^= in[i];                            \
+        }                                               \
+    } while (0);                                        \
+}
+#endif
+
+/* out = in1 ^ in2 */
+#ifndef XOR_BUFFER2
+#define XOR_BUFFER2(out,in1,in2, ilen)                  \
+{                                                       \
+    do                                                  \
+    {                                                   \
+        for (uint32_t i = 0; i < ilen; i++)             \
+        {                                               \
+            out[i] = in1[i] ^ in2[i];                   \
+        }                                               \
+    } while (0);                                        \
+}
+#endif
+
+#ifndef ROTL
+    #define ROTL(in, rot) (in << rot) | (in >> (8 * sizeof(in) - rot))
 #endif
 
 /* detect x86/i386 32bit */

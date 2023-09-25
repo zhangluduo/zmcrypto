@@ -23,10 +23,14 @@
 #include "sha1.h"
 #include "sha2.h"
 #include "sha3.h"
+#include "sm3.h"
 #include "aes.h"
 #include "des.h"
 #include "blowfish.h"
+#include "sm4.h"
 #include "twofish.h"
+#include "tea.h"
+#include "xtea.h"
 #include "pbkdf2.h"
 #include "hmac.h"
 #include "cmac.h"
@@ -509,7 +513,7 @@ extern "C" {
 
     #define STREAMCIPHER_WITH_IV_FUNCTION_IMPL(name)\
         pfn_##name##_set_iv _pfn_##name##_set_iv = name##_set_iv;\
-        zmerror zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv, uint32_t ivsize) { return _pfn_##name##_set_iv(ctx, iv, ivsize); }
+        zmerror zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv) { return _pfn_##name##_set_iv(ctx, iv); }
 
     #if defined ZMCRYPTO_ALGO_CCM
         AEAD_FUNCTION_IMPL(ccm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, CCM_STARTS_PARAM, CCM_STARTS_ARGS)
@@ -561,6 +565,10 @@ extern "C" {
         HASH_FUNCTION_IMPL(sha3_512)
     #endif
 
+    #if defined ZMCRYPTO_ALGO_SM3
+        HASH_FUNCTION_IMPL(sm3)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_AES
         BLOCKCIPHER_FUNCTION_IMPL(aes)
     #endif
@@ -569,12 +577,24 @@ extern "C" {
         BLOCKCIPHER_FUNCTION_IMPL(blowfish)
     #endif
 
+    #if defined ZMCRYPTO_ALGO_TWOFISH
+        BLOCKCIPHER_FUNCTION_IMPL(twofish)
+    #endif
+    
     #if defined ZMCRYPTO_ALGO_DES
         BLOCKCIPHER_FUNCTION_IMPL(des)
     #endif
+    
+    #if defined ZMCRYPTO_ALGO_TEA
+        BLOCKCIPHER_FUNCTION_IMPL(tea)
+    #endif
+    
+    #if defined ZMCRYPTO_ALGO_XTEA
+        BLOCKCIPHER_FUNCTION_IMPL(xtea)
+    #endif
 
-    #if defined ZMCRYPTO_ALGO_TWOFISH
-        BLOCKCIPHER_FUNCTION_IMPL(twofish)
+    #if defined ZMCRYPTO_ALGO_SM4
+        BLOCKCIPHER_FUNCTION_IMPL(sm4)
     #endif
 
     #if defined ZMCRYPTO_ALGO_ECB
@@ -604,6 +624,9 @@ extern "C" {
     #if defined ZMCRYPTO_ALGO_SALSA20
         STREAMCIPHER_FUNCTION_IMPL(salsa20)
         STREAMCIPHER_WITH_IV_FUNCTION_IMPL(salsa20)
+
+        STREAMCIPHER_FUNCTION_IMPL(xsalsa20)
+        STREAMCIPHER_WITH_IV_FUNCTION_IMPL(xsalsa20)
     #endif
 
     uint32_t zm_strlen(const char* s)

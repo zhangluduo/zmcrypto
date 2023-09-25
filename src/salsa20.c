@@ -19,110 +19,130 @@
 
 #if defined ZMCRYPTO_SALSA20_H
 
-        int32_t salsa20_ksize_min (void)
-        { 
-            ZMCRYPTO_LOG("");
-            return 16; 
-        }
+    /* PRIVATE BEGIN */
 
-        int32_t salsa20_ksize_max (void)
-        { 
-            ZMCRYPTO_LOG("");
-            return 32; 
-        }
+    #define SALSA20_QUARTER_ROUND(x1, x2, x3, x4)\
+        do {                                     \
+        x2 ^= ROTL(x1 + x4,  7);                 \
+        x3 ^= ROTL(x2 + x1,  9);                 \
+        x4 ^= ROTL(x3 + x2, 13);                 \
+        x1 ^= ROTL(x4 + x3, 18);                 \
+        } while(0)
 
-        int32_t salsa20_ksize_multiple (void)
-        { 
-            ZMCRYPTO_LOG("");
-            return 16; 
-        }
+    /* PRIVATE END */
 
-        struct salsa20_ctx* salsa20_new (void)
-        { 
-            ZMCRYPTO_LOG("");
-            return 0; 
-        }
+    int32_t salsa20_ksize_min (void)
+    { 
+        ZMCRYPTO_LOG("");
+        return 16; 
+    }
 
-        void salsa20_free (struct salsa20_ctx* ctx)
-        { 
-            ZMCRYPTO_LOG("");
-            return ; 
-        }
+    int32_t salsa20_ksize_max (void)
+    { 
+        ZMCRYPTO_LOG("");
+        return 32; 
+    }
 
-        void salsa20_init (struct salsa20_ctx* ctx)
-        { 
-            ZMCRYPTO_LOG("");
-            return ; 
-        }
+    int32_t salsa20_ksize_multiple (void)
+    { 
+        ZMCRYPTO_LOG("");
+        return 16; 
+    }
 
-        zmerror salsa20_set_ekey(struct salsa20_ctx* ctx, uint8_t* key, uint32_t ksize)
-        { 
-            ZMCRYPTO_LOG("");
-            if (ksize != 16 && ksize != 32)
-                { return ZMCRYPTO_ERR_INVALID_KSIZE; }
+    struct salsa20_ctx* salsa20_new (void)
+    { 
+        ZMCRYPTO_LOG("");
+        return 0; 
+    }
 
-            static const uint32_t TAU[] =
-                { 0x61707865, 0x3120646e, 0x79622d36, 0x6b206574 };
+    void salsa20_free (struct salsa20_ctx* ctx)
+    { 
+        ZMCRYPTO_LOG("");
+        return ; 
+    }
 
-            static const uint32_t SIGMA[] =
-                { 0x61707865, 0x3320646e, 0x79622d32, 0x6b206574 };
+    void salsa20_init (struct salsa20_ctx* ctx)
+    { 
+        ZMCRYPTO_LOG("");
+        return ; 
+    }
 
-            const uint32_t* CONSTANTS = (ksize == 16) ? TAU : SIGMA;
+    zmerror salsa20_set_ekey(struct salsa20_ctx* ctx, uint8_t* key, uint32_t ksize)
+    { 
+        ZMCRYPTO_LOG("");
+        if (ksize != 16 && ksize != 32)
+            { return ZMCRYPTO_ERR_INVALID_KSIZE; }
 
-            ctx->state[0] = CONSTANTS[0];
-            ctx->state[5] = CONSTANTS[1];
-            ctx->state[10] = CONSTANTS[2];
-            ctx->state[15] = CONSTANTS[3];
+        static const uint32_t TAU[] =
+            { 0x61707865, 0x3120646e, 0x79622d36, 0x6b206574 };
 
-            #if defined ENDIAN_LITTLE
-                GET_UINT32_LE(ctx->state[1], key, 0);
-                GET_UINT32_LE(ctx->state[2], key, 4);
-                GET_UINT32_LE(ctx->state[3], key, 8);
-                GET_UINT32_LE(ctx->state[4], key, 12);
+        static const uint32_t SIGMA[] =
+            { 0x61707865, 0x3320646e, 0x79622d32, 0x6b206574 };
 
-                if(ksize == 32)
-                {
-                    GET_UINT32_LE(ctx->state[11], key, 16);
-                    GET_UINT32_LE(ctx->state[12], key, 20);
-                    GET_UINT32_LE(ctx->state[13], key, 24);
-                    GET_UINT32_LE(ctx->state[14], key, 28);
-                }
-            #else
-                #error no implemention here
-            #endif
+        const uint32_t* CONSTANTS = (ksize == 16) ? TAU : SIGMA;
+
+        ctx->state[0] = CONSTANTS[0];
+        ctx->state[5] = CONSTANTS[1];
+        ctx->state[10] = CONSTANTS[2];
+        ctx->state[15] = CONSTANTS[3];
+
+        #if defined ENDIAN_LITTLE
+            GET_UINT32_LE(ctx->state[1], key, 0);
+            GET_UINT32_LE(ctx->state[2], key, 4);
+            GET_UINT32_LE(ctx->state[3], key, 8);
+            GET_UINT32_LE(ctx->state[4], key, 12);
+
+            if(ksize == 32)
+            {
+                GET_UINT32_LE(ctx->state[11], key, 16);
+                GET_UINT32_LE(ctx->state[12], key, 20);
+                GET_UINT32_LE(ctx->state[13], key, 24);
+                GET_UINT32_LE(ctx->state[14], key, 28);
+            }
+        #else
+            #error no implemention here
+        #endif
 /*
-            printf ("ctx->state: ");
-            for (int i = 0; i < 16; i++){
-                printf ("%08x ", ctx->state[i]);
-            }  printf ("\n");
+        printf ("ctx->state: ");
+        for (int i = 0; i < 16; i++){
+            printf ("%08x ", ctx->state[i]);
+        }  printf ("\n");
 */
-            return ZMCRYPTO_ERR_SUCCESSED; 
-        }
+        return ZMCRYPTO_ERR_SUCCESSED; 
+    }
 
-        zmerror salsa20_set_dkey(struct salsa20_ctx* ctx, uint8_t* key, uint32_t ksize)
-        { 
-            ZMCRYPTO_LOG("");
-            return salsa20_set_ekey(ctx, key, ksize); 
-        }
+    zmerror salsa20_set_dkey(struct salsa20_ctx* ctx, uint8_t* key, uint32_t ksize)
+    { 
+        ZMCRYPTO_LOG("");
+        return salsa20_set_ekey(ctx, key, ksize); 
+    }
 
-        zmerror salsa20_set_iv(struct salsa20_ctx* ctx, uint8_t* iv, uint32_t ivsize)
-        { 
-            ZMCRYPTO_LOG("");
-            if (ivsize != 8 || ivsize != 24)
-                { return ZMCRYPTO_ERR_INVALID_IVSIZE; }
+    zmerror salsa20_set_iv(struct salsa20_ctx* ctx, uint8_t* iv)
+    { 
+        return ZMCRYPTO_ERR_SUCCESSED; 
+    }
 
-            return ZMCRYPTO_ERR_SUCCESSED; 
-        }
+    void salsa20_encrypt(struct salsa20_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)
+    { 
+        ZMCRYPTO_LOG("");
+    }
 
-        void salsa20_encrypt(struct salsa20_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)
-        { 
-            ZMCRYPTO_LOG("");
-        }
+    void salsa20_decrypt(struct salsa20_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)
+    { 
+        ZMCRYPTO_LOG("");
+        return ; 
+    }
 
-        void salsa20_decrypt(struct salsa20_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)
-        { 
-            ZMCRYPTO_LOG("");
-            return ; 
-        }
-
+    int32_t xsalsa20_ksize_min (void) {return 0;}
+    int32_t xsalsa20_ksize_max (void) {return 0;}
+    int32_t xsalsa20_ksize_multiple (void) {return 0;}
+    struct xsalsa20_ctx* xsalsa20_new (void) {return 0;}
+    void xsalsa20_free (struct xsalsa20_ctx* ctx) {return;}
+    void xsalsa20_init (struct xsalsa20_ctx* ctx){return;}
+    zmerror xsalsa20_set_ekey(struct xsalsa20_ctx* ctx, uint8_t* key, uint32_t ksize){return 0;}
+    zmerror xsalsa20_set_dkey(struct xsalsa20_ctx* ctx, uint8_t* key, uint32_t ksize){return 0;}
+    zmerror xsalsa20_set_iv(struct xsalsa20_ctx* ctx, uint8_t* iv){return 0;}
+    void xsalsa20_encrypt(struct xsalsa20_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output){return;}
+    void xsalsa20_decrypt(struct xsalsa20_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output){return;}
+    
 #endif /* ZMCRYPTO_SALSA20_H */

@@ -119,6 +119,18 @@ namespace zmcrypto
             BLOCKCIPHER_FUNCTION_DECLARA(twofish)
         #endif
 
+        #if defined ZMCRYPTO_ALGO_TEA
+            BLOCKCIPHER_FUNCTION_DECLARA(tea)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_XTEA
+            BLOCKCIPHER_FUNCTION_DECLARA(xtea)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_SM4
+            BLOCKCIPHER_FUNCTION_DECLARA(sm4)
+        #endif
+
         /**
          * MAC functions
          */
@@ -174,6 +186,8 @@ namespace zmcrypto
         #if defined ZMCRYPTO_ALGO_SALSA20
             STREAMCIPHER_FUNCTION_DECLARA(salsa20)
             STREAMCIPHER_WITH_IV_FUNCTION_DECLARA(salsa20)
+            STREAMCIPHER_FUNCTION_DECLARA(xsalsa20)
+            STREAMCIPHER_WITH_IV_FUNCTION_DECLARA(xsalsa20)
         #endif
 
     private:

@@ -742,9 +742,9 @@ namespace zmcrypto
         }\
 
     #define STREAMCIPHER_WITH_IV_POINTER_IMPL(name)\
-        zmerror sdk::zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv, uint32_t ivsize){\
+        zmerror sdk::zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv){\
             if (_pfn_##name##_set_dkey){\
-                return _pfn_##name##_set_iv(ctx, iv, ivsize);\
+                return _pfn_##name##_set_iv(ctx, iv);\
             }\
             return ZMCRYPTO_ERR_NULL_PTR;\
         }
@@ -792,6 +792,21 @@ namespace zmcrypto
     #if defined ZMCRYPTO_ALGO_TWOFISH
         BLOCKCIPHER_POINTER_DECLARA(twofish)
         BLOCKCIPHER_POINTER_IMPL(twofish)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_TEA
+        BLOCKCIPHER_POINTER_DECLARA(tea)
+        BLOCKCIPHER_POINTER_IMPL(tea)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_XTEA
+        BLOCKCIPHER_POINTER_DECLARA(xtea)
+        BLOCKCIPHER_POINTER_IMPL(xtea)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_SM4
+        BLOCKCIPHER_POINTER_DECLARA(sm4)
+        BLOCKCIPHER_POINTER_IMPL(sm4)
     #endif
 
     #if defined ZMCRYPTO_ALGO_HMAC
@@ -847,8 +862,8 @@ namespace zmcrypto
     #if defined ZMCRYPTO_ALGO_SALSA20
         STREAMCIPHER_POINTER_DECLARA(salsa20)
         STREAMCIPHER_WITH_IV_POINTER_DECLARA(salsa20)
-        STREAMCIPHER_POINTER_IMPL(salsa20)
-        STREAMCIPHER_WITH_IV_POINTER_IMPL(salsa20)
+        STREAMCIPHER_POINTER_DECLARA(xsalsa20)
+        STREAMCIPHER_WITH_IV_POINTER_DECLARA(xsalsa20)
     #endif
 
 #if defined __linux__
@@ -962,6 +977,18 @@ namespace zmcrypto
             BLOCKCIPHER_POINTER_LOAD(twofish)
         #endif
 
+        #if defined ZMCRYPTO_ALGO_TEA
+            BLOCKCIPHER_POINTER_LOAD(tea)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_XTEA
+            BLOCKCIPHER_POINTER_LOAD(xtea)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_SM4
+            BLOCKCIPHER_POINTER_LOAD(sm4)
+        #endif
+
         #if defined ZMCRYPTO_ALGO_HMAC
             MAC_POINTER_LOAD(hmac)
         #endif
@@ -1005,6 +1032,8 @@ namespace zmcrypto
         #if defined ZMCRYPTO_ALGO_SALSA20
             STREAMCIPHER_POINTER_LOAD(salsa20)
             STREAMCIPHER_WITH_IV_POINTER_LOAD(salsa20)
+            STREAMCIPHER_POINTER_LOAD(xsalsa20)
+            STREAMCIPHER_WITH_IV_POINTER_LOAD(xsalsa20)
         #endif
     }
 

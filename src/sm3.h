@@ -14,8 +14,8 @@
  *         https://github.com/zhangluduo/zmcrypto/
  */
 
-#if !defined ZMCRYPTO_SHA1_H
-#define ZMCRYPTO_SHA1_H
+#if !defined ZMCRYPTO_SM3_H
+#define ZMCRYPTO_SM3_H
 
 #include "zmconfig.h"
 

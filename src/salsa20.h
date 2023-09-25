@@ -24,13 +24,12 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_SALSA20
-        struct salsa20_ctx
+        typedef struct salsa20_ctx
         {
-            int n;
             uint32_t state[16];
             uint8_t buffer[64];
             uint32_t position;
-        } ;
+        } xsalsa20_ctx;
 
         int32_t salsa20_ksize_min (
             void
@@ -70,8 +69,7 @@ extern "C" {
 
         zmerror salsa20_set_iv(
             struct salsa20_ctx* ctx, 
-            uint8_t* iv,
-            uint32_t ivsize
+            uint8_t* iv
         );
 
         void salsa20_encrypt(
@@ -83,6 +81,61 @@ extern "C" {
 
         void salsa20_decrypt(
             struct salsa20_ctx* ctx,
+            uint8_t* input, 
+            uint32_t ilen, 
+            uint8_t* output
+        );
+
+        int32_t xsalsa20_ksize_min (
+            void
+        );
+
+        int32_t xsalsa20_ksize_max (
+            void
+        );
+
+        int32_t xsalsa20_ksize_multiple (
+            void
+        );
+
+        struct xsalsa20_ctx* xsalsa20_new (
+            void
+        );
+
+        void xsalsa20_free (
+            struct xsalsa20_ctx* ctx
+        );
+
+        void xsalsa20_init (
+            struct xsalsa20_ctx* ctx
+        );
+
+        zmerror xsalsa20_set_ekey(
+            struct xsalsa20_ctx* ctx, 
+            uint8_t* key, 
+            uint32_t ksize
+        );
+
+        zmerror xsalsa20_set_dkey(
+            struct xsalsa20_ctx* ctx, 
+            uint8_t* key, 
+            uint32_t ksize
+        );
+
+        zmerror xsalsa20_set_iv(
+            struct xsalsa20_ctx* ctx, 
+            uint8_t* iv
+        );
+
+        void xsalsa20_encrypt(
+            struct xsalsa20_ctx* ctx,
+            uint8_t* input, 
+            uint32_t ilen, 
+            uint8_t* output
+        );
+
+        void xsalsa20_decrypt(
+            struct xsalsa20_ctx* ctx,
             uint8_t* input, 
             uint32_t ilen, 
             uint8_t* output
