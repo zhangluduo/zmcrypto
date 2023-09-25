@@ -72,10 +72,6 @@ extern "C" {
             void    (*hash_final)       (void* ctx, uint8_t* output)
         );
 
-        void hmac_reset (
-            struct hmac_ctx* ctx
-        );
-
         zmerror hmac_starts (
             struct hmac_ctx* ctx, 
             uint8_t* key, 

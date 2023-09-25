@@ -270,7 +270,6 @@ extern "C" {
         API CONTEXT_TYPE_PTR(name) zm_##name##_new (void);\
         API void    zm_##name##_free(CONTEXT_TYPE_PTR(name) ctx);\
         API void    zm_##name##_init(CONTEXT_TYPE_PTR(name) ctx, param);\
-        API void    zm_##name##_reset(CONTEXT_TYPE_PTR(name) ctx);\
         API zmerror zm_##name##_starts(CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t klen);\
         API void    zm_##name##_update(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen);\
         API void    zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output);\
@@ -278,7 +277,6 @@ extern "C" {
         typedef CONTEXT_TYPE_PTR(name) (*pfn_##name##_new) (void);\
         typedef void    (*pfn_##name##_free)(CONTEXT_TYPE_PTR(name) ctx);\
         typedef void    (*pfn_##name##_init)(CONTEXT_TYPE_PTR(name) ctx, param);\
-        typedef void    (*pfn_##name##_reset)(CONTEXT_TYPE_PTR(name) ctx);\
         typedef zmerror (*pfn_##name##_starts)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t klen);\
         typedef void    (*pfn_##name##_update)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen);\
         typedef void    (*pfn_##name##_final)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output);\

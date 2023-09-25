@@ -66,10 +66,6 @@ extern "C" {
             void    (*cipher_enc_block)      (void* ctx, uint8_t* plaintext, uint8_t* ciphertext),
             void    (*cipher_dec_block)      (void* ctx, uint8_t* ciphertext, uint8_t* plaintext)
         );
-        
-        void cmac_reset (
-            struct cmac_ctx* ctx
-        );
 
         zmerror cmac_starts (
             struct cmac_ctx* ctx, uint8_t* key, uint32_t klen

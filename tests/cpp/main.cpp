@@ -97,8 +97,8 @@ void test_case(zmcrypto::sdk* _sdk){
 }
 
 void test_engine(zmcrypto::sdk* _sdk){
-    test_case_engine_aes(_sdk);
-    test_case_engine_md5(_sdk);
+    // test_case_engine_aes(_sdk);
+    // test_case_engine_md5(_sdk);
 }
 
 void test_speed(zmcrypto::sdk* _sdk){

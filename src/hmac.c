@@ -90,16 +90,6 @@ where
 		ctx->hash_free(hashctx);
 	}
 
-	void hmac_reset (struct hmac_ctx* ctx)
-	{
-		ctx->hash_free(ctx->hash_ctx);
-		ctx->hash_ctx = NULL; 
-
-		zmcrypto_memset(ctx->temp, 0, DIGEST_MAX_BLOCK_SIZE);
-		zmcrypto_memset(ctx->ipad, 0, DIGEST_MAX_BLOCK_SIZE);
-		zmcrypto_memset(ctx->opad, 0, DIGEST_MAX_BLOCK_SIZE);
-	}
-
 	int32_t hmac_digest_size (struct hmac_ctx* ctx)
 	{
 		return ctx->hash_digest_size();

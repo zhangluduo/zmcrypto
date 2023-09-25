@@ -215,16 +215,6 @@
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 
-    void cmac_reset (struct cmac_ctx* ctx)
-    {
-        ctx->cipher_free (ctx->cipher_ctx);
-        ctx->cipher_ctx = NULL;
-        ctx->unprocessed_len = 0;
-
-        zmcrypto_memset(ctx->unprocessed_block, 0, ZMCRYPTO_MAX_BLOCKSIZE);
-        zmcrypto_memset(ctx->state, 0, ZMCRYPTO_MAX_BLOCKSIZE);
-    }
-
     void cmac_update (struct cmac_ctx* ctx, uint8_t* data, uint32_t dlen) 
     {
         /* Is there data still to process from the last call, that's greater in

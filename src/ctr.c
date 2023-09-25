@@ -81,7 +81,7 @@
         }
 
         /*
-        CT = ENC(IV, KEY) ^ PT;
+        CT := ENC(IV, KEY) ^ PT;
         IV++;
         */
         zmerror ctr_enc (struct ctr_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)
@@ -117,7 +117,7 @@
         }
 
         /*
-        PT = ENC(IV, KEY) ^ CT;
+        PT := ENC(IV, KEY) ^ CT;
         IV++;
         */
         zmerror ctr_dec (struct ctr_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)

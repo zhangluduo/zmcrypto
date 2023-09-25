@@ -34,10 +34,14 @@ add_library(
 	../../src/sha1.c
 	../../src/sha2.c
 	../../src/sha3.c
+	../../src/sm3.c
 	../../src/aes.c
 	../../src/des.c
 	../../src/blowfish.c
 	../../src/twofish.c
+	../../src/sm4.c
+	../../src/tea.c
+	../../src/xtea.c
 	../../src/ecb.c
 	../../src/cbc.c
 	../../src/cfb.c

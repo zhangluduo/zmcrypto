@@ -20,6 +20,17 @@
                  38D, November 2007.
 */
 
+
+/*
+ * http://csrc.nist.gov/publications/nistpubs/800-38D/SP-800-38D.pdf
+ *
+ * See also:
+ * [MGV] http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/gcm/gcm-revised-spec.pdf
+ *
+ * We use the algorithm described as Shoup's method with 4-bit tables in
+ * [MGV] 4.1, pp. 12-13, to enhance speed without using too much memory.
+ */
+
 #include "gcm.h"
 
 #if defined ZMCRYPTO_ALGO_GCM

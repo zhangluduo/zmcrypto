@@ -311,7 +311,6 @@ extern "C" {
     #define MAC_FUNCTION_IMPL(name)\
         pfn_##name##_new          _pfn_##name##_new           = name##_new;\
         pfn_##name##_free         _pfn_##name##_free          = name##_free;\
-        pfn_##name##_reset        _pfn_##name##_reset         = name##_reset;\
         pfn_##name##_starts       _pfn_##name##_starts        = name##_starts;\
         pfn_##name##_update       _pfn_##name##_update        = name##_update;\
         pfn_##name##_final        _pfn_##name##_final         = name##_final;\
@@ -324,10 +323,6 @@ extern "C" {
         void zm_##name##_free (CONTEXT_TYPE_PTR(name) ctx)\
         {\
             _pfn_##name##_free(ctx);\
-        }\
-        void zm_##name##_reset (CONTEXT_TYPE_PTR(name) ctx)\
-        {\
-             _pfn_##name##_reset(ctx);\
         }\
         zmerror zm_##name##_starts (CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t klen)\
         {\
@@ -740,8 +735,6 @@ extern "C" {
             { void* p = _pfn_cmac_init; _pfn_cmac_init = pfn; return p; }
         if (zm_strcmp(fname, "zm_cmac_new") == 0) 
             { void* p = _pfn_cmac_new; _pfn_cmac_new = pfn; return p; }
-        if (zm_strcmp(fname, "zm_cmac_reset") == 0) 
-            { void* p = _pfn_cmac_reset; _pfn_cmac_reset = pfn; return p; }
         if (zm_strcmp(fname, "zm_cmac_starts") == 0) 
             { void* p = _pfn_cmac_starts; _pfn_cmac_starts = pfn; return p; }
         if (zm_strcmp(fname, "zm_cmac_update") == 0) 
@@ -820,8 +813,6 @@ extern "C" {
             { void* p = _pfn_hmac_init; _pfn_hmac_init = pfn; return p; }
         if (zm_strcmp(fname, "zm_hmac_new") == 0) 
             { void* p = _pfn_hmac_new; _pfn_hmac_new = pfn; return p; }
-        if (zm_strcmp(fname, "zm_hmac_reset") == 0) 
-            { void* p = _pfn_hmac_reset; _pfn_hmac_reset = pfn; return p; }
         if (zm_strcmp(fname, "zm_hmac_starts") == 0) 
             { void* p = _pfn_hmac_starts; _pfn_hmac_starts = pfn; return p; }
         if (zm_strcmp(fname, "zm_hmac_update") == 0) 

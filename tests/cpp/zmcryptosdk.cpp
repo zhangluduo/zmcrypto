@@ -392,7 +392,6 @@ namespace zmcrypto
         pfn_##name##_free         _pfn_##name##_free         = NULL;\
         pfn_##name##_init         _pfn_##name##_init         = NULL;\
         pfn_##name##_starts       _pfn_##name##_starts       = NULL;\
-        pfn_##name##_reset        _pfn_##name##_reset        = NULL;\
         pfn_##name##_update       _pfn_##name##_update       = NULL;\
         pfn_##name##_final        _pfn_##name##_final        = NULL;\
         pfn_##name##_digest_size  _pfn_##name##_digest_size  = NULL;
@@ -402,7 +401,6 @@ namespace zmcrypto
         _pfn_##name##_free          = (pfn_##name##_free         )GetProcAddress(m_modulehandle, "zm_" #name "_free"         );\
         _pfn_##name##_init          = (pfn_##name##_init         )GetProcAddress(m_modulehandle, "zm_" #name "_init"         );\
         _pfn_##name##_starts        = (pfn_##name##_starts       )GetProcAddress(m_modulehandle, "zm_" #name "_starts"       );\
-        _pfn_##name##_reset         = (pfn_##name##_reset        )GetProcAddress(m_modulehandle, "zm_" #name "_reset"        );\
         _pfn_##name##_update        = (pfn_##name##_update       )GetProcAddress(m_modulehandle, "zm_" #name "_update"       );\
         _pfn_##name##_final         = (pfn_##name##_final        )GetProcAddress(m_modulehandle, "zm_" #name "_final"        );\
         _pfn_##name##_digest_size   = (pfn_##name##_digest_size  )GetProcAddress(m_modulehandle, "zm_" #name "_digest_size"  );
@@ -433,12 +431,6 @@ namespace zmcrypto
                 return _pfn_##name##_starts(ctx, key, klen);\
             }\
             return ZMCRYPTO_ERR_NULL_PTR;\
-        }\
-        void sdk::zm_##name##_reset(CONTEXT_TYPE_PTR(name) ctx)\
-        {\
-            if (_pfn_##name##_reset){\
-                _pfn_##name##_reset(ctx);\
-            }\
         }\
         void sdk::zm_##name##_update(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen)\
         {\

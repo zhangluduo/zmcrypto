@@ -82,8 +82,8 @@
         }
 
         /*
-        CT = ENC(IV, KEY) ^ PT;
-        IV = CT;
+        CT := ENC(IV, KEY) ^ PT;
+        IV := CT;
         */
         zmerror cfb_enc (struct cfb_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)
         {
@@ -109,8 +109,8 @@
         }
 
         /*
-        PT = ENC(IV, KEY) ^ CT;
-        IV = CT;
+        PT := ENC(IV, KEY) ^ CT;
+        IV := CT;
         */
         zmerror cfb_dec (struct cfb_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)
         {
