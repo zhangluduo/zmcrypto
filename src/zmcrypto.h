@@ -35,7 +35,7 @@
 
 #define ZM_VALSTR_STRUCT(x) { x, #x }
 
-#if !defined CONTEXT_TYPE
+#if !defined CONTEXT_TYPE_PTR
     #define CONTEXT_TYPE_PTR(name) struct name##_ctx*
 #endif
 
