@@ -29,7 +29,7 @@
 
 void test_info_sm3(zmcrypto::sdk* _sdk)
 {
-    #if defined ZMCRYPTO_ALGO_SHA1
+    #if defined ZMCRYPTO_ALGO_SM3
     int32_t _size = _sdk->zm_sm3_digest_size();
     int32_t _size2 = _sdk->zm_sm3_block_size();
     printf("sm3 digest size: %d, block size: %d\n", _size, _size2);
@@ -119,7 +119,7 @@ void test_case_sm3(zmcrypto::sdk* _sdk)
 
 void test_speed_sm3(zmcrypto::sdk* _sdk)
 {
-    #if defined ZMCRYPTO_ALGO_SHA1
+    #if defined ZMCRYPTO_ALGO_SM3
         zmcrypto::sdk sdk;
         CONTEXT_TYPE_PTR(sm3) ctx = sdk.zm_sm3_new();
         uint8_t* output = new uint8_t[sdk.zm_sm3_digest_size()];
