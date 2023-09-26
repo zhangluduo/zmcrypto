@@ -99,6 +99,10 @@ namespace zmcrypto
             HASH_FUNCTION_DECLARA(sha1)
         #endif
 
+        #if defined ZMCRYPTO_ALGO_SM3
+            HASH_FUNCTION_DECLARA(sm3)
+        #endif
+
         /**
          * Block cipher functions
          */

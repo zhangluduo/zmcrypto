@@ -238,10 +238,10 @@ Use the following macros to make this library do clipping
 #ifndef PUT_UINT32_BE
 #define PUT_UINT32_BE(n,b,i)                            \
 {                                                       \
-    (b)[(i)    ] = (unsigned char) ( (n) >> 24 );       \
-    (b)[(i) + 1] = (unsigned char) ( (n) >> 16 );       \
-    (b)[(i) + 2] = (unsigned char) ( (n) >>  8 );       \
-    (b)[(i) + 3] = (unsigned char) ( (n)       );       \
+    (b)[(i) + 0] = (uint8_t) ( (n) >> 24 );       \
+    (b)[(i) + 1] = (uint8_t) ( (n) >> 16 );       \
+    (b)[(i) + 2] = (uint8_t) ( (n) >>  8 );       \
+    (b)[(i) + 3] = (uint8_t) ( (n)       );       \
 }
 #endif
 
@@ -296,8 +296,8 @@ Use the following macros to make this library do clipping
 }
 #endif
 
-#ifndef ROTL
-    #define ROTL(in, rot) (in << rot) | (in >> (8 * sizeof(in) - rot))
+#ifndef ROTL32
+    #define ROTL32(x,n) ((x) << n | ((x) >> (32 - n)))
 #endif
 
 /* detect x86/i386 32bit */

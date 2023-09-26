@@ -1,0 +1,6 @@
+#source: -
+comment: #1
+algorithm: sm3
+message: zhangluduo
+repeat: 1
+digest: 0x8cceb425c8a854a59c5ea6dda26acb3f325837c7daa547a54f9d9127df4ca9fd

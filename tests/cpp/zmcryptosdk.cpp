@@ -766,6 +766,11 @@ namespace zmcrypto
         HASH_POINTER_IMPL(sha1)
     #endif
 
+    #if defined ZMCRYPTO_ALGO_SM3
+        HASH_POINTER_DECLARA(sm3)
+        HASH_POINTER_IMPL(sm3)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_AES
         BLOCKCIPHER_POINTER_DECLARA(aes)
         BLOCKCIPHER_POINTER_IMPL(aes)
@@ -951,6 +956,10 @@ namespace zmcrypto
 
         #if defined ZMCRYPTO_ALGO_SHA1
             HASH_POINTER_LOAD(sha1)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_SM3
+            HASH_POINTER_LOAD(sm3)
         #endif
 
         #if defined ZMCRYPTO_ALGO_AES
