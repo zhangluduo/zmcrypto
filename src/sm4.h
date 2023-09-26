@@ -25,7 +25,7 @@ extern "C" {
     #if defined ZMCRYPTO_ALGO_SM4
         struct sm4_ctx
         {
-            uint32_t x;
+            uint32_t sk[32];       /*!<  SM4 subkeys       */
         } ;
 
         struct sm4_ctx* sm4_new (
@@ -56,7 +56,6 @@ extern "C" {
             void
         );
 
-        /* valid key size are 16, 24 or 32 */
         zmerror sm4_set_ekey (
             struct sm4_ctx* ctx, 
             uint8_t* key, 

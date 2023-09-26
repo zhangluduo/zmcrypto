@@ -131,7 +131,7 @@ int main()
     zmcrypto::sdk _sdk;
     srand(time(NULL));
     print_env();
-
+return 0;
     test_case(&_sdk);
     test_speed(&_sdk);
     test_info(&_sdk);

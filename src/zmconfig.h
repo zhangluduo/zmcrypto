@@ -238,10 +238,10 @@ Use the following macros to make this library do clipping
 #ifndef PUT_UINT32_BE
 #define PUT_UINT32_BE(n,b,i)                            \
 {                                                       \
-    (b)[(i) + 0] = (uint8_t) ( (n) >> 24 );       \
-    (b)[(i) + 1] = (uint8_t) ( (n) >> 16 );       \
-    (b)[(i) + 2] = (uint8_t) ( (n) >>  8 );       \
-    (b)[(i) + 3] = (uint8_t) ( (n)       );       \
+    (b)[(i) + 0] = (uint8_t) ( (n) >> 24 );             \
+    (b)[(i) + 1] = (uint8_t) ( (n) >> 16 );             \
+    (b)[(i) + 2] = (uint8_t) ( (n) >>  8 );             \
+    (b)[(i) + 3] = (uint8_t) ( (n)       );             \
 }
 #endif
 

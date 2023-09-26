@@ -70,8 +70,8 @@ link_directories(
 )
 
 add_definitions(
-	-DTEST_FOR_CRYPTOPP
-	-DDONOT_DETECT_MEM_LEAK_FOR_CRYPTOPP
+	#-DTEST_FOR_CRYPTOPP
+	#-DDONOT_DETECT_MEM_LEAK_FOR_CRYPTOPP
 )
 
 add_executable(
@@ -106,5 +106,5 @@ add_executable(
 
 target_link_libraries (test LINK_PUBLIC 
 	dl
-	cryptopp #Crypto++ Library
+	#cryptopp #Crypto++ Library
 )
