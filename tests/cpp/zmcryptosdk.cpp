@@ -874,7 +874,7 @@ namespace zmcrypto
     {
         #if defined __linux__
             //m_modulefile = "/vendor/zhangluduo/zmcrypto/build/linux/libzmcrypto.so";
-            m_modulefile = "./libzmcrypto.so";
+            m_modulefile = "./zmcrypto.so";
         #elif defined _WIN32
             m_modulefile = "./zmcrypto.dll";
         #endif

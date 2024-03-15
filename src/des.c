@@ -17,6 +17,11 @@
  
 #if defined ZMCRYPTO_ALGO_DES
 
+    struct des_ctx
+    {
+        uint32_t sk[32];            /*!<  DES subkeys       */
+    } ;
+
     #define SWAP(a,b) { uint32_t t = a; a = b; b = t; t = 0; }
     #define DES_KEY_SIZE (8)
 
@@ -387,7 +392,6 @@
     void des_free (struct des_ctx* ctx)
     {
         zmcrypto_free(ctx);
-        ctx = NULL;
     }
 
     int32_t des_block_size(void)

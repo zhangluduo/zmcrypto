@@ -23,10 +23,7 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_DES
-        struct des_ctx
-        {
-            uint32_t sk[32];            /*!<  DES subkeys       */
-        } ;
+        struct des_ctx;
 
         struct des_ctx* des_new (
             void

@@ -27,15 +27,19 @@
 #include "test_aes.h"
 #include "test_des.h"
 #include "test_rc4.h"
+#include "test_sm4.h"
 #include "test_blowfish.h"
 #include "test_engine.h"
 #include "test_config.h"
 #include "test_blockpad.h"
+#include "test_asn1.h"
 #include "machine_info.h"
 #include "format_output.h"
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <vector>
 
 #if defined _DEBUG && defined _WIN32
     #include<crtdbg.h>
@@ -62,79 +66,122 @@ void print_env(){
 }
 
 void test_case(zmcrypto::sdk* _sdk){
-    // test_case_blockpad(_sdk);
-    // test_case_blockdepad(_sdk);
+    test_case_blockpad(_sdk);
+    test_case_blockdepad(_sdk);
 
-    // test_case_base64(_sdk);
-    // test_case_base64_line_break(_sdk);
+    test_case_base64(_sdk);
+    test_case_base64_line_break(_sdk);
 
-    // test_case_adler32(_sdk);
-    // test_case_crc32(_sdk);
-    // test_case_md5(_sdk);
-    // test_case_sha1(_sdk);
+    test_case_adler32(_sdk);
+    test_case_crc32(_sdk);
+    test_case_md5(_sdk);
+    test_case_sha1(_sdk);
     test_case_sm3(_sdk);
 
-    // test_case_hmac(_sdk);
-    // test_case_cmac(_sdk);
-    // test_case_ccm(_sdk);
-    // test_case_pbkdf2(_sdk);
+    test_case_hmac(_sdk);
+    test_case_cmac(_sdk);
+    test_case_ccm(_sdk);
+    test_case_pbkdf2(_sdk);
 
-    // test_case_blowfish_ecb(_sdk);
-    // test_case_blowfish_cbc(_sdk);
-    // test_case_blowfish_cfb(_sdk);
-    // test_case_blowfish_ofb(_sdk);
-    // test_case_blowfish_ctr(_sdk);
+    test_case_blowfish_ecb(_sdk);
+    test_case_blowfish_cbc(_sdk);
+    test_case_blowfish_cfb(_sdk);
+    test_case_blowfish_ofb(_sdk);
+    test_case_blowfish_ctr(_sdk);
 
-    // test_case_aes_ecb(_sdk);
-    // test_case_aes_cbc(_sdk);
-    // test_case_aes_cfb(_sdk);
-    // test_case_aes_ofb(_sdk);
-    // test_case_aes_ctr(_sdk);
+    test_case_aes_ecb(_sdk);
+    test_case_aes_cbc(_sdk);
+    test_case_aes_cfb(_sdk);
+    test_case_aes_ofb(_sdk);
+    test_case_aes_ctr(_sdk);
 
-    // test_case_des_ecb(_sdk);
-    // test_case_des_cbc(_sdk);
-    // test_case_des_cfb(_sdk);
-    // test_case_des_ofb(_sdk);
-    // test_case_des_ctr(_sdk);
+    test_case_des_ecb(_sdk);
+    test_case_des_cbc(_sdk);
+    test_case_des_cfb(_sdk);
+    test_case_des_ofb(_sdk);
+    test_case_des_ctr(_sdk);
+
+    test_case_sm4_ecb(_sdk);
+    test_case_sm4_cbc(_sdk);
+    test_case_sm4_cfb(_sdk);
+    test_case_sm4_ofb(_sdk);
+    test_case_sm4_ctr(_sdk);
 }
 
 void test_engine(zmcrypto::sdk* _sdk){
-    // test_case_engine_aes(_sdk);
-    // test_case_engine_md5(_sdk);
+    test_case_hook_aes(_sdk);
+    {
+        test_case_aes_ecb(_sdk);
+        test_case_aes_cbc(_sdk);
+        test_case_aes_cfb(_sdk);
+        test_case_aes_ofb(_sdk);
+        test_case_aes_ctr(_sdk);
+    }
+    test_case_unhook_aes(_sdk);
+    {
+        test_case_aes_ecb(_sdk);
+        test_case_aes_cbc(_sdk);
+        test_case_aes_cfb(_sdk);
+        test_case_aes_ofb(_sdk);
+        test_case_aes_ctr(_sdk);
+    }
 }
 
 void test_speed(zmcrypto::sdk* _sdk){
-    //  test_speed_adler32(_sdk);
-    //  test_speed_crc32(_sdk);
-    //  test_speed_md5(_sdk);
-    //  test_speed_sha1(_sdk);
+    test_speed_adler32(_sdk);
+    test_speed_crc32(_sdk);
+    test_speed_md5(_sdk);
+    test_speed_sha1(_sdk);
     test_speed_sm3(_sdk);
-    //  test_speed_aes(_sdk);
-    //  test_speed_des(_sdk);
-    //  test_speed_blowfish(_sdk);
+    test_speed_aes(_sdk);
+    test_speed_des(_sdk);
+    test_speed_blowfish(_sdk);
 }
 
 void test_info(zmcrypto::sdk* _sdk){
-    // test_info_adler32(_sdk);
-    // test_info_crc32(_sdk);
-    // test_info_md5(_sdk);
-    // test_info_sha1(_sdk);
+    test_info_adler32(_sdk);
+    test_info_crc32(_sdk);
+    test_info_md5(_sdk);
+    test_info_sha1(_sdk);
     test_info_sm3(_sdk);
-    // test_info_aes(_sdk);
-    // test_info_des(_sdk);
-    // test_info_blowfish(_sdk);
-    // test_info_rc4(_sdk);
+    test_info_aes(_sdk);
+    test_info_des(_sdk);
+    test_info_blowfish(_sdk);
+    test_info_rc4(_sdk);
+    test_info_sm4(_sdk);
 }
 
 int main()
 {
     zmcrypto::sdk _sdk;
+
+#if 1
     srand(time(NULL));
     print_env();
-return 0;
-    test_case(&_sdk);
-    test_speed(&_sdk);
-    test_info(&_sdk);
+
+    test_asn1_case1();
+    test_asn1_case2();
+    test_asn1_case3();
+    test_asn1_case4();
+    test_asn1_case5();
+    test_asn1_case6();
+    test_asn1_case7();
+    test_asn1_case8();
+    test_asn1_case9();
+    test_asn1_case10();
+    test_asn1_case11();
+    test_asn1_case12();
+    test_asn1_case13();
+    test_asn1_case14();
+    test_asn1_case15();
+
+    ASN1代码未完
+
+    // test_engine(&_sdk);
+    // test_case(&_sdk);
+    // test_speed(&_sdk);
+    // test_info(&_sdk);
+#endif
 
 #if defined _DEBUG && defined _WIN32
 	char* s = new char[111];
@@ -143,3 +190,5 @@ return 0;
 
     return 0;
 }
+
+

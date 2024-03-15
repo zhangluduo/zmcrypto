@@ -24,12 +24,7 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_SHA1
-        struct sha1_ctx
-        {
-            uint32_t total[2];    /*!< number of bytes processed  */
-            uint32_t state[5];    /*!< intermediate digest state  */
-            uint8_t buffer[64];   /*!< data block being processed */
-        } ;
+        struct sha1_ctx;
 
         struct sha1_ctx* sha1_new (
             void

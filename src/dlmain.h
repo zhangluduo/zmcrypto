@@ -14,19 +14,19 @@
  *         https://github.com/zhangluduo/zmcrypto/
  */
 
-#if !defined ZMCRYPTO_CRC3232_H
-#define ZMCRYPTO_CRC3232_H
+#if !defined ZMCRYPTO_DLMAIN_H
+#define ZMCRYPTO_DLMAIN_H
+
+#include "zmconfig.h"
 
 #ifdef  __cplusplus
 extern "C" {
 #endif
 
-    //#if defined __linux__
-        void __attribute__ ((constructor)) load_so(void);
-        void __attribute__ ((destructor)) unload_so(void);
-        void load_so(void);
-        void unload_so(void);
-    //#endif
+    #if defined __linux__
+        void load_dl(void);
+        void unload_dl(void);
+    #endif
 
     #if defined WIN32
         #include <windows.h>
@@ -37,5 +37,5 @@ extern "C" {
 }
 #endif
 
-#endif /* ZMCRYPTO_CRC3232_H */
+#endif /* ZMCRYPTO_DLMAIN_H */
 

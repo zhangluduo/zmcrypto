@@ -93,6 +93,7 @@
     <ClCompile Include="..\..\tests\cpp\test_md5.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_pbkdf2.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_sha1.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_sm3.cpp" />
     <ClCompile Include="..\..\tests\cpp\time_stamp.cpp" />
     <ClCompile Include="..\..\tests\cpp\vector_file.cpp" />
     <ClCompile Include="..\..\tests\cpp\zmcryptosdk.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="..\..\tests\cpp\test_md5.h" />
     <ClInclude Include="..\..\tests\cpp\test_pbkdf2.h" />
     <ClInclude Include="..\..\tests\cpp\test_sha1.h" />
+    <ClInclude Include="..\..\tests\cpp\test_sm3.h" />
     <ClInclude Include="..\..\tests\cpp\time_stamp.h" />
     <ClInclude Include="..\..\tests\cpp\vector_file.h" />
     <ClInclude Include="..\..\tests\cpp\zmcryptosdk.h" />

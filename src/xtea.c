@@ -20,7 +20,11 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_XTEA
-
+        struct xtea_ctx
+        {
+            int x;
+        } ;
+        
         struct xtea_ctx* xtea_new (void) { return NULL; };
         void xtea_free (struct xtea_ctx* ctx) {}
         void xtea_init (struct xtea_ctx* ctx) {}

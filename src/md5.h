@@ -24,12 +24,7 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_MD5
-        struct md5_ctx
-        {
-            uint32_t total[2];    /*!< number of bytes processed  */
-            uint32_t state[4];    /*!< intermediate digest state  */
-            uint8_t buffer[64];   /*!< data block being processed */
-        } ;
+        struct md5_ctx;
 
         struct md5_ctx* md5_new (
             void

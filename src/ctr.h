@@ -25,27 +25,7 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_CTR
 
-        #if !defined MAX_IV_SIZE
-            #define MAX_IV_SIZE (256)
-        #endif
-
-        struct ctr_ctx
-        {
-            void*   (*cipher_new)            (void);
-            void    (*cipher_free)           (void* ctx);
-            void    (*cipher_init)           (void* ctx);
-            int32_t (*cipher_block_size)     (void);
-            int32_t (*cipher_ksize_min)      (void);
-            int32_t (*cipher_ksize_max)      (void);
-            int32_t (*cipher_ksize_multiple) (void);
-            int32_t (*cipher_set_ekey)       (void* ctx, uint8_t* key, uint32_t ksize);
-            void    (*cipher_enc_block)      (void* ctx, uint8_t* plaintext, uint8_t* ciphertext);
-
-            void* cipher_ctx;
-            uint32_t nc_offset; /* offset of nonce counter */
-            uint8_t nonce_counter[MAX_IV_SIZE];
-            uint8_t temp[MAX_IV_SIZE];
-        } ;
+        struct ctr_ctx;
 
         void ctr_init (
             struct ctr_ctx* ctx,

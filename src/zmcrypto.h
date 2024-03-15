@@ -19,21 +19,20 @@
 #include "zmconfig.h"
 
 #if defined __linux__
-  #if !defined API
-    #define API 
-    //__attribute__ ((visibility("default")))
-  #endif
-#elif defined _WIN32
-  #if !defined API
-    #if defined DLL_IMPORTS
-      #define API _declspec(dllimport)
-    #else /* DLL_EXPORTS */
-      #define API _declspec(dllexport)
+    #if !defined API
+        #define API __attribute__ ((visibility("default")))
     #endif
-  #endif
+#elif defined _WIN32
+    #if !defined API
+        #if defined DLL_IMPORTS
+            #define API _declspec(dllimport)
+        #else /* DLL_EXPORTS */
+            #define API _declspec(dllexport)
+        #endif
+    #endif
+#else
+    #define API
 #endif
-
-#define ZM_VALSTR_STRUCT(x) { x, #x }
 
 #if !defined CONTEXT_TYPE_PTR
     #define CONTEXT_TYPE_PTR(name) struct name##_ctx*
@@ -56,11 +55,12 @@ extern "C" {
     API const char* zm_version_str(void);
     API const char* zm_error_str(int32_t code);
     API const void* zm_replace_fnc(const char* fname, void* pfn);
+    API const void* zm_get_orig_fnc(const char* fname);
     typedef uint32_t (*pfn_version_num)(void);
     typedef const char* (*pfn_version_str)(void);
     typedef const char* (*pfn_error_str)(int32_t code);
     typedef const void* (*pfn_replace_fnc)(const char* fname, void* pfn);
-    typedef const void* (*pfn_spy_fnc)(const char* fname, void* pfn);
+    typedef const void* (*pfn_get_orig_fnc)(const char* fname);
 
     #if defined ZMCRYPTO_ALGO_PBKDF2
       API zmerror zm_pbkdf2 (

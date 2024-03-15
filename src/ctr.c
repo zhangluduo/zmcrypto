@@ -16,6 +16,25 @@
 #include "ctr.h"
 
 #if defined ZMCRYPTO_ALGO_CTR
+
+        struct ctr_ctx
+        {
+            void*   (*cipher_new)            (void);
+            void    (*cipher_free)           (void* ctx);
+            void    (*cipher_init)           (void* ctx);
+            int32_t (*cipher_block_size)     (void);
+            int32_t (*cipher_ksize_min)      (void);
+            int32_t (*cipher_ksize_max)      (void);
+            int32_t (*cipher_ksize_multiple) (void);
+            int32_t (*cipher_set_ekey)       (void* ctx, uint8_t* key, uint32_t ksize);
+            void    (*cipher_enc_block)      (void* ctx, uint8_t* plaintext, uint8_t* ciphertext);
+
+            void* cipher_ctx;
+            uint32_t nc_offset; /* offset of nonce counter */
+            uint8_t nonce_counter[ZMCRYPTO_MAX_IVSIZE];
+            uint8_t temp[ZMCRYPTO_MAX_IVSIZE];
+        } ;
+
         void ctr_init (struct ctr_ctx* ctx,
             void*   (*cipher_new)            (void),
             void    (*cipher_free)           (void* ctx),
@@ -52,9 +71,9 @@
         {
             if (ctx->cipher_ctx){
                 ctx->cipher_free(ctx->cipher_ctx);
+                ctx->cipher_ctx = NULL;
             }
             zmcrypto_free (ctx);
-            ctx = NULL;
         }
 
         zmerror ctr_set_ekey (struct ctr_ctx* ctx, uint8_t* key, uint32_t ksize, uint8_t* nonce_counter, uint32_t ncsize)

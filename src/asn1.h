@@ -8,10 +8,15 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Sep 2023
+ *   Date: Oct 2023
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
+
+/*
+NOTE:
+    This tool is parsed according to the DET format.
+*/
 
 #if !defined ZMCRYPTO_ASN1_H
 #define ZMCRYPTO_ASN1_H
@@ -24,48 +29,93 @@ extern "C" {
 
     #if defined ZMCRYPTO_TOOL_ASN1
 
-        /**
-         * These constants comply with the DER encoded ASN.1 type tags.
-         * DER encoding uses hexadecimal representation.
-         * An example DER sequence is:\n
-         * - 0x02 -- tag indicating INTEGER
-         * - 0x01 -- length in octets
-         * - 0x05 -- value
-         */
-        #define ASN1_TAG_BOOLEAN                 0x01U
-        #define ASN1_TAG_INTEGER                 0x02U
-        #define ASN1_TAG_BIT_STRING              0x03U
-        #define ASN1_TAG_OCTET_STRING            0x04U
-        #define ASN1_TAG_NULL                    0x05U
-        #define ASN1_TAG_OID                     0x06U
-        #define ASN1_TAG_ENUMERATED              0x0AU
-        #define ASN1_TAG_UTF8_STRING             0x0CU
-        #define ASN1_TAG_SEQUENCE                0x10U
-        #define ASN1_TAG_SET                     0x11U
-        #define ASN1_TAG_PRINTABLE_STRING        0x13U
-        #define ASN1_TAG_T61_STRING              0x14U
-        #define ASN1_TAG_IA5_STRING              0x16U
-        #define ASN1_TAG_UTC_TIME                0x17U
-        #define ASN1_TAG_GENERALIZED_TIME        0x18U
-        #define ASN1_TAG_UNIVERSAL_STRING        0x1CU
-        #define ASN1_TAG_BMP_STRING              0x1EU
-        #define ASN1_TAG_PRIMITIVE               0x00U
-        #define ASN1_TAG_CONSTRUCTED             0x20U
-        #define ASN1_TAG_CONTEXT_SPECIFIC        0x80U
+        struct asn1_data;
+        struct asn1_ctx;
+
+        struct asn1_ctx* asn1_ctx_new();
+
+        void asn1_ctx_free(struct asn1_ctx* ctx);
+
+        void asn1_ctx_init(struct asn1_ctx* ctx);
+
+        uint8_t* asn1_get_tag_data   (struct asn1_ctx* ctx); /* return ctx->tag.data; */
+        uint8_t* asn1_get_length_data(struct asn1_ctx* ctx); /* return ctx->length.data; */
+        uint8_t* asn1_get_value_data (struct asn1_ctx* ctx); /* return ctx->value.data; */
+        uint8_t* asn1_get_next_data  (struct asn1_ctx* ctx); /* return ctx->next.data; */
+        uint32_t asn1_get_tag_dlen   (struct asn1_ctx* ctx); /* return ctx->tag.dlen; */
+        uint32_t asn1_get_length_dlen(struct asn1_ctx* ctx); /* return ctx->length.dlen; */
+        uint32_t asn1_get_value_dlen (struct asn1_ctx* ctx); /* return ctx->value.dlen; */
+        uint32_t asn1_get_next_dlen  (struct asn1_ctx* ctx); /* return ctx->next.dlen; */
 
         /*
-        * Bit masks for each of the components of an ASN.1 tag as specified in
-        * ITU X.690 (08/2015), section 8.1 "General rules for encoding",
-        * paragraph 8.1.2.2:
-        *
-        * Bit  8     7   6   5          1  
-        *     +-------+-----+------------+ 
-        *     | Class | P/C | Tag number | 
-        *     +-------+-----+------------+ 
+        param:
+            data: 
+                Input asn1 format der encoded data
+            dlen: 
+                size of data in bytes
+            ctx:  
+                output raw data of tag, length and value. If the input ‘data’ 
+                contains the next tlv, then ctx->next points to the next element
+                parse position.
+            copy: 
+                If this value set to 1, then copy next parse position of point 
+                'data' to 'next' buffer and the caller can be free 'data'. 
+                However, doing so will increase the number of memory allocations 
+                and affect efficiency.
+
+                If this value set to 0, during this process, malloc will not 
+                be called inside the function for memory allocation, so it 
+                is necessary to ensure the validity of the data during the 
+                life cycle.
+        return:
+            ZMCRYPTO_ERR_SUCCESSED for parse succeed, or other code when error occurs.
         */
-        #define ASN1_TAG_CLASS_MASK          0xC0
-        #define ASN1_TAG_PC_MASK             0x20
-        #define ASN1_TAG_VALUE_MASK          0x1F
+        zmerror asn1_parse_data(uint8_t* data, uint32_t dlen, struct asn1_ctx* ctx, uint32_t copy);
+
+        /* get length of length data */
+        zmerror asn1_parse_data_length(uint8_t* data, uint32_t dlen, uint32_t* result); 
+
+        /* result is 0 for False, otherwise result is 1 */
+        zmerror asn1_parse_data_boolean(uint8_t* data, uint32_t dlen, zmbool* result); 
+
+        /* Ses <x.609> 8.19 Encoding of an object identifier value*/
+        /*
+        zmerror asn1_parse_data_object_identifier (uint8_t* data, uint32_t dlen, ...);
+        zmerror asn1_parse_data_xxx (uint8_t* data, uint32_t dlen, ...);
+        */
+
+        /* returns ZMCRYPTO_ERR_SUCCESSED or ZMCRYPTO_ERR_INVALID_ASN1_TAG */
+        zmerror asn1_is_tag_boolean(uint8_t tag);
+        zmerror asn1_is_tag_integer(uint8_t tag);
+        zmerror asn1_is_tag_bit_string(uint8_t tag);
+        zmerror asn1_is_tag_octet_string(uint8_t tag);
+        zmerror asn1_is_tag_null(uint8_t tag);
+        zmerror asn1_is_tag_object_identifier(uint8_t tag);
+        zmerror asn1_is_tag_object_descriptor(uint8_t tag);
+        zmerror asn1_is_tag_external(uint8_t tag);
+        zmerror asn1_is_tag_real(uint8_t tag);
+        zmerror asn1_is_tag_enumerated(uint8_t tag);
+        zmerror asn1_is_tag_embedded_pdv(uint8_t tag);
+        zmerror asn1_is_tag_utf8_string(uint8_t tag);
+        zmerror asn1_is_tag_sequence(uint8_t tag);
+        zmerror asn1_is_tag_set(uint8_t tag);
+        zmerror asn1_is_tag_numeric_string(uint8_t tag);
+        zmerror asn1_is_tag_printable_string(uint8_t tag);
+        zmerror asn1_is_tag_t61_string(uint8_t tag);
+        zmerror asn1_is_tag_ia5_string(uint8_t tag);
+        zmerror asn1_is_tag_utc_time(uint8_t tag);
+        zmerror asn1_is_tag_generalized_time(uint8_t tag);
+        zmerror asn1_is_tag_GRAPHIC_STRING(uint8_t tag);
+        zmerror asn1_is_tag_VISIBLE_STRING(uint8_t tag);
+        zmerror asn1_is_tag_GENERAL_STRING(uint8_t tag);
+        zmerror asn1_is_tag_universal_string(uint8_t tag);
+        zmerror asn1_is_tag_bmp_string(uint8_t tag);
+
+        /* result is 0 for primitive tag, result is 1 for constructed tag*/
+        zmerror asn1_is_tag_constructed(uint8_t tag, zmbool* result);
+
+        /* debug funcions */
+        const char* asn1_debug_tag_to_string(uint8_t tag);
 
     #endif /* ZMCRYPTO_TOOL_ASN1 */
 

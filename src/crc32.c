@@ -21,6 +21,12 @@
 #include "crc32.h"
 
 #if defined ZMCRYPTO_ALGO_CRC32
+
+    struct crc32_ctx
+    {
+        uint32_t checksum;
+    } ;
+
     struct crc32_ctx* crc32_new (void)
     {
         struct crc32_ctx* ctx = (struct crc32_ctx*)zmcrypto_malloc(sizeof(struct crc32_ctx));
@@ -31,7 +37,6 @@
     void crc32_free (struct crc32_ctx* ctx)
     {
         zmcrypto_free(ctx);
-        ctx = NULL;
     }
 
     int32_t crc32_checksum_size (void)

@@ -18,7 +18,7 @@
 #if !defined TEST_ENGINE_H
 #define TEST_ENGINE_H
 
-void test_case_engine_aes(zmcrypto::sdk* _sdk);
-void test_case_engine_md5(zmcrypto::sdk* _sdk);
+void test_case_hook_aes(zmcrypto::sdk* _sdk);
+void test_case_unhook_aes(zmcrypto::sdk* _sdk);
 
 #endif /* TEST_ENGINE_H */

@@ -23,275 +23,148 @@
 
 #if defined __linux__
     #include <dlfcn.h>
-    #define GetProcAddress dlsym
+    void* modulehandle = NULL;
 #elif defined _WIN32
     #include <windows.h>
+    HMODULE modulehandle = NULL;
+#else
+    #error unknown platform
 #endif
 
+void* p1 =  NULL; 
+void* p2 =  NULL; 
+void* p3 =  NULL; 
+void* p4 =  NULL; 
+void* p5 =  NULL; 
+void* p6 =  NULL; 
+void* p7 =  NULL; 
+void* p8 =  NULL; 
+void* p9 =  NULL; 
+void* p10 = NULL; 
+void* p11 = NULL; 
 
-void output_aes(zmcrypto::sdk* _sdk)
-{
-    std::vector<key_val_vec> test_vec;
-    if (!read_vector_data(TEST_VECTOR_PATH "aes.txt", test_vec)){
-        printf("read test vector data failed\n");
-        return;
-    }
+void* f1 =  NULL; 
+void* f2 =  NULL; 
+void* f3 =  NULL; 
+void* f4 =  NULL; 
+void* f5 =  NULL; 
+void* f6 =  NULL; 
+void* f7 =  NULL; 
+void* f8 =  NULL; 
+void* f9 =  NULL; 
+void* f10 = NULL; 
+void* f11 = NULL; 
 
-    for (size_t i = 0; i < test_vec.size(); i++){
-        std::string algorithm, key, iv, plaintext, ciphertext, repeat;
-        if (!get_key_val_pair(test_vec, i, "algorithm", algorithm)){
-            printf("get key-value pair failed: algorithm\n");
-            return;
-        }
-        if (!get_key_val_pair(test_vec, i, "key", key)){
-            printf("get key-value pair failed: key\n");
-            return;
-        }
-        if (!get_key_val_pair(test_vec, i, "iv", iv)){
-        }
-        if (!get_key_val_pair(test_vec, i, "plaintext", plaintext)){
-            printf("get key-value pair failed: plaintext\n");
-            return;
-        }
-        if (!get_key_val_pair(test_vec, i, "ciphertext", ciphertext)){
-            printf("get key-value pair failed: ciphertext\n");
-            return;
-        }
-        if (!get_key_val_pair(test_vec, i, "repeat", repeat)){
-        }
-
-        #if defined ZMCRYPTO_ALGO_ECB && defined ZMCRYPTO_ALGO_AES
-
-        /* Encryption */
-        {
-            int loop = 1;
-            if (!repeat.empty()){
-                loop = atoi(repeat.c_str());
-            }
-
-            if (loop * plaintext.length() != ciphertext.length()){
-                printf ("%s\n", "The plaintext length does not match the ciphertext length");
-                return;
-            }
-
-            if (algorithm == "aes"){
-            }else{
-                continue;
-            }
-
-            CONTEXT_TYPE_PTR(aes) ctx = _sdk->zm_aes_new ();
-            int32_t block_size = _sdk->zm_aes_block_size ();
-            int32_t ksize_min = _sdk->zm_aes_ksize_min ();
-            int32_t ksize_max = _sdk->zm_aes_ksize_max ();
-            int32_t ksize_multiple = _sdk->zm_aes_ksize_multiple ();
-
-            if (plaintext.length() != block_size || plaintext.length() != ciphertext.length())
-            {
-                printf ("%s\n", "The plaintext length does not match the ciphertext length");
-                continue;
-            }
-
-            zmerror err = _sdk->zm_aes_set_ekey(ctx, (uint8_t*)key.c_str(), (uint32_t)key.length());
-            if (ZMCRYPTO_IS_ERROR(err)){
-                printf ("%s\n", _sdk->zm_error_str(err));
-                _sdk->zm_aes_free (ctx);
-                return;
-            }
-
-            uint8_t* output = new uint8_t[ciphertext.length()];
-            _sdk->zm_aes_enc_block (ctx, (uint8_t*) (plaintext.c_str()), output);
-            _sdk->zm_aes_free (ctx);
-
-            if (ciphertext == std::string((char*)output, ciphertext.length())){
-                format_output("%s encryption by ZmCrypto|passed\n", algorithm.c_str());
-            }
-            else{
-                format_output("%s encryption by ZmCrypto|failed\n", algorithm.c_str());
-            }
-
-            delete[] output;
-            output = NULL;
-        }
-
-        #endif
-    }
-}
-
-void output_md5(zmcrypto::sdk* _sdk)
-{
-    std::vector<key_val_vec> test_vec;
-    if (!read_vector_data(TEST_VECTOR_PATH "md5.txt", test_vec)){
-        printf("read test vector data failed\n");
-        return;
-    }
-
-    std::string algorithm, message, digest;
-    if (!get_key_val_pair(test_vec, 0, "algorithm", algorithm)){
-        printf("get key-value pair failed: algorithm\n");
-        return;
-    }
-    if (!get_key_val_pair(test_vec, 0, "message", message)){
-        printf("get key-value pair failed: message\n");
-        return;
-    }
-    if (!get_key_val_pair(test_vec, 0, "digest", digest)){
-        printf("get key-value pair failed: digest\n");
-        return;
-    }
-    CONTEXT_TYPE_PTR(md5) ctx = _sdk->zm_md5_new();
-    uint8_t* output = new uint8_t[_sdk->zm_md5_digest_size()];
-    _sdk->zm_md5_init (ctx);
-    _sdk->zm_md5_starts (ctx);
-    _sdk->zm_md5_update (ctx, (uint8_t*)message.c_str(), message.length());
-    _sdk->zm_md5_final (ctx, output);
-    _sdk->zm_md5_free (ctx);
-
-    if (digest == std::string((char*)output, _sdk->zm_md5_digest_size())){
-        format_output("%s by ZmCrypto|passed\n", algorithm.c_str());
-    }
-    else{
-        format_output("%s by ZmCrypto|failed\n", algorithm.c_str());
-    }
-
-    delete[] output;
-    output = NULL;
-}
-
-void test_case_engine_aes(zmcrypto::sdk* _sdk)
+void test_case_hook_aes(zmcrypto::sdk* _sdk)
 {
 #if defined __linux__
-    void* modulehandle = dlopen("./libzmengine.so", RTLD_LAZY);
+    modulehandle = dlopen("/home/zhangluduo/data2t/zmcrypto_git/bin/engine.so", RTLD_LAZY);
 #elif defined _WIN32
-    HMODULE modulehandle = LoadLibraryA("./zmengine.dll");
+    modulehandle = LoadLibraryA("./engine.dll");
 #endif
 
     if (!modulehandle){
-        printf("load %s failed", "./libzmengine.so");
+        printf("load %s failed", "./engine.so");
         return;
     }
 
-    output_aes(_sdk);
-
 #if defined __linux__
-    void* p1 =  dlsym(modulehandle, "aes_block_size");
-    void* p2 =  dlsym(modulehandle, "aes_dec_block");
-    void* p3 =  dlsym(modulehandle, "aes_enc_block");
-    void* p4 =  dlsym(modulehandle, "aes_free");
-    void* p5 =  dlsym(modulehandle, "aes_init");
-    void* p6 =  dlsym(modulehandle, "aes_ksize_max");
-    void* p7 =  dlsym(modulehandle, "aes_ksize_min");
-    void* p8 =  dlsym(modulehandle, "aes_ksize_multiple");
-    void* p9 =  dlsym(modulehandle, "aes_new");
-    void* p10 = dlsym(modulehandle, "aes_set_dkey");
-    void* p11 = dlsym(modulehandle, "aes_set_ekey");
+    p1 =  dlsym(modulehandle, "aes_block_size2");
+    p2 =  dlsym(modulehandle, "aes_dec_block2");
+    p3 =  dlsym(modulehandle, "aes_enc_block2");
+    p4 =  dlsym(modulehandle, "aes_free2");
+    p5 =  dlsym(modulehandle, "aes_init2");
+    p6 =  dlsym(modulehandle, "aes_ksize_max2");
+    p7 =  dlsym(modulehandle, "aes_ksize_min2");
+    p8 =  dlsym(modulehandle, "aes_ksize_multiple2");
+    p9 =  dlsym(modulehandle, "aes_new2");
+    p10 = dlsym(modulehandle, "aes_set_dkey2");
+    p11 = dlsym(modulehandle, "aes_set_ekey2");
 #elif defined _WIN32
-    void* p1 =  GetProcAddress((HMODULE)modulehandle, "aes_block_size");
-    void* p2 =  GetProcAddress((HMODULE)modulehandle, "aes_dec_block");
-    void* p3 =  GetProcAddress((HMODULE)modulehandle, "aes_enc_block");
-    void* p4 =  GetProcAddress((HMODULE)modulehandle, "aes_free");
-    void* p5 =  GetProcAddress((HMODULE)modulehandle, "aes_init");
-    void* p6 =  GetProcAddress((HMODULE)modulehandle, "aes_ksize_max");
-    void* p7 =  GetProcAddress((HMODULE)modulehandle, "aes_ksize_min");
-    void* p8 =  GetProcAddress((HMODULE)modulehandle, "aes_ksize_multiple");
-    void* p9 =  GetProcAddress((HMODULE)modulehandle, "aes_new");
-    void* p10 = GetProcAddress((HMODULE)modulehandle, "aes_set_dkey");
-    void* p11 = GetProcAddress((HMODULE)modulehandle, "aes_set_ekey");
+    p1 =  GetProcAddress((HMODULE)modulehandle, "aes_block_size2");
+    p2 =  GetProcAddress((HMODULE)modulehandle, "aes_dec_block2");
+    p3 =  GetProcAddress((HMODULE)modulehandle, "aes_enc_block2");
+    p4 =  GetProcAddress((HMODULE)modulehandle, "aes_free2");
+    p5 =  GetProcAddress((HMODULE)modulehandle, "aes_init2");
+    p6 =  GetProcAddress((HMODULE)modulehandle, "aes_ksize_max2");
+    p7 =  GetProcAddress((HMODULE)modulehandle, "aes_ksize_min2");
+    p8 =  GetProcAddress((HMODULE)modulehandle, "aes_ksize_multiple2");
+    p9 =  GetProcAddress((HMODULE)modulehandle, "aes_new2");
+    p10 = GetProcAddress((HMODULE)modulehandle, "aes_set_dkey2");
+    p11 = GetProcAddress((HMODULE)modulehandle, "aes_set_ekey2");
 #endif
 
-    void* f1 =  (void*)_sdk->zm_replace_fnc("zm_aes_block_size", p1 );
-    void* f2 =  (void*)_sdk->zm_replace_fnc("zm_aes_dec_block", p2 );
-    void* f3 =  (void*)_sdk->zm_replace_fnc("zm_aes_enc_block", p3 );
-    void* f4 =  (void*)_sdk->zm_replace_fnc("zm_aes_free", p4 );
-    void* f5 =  (void*)_sdk->zm_replace_fnc("zm_aes_init", p5 );
-    void* f6 =  (void*)_sdk->zm_replace_fnc("zm_aes_ksize_max", p6 );
-    void* f7 =  (void*)_sdk->zm_replace_fnc("zm_aes_ksize_min", p7 );
-    void* f8 =  (void*)_sdk->zm_replace_fnc("zm_aes_ksize_multiple", p8 );
-    void* f9 =  (void*)_sdk->zm_replace_fnc("zm_aes_new", p9 );
-    void* f10 = (void*)_sdk->zm_replace_fnc("zm_aes_set_dkey", p10);
-    void* f11 = (void*)_sdk->zm_replace_fnc("zm_aes_set_ekey", p11);
+    printf ("p1 : %p\n", p1 );
+    printf ("p2 : %p\n", p2 );
+    printf ("p3 : %p\n", p3 );
+    printf ("p4 : %p\n", p4 );
+    printf ("p5 : %p\n", p5 );
+    printf ("p6 : %p\n", p6 );
+    printf ("p7 : %p\n", p7 );
+    printf ("p8 : %p\n", p8 );
+    printf ("p9 : %p\n", p9 );
+    printf ("p10: %p\n", p10);
+    printf ("p11: %p\n", p11);
 
-    output_aes(_sdk);
+    f1 =  (void*)_sdk->zm_replace_fnc("zm_aes_block_size", p1 );
+    f2 =  (void*)_sdk->zm_replace_fnc("zm_aes_dec_block", p2 );
+    f3 =  (void*)_sdk->zm_replace_fnc("zm_aes_enc_block", p3 );
+    f4 =  (void*)_sdk->zm_replace_fnc("zm_aes_free", p4 );
+    f5 =  (void*)_sdk->zm_replace_fnc("zm_aes_init", p5 );
+    f6 =  (void*)_sdk->zm_replace_fnc("zm_aes_ksize_max", p6 );
+    f7 =  (void*)_sdk->zm_replace_fnc("zm_aes_ksize_min", p7 );
+    f8 =  (void*)_sdk->zm_replace_fnc("zm_aes_ksize_multiple", p8 );
+    f9 =  (void*)_sdk->zm_replace_fnc("zm_aes_new", p9 );
+    f10 = (void*)_sdk->zm_replace_fnc("zm_aes_set_dkey", p10);
+    f11 = (void*)_sdk->zm_replace_fnc("zm_aes_set_ekey", p11);
 
-    _sdk->zm_replace_fnc("zm_aes_block_size", f1 );
-    _sdk->zm_replace_fnc("zm_aes_dec_block", f2 );
-    _sdk->zm_replace_fnc("zm_aes_enc_block", f3 );
-    _sdk->zm_replace_fnc("zm_aes_free", f4 );
-    _sdk->zm_replace_fnc("zm_aes_init", f5 );
-    _sdk->zm_replace_fnc("zm_aes_ksize_max", f6 );
-    _sdk->zm_replace_fnc("zm_aes_ksize_min", f7 );
-    _sdk->zm_replace_fnc("zm_aes_ksize_multiple", f8 );
-    _sdk->zm_replace_fnc("zm_aes_new", f9 );
-    _sdk->zm_replace_fnc("zm_aes_set_dkey", f10);
-    _sdk->zm_replace_fnc("zm_aes_set_ekey", f11);
-
-#if defined __linux__
-    dlclose(modulehandle);
-#elif defined _WIN32
-    FreeLibrary(modulehandle);
-#endif
-    
-    modulehandle = NULL;
+    printf ("f1 : %p\n", f1 );
+    printf ("f2 : %p\n", f2 );
+    printf ("f3 : %p\n", f3 );
+    printf ("f4 : %p\n", f4 );
+    printf ("f5 : %p\n", f5 );
+    printf ("f6 : %p\n", f6 );
+    printf ("f7 : %p\n", f7 );
+    printf ("f8 : %p\n", f8 );
+    printf ("f9 : %p\n", f9 );
+    printf ("f10: %p\n", f10);
+    printf ("f11: %p\n", f11);
+    printf ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf ("hook aes completed\n");
+    printf ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 }
 
-void test_case_engine_md5(zmcrypto::sdk* _sdk)
-{
-#if defined __linux__
-    void* modulehandle = dlopen("./libzmengine.so", RTLD_LAZY);
-#elif defined _WIN32
-    HMODULE modulehandle = LoadLibraryA("./zmengine.dll");
-#endif
+void test_case_unhook_aes(zmcrypto::sdk* _sdk){
+    void* q1 =  (void*)_sdk->zm_replace_fnc("zm_aes_block_size", f1 );
+    void* q2 =  (void*)_sdk->zm_replace_fnc("zm_aes_dec_block", f2 );
+    void* q3 =  (void*)_sdk->zm_replace_fnc("zm_aes_enc_block", f3 );
+    void* q4 =  (void*)_sdk->zm_replace_fnc("zm_aes_free", f4 );
+    void* q5 =  (void*)_sdk->zm_replace_fnc("zm_aes_init", f5 );
+    void* q6 =  (void*)_sdk->zm_replace_fnc("zm_aes_ksize_max", f6 );
+    void* q7 =  (void*)_sdk->zm_replace_fnc("zm_aes_ksize_min", f7 );
+    void* q8 =  (void*)_sdk->zm_replace_fnc("zm_aes_ksize_multiple", f8 );
+    void* q9 =  (void*)_sdk->zm_replace_fnc("zm_aes_new", f9 );
+    void* q10 = (void*)_sdk->zm_replace_fnc("zm_aes_set_dkey", f10);
+    void* q11 = (void*)_sdk->zm_replace_fnc("zm_aes_set_ekey", f11);
 
-    if (!modulehandle){
-        printf("load %s failed", "./libzmengine.so");
-        return;
-    }
-
-    output_md5(_sdk);
-
-#if defined __linux__
-    void* p1 =  dlsym(modulehandle, "md5_new");
-    void* p2 =  dlsym(modulehandle, "md5_free");
-    void* p3 =  dlsym(modulehandle, "md5_digest_size");
-    void* p4 =  dlsym(modulehandle, "md5_block_size");
-    void* p5 =  dlsym(modulehandle, "md5_init");
-    void* p6 =  dlsym(modulehandle, "md5_starts");
-    void* p7 =  dlsym(modulehandle, "md5_update");
-    void* p8 =  dlsym(modulehandle, "md5_final");
-#elif defined _WIN32
-    void* p1 =  GetProcAddress((HMODULE)modulehandle, "md5_new");
-    void* p2 =  GetProcAddress((HMODULE)modulehandle, "md5_free");
-    void* p3 =  GetProcAddress((HMODULE)modulehandle, "md5_digest_size");
-    void* p4 =  GetProcAddress((HMODULE)modulehandle, "md5_block_size");
-    void* p5 =  GetProcAddress((HMODULE)modulehandle, "md5_init");
-    void* p6 =  GetProcAddress((HMODULE)modulehandle, "md5_starts");
-    void* p7 =  GetProcAddress((HMODULE)modulehandle, "md5_update");
-    void* p8 =  GetProcAddress((HMODULE)modulehandle, "md5_final");
-#endif
-
-    void* f1 =  (void*)_sdk->zm_replace_fnc("zm_md5_new", p1 );
-    void* f2 =  (void*)_sdk->zm_replace_fnc("zm_md5_free", p2 );
-    void* f3 =  (void*)_sdk->zm_replace_fnc("zm_md5_digest_size", p3 );
-    void* f4 =  (void*)_sdk->zm_replace_fnc("zm_md5_block_size", p4 );
-    void* f5 =  (void*)_sdk->zm_replace_fnc("zm_md5_init", p5 );
-    void* f6 =  (void*)_sdk->zm_replace_fnc("zm_md5_starts", p6 );
-    void* f7 =  (void*)_sdk->zm_replace_fnc("zm_md5_update", p7 );
-    void* f8 =  (void*)_sdk->zm_replace_fnc("zm_md5_final", p8 );
-
-    output_md5(_sdk);
-
-    _sdk->zm_replace_fnc("zm_md5_new", f1 );
-    _sdk->zm_replace_fnc("zm_md5_free", f2 );
-    _sdk->zm_replace_fnc("zm_md5_digest_size", f3 );
-    _sdk->zm_replace_fnc("zm_md5_block_size", f4 );
-    _sdk->zm_replace_fnc("zm_md5_init", f5 );
-    _sdk->zm_replace_fnc("zm_md5_starts", f6 );
-    _sdk->zm_replace_fnc("zm_md5_update", f7 );
-    _sdk->zm_replace_fnc("zm_md5_final", f8 );
-
+    printf ("q1 : %p\n", q1 );
+    printf ("q2 : %p\n", q2 );
+    printf ("q3 : %p\n", q3 );
+    printf ("q4 : %p\n", q4 );
+    printf ("q5 : %p\n", q5 );
+    printf ("q6 : %p\n", q6 );
+    printf ("q7 : %p\n", q7 );
+    printf ("q8 : %p\n", q8 );
+    printf ("q9 : %p\n", q9 );
+    printf ("q10: %p\n", q10);
+    printf ("q11: %p\n", q11);
 #if defined __linux__
     dlclose(modulehandle);
 #elif defined _WIN32
     FreeLibrary(modulehandle);
 #endif
     modulehandle = NULL;
+    printf ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf ("unhook aes completed\n");
+    printf ("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 }

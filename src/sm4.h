@@ -23,10 +23,7 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_SM4
-        struct sm4_ctx
-        {
-            uint32_t sk[32];       /*!<  SM4 subkeys       */
-        } ;
+        struct sm4_ctx;
 
         struct sm4_ctx* sm4_new (
             void

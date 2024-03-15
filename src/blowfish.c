@@ -25,6 +25,17 @@
 
 #if defined ZMCRYPTO_ALGO_BLOWFISH
 
+        #define BLOWFISH_ROUNDS      16         /* when increasing this value, make sure to extend the initialisation vectors */
+        #define BLOWFISH_BLOCKSIZE   8          /* Blowfish uses 64 bit blocks */
+        #define BLOWFISH_MAX_KEY     448
+        #define BLOWFISH_MIN_KEY     32
+
+        struct blowfish_ctx
+        {
+            uint32_t P[BLOWFISH_ROUNDS + 2];    /*!<  Blowfish round keys    */
+            uint32_t S[4][256];                 /*!<  key dependent S-boxes  */
+        } ;
+        
     /* BEGIN private function */
     static const uint32_t P[BLOWFISH_ROUNDS + 2] = {
             0x243F6A88L, 0x85A308D3L, 0x13198A2EL, 0x03707344L,
@@ -436,7 +447,6 @@
     void blowfish_free (struct blowfish_ctx* ctx)
     {
         zmcrypto_free(ctx);
-        ctx = NULL;
     }
 
     void blowfish_init (struct blowfish_ctx* ctx)

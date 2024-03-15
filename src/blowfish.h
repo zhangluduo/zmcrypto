@@ -25,17 +25,8 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_BLOWFISH
 
-        #define BLOWFISH_ROUNDS      16         /* when increasing this value, make sure to extend the initialisation vectors */
-        #define BLOWFISH_BLOCKSIZE   8          /* Blowfish uses 64 bit blocks */
-        #define BLOWFISH_MAX_KEY     448
-        #define BLOWFISH_MIN_KEY     32
-
-        struct blowfish_ctx
-        {
-            uint32_t P[BLOWFISH_ROUNDS + 2];    /*!<  Blowfish round keys    */
-            uint32_t S[4][256];                 /*!<  key dependent S-boxes  */
-        } ;
-
+        struct blowfish_ctx;
+        
         struct blowfish_ctx* blowfish_new (
             void
         );

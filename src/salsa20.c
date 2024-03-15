@@ -19,6 +19,13 @@
 
 #if defined ZMCRYPTO_SALSA20_H
 
+    typedef struct salsa20_ctx
+    {
+        uint32_t state[16];
+        uint8_t buffer[64];
+        uint32_t position;
+    } xsalsa20_ctx;
+
     /* PRIVATE BEGIN */
 
     #define SALSA20_QUARTER_ROUND(x1, x2, x3, x4)\

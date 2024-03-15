@@ -65,8 +65,8 @@ where:
             return ZMCRYPTO_ERR_INVALID_DSIZE;
         }
 
-        struct hmac_ctx _hmac_ctx;
-        hmac_init(&_hmac_ctx, hash_new, hash_free, hash_digest_size, hash_block_size, hash_init, hash_starts, hash_update, hash_final);
+        struct hmac_ctx *_hmac_ctx = hmac_new();
+        hmac_init(_hmac_ctx, hash_new, hash_free, hash_digest_size, hash_block_size, hash_init, hash_starts, hash_update, hash_final);
 
         uint8_t digest[DIGEST_MAX_SIZE];
         uint32_t hlen = hash_digest_size();
@@ -74,8 +74,8 @@ where:
         uint32_t offset = 0;
         
         for (uint32_t i = 0; i < loop; i++){
-            hmac_starts(&_hmac_ctx, p, plen);
-            hmac_update(&_hmac_ctx, s, slen);
+            hmac_starts(_hmac_ctx, p, plen);
+            hmac_update(_hmac_ctx, s, slen);
             for (uint32_t j = 0; j < 4; j++)
             {
                 #if defined ENDIAN_LITTLE
@@ -83,25 +83,28 @@ where:
                 #else
                     uint8_t b = (uint8_t)((i + 1) >> ((j) * 8));
                 #endif
-                
-                hmac_update(&_hmac_ctx, &b, 1);
+
+                hmac_update(_hmac_ctx, &b, 1);
             }
-            hmac_final(&_hmac_ctx, digest);
+            hmac_final(_hmac_ctx, digest);
 
             uint32_t seglen = (offset + hlen > dklen) ? (dklen - hlen * i) : (hlen);
             zmcrypto_memcpy(dk + offset, digest, seglen);
 
             for (uint32_t j = 1; j < c; j++)
             {
-                hmac_starts(&_hmac_ctx, p, plen);
-                hmac_update(&_hmac_ctx, digest, hlen);
-                hmac_final(&_hmac_ctx, digest);
+                hmac_starts(_hmac_ctx, p, plen);
+                hmac_update(_hmac_ctx, digest, hlen);
+                hmac_final(_hmac_ctx, digest);
                 pbkdf2_do_xor(dk + offset, digest, seglen);
-            }
+
+            }/*for*/
 
             offset += seglen;
-        }
+        } /*for*/
 
+        hmac_free(_hmac_ctx);
+        _hmac_ctx = NULL;
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 

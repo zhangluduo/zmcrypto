@@ -20,6 +20,7 @@
     <ClCompile Include="..\..\tests\cpp\time_stamp.cpp" />
     <ClCompile Include="..\..\tests\cpp\vector_file.cpp" />
     <ClCompile Include="..\..\tests\cpp\zmcryptosdk.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_sm3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\tests\cpp\format_output.h" />
@@ -41,6 +42,7 @@
     <ClInclude Include="..\..\tests\cpp\time_stamp.h" />
     <ClInclude Include="..\..\tests\cpp\vector_file.h" />
     <ClInclude Include="..\..\tests\cpp\zmcryptosdk.h" />
+    <ClInclude Include="..\..\tests\cpp\test_sm3.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\tests\cpp\test_report.txt" />

@@ -27,6 +27,13 @@
 
 #if defined ZMCRYPTO_ALGO_MD5
 
+    struct md5_ctx
+    {
+        uint32_t total[2];    /*!< number of bytes processed  */
+        uint32_t state[4];    /*!< intermediate digest state  */
+        uint8_t buffer[64];   /*!< data block being processed */
+    } ;
+
     void md5_process (struct md5_ctx *ctx, const uint8_t data[64])
     {
         uint32_t X[16], A, B, C, D;
@@ -160,7 +167,6 @@
     void md5_free (struct md5_ctx* ctx)
     {
         zmcrypto_free(ctx);
-        ctx = NULL;
     }
 
     int32_t md5_digest_size (void)

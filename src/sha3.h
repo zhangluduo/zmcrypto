@@ -25,10 +25,7 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_SHA3
 
-        struct sha3_ctx
-        {
-			int n;
-        } ;
+        struct sha3_ctx;
 
         typedef struct sha3_ctx sha3_224_ctx, sha3_256_ctx, sha3_384_ctx, sha3_512_ctx;
 

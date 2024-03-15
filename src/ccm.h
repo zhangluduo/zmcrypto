@@ -25,42 +25,7 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_CCM
 
-        struct ccm_ctx
-        {
-            void*   (*cipher_new)            (void);
-            void    (*cipher_free)           (void* ctx);
-            void    (*cipher_init)           (void* ctx);
-            int32_t (*cipher_block_size)     (void);
-            int32_t (*cipher_ksize_min)      (void);
-            int32_t (*cipher_ksize_max)      (void);
-            int32_t (*cipher_ksize_multiple) (void);
-            int32_t (*cipher_set_ekey)       (void* ctx, uint8_t* key, uint32_t ksize);
-            int32_t (*cipher_set_dkey)       (void* ctx, uint8_t* key, uint32_t ksize);
-            void    (*cipher_enc_block)      (void* ctx, uint8_t* plaintext, uint8_t* ciphertext);
-            void    (*cipher_dec_block)      (void* ctx, uint8_t* ciphertext, uint8_t* plaintext);
-
-            void*    cipher_ctx;
-            uint64_t dlen;                 /* length that will be enc / dec */
-            uint64_t aadlen;               /* length of the aad */
-            uint32_t L;                    /* L value */
-            uint32_t noncelen;             /* length of the nonce */
-            uint32_t taglen;               /* length of the tag */
-
-            uint64_t current_aadlen;       /* length of the currently provided aad */
-            uint64_t current_datalen;      /* length of the currently provided data */
-
-            uint32_t direction;            /* 0=encrypt, 1=decrypt */
-
-            #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
-                uint8_t b[16]; /* B_0, B_1 ... B_n */
-            #endif
-
-            uint8_t bx[16];                /* B_n ^ X_n */
-            uint8_t x[16];                 /* X_0, X_1 ... X_n */
-            uint8_t a[16];                 /* A_0, A_1 ... A_n, this is a counter*/
-            uint8_t s[16];                 /* S_0, S_1 ... S_n */
-            uint32_t b_len;                /* used length of b[16] */
-        } ;
+        struct ccm_ctx;
 
         struct ccm_ctx* ccm_new (
             void

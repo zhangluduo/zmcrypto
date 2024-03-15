@@ -3,8 +3,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(zmcrypto)
 
-set(CMAKE_BUILD_TYPE Debug)
-#set(CMAKE_BUILD_TYPE Release)
+#set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 
 add_definitions(-w -W)
 
@@ -21,6 +21,7 @@ endif()
 #set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall ")
 #set(CMAKE_CXX_FLAGS "-fvisibility=hidden")
 
+#------------------- zmcrypto.so -------------------
 add_library(
 	zmcrypto
 	SHARED
@@ -54,24 +55,52 @@ add_library(
 	../../src/pbkdf2.c
 	../../src/rc4.c
 	../../src/salsa20.c
+	../../src/asn1.c
 	../../src/mem.c
 	../../src/dlmain.c
 	../../src/debug.c
 	../../src/zmcrypto.c
 )
 
+set_target_properties(
+    zmcrypto 
+    PROPERTIES PREFIX "" SUFFIX ".so"
+)
+
+#------------------- engine.so -------------------
+add_library(
+	engine
+	SHARED
+	../../engine/new_aes.c
+	../../src/zmcrypto.c
+)
+
+set_target_properties(
+    engine 
+    PROPERTIES PREFIX "" SUFFIX ".so"
+)
+
+target_link_libraries (engine LINK_PUBLIC 
+	dl
+	zmcrypto
+)
+
+#------------------- test -------------------
+
 include_directories(
 	${PROJECT_SOURCE_DIR}/../../tests/cpp/ # for zmcrypto.h
 	${PROJECT_SOURCE_DIR}/../../src/ # for zmcryptosdk.h
+	/home/zhangluduo/data2t/toolchain/
 )
 
 link_directories(
-	${PROJECT_SOURCE_DIR}/../../tests/cpp/cryptopp820/lib/linux_x64
+	#${PROJECT_SOURCE_DIR}/../../tests/cpp/cryptopp820/lib/linux_x64
+	/home/zhangluduo/data2t/toolchain/cryptopp820/lib/linux_x64
 )
 
 add_definitions(
-	#-DTEST_FOR_CRYPTOPP
-	#-DDONOT_DETECT_MEM_LEAK_FOR_CRYPTOPP
+	-DTEST_FOR_CRYPTOPP
+	-DDONOT_DETECT_MEM_LEAK_FOR_CRYPTOPP
 )
 
 add_executable(
@@ -99,12 +128,29 @@ add_executable(
 	../../tests/cpp/test_aes.cpp
 	../../tests/cpp/test_des.cpp
 	../../tests/cpp/test_rc4.cpp
+	../../tests/cpp/test_sm4.cpp
 	../../tests/cpp/test_blowfish.cpp
 	../../tests/cpp/test_blockpad.cpp
 	../../tests/cpp/test_engine.cpp
+
+	../../tests/cpp/test_asn1.cpp
+	../../src/asn1.c
+	../../src/debug.c
 )
 
 target_link_libraries (test LINK_PUBLIC 
 	dl
-	#cryptopp #Crypto++ Library
+	cryptopp #Crypto++ Library
+)
+
+#------------------- app -------------------
+
+add_executable(
+	app_asn1
+	../../app/app_asn1.c
+)
+
+add_executable(
+	app_x509
+	../../app/app_x509.c
 )

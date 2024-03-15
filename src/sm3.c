@@ -23,10 +23,16 @@
 
 #if defined ZMCRYPTO_ALGO_SM3
 
+    struct sm3_ctx
+    {
+        uint32_t total[2];     /*!< number of bytes processed  */
+        uint32_t state[8];     /*!< intermediate digest state  */
+        uint8_t buffer[64];    /*!< data block being processed */
+    } ;
+    
     /* private BEGIN */
     static void sm3_process(struct sm3_ctx *ctx, uint8_t data[64] )
     {
-        ZMCRYPTO_LOG("");
         uint32_t SS1, SS2, TT1, TT2, W[68],W1[64];
         uint32_t A, B, C, D, E, F, G, H;
         uint32_t T[64];
@@ -145,7 +151,6 @@
 
     struct sm3_ctx* sm3_new (void)
     {
-        ZMCRYPTO_LOG("");
         struct sm3_ctx* ctx = (struct sm3_ctx*)zmcrypto_malloc(sizeof(struct sm3_ctx));
         zmcrypto_memset(ctx, 0, sizeof(struct sm3_ctx));
         return ctx;
@@ -153,32 +158,26 @@
 
     void sm3_free (struct sm3_ctx* ctx)
     {
-        ZMCRYPTO_LOG("");
         zmcrypto_free(ctx);
-        ctx = NULL;
     }
 
     int32_t sm3_digest_size (void)
     {
-        ZMCRYPTO_LOG("");
         return 32;
     }
 
     int32_t sm3_block_size (void)
     {
-        ZMCRYPTO_LOG("");
         return 64;
     }
 
     void sm3_init (struct sm3_ctx* ctx)
     {
-        ZMCRYPTO_LOG("");
         zmcrypto_memset(ctx, 0, sizeof(struct sm3_ctx));
     }
 
     void sm3_starts (struct sm3_ctx* ctx)
     {
-        ZMCRYPTO_LOG("");
         ctx->total[0] = 0;
         ctx->total[1] = 0;
 
@@ -194,11 +193,10 @@
 
     void sm3_update (struct sm3_ctx* ctx, uint8_t* data, uint32_t dlen)
     {
-        ZMCRYPTO_LOG("");
         uint32_t fill, left;
 
         if (dlen == 0)
-            return;
+            { return; }
 
         left = ctx->total[0] & 0x3F;
         fill = 64 - left;
@@ -231,7 +229,6 @@
 
     void sm3_final (struct sm3_ctx* ctx, uint8_t* output)
     {
-        ZMCRYPTO_LOG("");
         uint32_t last, padn;
         uint32_t high, low;
         uint8_t msglen[8];

@@ -24,33 +24,7 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_HMAC
 
-        #define IPAD 0x36
-        #define OPAD 0x5c
-
-        #if !defined DIGEST_MAX_SIZE
-            #define DIGEST_MAX_SIZE       64
-        #endif
-
-        #if !defined DIGEST_MAX_BLOCK_SIZE
-            #define DIGEST_MAX_BLOCK_SIZE (1024/8)
-        #endif
-
-        struct hmac_ctx
-        {
-            void* hash_ctx;
-            uint8_t temp[DIGEST_MAX_BLOCK_SIZE];
-            uint8_t ipad[DIGEST_MAX_BLOCK_SIZE];
-            uint8_t opad[DIGEST_MAX_BLOCK_SIZE];
-
-            void*   (*hash_new)         (void);
-            void    (*hash_free)        (void* ctx);
-            int32_t (*hash_digest_size) (void);
-            int32_t (*hash_block_size)  (void);
-            void    (*hash_init)        (void* ctx);
-            void    (*hash_starts)      (void* ctx);
-            void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dlen);
-            void    (*hash_final)       (void* ctx, uint8_t* output);
-        } ;
+        struct hmac_ctx;
 
         struct hmac_ctx* hmac_new (
             void

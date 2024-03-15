@@ -23,12 +23,7 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_AES
-        struct aes_ctx
-        {
-            uint32_t nr;      /*!<  number of rounds  */
-            uint32_t *rk;     /*!<  AES round keys    */
-            uint32_t buf[68]; /*!<  unaligned data    */
-        } ;
+        struct aes_ctx;
 
         struct aes_ctx* aes_new (
             void

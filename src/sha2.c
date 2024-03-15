@@ -22,6 +22,11 @@
 
 #if defined ZMCRYPTO_ALGO_SHA2
 
+        struct sha2_ctx
+        {
+            int n;
+        } ;
+        
         struct sha224_ctx* sha224_new (
             void
         ){return 0;}

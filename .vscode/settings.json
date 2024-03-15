@@ -1,6 +1,19 @@
 {
     "files.associations": {
         "typeinfo": "cpp",
-        "random": "c"
-    }
+        "random": "c",
+        "istream": "c",
+        "ostream": "c",
+        "ratio": "c",
+        "array": "c",
+        "functional": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "string": "cpp",
+        "string_view": "cpp",
+        "optional": "cpp",
+        "system_error": "cpp"
+    },
+    "cmake.configureOnOpen": false
 }

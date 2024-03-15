@@ -25,6 +25,15 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_BASE64
 
+        /*
+        options:
+            The upper 32 bits are used to indicate how many characters are needed to wrap a line.
+            The lower 32 bits indicate which encoding table to use.
+            here are two coding tables here, 
+            table[0] is "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+            table[1] is "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+        */
+       
         zmerror base64_encode(
             uint8_t *input, 
             uint32_t ilen, 

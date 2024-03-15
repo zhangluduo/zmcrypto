@@ -24,6 +24,7 @@
  */
 
 #if defined _WIN32
+    /* Workaround for VC++ 6.0 */
     #if defined _MSC_VER && _MSC_VER < 1800
         #include "msinttypes/inttypes.h"
         #include "msinttypes/stdint.h"
@@ -48,7 +49,7 @@
 typedef int32_t zmerror;
 
 #define ZMCRYPTO_ERR_SUCCESSED                 (zmerror)(0x00000001UL)
-#define ZMCRYPTO_ERR_BASE                      (zmerror)(0x00000000UL)
+#define ZMCRYPTO_ERR_BASE                      (zmerror)(0x00000000UL)                /* undefined error */
 #define ZMCRYPTO_ERR_NULL_PTR                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x0001U) /* NULL pointer  */
 #define ZMCRYPTO_ERR_INVALID_KSIZE             (zmerror)(ZMCRYPTO_ERR_BASE - 0x0002U) /* invalid key size */
 #define ZMCRYPTO_ERR_INVALID_DSIZE             (zmerror)(ZMCRYPTO_ERR_BASE - 0x0003U) /* invalid data size */
@@ -63,14 +64,43 @@ typedef int32_t zmerror;
 #define ZMCRYPTO_ERR_OVERFLOW                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000dU) /* buffer to small, or array out of bounds */
 #define ZMCRYPTO_ERR_CALLBACK                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000eU) /* The callback function returns failed */
 
+#define ZMCRYPTO_ERR_ASN1_INVALID_TAG          (zmerror)(ZMCRYPTO_ERR_BASE - 0x000fU)
+#define ZMCRYPTO_ERR_ASN1_INVALID_LEN          (zmerror)(ZMCRYPTO_ERR_BASE - 0x0010U)
+#define ZMCRYPTO_ERR_ASN1_INVALID_VAL          (zmerror)(ZMCRYPTO_ERR_BASE - 0x0011U)
+#define ZMCRYPTO_ERR_ASN1_OUT_OF_DATA          (zmerror)(ZMCRYPTO_ERR_BASE - 0x0012U)
+
+#define ZMCRYPTO_ERR_VERIFY                    (zmerror)(ZMCRYPTO_ERR_BASE - 0x0013U) /* verify failed */
+
 #define ZMCRYPTO_IS_ERROR(code)     (code <= ZMCRYPTO_ERR_BASE)
 #define ZMCRYPTO_IS_SUCCESSED(code) (code > ZMCRYPTO_ERR_BASE)
 
 #define ZMCRYPTO_MAX_BLOCKSIZE   (128)
 #define ZMCRYPTO_MAX_DIGESTSIZE  (128)
-#define ZMCRYPTO_MAX_STRLEN  (1048576)
+#define ZMCRYPTO_MAX_IVSIZE      (128)
+#define ZMCRYPTO_MAX_STRLEN      (4096)
 
-#define ZMCRYPTO_DEBUG 0
+
+        #if !defined DIGEST_MAX_SIZE
+            #define DIGEST_MAX_SIZE       64
+        #endif
+
+        #if !defined DIGEST_MAX_BLOCK_SIZE
+            #define DIGEST_MAX_BLOCK_SIZE (1024/8)
+        #endif
+
+
+#ifndef NULL_PTR
+    #define NULL_PTR 0
+#endif
+
+#ifndef zmbool_type
+    #define zmbool_type
+    typedef uint32_t zmbool;
+    #define zmtrue  0x01U
+    #define zmfalse 0x00U
+#endif /*zmbool_type*/
+
+#define ZMCRYPTO_DEBUG 1
 
 /* for VC++ 6.0 workaround */
 #if defined _WIN32
@@ -192,9 +222,14 @@ Use the following macros to make this library do clipping
 
 /* others algorithm*/
     #define ZMCRYPTO_ALGO_BLOCKPAD
+    #define ZMCRYPTO_ALGO_BIGINT
 
 /* Tools and helper */
     #define ZMCRYPTO_TOOL_ASN1
+    #define ZMCRYPTO_TOOL_OID
+
+/* other classic algorithm, like Enigma, Caesar, Morse code, ... */
+    #define ZMCRYPTO_ALGO_TOY
 
 /* 
     Replace the following functions with platform-specific 
@@ -220,6 +255,7 @@ Use the following macros to make this library do clipping
     #define zmcrypto_memcmp(s1, s2, size)          memcmp((s1), (s2), (size))
     #define zmcrypto_memset(s, c, size)            memset ((s), (c), (size))
     #define zmcrypto_printf(...)                   printf (__VA_ARGS__)
+    #define zmcrypto_sprintf(...)                   sprintf (__VA_ARGS__)
 #endif
 
 /*

@@ -24,12 +24,9 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_SALSA20
-        typedef struct salsa20_ctx
-        {
-            uint32_t state[16];
-            uint8_t buffer[64];
-            uint32_t position;
-        } xsalsa20_ctx;
+
+        struct salsa20_ctx;
+        struct xsalsa20_ctx;
 
         int32_t salsa20_ksize_min (
             void

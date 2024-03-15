@@ -25,10 +25,7 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_TWOFISH
 
-        struct twofish_ctx
-		{
-			int n;
-        } ;
+        struct twofish_ctx;
 
         struct twofish_ctx* twofish_new (
             void

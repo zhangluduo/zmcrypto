@@ -23,10 +23,7 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_ADLER32
-        struct adler32_ctx
-        {
-            uint32_t checksum;
-        } ;
+        struct adler32_ctx;
 
         struct adler32_ctx* adler32_new (
             void

@@ -23,6 +23,11 @@
 
 #if defined ZMCRYPTO_ALGO_SM4
 
+    struct sm4_ctx
+    {
+        uint32_t sk[32];       /*!<  SM4 subkeys       */
+    } ;
+
     /* private BEGIN */
 
     /* System parameter */
@@ -197,7 +202,6 @@
     void sm4_free (struct sm4_ctx* ctx)
     {
         zmcrypto_free(ctx);
-        ctx = NULL;
     }
 
     void sm4_init (struct sm4_ctx* ctx)

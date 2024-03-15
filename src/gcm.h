@@ -25,22 +25,7 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_GCM
 
-	    struct gcm_ctx
-        {
-            void*   (*cipher_new)            (void);
-            void    (*cipher_free)           (void* ctx);
-            void    (*cipher_init)           (void* ctx);
-            int32_t (*cipher_block_size)     (void);
-            int32_t (*cipher_ksize_min)      (void);
-            int32_t (*cipher_ksize_max)      (void);
-            int32_t (*cipher_ksize_multiple) (void);
-            int32_t (*cipher_set_ekey)       (void* ctx, uint8_t* key, uint32_t ksize);
-            int32_t (*cipher_set_dkey)       (void* ctx, uint8_t* key, uint32_t ksize);
-            void    (*cipher_enc_block)      (void* ctx, uint8_t* plaintext, uint8_t* ciphertext);
-            void    (*cipher_dec_block)      (void* ctx, uint8_t* ciphertext, uint8_t* plaintext);
-            void* cipher_ctx;
-            /* other members */
-        } ;
+        struct gcm_ctx;
 
         struct gcm_ctx* gcm_new (
             void

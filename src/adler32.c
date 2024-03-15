@@ -22,6 +22,11 @@
 
 #if defined ZMCRYPTO_ALGO_ADLER32
 
+    struct adler32_ctx
+    {
+        uint32_t checksum;
+    } ;
+
     /* slowly
     // const uint32_t MOD_ADLER = 65521;
     // uint32_t adler32(unsigned char *data, size_t len)
@@ -58,7 +63,6 @@
     void adler32_free (struct adler32_ctx* ctx)
     {
         zmcrypto_free(ctx);
-        ctx = NULL;
     }
 
     int32_t adler32_checksum_size (void) 

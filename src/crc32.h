@@ -23,10 +23,7 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_CRC32
-        struct crc32_ctx
-        {
-            uint32_t checksum;
-        } ;
+        struct crc32_ctx;
 
         struct crc32_ctx* crc32_new (void);
         void crc32_free (struct crc32_ctx* ctx);

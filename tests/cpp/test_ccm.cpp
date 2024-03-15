@@ -244,10 +244,10 @@ void test_case_ccm(zmcrypto::sdk* _sdk)
                 AuthenticatedEncryptionFilter ef(e, new StringSink(res));
 
                 for (uint32_t j = 0; j < loop; j++){
-                    ef.ChannelPut(AAD_CHANNEL, (const byte*)aad.data(), aad.size()); }
+                    ef.ChannelPut(AAD_CHANNEL, (const CryptoPP::byte*)aad.data(), aad.size()); }
                 ef.ChannelMessageEnd(AAD_CHANNEL);
 
-                ef.ChannelPut(DEFAULT_CHANNEL, (const byte*)plaintext.data(), plaintext.size());
+                ef.ChannelPut(DEFAULT_CHANNEL, (const CryptoPP::byte*)plaintext.data(), plaintext.size());
                 ef.ChannelMessageEnd(DEFAULT_CHANNEL);
 
                 if (ciphertext.size() + tag.size() == res.size()){
@@ -288,12 +288,12 @@ void test_case_ccm(zmcrypto::sdk* _sdk)
                     AuthenticatedDecryptionFilter::MAC_AT_BEGIN | 
                     AuthenticatedDecryptionFilter::THROW_EXCEPTION );
 
-                df.ChannelPut(DEFAULT_CHANNEL, (const byte*)tag.data(), tag.size());
+                df.ChannelPut(DEFAULT_CHANNEL, (const CryptoPP::byte*)tag.data(), tag.size());
                 for (uint32_t j = 0; j < loop; j++){
-                    df.ChannelPut(AAD_CHANNEL, (const byte*)aad.data(), aad.size());}
+                    df.ChannelPut(AAD_CHANNEL, (const CryptoPP::byte*)aad.data(), aad.size());}
                 df.ChannelMessageEnd(AAD_CHANNEL);
 
-                df.ChannelPut(DEFAULT_CHANNEL, (const byte*)ciphertext.data(), ciphertext.length());
+                df.ChannelPut(DEFAULT_CHANNEL, (const CryptoPP::byte*)ciphertext.data(), ciphertext.length());
                 df.ChannelMessageEnd(DEFAULT_CHANNEL);
 
                 /* If the object does not throw, here's the only opportunity to check the data's integrity */
@@ -303,7 +303,7 @@ void test_case_ccm(zmcrypto::sdk* _sdk)
                     std::string pt;
                     int n = (size_t)df.MaxRetrievable();
                     pt.resize( n );
-                    df.Get( (byte*)pt.data(), n );
+                    df.Get( (CryptoPP::byte*)pt.data(), n );
 
                     if (plaintext.size() == pt.size() && memcmp(pt.c_str(), plaintext.c_str(), plaintext.size()) == 0){
                         format_output("%s encryption by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());

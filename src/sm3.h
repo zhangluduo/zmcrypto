@@ -24,12 +24,7 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_SM3
-        struct sm3_ctx
-        {
-            uint32_t total[2];     /*!< number of bytes processed  */
-            uint32_t state[8];     /*!< intermediate digest state  */
-            uint8_t buffer[64];    /*!< data block being processed */
-        } ;
+        struct sm3_ctx;
 
         struct sm3_ctx* sm3_new (
             void

@@ -16,7 +16,8 @@
 #if !defined ZMCRYPTO_AES_H
 #define ZMCRYPTO_AES_H
 
-#include "zmconfig.h"
+#include "../src/zmconfig.h"
+#include "../src/zmcrypto.h"
 
 #ifdef  __cplusplus
 extern "C" {
@@ -29,54 +30,54 @@ extern "C" {
             uint32_t buf[68]; /*!<  unaligned data    */
         } aes_ctx;
 
-        aes_ctx* aes_new (
+        API aes_ctx* aes_new2 (
             void
         );
 
-        void aes_free (
+        API void aes_free2 (
             aes_ctx* ctx
         );
 
-        void aes_init (
+        API void aes_init2 (
             aes_ctx* ctx
         );
 
-        int32_t aes_block_size (
+        API int32_t aes_block_size2 (
             void
         );
 
-        int32_t aes_ksize_min (
+        API int32_t aes_ksize_min2 (
             void
         );
 
-        int32_t aes_ksize_max (
+        API int32_t aes_ksize_max2 (
             void
         );
 
-        int32_t aes_ksize_multiple (
+        API int32_t aes_ksize_multiple2 (
             void
         );
 
         /* valid key size are 16, 24 or 32 */
-        zmerror aes_set_ekey (
+        API zmerror aes_set_ekey2 (
             aes_ctx* ctx, 
             uint8_t* key, 
             uint32_t ksize
         );
 
-        zmerror aes_set_dkey (
+        API zmerror aes_set_dkey2 (
             aes_ctx* ctx, 
             uint8_t* key, 
             uint32_t ksize
         );
 
-        void aes_enc_block (
+        API void aes_enc_block2 (
             aes_ctx* ctx, 
             uint8_t* plaintext, 
             uint8_t* ciphertext
         );
 
-        void aes_dec_block (
+        API void aes_dec_block2 (
             aes_ctx* ctx, 
             uint8_t* ciphertext, 
             uint8_t* plaintext

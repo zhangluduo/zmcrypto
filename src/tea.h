@@ -23,10 +23,7 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_TEA
-        struct tea_ctx
-        {
-            int x;
-        } ;
+        struct tea_ctx;
 
         struct tea_ctx* tea_new (
             void

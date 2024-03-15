@@ -19,6 +19,13 @@
 
 #if defined ZMCRYPTO_ALGO_RC4
 
+        struct rc4_ctx
+        {
+            uint32_t x;     /*!< permutation index */
+            uint32_t y;     /*!< permutation index */
+            uint8_t m[256]; /*!< permutation table */
+        } ;
+        
         int32_t rc4_ksize_min (void){ return 1; }
         int32_t rc4_ksize_max (void){ return 256; }
         int32_t rc4_ksize_multiple (void){ return 1; }
@@ -34,7 +41,6 @@
         {
             ZMCRYPTO_LOG("");
             zmcrypto_free(ctx);
-            ctx = NULL;
         }
 
         void rc4_init (struct rc4_ctx* ctx)

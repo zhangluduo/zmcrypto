@@ -24,12 +24,7 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_RC4
-        struct rc4_ctx
-        {
-            uint32_t x;     /*!< permutation index */
-            uint32_t y;     /*!< permutation index */
-            uint8_t m[256]; /*!< permutation table */
-        } ;
+        struct rc4_ctx;
 
         int32_t rc4_ksize_min (
             void

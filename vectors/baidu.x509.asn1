@@ -1,0 +1,377 @@
+zhangluduo@zhangluduo-B85-HD3:~/Downloads$ asn1parse baidu.x509.der
+Cannot open config file 'dumpasn1.cfg', which should be in the same
+directory as the dumpasn1 program, a standard system directory, or
+in a location pointed to by the DUMPASN1_PATH environment variable.
+Operation will continue without the ability to display Object 
+Identifier information.
+
+If the config file is located elsewhere, you can set the environment
+variable DUMPASN1_PATH to the path to the file.
+   0 2536: SEQUENCE {
+   4 2256:   SEQUENCE {
+   8    3:     [0] {
+  10    1:       INTEGER 2
+         :       }
+  13   12:     INTEGER 55 E6 AC AE D1 F8 A4 30 F9 A9 38 C5
+  27   13:     SEQUENCE {
+  29    9:       OBJECT IDENTIFIER '1 2 840 113549 1 1 11'
+  40    0:       NULL
+         :       }
+  42   80:     SEQUENCE {
+  44   11:       SET {
+  46    9:         SEQUENCE {
+  48    3:           OBJECT IDENTIFIER '2 5 4 6'
+  53    2:           PrintableString 'BE'
+         :           }
+         :         }
+  57   25:       SET {
+  59   23:         SEQUENCE {
+  61    3:           OBJECT IDENTIFIER '2 5 4 10'
+  66   16:           PrintableString 'GlobalSign nv-sa'
+         :           }
+         :         }
+  84   38:       SET {
+  86   36:         SEQUENCE {
+  88    3:           OBJECT IDENTIFIER '2 5 4 3'
+  93   29:           PrintableString 'GlobalSign RSA OV SSL CA 2018'
+         :           }
+         :         }
+         :       }
+ 124   30:     SEQUENCE {
+ 126   13:       UTCTime 06/07/2023 01:51:06 GMT
+ 141   13:       UTCTime 06/08/2024 01:51:05 GMT
+         :       }
+ 156  128:     SEQUENCE {
+ 159   11:       SET {
+ 161    9:         SEQUENCE {
+ 163    3:           OBJECT IDENTIFIER '2 5 4 6'
+ 168    2:           PrintableString 'CN'
+         :           }
+         :         }
+ 172   16:       SET {
+ 174   14:         SEQUENCE {
+ 176    3:           OBJECT IDENTIFIER '2 5 4 8'
+ 181    7:           PrintableString 'beijing'
+         :           }
+         :         }
+ 190   16:       SET {
+ 192   14:         SEQUENCE {
+ 194    3:           OBJECT IDENTIFIER '2 5 4 7'
+ 199    7:           PrintableString 'beijing'
+         :           }
+         :         }
+ 208   57:       SET {
+ 210   55:         SEQUENCE {
+ 212    3:           OBJECT IDENTIFIER '2 5 4 10'
+ 217   48:           PrintableString
+         :             'Beijing Baidu Netcom Science Technology Co., Ltd'
+         :           }
+         :         }
+ 267   18:       SET {
+ 269   16:         SEQUENCE {
+ 271    3:           OBJECT IDENTIFIER '2 5 4 3'
+ 276    9:           PrintableString 'baidu.com'
+         :           }
+         :         }
+         :       }
+ 287  290:     SEQUENCE {
+ 291   13:       SEQUENCE {
+ 293    9:         OBJECT IDENTIFIER '1 2 840 113549 1 1 1'
+ 304    0:         NULL
+         :         }
+ 306  271:       BIT STRING, encapsulates {
+ 311  266:         SEQUENCE {
+ 315  257:           INTEGER
+         :             00 BB 04 BB 84 76 58 07 B4 5A 88 54 E0 6A 56 BC
+         :             E5 D4 8D 3E 1E B9 28 E0 D7 01 8F 38 2B 41 B2 59
+         :             7D F0 AC 27 B4 26 24 14 38 FE 4C EA 3B 49 51 F7
+         :             E9 5B 40 F7 3F A6 C8 DA 0F 02 6E 25 8B 47 91 B8
+         :             2E 9E 00 21 19 1D 18 00 FC DE 04 FD 26 79 39 5D
+         :             F2 90 BC 80 9D A8 7C B2 91 89 89 D8 40 2F E5 D2
+         :             A7 F3 5E 6D 48 2B C5 1F 0A B1 E0 8E 8C 76 FF BC
+         :             D1 67 0A D2 49 D6 09 EE 26 03 02 F3 CC CD EA 8A
+         :                     [ Another 129 bytes skipped ]
+ 576    3:           INTEGER 65537
+         :           }
+         :         }
+         :       }
+ 581 1679:     [3] {
+ 585 1675:       SEQUENCE {
+ 589   14:         SEQUENCE {
+ 591    3:           OBJECT IDENTIFIER '2 5 29 15'
+ 596    1:           BOOLEAN TRUE
+ 599    4:           OCTET STRING, encapsulates {
+ 601    2:             BIT STRING 5 unused bits
+         :               '101'B
+         :             }
+         :           }
+ 605  142:         SEQUENCE {
+ 608    8:           OBJECT IDENTIFIER '1 3 6 1 5 5 7 1 1'
+ 618  129:           OCTET STRING, encapsulates {
+ 621  127:             SEQUENCE {
+ 623   68:               SEQUENCE {
+ 625    8:                 OBJECT IDENTIFIER '1 3 6 1 5 5 7 48 2'
+ 635   56:                 [6]
+         :                   'http://secure.globalsign.com/cacert/gsrsaovsslca'
+         :                   '2018.crt'
+         :                 }
+ 693   55:               SEQUENCE {
+ 695    8:                 OBJECT IDENTIFIER '1 3 6 1 5 5 7 48 1'
+ 705   43:                 [6]
+         :                   'http://ocsp.globalsign.com/gsrsaovsslca2018'
+         :                 }
+         :               }
+         :             }
+         :           }
+ 750   86:         SEQUENCE {
+ 752    3:           OBJECT IDENTIFIER '2 5 29 32'
+ 757   79:           OCTET STRING, encapsulates {
+ 759   77:             SEQUENCE {
+ 761   65:               SEQUENCE {
+ 763    9:                 OBJECT IDENTIFIER '1 3 6 1 4 1 4146 1 20'
+ 774   52:                 SEQUENCE {
+ 776   50:                   SEQUENCE {
+ 778    8:                     OBJECT IDENTIFIER '1 3 6 1 5 5 7 2 1'
+ 788   38:                     IA5String 'https://www.globalsign.com/repository/'
+         :                     }
+         :                   }
+         :                 }
+ 828    8:               SEQUENCE {
+ 830    6:                 OBJECT IDENTIFIER '2 23 140 1 2 2'
+         :                 }
+         :               }
+         :             }
+         :           }
+ 838    9:         SEQUENCE {
+ 840    3:           OBJECT IDENTIFIER '2 5 29 19'
+ 845    2:           OCTET STRING, encapsulates {
+ 847    0:             SEQUENCE {}
+         :             }
+         :           }
+ 849   63:         SEQUENCE {
+ 851    3:           OBJECT IDENTIFIER '2 5 29 31'
+ 856   56:           OCTET STRING, encapsulates {
+ 858   54:             SEQUENCE {
+ 860   52:               SEQUENCE {
+ 862   50:                 [0] {
+ 864   48:                   [0] {
+ 866   46:                     [6]
+         :                   'http://crl.globalsign.com/gsrsaovsslca2018.crl'
+         :                     }
+         :                   }
+         :                 }
+         :               }
+         :             }
+         :           }
+ 914  865:         SEQUENCE {
+ 918    3:           OBJECT IDENTIFIER '2 5 29 17'
+ 923  856:           OCTET STRING, encapsulates {
+ 927  852:             SEQUENCE {
+ 931    9:               [2] 'baidu.com'
+ 942   12:               [2] 'baifubao.com'
+ 956   12:               [2] 'www.baidu.cn'
+ 970   16:               [2] 'www.baidu.com.cn'
+ 988   15:               [2] 'mct.y.nuomi.com'
+1005   11:               [2] 'apollo.auto'
+1018    6:               [2] 'dwz.cn'
+1026   11:               [2] '*.baidu.com'
+1039   14:               [2] '*.baifubao.com'
+1055   17:               [2] '*.baidustatic.com'
+1074   14:               [2] '*.bdstatic.com'
+1090   11:               [2] '*.bdimg.com'
+1103   12:               [2] '*.hao123.com'
+1117   11:               [2] '*.nuomi.com'
+1130   13:               [2] '*.chuanke.com'
+1145   13:               [2] '*.trustgo.com'
+1160   15:               [2] '*.bce.baidu.com'
+1177   16:               [2] '*.eyun.baidu.com'
+1195   15:               [2] '*.map.baidu.com'
+1212   15:               [2] '*.mbd.baidu.com'
+1229   17:               [2] '*.fanyi.baidu.com'
+1248   14:               [2] '*.baidubce.com'
+1264   12:               [2] '*.mipcdn.com'
+1278   16:               [2] '*.news.baidu.com'
+1296   14:               [2] '*.baidupcs.com'
+1312   12:               [2] '*.aipage.com'
+1326   11:               [2] '*.aipage.cn'
+1339   13:               [2] '*.bcehost.com'
+1354   16:               [2] '*.safe.baidu.com'
+1372   14:               [2] '*.im.baidu.com'
+1388   18:               [2] '*.baiducontent.com'
+1408   11:               [2] '*.dlnel.com'
+1421   11:               [2] '*.dlnel.org'
+1434   18:               [2] '*.dueros.baidu.com'
+1454   14:               [2] '*.su.baidu.com'
+1470    8:               [2] '*.91.com'
+1480   18:               [2] '*.hao123.baidu.com'
+1500   13:               [2] '*.apollo.auto'
+1515   18:               [2] '*.xueshu.baidu.com'
+1535   17:               [2] '*.bj.baidubce.com'
+1554   17:               [2] '*.gz.baidubce.com'
+1573   14:               [2] '*.smartapps.cn'
+1589   13:               [2] '*.bdtjrcv.com'
+1604   12:               [2] '*.hao222.com'
+1618   12:               [2] '*.haokan.com'
+1632   15:               [2] '*.pae.baidu.com'
+1649   17:               [2] '*.vd.bdstatic.com'
+1668   17:               [2] '*.cloud.baidu.com'
+1687   18:               [2] 'click.hm.baidu.com'
+1707   16:               [2] 'log.hm.baidu.com'
+1725   16:               [2] 'cm.pos.baidu.com'
+1743   16:               [2] 'wn.pos.baidu.com'
+1761   20:               [2] 'update.pan.baidu.com'
+         :               }
+         :             }
+         :           }
+1783   29:         SEQUENCE {
+1785    3:           OBJECT IDENTIFIER '2 5 29 37'
+1790   22:           OCTET STRING, encapsulates {
+1792   20:             SEQUENCE {
+1794    8:               OBJECT IDENTIFIER '1 3 6 1 5 5 7 3 1'
+1804    8:               OBJECT IDENTIFIER '1 3 6 1 5 5 7 3 2'
+         :               }
+         :             }
+         :           }
+1814   31:         SEQUENCE {
+1816    3:           OBJECT IDENTIFIER '2 5 29 35'
+1821   24:           OCTET STRING, encapsulates {
+1823   22:             SEQUENCE {
+1825   20:               [0]
+         :                 F8 EF 7F F2 CD 78 67 A8 DE 6F 8F 24 8D 88 F1 87
+         :                 03 02 B3 EB
+         :               }
+         :             }
+         :           }
+1847   29:         SEQUENCE {
+1849    3:           OBJECT IDENTIFIER '2 5 29 14'
+1854   22:           OCTET STRING, encapsulates {
+1856   20:             OCTET STRING
+         :               ED 73 AB F9 20 BE 7A 19 9F 59 1F B2 9F F2 3F 2F
+         :               3F 91 84 12
+         :             }
+         :           }
+1878  382:         SEQUENCE {
+1882   10:           OBJECT IDENTIFIER '1 3 6 1 4 1 11129 2 4 2'
+1894  366:           OCTET STRING, encapsulates {
+1898  362:             OCTET STRING
+         :               01 68 00 76 00 48 B0 E3 6B DA A6 47 34 0F E5 6A
+         :               02 FA 9D 30 EB 1C 52 01 CB 56 DD 2C 81 D9 BB BF
+         :               AB 39 D8 84 73 00 00 01 89 28 E5 70 01 00 00 04
+         :               03 00 47 30 45 02 21 00 ED 1A F4 5F 4A CC 2B FF
+         :               57 DF E5 B8 CB F9 24 5C B7 7E 14 7B A3 DA 46 C0
+         :               D8 BC 68 69 89 87 A3 83 02 20 5F F6 82 83 D3 A0
+         :               E4 46 5B 54 BA 3E 66 CA D4 F6 CD C8 26 EB 18 CD
+         :               96 23 01 22 6C CC 4C F0 67 5A 00 77 00 EE CD D0
+         :                       [ Another 234 bytes skipped ]
+         :             }
+         :           }
+         :         }
+         :       }
+         :     }
+2264   13:   SEQUENCE {
+2266    9:     OBJECT IDENTIFIER '1 2 840 113549 1 1 11'
+2277    0:     NULL
+         :     }
+2279  257:   BIT STRING
+         :     19 5A 67 50 43 B1 AC 7A 93 A8 68 18 72 8B 40 7E
+         :     A6 75 DE AC 21 FC C9 41 16 20 4B F3 8C 0B B9 47
+         :     45 AE F8 5D 79 F6 43 35 26 01 98 F0 B9 86 3E 29
+         :     01 F1 DF B0 72 B5 AE 78 D2 DF 61 B6 78 67 8A C9
+         :     77 9A DE E0 E4 41 2F 9C 1E E5 3B 7C 97 3F 42 2F
+         :     AD E3 49 7F 9D 2B 02 88 90 69 25 03 01 14 B9 B5
+         :     CB 0F 59 3D 2D 97 3D 02 D5 51 90 69 0C 81 10 22
+         :     DA C6 51 EF 48 0C D2 4F DE 61 F2 6A 87 15 A5 6D
+         :             [ Another 128 bytes skipped ]
+         :   }
+
+0 warnings, 0 errors.
+
+
+zhangluduo@zhangluduo-B85-HD3:~/Downloads$  openssl asn1parse -inform DER -in baidu.x509.der
+    0:d=0  hl=4 l=2536 cons: SEQUENCE          
+    4:d=1  hl=4 l=2256 cons: SEQUENCE          
+    8:d=2  hl=2 l=   3 cons: cont [ 0 ]        
+   10:d=3  hl=2 l=   1 prim: INTEGER           :02
+   13:d=2  hl=2 l=  12 prim: INTEGER           :55E6ACAED1F8A430F9A938C5
+   27:d=2  hl=2 l=  13 cons: SEQUENCE          
+   29:d=3  hl=2 l=   9 prim: OBJECT            :sha256WithRSAEncryption
+   40:d=3  hl=2 l=   0 prim: NULL              
+   42:d=2  hl=2 l=  80 cons: SEQUENCE          
+   44:d=3  hl=2 l=  11 cons: SET               
+   46:d=4  hl=2 l=   9 cons: SEQUENCE          
+   48:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+   53:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :BE
+   57:d=3  hl=2 l=  25 cons: SET               
+   59:d=4  hl=2 l=  23 cons: SEQUENCE          
+   61:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+   66:d=5  hl=2 l=  16 prim: PRINTABLESTRING   :GlobalSign nv-sa
+   84:d=3  hl=2 l=  38 cons: SET               
+   86:d=4  hl=2 l=  36 cons: SEQUENCE          
+   88:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+   93:d=5  hl=2 l=  29 prim: PRINTABLESTRING   :GlobalSign RSA OV SSL CA 2018
+  124:d=2  hl=2 l=  30 cons: SEQUENCE          
+  126:d=3  hl=2 l=  13 prim: UTCTIME           :230706015106Z
+  141:d=3  hl=2 l=  13 prim: UTCTIME           :240806015105Z
+  156:d=2  hl=3 l= 128 cons: SEQUENCE          
+  159:d=3  hl=2 l=  11 cons: SET               
+  161:d=4  hl=2 l=   9 cons: SEQUENCE          
+  163:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+  168:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :CN
+  172:d=3  hl=2 l=  16 cons: SET               
+  174:d=4  hl=2 l=  14 cons: SEQUENCE          
+  176:d=5  hl=2 l=   3 prim: OBJECT            :stateOrProvinceName
+  181:d=5  hl=2 l=   7 prim: PRINTABLESTRING   :beijing
+  190:d=3  hl=2 l=  16 cons: SET               
+  192:d=4  hl=2 l=  14 cons: SEQUENCE          
+  194:d=5  hl=2 l=   3 prim: OBJECT            :localityName
+  199:d=5  hl=2 l=   7 prim: PRINTABLESTRING   :beijing
+  208:d=3  hl=2 l=  57 cons: SET               
+  210:d=4  hl=2 l=  55 cons: SEQUENCE          
+  212:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+  217:d=5  hl=2 l=  48 prim: PRINTABLESTRING   :Beijing Baidu Netcom Science Technology Co., Ltd
+  267:d=3  hl=2 l=  18 cons: SET               
+  269:d=4  hl=2 l=  16 cons: SEQUENCE          
+  271:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+  276:d=5  hl=2 l=   9 prim: PRINTABLESTRING   :baidu.com
+  287:d=2  hl=4 l= 290 cons: SEQUENCE          
+  291:d=3  hl=2 l=  13 cons: SEQUENCE          
+  293:d=4  hl=2 l=   9 prim: OBJECT            :rsaEncryption
+  304:d=4  hl=2 l=   0 prim: NULL              
+  306:d=3  hl=4 l= 271 prim: BIT STRING        
+  581:d=2  hl=4 l=1679 cons: cont [ 3 ]        
+  585:d=3  hl=4 l=1675 cons: SEQUENCE          
+  589:d=4  hl=2 l=  14 cons: SEQUENCE          
+  591:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Key Usage
+  596:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+  599:d=5  hl=2 l=   4 prim: OCTET STRING      [HEX DUMP]:030205A0
+  605:d=4  hl=3 l= 142 cons: SEQUENCE          
+  608:d=5  hl=2 l=   8 prim: OBJECT            :Authority Information Access
+  618:d=5  hl=3 l= 129 prim: OCTET STRING      [HEX DUMP]:307F304406082B060105050730028638687474703A2F2F7365637572652E676C6F62616C7369676E2E636F6D2F6361636572742F67737273616F7673736C6361323031382E637274303706082B06010505073001862B687474703A2F2F6F6373702E676C6F62616C7369676E2E636F6D2F67737273616F7673736C636132303138
+  750:d=4  hl=2 l=  86 cons: SEQUENCE          
+  752:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Certificate Policies
+  757:d=5  hl=2 l=  79 prim: OCTET STRING      [HEX DUMP]:304D304106092B06010401A03201143034303206082B06010505070201162668747470733A2F2F7777772E676C6F62616C7369676E2E636F6D2F7265706F7369746F72792F3008060667810C010202
+  838:d=4  hl=2 l=   9 cons: SEQUENCE          
+  840:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Basic Constraints
+  845:d=5  hl=2 l=   2 prim: OCTET STRING      [HEX DUMP]:3000
+  849:d=4  hl=2 l=  63 cons: SEQUENCE          
+  851:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 CRL Distribution Points
+  856:d=5  hl=2 l=  56 prim: OCTET STRING      [HEX DUMP]:30363034A032A030862E687474703A2F2F63726C2E676C6F62616C7369676E2E636F6D2F67737273616F7673736C6361323031382E63726C
+  914:d=4  hl=4 l= 865 cons: SEQUENCE          
+  918:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Subject Alternative Name
+  923:d=5  hl=4 l= 856 prim: OCTET STRING      [HEX DUMP]:30820354820962616964752E636F6D820C626169667562616F2E636F6D820C7777772E62616964752E636E82107777772E62616964752E636F6D2E636E820F6D63742E792E6E756F6D692E636F6D820B61706F6C6C6F2E6175746F820664777A2E636E820B2A2E62616964752E636F6D820E2A2E626169667562616F2E636F6D82112A2E62616964757374617469632E636F6D820E2A2E62647374617469632E636F6D820B2A2E6264696D672E636F6D820C2A2E68616F3132332E636F6D820B2A2E6E756F6D692E636F6D820D2A2E636875616E6B652E636F6D820D2A2E7472757374676F2E636F6D820F2A2E6263652E62616964752E636F6D82102A2E6579756E2E62616964752E636F6D820F2A2E6D61702E62616964752E636F6D820F2A2E6D62642E62616964752E636F6D82112A2E66616E79692E62616964752E636F6D820E2A2E62616964756263652E636F6D820C2A2E6D697063646E2E636F6D82102A2E6E6577732E62616964752E636F6D820E2A2E62616964757063732E636F6D820C2A2E6169706167652E636F6D820B2A2E6169706167652E636E820D2A2E626365686F73742E636F6D82102A2E736166652E62616964752E636F6D820E2A2E696D2E62616964752E636F6D82122A2E6261696475636F6E74656E742E636F6D820B2A2E646C6E656C2E636F6D820B2A2E646C6E656C2E6F726782122A2E647565726F732E62616964752E636F6D820E2A2E73752E62616964752E636F6D82082A2E39312E636F6D82122A2E68616F3132332E62616964752E636F6D820D2A2E61706F6C6C6F2E6175746F82122A2E7875657368752E62616964752E636F6D82112A2E626A2E62616964756263652E636F6D82112A2E677A2E62616964756263652E636F6D820E2A2E736D617274617070732E636E820D2A2E6264746A7263762E636F6D820C2A2E68616F3232322E636F6D820C2A2E68616F6B616E2E636F6D820F2A2E7061652E62616964752E636F6D82112A2E76642E62647374617469632E636F6D82112A2E636C6F75642E62616964752E636F6D8212636C69636B2E686D2E62616964752E636F6D82106C6F672E686D2E62616964752E636F6D8210636D2E706F732E62616964752E636F6D8210776E2E706F732E62616964752E636F6D82147570646174652E70616E2E62616964752E636F6D
+ 1783:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 1785:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Extended Key Usage
+ 1790:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:301406082B0601050507030106082B06010505070302
+ 1814:d=4  hl=2 l=  31 cons: SEQUENCE          
+ 1816:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Authority Key Identifier
+ 1821:d=5  hl=2 l=  24 prim: OCTET STRING      [HEX DUMP]:30168014F8EF7FF2CD7867A8DE6F8F248D88F1870302B3EB
+ 1847:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 1849:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Subject Key Identifier
+ 1854:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:0414ED73ABF920BE7A199F591FB29FF23F2F3F918412
+ 1878:d=4  hl=4 l= 382 cons: SEQUENCE          
+ 1882:d=5  hl=2 l=  10 prim: OBJECT            :CT Precertificate SCTs
+ 1894:d=5  hl=4 l= 366 prim: OCTET STRING      [HEX DUMP]:0482016A016800760048B0E36BDAA647340FE56A02FA9D30EB1C5201CB56DD2C81D9BBBFAB39D884730000018928E570010000040300473045022100ED1AF45F4ACC2BFF57DFE5B8CBF9245CB77E147BA3DA46C0D8BC68698987A38302205FF68283D3A0E4465B54BA3E66CAD4F6CDC826EB18CD962301226CCC4CF0675A007700EECDD064D5DB1ACEC55CB79DB4CD13A23287467CBCECDEC351485946711FB59B0000018928E5701D0000040300483046022100BD1DC3182A7E781E2BD26E11F4C2E5ADC1368762DB88BC90FC2213C5FB327DFE022100808C9E8886A1C73A14620C21898C77BA7B2494973190A91574A26C2C3383522D007500DAB6BF6B3FB5B6229F9BC2BB5C6BE87091716CBB51848534BDA43D3048D7FBAB0000018928E56D5700000403004630440220546D6A69EAE0A358F917D5ADE47736A37B338DC39530767EE5FB1CA98C4E9B7702201B618AF291FEE54A994D32B1372A824688890D7EEB017CF13B6D9A21192405C0
+ 2264:d=1  hl=2 l=  13 cons: SEQUENCE          
+ 2266:d=2  hl=2 l=   9 prim: OBJECT            :sha256WithRSAEncryption
+ 2277:d=2  hl=2 l=   0 prim: NULL              
+ 2279:d=1  hl=4 l= 257 prim: BIT STRING      

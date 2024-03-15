@@ -23,6 +23,13 @@
 
 #if defined ZMCRYPTO_ALGO_AES
 
+    struct aes_ctx
+    {
+        uint32_t nr;      /*!<  number of rounds  */
+        uint32_t *rk;     /*!<  AES round keys    */
+        uint32_t buf[68]; /*!<  unaligned data    */
+    } ;
+
     /*
     * Forward S-box
     */
@@ -343,7 +350,6 @@
     void aes_free (struct aes_ctx* ctx)
     {
         zmcrypto_free(ctx);
-        ctx = NULL;
     }
 
     void aes_init (struct aes_ctx* ctx)
