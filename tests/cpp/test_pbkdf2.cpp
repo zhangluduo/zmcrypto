@@ -132,7 +132,7 @@ void test_case_pbkdf2(zmcrypto::sdk* _sdk)
                 format_output("%s by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                for (int n = 0; n < derived_key.length(); n++){
+                for (size_t n = 0; n < derived_key.length(); n++){
                     printf ("%02x ", dk2[n]);
                 }
                 printf ("\n");

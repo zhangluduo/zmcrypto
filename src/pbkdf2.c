@@ -68,7 +68,7 @@ where:
         struct hmac_ctx *_hmac_ctx = hmac_new();
         hmac_init(_hmac_ctx, hash_new, hash_free, hash_digest_size, hash_block_size, hash_init, hash_starts, hash_update, hash_final);
 
-        uint8_t digest[DIGEST_MAX_SIZE];
+        uint8_t digest[ZMCRYPTO_MAX_DIGESTSIZE];
         uint32_t hlen = hash_digest_size();
         uint32_t loop = (dklen + (hlen - 1)) / hlen;
         uint32_t offset = 0;

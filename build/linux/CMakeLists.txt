@@ -143,7 +143,7 @@ target_link_libraries (test LINK_PUBLIC
 	cryptopp #Crypto++ Library
 )
 
-#------------------- app -------------------
+#------------------- APPs -------------------
 
 add_executable(
 	app_asn1
@@ -153,4 +153,14 @@ add_executable(
 add_executable(
 	app_x509
 	../../app/app_x509.c
+)
+
+add_executable(
+	app_bitoper
+	../../app/app_bitoper.c
+)
+
+add_executable(
+	app_hex
+	../../app/app_hex.c
 )

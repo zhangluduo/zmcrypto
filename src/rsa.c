@@ -44,8 +44,13 @@
 
         struct rsa_ctx
         {
+            int xxxxxxx;
+        } ;
+
+#if 0
+            /*The key for RSA operation*/
             struct rsa_key key;
-            struct md_method;
+            struct md_method md;
 
             /* optional: random number generator */
             int32_t (*rng_func)(void* param, uint8_t* buffer, uint32_t blen);
@@ -54,7 +59,7 @@
             /* optional: used for the MGF mask generating function in the
                EME-OAEP and EMSA-PSS encodings.  */
             uint8_t* md_oid;
-            uint32_t oid_len;
+            uint32_t oid_size;
 
             /* optional: label for RSAES-OAEP */
             uint8_t* label;
@@ -63,6 +68,6 @@
             /* optional: salt for RSAES-PSS */
             uint8_t* salt;
             uint32_t slen;
-        } ;
-        
+#endif /*if 0*/
+
 #endif /* ZMCRYPTO_ALGO_RSA */

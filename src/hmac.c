@@ -14,7 +14,7 @@
  */
 
 /*
-HMAC(K, m) = H ((K' ⊕ opad) || H(K' ⊕ ipad) || m)
+HMAC(K, m) = H ((K' ^ opad) || H(K' ^ ipad) || m)
 
 where 
     H is a cryptographic hash function, 
@@ -24,7 +24,7 @@ where
        padding K to the right with extra zeroes to the input block 
        size of the hash function, or by hashing K if it is longer 
        than that block size), || denotes concatenation, 
-    ⊕  denotes exclusive or (XOR), opad is the outer padding (0x5c5c5c...
+    ^  denotes exclusive or (XOR), opad is the outer padding (0x5c5c5c...
        5c5c, one-block-long hexadecimal constant), and ipad is the inner
        padding (0x363636...3636, one-block-long hexadecimal constant). 
 */

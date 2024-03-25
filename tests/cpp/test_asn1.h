@@ -33,5 +33,8 @@ void test_asn1_case12();
 void test_asn1_case13();
 void test_asn1_case14();
 void test_asn1_case15();
+void test_asn1_case16();
+void test_asn1_case17();
+void test_asn1_case18();
 
 #endif /* TEST_ASN1_H */

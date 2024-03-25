@@ -7,6 +7,11 @@
 #include <stack>
 #include <vector>
 
+//const char* tree_h_begin = "\xe2\x94\x9c"; /* ├ */
+//const char* tree_h_end   = "\xe2\x94\x80"; /* ─ */
+//const char* tree_v_begin = "\xe2\x94\x82"; /* │ */
+//const char* tree_v_end   = "\xe2\x94\x94"; /* └ */
+
 uint8_t baidu_cert_der[] = 
 {
     /*           0     1     2     3     4     5     6     7     8     9     a     b     c     d     e     f*/
@@ -254,14 +259,9 @@ uint8_t google_cert_der[] =
 uint32_t google_cert_der_len = sizeof(google_cert_der);
 
 void helper_print_asn1_data(uint8_t* data, uint32_t dlen){
-    for (int i = 0; i < dlen; i++) { printf ("%02x ", data[i]); }
+    for (uint32_t i = 0; i < dlen; i++) { printf ("%02x ", data[i]); }
     printf ("\n");
 }
-
-const char* tree_h_begin = "\xe2\x94\x9c"; /* ├ */
-const char* tree_h_end   = "\xe2\x94\x80"; /* ─ */
-const char* tree_v_begin = "\xe2\x94\x82"; /* │ */
-const char* tree_v_end   = "\xe2\x94\x94"; /* └ */
 
 void helper_print_asn1_ctx(struct asn1_ctx* ctx, uint32_t level, uint32_t offset){
     printf ("[%4d][%4d]:", offset, asn1_get_value_dlen(ctx));
@@ -295,7 +295,7 @@ void test_asn1_case1()
     asn1_ctx_init(ctx);
     
     zmerror err = asn1_parse_data(der_data, der_len, ctx, copy);
-    if (ZMCRYPTO_ERR_ASN1_OUT_OF_DATA == err){
+    if (ZMCRYPTO_ERR_OVERFLOW == err){
         goto succ;
     }
     else{
@@ -371,7 +371,7 @@ void test_asn1_case3() {
     asn1_ctx_init(ctx);
     
     zmerror err = asn1_parse_data(der_data, der_len, ctx, copy);
-    if (ZMCRYPTO_ERR_ASN1_OUT_OF_DATA == err){
+    if (ZMCRYPTO_ERR_OVERFLOW == err){
         goto succ;
     }
     else{
@@ -454,7 +454,6 @@ void test_asn1_case4()
 
     err = asn1_parse_data(asn1_get_next_data(ctx), asn1_get_next_dlen(ctx), ctx2, copy);
     if (ZMCRYPTO_IS_ERROR(err)){
-        printf("line[%d]\n", __LINE__);
         goto fail;
     }
 
@@ -479,12 +478,10 @@ void test_asn1_case4()
 
     err = asn1_parse_data(asn1_get_next_data(ctx2), asn1_get_next_dlen(ctx2), ctx3, copy);
     if (ZMCRYPTO_IS_ERROR(err)){
-        printf("line[%d]\n", __LINE__);
         goto fail;
     }
 
     if (asn1_get_next_data(ctx3) != NULL || asn1_get_next_dlen(ctx3) != 0){
-        printf("line[%d]\n", __LINE__);
         goto fail;
     }
 
@@ -689,7 +686,7 @@ _pop:
     }   printf("\n");
 */
 
-    for (int i = 0; i < _free.size(); i++){
+    for (uint32_t i = 0; i < _free.size(); i++){
         asn1_ctx_free(_free[i]); 
     }
 
@@ -906,7 +903,7 @@ _pop:
     }   printf("\n");
 */
 
-    for (int i = 0; i < _free.size(); i++){
+    for (uint32_t i = 0; i < _free.size(); i++){
         asn1_ctx_free(_free[i]); 
     }
 
@@ -1041,7 +1038,7 @@ _pop:
     }   printf("\n");
 */
 
-    for (int i = 0; i < _free.size(); i++){
+    for (uint32_t i = 0; i < _free.size(); i++){
         asn1_ctx_free(_free[i]); 
     }
 
@@ -1231,7 +1228,7 @@ _pop:
     }   printf("\n");
 */
 
-    for (int i = 0; i < _free.size(); i++){
+    for (uint32_t i = 0; i < _free.size(); i++){
         asn1_ctx_free(_free[i]); 
     }
 
@@ -1406,7 +1403,7 @@ _pop:
     }   printf("\n");
 */
 
-    for (int i = 0; i < _free.size(); i++){
+    for (uint32_t i = 0; i < _free.size(); i++){
         asn1_ctx_free(_free[i]); 
     }
 
@@ -1566,11 +1563,11 @@ _pop:
     }   printf("\n");
 */
 
-    for (int i = 0; i < _free.size(); i++){
+    for (uint32_t i = 0; i < _free.size(); i++){
         asn1_ctx_free(_free[i]); 
     }
 
-    for (int i = 0; i < item_list1.size() && item_list1.size() == item_list2.size(); i++){
+    for (uint32_t i = 0; i < item_list1.size() && item_list1.size() == item_list2.size(); i++){
         if (item_list1[i].tag_name != item_list2[i].tag_name ||
             item_list1[i].level != item_list2[i].level ||
             item_list1[i].offset != item_list2[i].offset){
@@ -1772,11 +1769,11 @@ _pop:
     }   printf("\n");
 */
 
-    for (int i = 0; i < _free.size(); i++){
+    for (uint32_t i = 0; i < _free.size(); i++){
         asn1_ctx_free(_free[i]); 
     }
 
-    for (int i = 0; i < item_list1.size() && item_list1.size() == item_list2.size(); i++){
+    for (uint32_t i = 0; i < item_list1.size() && item_list1.size() == item_list2.size(); i++){
         if (item_list1[i].tag_name != item_list2[i].tag_name ||
             item_list1[i].level != item_list2[i].level ||
             item_list1[i].offset != item_list2[i].offset){
@@ -1938,11 +1935,11 @@ _pop:
     }   printf("\n");
 */
 
-    for (int i = 0; i < _free.size(); i++){
+    for (uint32_t i = 0; i < _free.size(); i++){
         asn1_ctx_free(_free[i]); 
     }
 
-    for (int i = 0; i < item_list1.size() && item_list1.size() == item_list2.size(); i++){
+    for (uint32_t i = 0; i < item_list1.size() && item_list1.size() == item_list2.size(); i++){
         if (item_list1[i].tag_name != item_list2[i].tag_name ||
             item_list1[i].level != item_list2[i].level ||
             item_list1[i].offset != item_list2[i].offset){
@@ -2147,11 +2144,11 @@ _pop:
     }   printf("\n");
 */
 
-    for (int i = 0; i < _free.size(); i++){
+    for (uint32_t i = 0; i < _free.size(); i++){
         asn1_ctx_free(_free[i]); 
     }
 
-    for (int i = 0; i < item_list1.size() && item_list1.size() == item_list2.size(); i++){
+    for (uint32_t i = 0; i < item_list1.size() && item_list1.size() == item_list2.size(); i++){
         if (item_list1[i].tag_name != item_list2[i].tag_name ||
             item_list1[i].level != item_list2[i].level ||
             item_list1[i].offset != item_list2[i].offset){
@@ -2296,7 +2293,7 @@ void test_asn1_case15(){
     }   printf("\n");
 */
 
-    for (int i = 0; i < _free.size(); i++){
+    for (uint32_t i = 0; i < _free.size(); i++){
         asn1_ctx_free(_free[i]); 
     }
 
@@ -2308,5 +2305,203 @@ fail:
 
 succ:
     format_output("%s by ZmCrypto|%s passed\n", "asn1", "case #15");
+    return;
+}
+
+void test_asn1_case16(){
+    {
+        uint8_t len_data[] = {0x7f};
+        uint32_t ilen = sizeof(len_data);
+        uint32_t out = 0;
+        zmerror err = asn1_decode_length(len_data, &ilen, &out);
+
+        if (ZMCRYPTO_IS_SUCCESSED(err) && out == 0x7f && ilen == 1){
+            /*goto succ;*/
+        }
+        else{
+            goto fail;
+        }
+    }
+    {
+        uint8_t len_data[] = {0x81, 0x80};
+        uint32_t ilen = sizeof(len_data);
+        uint32_t out = 0;
+        zmerror err = asn1_decode_length(len_data, &ilen, &out);
+
+        if (ZMCRYPTO_IS_SUCCESSED(err) && out == 128 && ilen == 2){
+            /*goto succ;*/
+        }
+        else{
+            goto fail;
+        }
+    }
+    {
+        uint8_t len_data[] = {0x82, 0x01, 0x02};
+        uint32_t ilen = sizeof(len_data);
+        uint32_t out = 0;
+        zmerror err = asn1_decode_length(len_data, &ilen, &out);
+
+        if (ZMCRYPTO_IS_SUCCESSED(err) && out == 258 && ilen == 3){
+            /*goto succ;*/
+        }
+        else{
+            goto fail;
+        }
+    }
+    {
+        uint8_t len_data[] = {0x83, 0x01, 0x02, 0x03};
+        uint32_t ilen = sizeof(len_data);
+        uint32_t out = 0;
+        zmerror err = asn1_decode_length(len_data, &ilen, &out);
+
+        if (ZMCRYPTO_IS_SUCCESSED(err) && out == 66051 && ilen == 4){
+            /*goto succ;*/
+        }
+        else{
+            goto fail;
+        }
+    }
+    {
+        uint8_t len_data[] = {0x84, 0x01, 0x02, 0x03, 0x04};
+        uint32_t ilen = sizeof(len_data);
+        uint32_t out = 0;
+        zmerror err = asn1_decode_length(len_data, &ilen, &out);
+
+        if (ZMCRYPTO_IS_SUCCESSED(err) && out == 16909060 && ilen == 5){
+            /*goto succ;*/
+        }
+        else{
+            goto fail;
+        }
+    }
+    {
+        uint8_t len_data[] = {0x84, 0x01, 0x02, 0x03/*, 0x04*/};
+        uint32_t ilen = sizeof(len_data);
+        uint32_t out = 0;
+        zmerror err = asn1_decode_length(len_data, &ilen, &out);
+
+        if (ZMCRYPTO_IS_ERROR(err)){
+            goto succ;
+        }
+        else{
+            goto fail;
+        }
+    }
+fail:
+    format_output("%s by ZmCrypto|%s failed\n", "asn1", "case #16");
+    return;
+
+succ:
+    format_output("%s by ZmCrypto|%s passed\n", "asn1", "case #16");
+    return;
+}
+
+void test_asn1_case17()
+{
+    // uint8_t oid_der[] = { 0x06, 0x09, 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x0B}; uint32_t oid_words[] = {1, 2, 840, 113549, 1, 1, 11};
+    uint8_t oid_der[] = { 0x06, 0x03, 0x55, 0x04, 0x06                                    }; uint32_t oid_words[] = {2, 5, 4, 6};
+    // uint8_t oid_der[] = { 0x06, 0x03, 0x55, 0x04, 0x0A                                    }; uint32_t oid_words[] = {2, 5, 4, 10};
+    // uint8_t oid_der[] = { 0x06, 0x03, 0x55, 0x04, 0x03                                    }; uint32_t oid_words[] = {2, 5, 4, 3};
+    // uint8_t oid_der[] = { 0x06, 0x03, 0x55, 0x04, 0x06                                    }; uint32_t oid_words[] = {2, 5, 4, 6};
+    // uint8_t oid_der[] = { 0x06, 0x03, 0x55, 0x04, 0x08                                    }; uint32_t oid_words[] = {2, 5, 4, 8};
+    // uint8_t oid_der[] = { 0x06, 0x03, 0x55, 0x04, 0x07                                    }; uint32_t oid_words[] = {2, 5, 4, 7};
+    // uint8_t oid_der[] = { 0x06, 0x03, 0x55, 0x04, 0x0A                                    }; uint32_t oid_words[] = {2, 5, 4, 10};
+    // uint8_t oid_der[] = { 0x06, 0x03, 0x55, 0x04, 0x03                                    }; uint32_t oid_words[] = {2, 5, 4, 3};
+    // uint8_t oid_der[] = { 0x06, 0x09, 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x01}; uint32_t oid_words[] = {1, 2, 840, 113549, 1, 1, 1};
+    // uint8_t oid_der[] = { 0x06, 0x03, 0x55, 0x1D, 0x0F                                    }; uint32_t oid_words[] = {2, 5, 29, 15};
+    // uint8_t oid_der[] = { 0x06, 0x08, 0x2B, 0x06, 0x01, 0x05, 0x05, 0x07, 0x01, 0x01      }; uint32_t oid_words[] = {1, 3, 6, 1, 5, 5, 7, 1, 1};
+    // uint8_t oid_der[] = { 0x06, 0x08, 0x2B, 0x06, 0x01, 0x05, 0x05, 0x07, 0x30, 0x02      }; uint32_t oid_words[] = {1, 3, 6, 1, 5, 5, 7, 48, 2};
+    // uint8_t oid_der[] = { 0x06, 0x08, 0x2B, 0x06, 0x01, 0x05, 0x05, 0x07, 0x30, 0x01      }; uint32_t oid_words[] = {1, 3, 6, 1, 5, 5, 7, 48, 1};
+    // uint8_t oid_der[] = { 0x06, 0x03, 0x55, 0x1D, 0x20                                    }; uint32_t oid_words[] = {2, 5, 29, 32};
+    // uint8_t oid_der[] = { 0x06, 0x08, 0x2B, 0x06, 0x01, 0x05, 0x05, 0x07, 0x02, 0x01      }; uint32_t oid_words[] = {1, 3, 6, 1, 5, 5, 7, 2, 1};
+    // uint8_t oid_der[] = { 0x06, 0x06, 0x67, 0x81, 0x0C, 0x01, 0x02, 0x02                  }; uint32_t oid_words[] = {2, 23, 140, 1, 2, 2};
+
+    uint8_t out[100];
+    uint32_t olen = 100;
+    zmerror err = asn1_encode_object_identifier(oid_words, sizeof(oid_words) / sizeof(oid_words[0]), out, &olen);
+    if (ZMCRYPTO_IS_ERROR(err))
+    {
+        goto fail;
+    }
+
+    if (olen == sizeof(oid_der) && memcmp(oid_der, out, olen) == 0){
+        goto succ;
+    }
+    else{
+        goto fail;
+    }
+
+fail:
+    format_output("%s by ZmCrypto|%s failed\n", "asn1", "case #17");
+    return;
+
+succ:
+    format_output("%s by ZmCrypto|%s passed\n", "asn1", "case #17");
+    return;
+}
+
+void test_asn1_case18()
+{
+    {
+        uint8_t oid_der[] = { 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x0B};
+        uint32_t oid_words[] = {1, 2, 840, 113549, 1, 1, 11};
+        uint32_t oid_dlen = sizeof(oid_der);
+
+        uint32_t out[10];
+        uint32_t olen = 10;
+        memset(out, 0, sizeof(uint32_t) * 10);
+
+        zmerror err = asn1_decode_object_identifier(oid_der, oid_dlen, out, &olen);
+        if (ZMCRYPTO_IS_ERROR(err)){
+            goto fail;
+        }
+        else{
+            if (olen == 7 && memcmp(oid_words, out, 7) == 0){
+                /*goto succ;*/
+            }
+            else{
+                goto fail;
+            }
+        }
+    }
+    {
+        uint8_t oid_der[] = { 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x0B};
+        uint32_t oid_words[] = {1, 2, 840, 113549, 1, 1, 11};
+        uint32_t oid_dlen = sizeof(oid_der);
+
+        uint32_t out[6];
+        uint32_t olen = 6;
+        memset(out, 0, sizeof(uint32_t) * 6);
+
+        zmerror err = asn1_decode_object_identifier(oid_der, oid_dlen, out, &olen);
+        if (ZMCRYPTO_ERR_OVERFLOW == err){
+            /*goto succ;*/
+        }
+        else{
+            goto fail;
+        }
+    }
+    {
+        uint8_t oid_der[] = { 0x2A, 0x86, 0xF7, 0xF7, 0xF7, 0x0D};
+        uint32_t oid_dlen = sizeof(oid_der);
+
+        uint32_t out[2];
+        uint32_t olen = 2;
+        memset(out, 0, sizeof(uint32_t) * 2);
+
+        zmerror err = asn1_decode_object_identifier(oid_der, oid_dlen, out, &olen);
+        if (ZMCRYPTO_ERR_ASN1_INVALID_VAL == err){
+            goto succ;
+        }
+        else{
+            goto fail;
+        }
+    }
+fail:
+    format_output("%s by ZmCrypto|%s failed\n", "asn1", "case #18");
+    return;
+
+succ:
+    format_output("%s by ZmCrypto|%s passed\n", "asn1", "case #18");
     return;
 }

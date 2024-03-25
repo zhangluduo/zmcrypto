@@ -159,23 +159,24 @@ int main()
     srand(time(NULL));
     print_env();
 
-    test_asn1_case1();
-    test_asn1_case2();
-    test_asn1_case3();
-    test_asn1_case4();
-    test_asn1_case5();
-    test_asn1_case6();
-    test_asn1_case7();
-    test_asn1_case8();
-    test_asn1_case9();
-    test_asn1_case10();
-    test_asn1_case11();
-    test_asn1_case12();
-    test_asn1_case13();
-    test_asn1_case14();
-    test_asn1_case15();
-
-    ASN1代码未完
+    // test_asn1_case1();
+    // test_asn1_case2();
+    // test_asn1_case3();
+    // test_asn1_case4();
+    // test_asn1_case5();
+    // test_asn1_case6();
+    // test_asn1_case7();
+    // test_asn1_case8();
+    // test_asn1_case9();
+    // test_asn1_case10();
+    // test_asn1_case11();
+    // test_asn1_case12();
+    // test_asn1_case13();
+    // test_asn1_case14();
+    // test_asn1_case15();
+    // test_asn1_case16();
+    test_asn1_case17();
+    test_asn1_case18();
 
     // test_engine(&_sdk);
     // test_case(&_sdk);

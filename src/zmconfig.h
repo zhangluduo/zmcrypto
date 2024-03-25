@@ -67,9 +67,8 @@ typedef int32_t zmerror;
 #define ZMCRYPTO_ERR_ASN1_INVALID_TAG          (zmerror)(ZMCRYPTO_ERR_BASE - 0x000fU)
 #define ZMCRYPTO_ERR_ASN1_INVALID_LEN          (zmerror)(ZMCRYPTO_ERR_BASE - 0x0010U)
 #define ZMCRYPTO_ERR_ASN1_INVALID_VAL          (zmerror)(ZMCRYPTO_ERR_BASE - 0x0011U)
-#define ZMCRYPTO_ERR_ASN1_OUT_OF_DATA          (zmerror)(ZMCRYPTO_ERR_BASE - 0x0012U)
 
-#define ZMCRYPTO_ERR_VERIFY                    (zmerror)(ZMCRYPTO_ERR_BASE - 0x0013U) /* verify failed */
+#define ZMCRYPTO_ERR_VERIFY                    (zmerror)(ZMCRYPTO_ERR_BASE - 0x0012U) /* verify failed */
 
 #define ZMCRYPTO_IS_ERROR(code)     (code <= ZMCRYPTO_ERR_BASE)
 #define ZMCRYPTO_IS_SUCCESSED(code) (code > ZMCRYPTO_ERR_BASE)
@@ -78,16 +77,6 @@ typedef int32_t zmerror;
 #define ZMCRYPTO_MAX_DIGESTSIZE  (128)
 #define ZMCRYPTO_MAX_IVSIZE      (128)
 #define ZMCRYPTO_MAX_STRLEN      (4096)
-
-
-        #if !defined DIGEST_MAX_SIZE
-            #define DIGEST_MAX_SIZE       64
-        #endif
-
-        #if !defined DIGEST_MAX_BLOCK_SIZE
-            #define DIGEST_MAX_BLOCK_SIZE (1024/8)
-        #endif
-
 
 #ifndef NULL_PTR
     #define NULL_PTR 0
@@ -330,6 +319,36 @@ Use the following macros to make this library do clipping
         }                                               \
     } while (0);                                        \
 }
+#endif
+
+#ifndef UINT32_BIT_COUNT
+    #define UINT32_BIT_COUNT(x, ret) \
+    do                               \
+    {                                \
+        ret = 0;                     \
+        uint32_t x_copy = x;         \
+        x_copy &= 0xffffffff;        \
+        while (x_copy)               \
+        {                            \
+            ret++;                   \
+            x_copy >>= 1;            \
+        }                            \
+    } while (0);                     
+#endif
+
+#ifndef UINT32_BYTE_COUNT
+    #define UINT32_BYTE_COUNT(x, ret) \
+    do                               \
+    {                                \
+        ret = 0;                     \
+        uint32_t x_copy = x;         \
+        x_copy &= 0xffffffff;        \
+        while (x_copy)               \
+        {                            \
+            ret++;                   \
+            x_copy >>= 8;            \
+        }                            \
+    } while (0);                     
 #endif
 
 #ifndef ROTL32

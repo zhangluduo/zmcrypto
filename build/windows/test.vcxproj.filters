@@ -21,6 +21,11 @@
     <ClCompile Include="..\..\tests\cpp\vector_file.cpp" />
     <ClCompile Include="..\..\tests\cpp\zmcryptosdk.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_sm3.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_rc4.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_sm4.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_blowfish.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_asn1.cpp" />
+    <ClCompile Include="..\..\src\asn1.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\tests\cpp\format_output.h" />
@@ -43,6 +48,11 @@
     <ClInclude Include="..\..\tests\cpp\vector_file.h" />
     <ClInclude Include="..\..\tests\cpp\zmcryptosdk.h" />
     <ClInclude Include="..\..\tests\cpp\test_sm3.h" />
+    <ClInclude Include="..\..\tests\cpp\test_rc4.h" />
+    <ClInclude Include="..\..\tests\cpp\test_sm4.h" />
+    <ClInclude Include="..\..\tests\cpp\test_blowfish.h" />
+    <ClInclude Include="..\..\tests\cpp\test_asn1.h" />
+    <ClInclude Include="..\..\src\asn1.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\tests\cpp\test_report.txt" />

@@ -211,6 +211,7 @@ NOTE:
             return ZMCRYPTO_ERR_SUCCESSED;
         }
 
+        zmerror err;
         uint8_t* start = data;
         uint8_t* end = data + (dlen - 1); /* Points to the last valid character */
         //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dlen: %08x(%d)", start, *start, end, *end, dlen, dlen);
@@ -233,70 +234,15 @@ NOTE:
 
         if (start > end){
             //ZMCRYPTO_LOG("");
-            return ZMCRYPTO_ERR_ASN1_OUT_OF_DATA;
+            return ZMCRYPTO_ERR_OVERFLOW;
         }
 
         len_d = start;
-        if (!(*start & 0x80) /* 128 */)
-        {
-            len_l = 1;
-            len_len = (uint32_t)(*start);
-            start++; /* skip len data*/
-            //ZMCRYPTO_LOG("len: %d", len_d[0]);
-            //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dlen: %08x(%d)", start, *start, end, *end, dlen, dlen);
-        }
+        len_l = (uint32_t)(end - start + 1);
+        if (asn1_decode_length(len_d, &len_l, &len_len) != ZMCRYPTO_ERR_SUCCESSED)
+            { return err; }
         else
-        {
-            uint32_t len_byte = ((*start) & ASN1_MASK_LEN);
-            //ZMCRYPTO_LOG("len_byte: %d", len_byte);
-            if (len_byte >= 1 && len_byte <= 4)
-            { 
-                if (end - start < (len_byte + 1)) 
-                    { 
-                        //ZMCRYPTO_LOG(""); 
-                        return ZMCRYPTO_ERR_ASN1_INVALID_LEN; 
-                    };
-
-                len_l = len_byte + 1;
-
-                if (len_byte == 1) 
-                { 
-                    len_len = start[1]; 
-                    //ZMCRYPTO_LOG("len_len: %d", len_len);
-                }
-                else if (len_byte == 2) 
-                { 
-                    len_len = ((uint32_t)(*(start + 1)) << 8) | 
-                        (uint32_t)(*(start + 2)); 
-                    //ZMCRYPTO_LOG("len_len: %d", len_len);
-                }
-                else if (len_byte == 3) 
-                { 
-                    len_len = ((uint32_t)(*(start + 1)) << 16) | 
-                        ((uint32_t)(*(start + 2)) << 8) | 
-                        (uint32_t)(*(start + 3)); 
-                    //ZMCRYPTO_LOG("len_len: %d", len_len);
-                }
-                else if (len_byte == 4) 
-                { 
-                    len_len = ((uint32_t)(*(start + 1)) << 24) | 
-                        ((uint32_t)(*(start + 2)) << 16) | 
-                        ((uint32_t)(*(start + 3)) << 8) | 
-                        (uint32_t)(*(start + 4)); 
-                    //ZMCRYPTO_LOG("len_len: %d", len_len);
-                }
-
-                start += len_l; /* skip len data */
-                //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dlen: %08x(%d)", start, *start, end, *end, dlen, dlen);
-            }
-
-            /* more then 4GB, don't implement it for now */
-            else
-            {
-                //ZMCRYPTO_LOG(""); 
-                return ZMCRYPTO_ERR_ASN1_INVALID_LEN; 
-            }
-        }
+            { start += len_l; }
 
         val_d = start;
         val_l = len_len;
@@ -305,7 +251,7 @@ NOTE:
         if ((start - 1) > end)
         {
             //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dlen: %08x(%d)", start, *start, end, *end, dlen, dlen);
-            return ZMCRYPTO_ERR_ASN1_OUT_OF_DATA;
+            return ZMCRYPTO_ERR_OVERFLOW;
         }
         else if ((start - 1) < end)
         {
@@ -557,7 +503,7 @@ NOTE:
             if (zm_tag_map[i].val == _tag_num) { return zm_tag_map[i].str; }
         }
 
-        static tag_info[50];
+        static char tag_info[50];
         zmcrypto_memset(tag_info, 0, 50);
 
         static const char *const class_text[] =
@@ -572,74 +518,312 @@ NOTE:
         return tag_info;
     }
 
-    /* get length of length data */
-    zmerror asn1_parse_data_length (uint8_t* data, uint32_t dlen, uint32_t* result)
+    zmerror asn1_is_tag_constructed(uint8_t tag, zmbool* result)
     {
-        uint8_t* start = data;
-        uint8_t* end = data + dlen;
-
-        if (dlen >= 1 && ((*start & 0x80) == 0))
-        {
-            *result = (uint32_t)(*start);
-            return ZMCRYPTO_ERR_SUCCESSED;
-        }
-
-        uint32_t len_byte = ((*start) & ASN1_MASK_LEN);
-        start++; /* skip one byte */
-
-        switch (len_byte)
-        {
-            case 1:
-                if (end - start < 0) 
-                    { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
-                *result = (uint32_t)(*start);
-                break;
-            case 2:
-                if (end - (start + 1) < 0) 
-                    { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
-                *result  = ((uint32_t)(*(start + 0)) << 8) | 
-                    (uint32_t)(*(start + 1)); 
-                break;
-            case 3:
-                if (end - (start + 2) < 0) 
-                    { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
-                *result = ((uint32_t)(*(start + 0)) << 16) | 
-                    ((uint32_t)(*(start + 1)) << 8) | 
-                    (uint32_t)(*(start + 2)); 
-                break;
-            case 4:
-                if (end - (start + 3) < 0) 
-                    { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
-                *result = ((uint32_t)(*(start + 0)) << 24) | 
-                    ((uint32_t)(*(start + 1)) << 16) | 
-                    ((uint32_t)(*(start + 2)) << 8) | 
-                    (uint32_t)(*(start + 3)); 
-                break;
-            default:
-                return ZMCRYPTO_ERR_ASN1_INVALID_VAL;
-        }
-
+        *result = (((tag & ASN1_MASK_PC) >> 5) == ASN1_PC_CONSTRUCTED) ? zmtrue : zmfalse;
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 
-    /* result is 0 for False, otherwise result is 1 */
-    zmerror asn1_parse_data_boolean(uint8_t* data, uint32_t dlen, zmbool* result)
+    zmerror asn1_encode_boolean(zmbool in, uint8_t* out, uint32_t* olen)
     {
-        if (dlen != 1) { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
+        if (*olen < 3) 
+            { return ZMCRYPTO_ERR_OVERFLOW; }
+
+        out[0] = ASN1_TAG_BOOLEAN;
+        out[1] = 0x01;
 
         /*
         BER: the octet shall have any non-zero value, as a sender's option.
         DER: True is 0x00, False is 0xff;
         */
-        if (data[0] == 0x00) { *result = zmfalse; return ZMCRYPTO_ERR_SUCCESSED; }
-        if (data[0] == 0xff) { *result = zmtrue; return ZMCRYPTO_ERR_SUCCESSED; }
-
-        return ZMCRYPTO_ERR_ASN1_INVALID_VAL;
+        out[2] = (in == zmtrue ? 0x00 : 0xff);
+        *olen = 3;
+        return ZMCRYPTO_ERR_SUCCESSED;
     }
 
-    zmerror asn1_is_tag_constructed(uint8_t tag, zmbool* result)
+    zmerror asn1_decode_boolean(uint8_t* in, uint32_t ilen, zmbool* out)
     {
-        *result = (((tag & ASN1_MASK_PC) >> 5) == ASN1_PC_CONSTRUCTED) ? zmtrue : zmfalse;
+        if (ilen != 3) 
+            { return ZMCRYPTO_ERR_OVERFLOW; }
+
+        if (in[0] != ASN1_TAG_BOOLEAN)
+            { return ZMCRYPTO_ERR_ASN1_INVALID_TAG; }
+
+        if (in[1] != 0x01)
+            { return ZMCRYPTO_ERR_ASN1_INVALID_LEN; }
+
+        if (in[2] != 0x00 && in[2] != 0xff)
+            { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
+
+        *out = (in[2] == 0x00 ? zmtrue :zmfalse);
+        return ZMCRYPTO_ERR_SUCCESSED;
+    }
+
+    zmerror asn1_encode_length(uint32_t in, uint8_t* out, uint32_t* olen)
+    {
+        uint32_t i = 0;
+        uint32_t count_bytes = 0;
+        UINT32_BYTE_COUNT(in, count_bytes);
+
+        if (count_bytes == 0)
+            { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
+
+        if (in > 128)
+            { count_bytes++; }
+
+        if (!out)
+        {
+            *olen = count_bytes;
+            return ZMCRYPTO_ERR_SUCCESSED;
+        }
+
+        if (*olen < count_bytes)
+            { return ZMCRYPTO_ERR_OVERFLOW; }
+
+        if (in < 128)
+        {
+            out[i++] = (uint8_t)in;
+        }
+        else if (in <= 0xffU)
+        {
+            out[i++] = 0x81;
+            out[i++] = (uint8_t)in;
+        }
+        else if (in <= 0xffffU)
+        {
+            out[i++] = 0x82;
+            out[i++] = (uint8_t)(in >> 8 & 0xff);
+            out[i++] = (uint8_t)(in      & 0xff);
+        }
+        else if (in <= 0xffffffU)
+        {
+            out[i++] = 0x83;
+            out[i++] = (uint8_t)(in >> 16 & 0xff);
+            out[i++] = (uint8_t)(in >>  8 & 0xff);
+            out[i++] = (uint8_t)(in       & 0xff);
+        }
+        /* else: No need to handle, because we are using 32-bit numbers */
+
+        *olen = i;
+        return ZMCRYPTO_ERR_SUCCESSED;
+    }
+
+    zmerror asn1_decode_length(uint8_t* in, uint32_t* ilen, uint32_t* out)
+    {
+        if (*ilen < 1)
+            { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
+        
+        if (in[0] < 128)
+        {
+            *out = (uint32_t)(in[0]);
+            *ilen = 1;
+            return ZMCRYPTO_ERR_SUCCESSED;
+        }
+
+        uint32_t len_byte = in[0] & 0x7f;
+        if (len_byte == 0 || (len_byte + 1) > *ilen ||
+            len_byte > 4/*more then 4GB, don't implement it for now */)
+            { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
+
+        uint32_t len = 0;
+        for (uint32_t i = 0; i < len_byte; i++)
+            { len = len << 8 | in[i + 1]; }
+
+        if (len < 128)
+            { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
+            
+        *out = len;
+        *ilen = len_byte + 1;
+        return ZMCRYPTO_ERR_SUCCESSED;
+    }
+
+    /*
+    // Implementation principle
+    //   The decimal number 113549 will be encoded as hexadecimal 86 f7 0d, 
+    //   The encoding process is as follows
+    //   113549 => 0x01 bb 8d => 
+    //   00000001   10111011   10001101 => raw binary
+    //    0000110    1110111    0001101 => Split into one segment every 7 bits
+    // [1]0000110 [1]1110111 [0]0001101 => The highest bit at the beginning of each segment is 1, and the highest bit in the last segment is 0.
+    //   |          |          |
+    //   V          V          V
+    //   86         f7         0d
+    // --------------------------------------
+    // 840 => 0x03 48 => 
+    // 00000011 01001000 =>
+    //  0000110  1001000 =>
+    // 10000110 01001000 =>
+    // |        |
+    // V        V
+    // 86       48
+    */
+    /*
+    // example
+    // 06 08 2a 86 48 86 f7 0d 02 02    => 1.2.840.113549.2.2    
+    // 06 08 2a 86 48 86 f7 0d 02 04    => 1.2.840.113549.2.4    
+    // 06 08 2a 86 48 86 f7 0d 02 05    => 1.2.840.113549.2.5    
+    // 06 05 2b 0e 03 02 1a             => 1.3.14.3.2.26         
+    // 06 09 60 86 48 01 65 03 04 02 01 => 2.16.840.1.101.3.4.2.1
+    // 06 09 60 86 48 01 65 03 04 02 02 => 2.16.840.1.101.3.4.2.2
+    // 06 09 60 86 48 01 65 03 04 02 03 => 2.16.840.1.101.3.4.2.3
+    */
+    zmerror asn1_encode_object_identifier(uint32_t* in, uint32_t ilen, uint8_t* out, uint32_t* olen)
+    {
+        if (ilen < 2) 
+            { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
+
+        /* word1 = 0,1,2 and word2 0..39 */
+        if (in[0] > 2 || (in[0] < 2 && in[1] > 39)) 
+            { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
+        
+        /**
+         * 
+         * First calculate how much memory is needed (T | L | V)
+         * 
+         */
+
+        /*leading word is the first two*/
+        uint32_t x = 0;
+        uint32_t y = 0;
+        uint32_t z = 0;
+        uint32_t t = 0;
+        uint32_t mask = 0;
+        uint32_t word_buffer = 0;
+        uint32_t len_len = 0;
+
+        word_buffer = in[0] * 40 + in[1];
+        x++;
+
+        for (uint32_t i = 2; i < ilen; i++)
+        {
+            word_buffer = in[i];
+            UINT32_BIT_COUNT(word_buffer, t);
+            x += (t / 7) + (t % 7 ? 1 : 0) + (word_buffer == 0 ? 1 : 0);
+        }
+
+        len_len = x;
+
+        /* now depending on the length our length encoding changes */
+        if (x < 128)
+            { x += 2;  }
+        else if (x < 256)
+            { x += 3;  }
+        else if (x < 65536UL)
+            { x += 4;  }
+        else
+            { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
+
+        if (!out)
+        {
+            *olen = x; 
+            return ZMCRYPTO_ERR_SUCCESSED;
+        }
+
+        if (*olen < x)
+            { return ZMCRYPTO_ERR_OVERFLOW; }
+
+        /**
+         * 
+         * Encode tag
+         * 
+         */
+
+        x = 0;
+        out[x++] = ASN1_TAG_OBJECT_IDENTIFIER;
+
+        /**
+         * 
+         * Encode length
+         * 
+         */
+        zmerror err = asn1_encode_length(len_len, (uint8_t*) (&out[x]), (uint32_t*) (&len_len));
+        if (ZMCRYPTO_IS_ERROR(err))
+            { return err; }
+        x += len_len;
+
+        /**
+         * 
+         * Encode value
+         * 
+         */
+
+        word_buffer = in[0] * 40 + in[1];
+        out[x++] = (uint8_t)word_buffer;
+
+        for (uint32_t i = 2; i < ilen; i++)
+        {
+            word_buffer = in[i];
+            t = word_buffer & 0xffffffff;
+
+            if (t > 0)
+            {
+                y = x;
+                mask = 0;
+
+                while (t)
+                {
+                    out[x++] = (uint8_t)(t & 0x7f | mask);
+                    t >>= 7;
+                    mask = 0x80; /*upper bit is set on all but the last byte*/
+                }
+                /*
+                When calculating, the high byte is processed first, and when storing, 
+                the low byte needs to be stored first.
+                now swap bytes y...x-1
+                */
+                z = x - 1;
+                while (y < z)
+                {
+                    t = out[y]; out[y] = out[z]; out[z] = (uint8_t)t;
+                    ++y;
+                    --z;
+                }
+            }
+            else
+            {
+                out[x++] = 0x00;/* zero word */
+            }
+        }
+
+        *olen = x; 
+        return ZMCRYPTO_ERR_SUCCESSED;
+    }
+
+    /*Only decode the data part*/
+    zmerror asn1_decode_object_identifier(uint8_t* in, uint32_t ilen, uint32_t* out, uint32_t* olen)
+    {
+        if (*olen < 2)
+            { return ZMCRYPTO_ERR_OVERFLOW; }
+
+        uint32_t t = 0;
+        uint32_t x = 0;
+        uint32_t y = 0;
+
+        t = in[0];
+        out[y++] = t / 40;
+        out[y++] = t % 40;
+
+        t = 0;
+        x = 0;
+        for (uint32_t i = 1; i < ilen; i++)
+        {
+            t = t << 7 | (in[i] & 0x7f);
+            x++;
+            if (in[i] >> 7 == 0)
+            {
+                if (x > 4)
+                    { return ZMCRYPTO_ERR_ASN1_INVALID_VAL; }
+
+                if (*olen < (y + 1))
+                    { return ZMCRYPTO_ERR_OVERFLOW; }
+
+                out[y++] = t;
+                t = 0;
+                x = 0;
+            }
+        }
+
+        *olen = y;
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 

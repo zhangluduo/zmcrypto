@@ -50,11 +50,11 @@ extern "C" {
         /*
         param:
             data: 
-                Input asn1 format der encoded data
+                Input asn1 DER format encoded data
             dlen: 
                 size of data in bytes
             ctx:  
-                output raw data of tag, length and value. If the input ‘data’ 
+                output raw data of tag, length and value. If the input 'data'
                 contains the next tlv, then ctx->next points to the next element
                 parse position.
             copy: 
@@ -72,23 +72,18 @@ extern "C" {
         */
         zmerror asn1_parse_data(uint8_t* data, uint32_t dlen, struct asn1_ctx* ctx, uint32_t copy);
 
-        /* get length of length data */
-        zmerror asn1_parse_data_length(uint8_t* data, uint32_t dlen, uint32_t* result); 
-
-        /* result is 0 for False, otherwise result is 1 */
-        zmerror asn1_parse_data_boolean(uint8_t* data, uint32_t dlen, zmbool* result); 
-
-        /* Ses <x.609> 8.19 Encoding of an object identifier value*/
-        /*
-        zmerror asn1_parse_data_object_identifier (uint8_t* data, uint32_t dlen, ...);
-        zmerror asn1_parse_data_xxx (uint8_t* data, uint32_t dlen, ...);
-        */
+        zmerror asn1_encode_length(uint32_t in, uint8_t* out, uint32_t* olen);
+        zmerror asn1_decode_length(uint8_t* in, uint32_t* ilen, uint32_t* out);
+        zmerror asn1_encode_boolean(zmbool in, uint8_t* out, uint32_t* olen);
+        zmerror asn1_decode_boolean(uint8_t* in, uint32_t ilen, zmbool* out);
+        zmerror asn1_encode_object_identifier(uint32_t* in, uint32_t ilen, uint8_t* out, uint32_t* olen);
+        zmerror asn1_decode_object_identifier(uint8_t* in, uint32_t ilen, uint32_t* out, uint32_t* olen);
 
         /* returns ZMCRYPTO_ERR_SUCCESSED or ZMCRYPTO_ERR_INVALID_ASN1_TAG */
+        zmerror asn1_is_tag_sequence(uint8_t tag);
+        zmerror asn1_is_tag_set(uint8_t tag);
         zmerror asn1_is_tag_boolean(uint8_t tag);
         zmerror asn1_is_tag_integer(uint8_t tag);
-        zmerror asn1_is_tag_bit_string(uint8_t tag);
-        zmerror asn1_is_tag_octet_string(uint8_t tag);
         zmerror asn1_is_tag_null(uint8_t tag);
         zmerror asn1_is_tag_object_identifier(uint8_t tag);
         zmerror asn1_is_tag_object_descriptor(uint8_t tag);
@@ -96,18 +91,18 @@ extern "C" {
         zmerror asn1_is_tag_real(uint8_t tag);
         zmerror asn1_is_tag_enumerated(uint8_t tag);
         zmerror asn1_is_tag_embedded_pdv(uint8_t tag);
+        zmerror asn1_is_tag_utc_time(uint8_t tag);
+        zmerror asn1_is_tag_generalized_time(uint8_t tag);
+        zmerror asn1_is_tag_octet_string(uint8_t tag);
         zmerror asn1_is_tag_utf8_string(uint8_t tag);
-        zmerror asn1_is_tag_sequence(uint8_t tag);
-        zmerror asn1_is_tag_set(uint8_t tag);
+        zmerror asn1_is_tag_bit_string(uint8_t tag);
         zmerror asn1_is_tag_numeric_string(uint8_t tag);
         zmerror asn1_is_tag_printable_string(uint8_t tag);
         zmerror asn1_is_tag_t61_string(uint8_t tag);
         zmerror asn1_is_tag_ia5_string(uint8_t tag);
-        zmerror asn1_is_tag_utc_time(uint8_t tag);
-        zmerror asn1_is_tag_generalized_time(uint8_t tag);
-        zmerror asn1_is_tag_GRAPHIC_STRING(uint8_t tag);
-        zmerror asn1_is_tag_VISIBLE_STRING(uint8_t tag);
-        zmerror asn1_is_tag_GENERAL_STRING(uint8_t tag);
+        zmerror asn1_is_tag_graphic_string(uint8_t tag);
+        zmerror asn1_is_tag_visible_string(uint8_t tag);
+        zmerror asn1_is_tag_general_string(uint8_t tag);
         zmerror asn1_is_tag_universal_string(uint8_t tag);
         zmerror asn1_is_tag_bmp_string(uint8_t tag);
 
