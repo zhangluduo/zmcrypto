@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Nov. 2022
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/
  */
@@ -126,7 +126,7 @@ bool read_vector_data(const char* filename, std::vector<key_val_vec>& test_vec)
 
     uint8_t* buffer = new uint8_t[fsize +1];
     memset(buffer, 0, fsize + 1);
-    fread(buffer, fsize, 1, fd);
+    (void)fread(buffer, fsize, 1, fd);
     fclose(fd);
 
     std::vector<std::string> lines;

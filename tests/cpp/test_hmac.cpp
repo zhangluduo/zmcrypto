@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Nov. 2022
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/
  */
@@ -21,6 +21,7 @@
 #include "test_hmac.h"
 
 #if defined TEST_FOR_CRYPTOPP
+    #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
     #include "cryptopp820/include/cryptlib.h"
     #include "cryptopp820/include/secblock.h"
     #include "cryptopp820/include/hmac.h"
@@ -135,7 +136,7 @@ void test_case_hmac(zmcrypto::sdk* _sdk)
         {
             HMAC_Base* HmacPtr = NULL;
             if (algorithm == "hmac-md5"){
-                HmacPtr = new HMAC<MD5>;
+                HmacPtr = new HMAC<Weak::MD5>;
             }
             else if (algorithm == "hmac-sha1"){
                 HmacPtr = new HMAC<SHA1>;

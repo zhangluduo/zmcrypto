@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Feb 2024
+ *   Date: Feb. 2024
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/
  */

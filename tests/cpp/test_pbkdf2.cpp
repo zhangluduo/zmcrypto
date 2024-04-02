@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Nov. 2022
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/
  */
@@ -21,6 +21,7 @@
 #include "test_hmac.h"
 
 #if defined TEST_FOR_CRYPTOPP
+    #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
     #include "cryptopp820/include/cryptlib.h"
     #include "cryptopp820/include/secblock.h"
     #include "cryptopp820/include/hmac.h"
@@ -147,7 +148,7 @@ void test_case_pbkdf2(zmcrypto::sdk* _sdk)
         #if defined TEST_FOR_CRYPTOPP
 
             if (algorithm == "pbkdf2-with-hmac-md5"){
-                PKCS5_PBKDF2_HMAC < MD5 > pbkdf2;
+                PKCS5_PBKDF2_HMAC < Weak::MD5 > pbkdf2;
                 uint8_t* dk2 = new uint8_t[atoi(derived_len.c_str())];
 
                 pbkdf2.DeriveKey(

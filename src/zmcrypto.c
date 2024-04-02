@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Nov. 2022
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
@@ -17,9 +17,13 @@
 #include "base64.h"
 #include "base58.h"
 #include "base32.h"
+#include "base16.h"
 #include "adler32.h"
 #include "crc32.h"
 #include "md5.h"
+#include "md4.h"
+#include "md2.h"
+#include "ed2k.h"
 #include "sha1.h"
 #include "sha2.h"
 #include "sha3.h"
@@ -439,7 +443,7 @@ extern "C" {
         }
     #endif
 
-    #define AEAD_FUNCTION_IMPL(name, cipher_param, cipher_args, starts_param, starts_args)\
+    #define AEAD_FUNCTION_IMPL(name, cipher_param, cipher_args, starts_param, starts_args, final_param, final_args)\
         pfn_##name##_new             _pfn_##name##_new         = name##_new         ;\
         pfn_##name##_free            _pfn_##name##_free        = name##_free        ;\
         pfn_##name##_init            _pfn_##name##_init        = name##_init        ;\
@@ -472,9 +476,9 @@ extern "C" {
         {\
             return _pfn_##name##_update_data(ctx, data, dlen, output);\
         }\
-        zmerror zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output)\
+        zmerror zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, final_param)\
         {\
-            return _pfn_##name##_final(ctx, output);\
+            return _pfn_##name##_final(ctx, final_args);\
         }
 
     #define STREAMCIPHER_FUNCTION_IMPL(name)\
@@ -515,11 +519,11 @@ extern "C" {
         zmerror zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv) { return _pfn_##name##_set_iv(ctx, iv); }
 
     #if defined ZMCRYPTO_ALGO_CCM
-        AEAD_FUNCTION_IMPL(ccm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, CCM_STARTS_PARAM, CCM_STARTS_ARGS)
+        AEAD_FUNCTION_IMPL(ccm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, CCM_STARTS_PARAM, CCM_STARTS_ARGS, CCM_FINAL_PARAM, CCM_FINAL_ARGS)
     #endif
 
     #if defined ZMCRYPTO_ALGO_GCM
-        AEAD_FUNCTION_IMPL(gcm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, GCM_STARTS_PARAM, GCM_STARTS_ARGS)
+        AEAD_FUNCTION_IMPL(gcm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, GCM_STARTS_PARAM, GCM_STARTS_ARGS, GCM_FINAL_PARAM, GCM_FINAL_ARGS)
     #endif
 
     #if defined ZMCRYPTO_ALGO_BASE64
@@ -534,6 +538,10 @@ extern "C" {
         BINTXT_FUNCTION_IMPL(base32)
     #endif
 
+    #if defined ZMCRYPTO_ALGO_BASE16
+        BINTXT_FUNCTION_IMPL(base16)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_ADLER32
         CHECKSUM_FUNCTION_IMPL(adler32)
     #endif
@@ -544,6 +552,18 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_MD5
         HASH_FUNCTION_IMPL(md5)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_MD4
+        HASH_FUNCTION_IMPL(md4)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_MD2
+        HASH_FUNCTION_IMPL(md2)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_ED2K
+        HASH_FUNCTION_IMPL(ed2k)
     #endif
 
     #if defined ZMCRYPTO_ALGO_SHA1

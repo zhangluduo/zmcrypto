@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Nov. 2022
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/
  */
@@ -40,7 +40,7 @@ void format_output(const char* const fmt, ...){
 
     std::string Msg = strp;
     if (Msg.length() >= width){
-        printf("The format text exceed width: '%s':%d\n", Msg.c_str(), Msg.length());
+        printf("The format text exceed width: '%s':%ld\n", Msg.c_str(), Msg.length());
 
         delete[] strp;
         strp = NULL;

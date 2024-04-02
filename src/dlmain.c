@@ -9,7 +9,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Nov. 2022
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
@@ -20,12 +20,12 @@
     void __attribute__ ((constructor)) load_dl(void);
     void __attribute__ ((destructor)) unload_dl(void);
 
-    void load_sl(void)
+    void load_dl(void)
     {
         ZMCRYPTO_LOG("");
     }
 
-    void unload_sl(void)
+    void unload_dl(void)
     {
         ZMCRYPTO_LOG("");
     }
@@ -39,13 +39,15 @@
         {
             case DLL_PROCESS_ATTACH:
                 ZMCRYPTO_LOG("");
-                zmcrypto_printf("~!@# [%d]\n", 1234);
                 break;
             case DLL_PROCESS_DETACH:
+                ZMCRYPTO_LOG("");
                 break;
             case DLL_THREAD_ATTACH:
+                ZMCRYPTO_LOG("");
                 break;
             case DLL_THREAD_DETACH:
+                ZMCRYPTO_LOG("");
                 break;
         }
         return TRUE;

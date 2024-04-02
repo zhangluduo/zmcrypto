@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Sep 2023
+ *   Date: Sep. 2023
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
@@ -59,13 +59,34 @@ extern "C" {
         }
         /* private function end */
 
-        struct tea_ctx* tea_new (void) { return NULL; };
-        void tea_free (struct tea_ctx* ctx) {}
-        void tea_init (struct tea_ctx* ctx) {}
-        int32_t tea_block_size(void) { return 8; }
-        int32_t tea_ksize_min(void) { return 16; }
-        int32_t tea_ksize_max(void) { return 16; }
-        int32_t tea_ksize_multiple(void) { return 16; }
+        struct tea_ctx* tea_new (void)
+        {
+            struct tea_ctx* ctx = (struct tea_ctx*)zmcrypto_malloc(sizeof(struct tea_ctx));
+            zmcrypto_memset(ctx, 0, sizeof(struct tea_ctx));
+            return ctx;
+        };
+
+        void tea_free (struct tea_ctx* ctx)
+        {
+            zmcrypto_free(ctx);
+        }
+
+        void tea_init (struct tea_ctx* ctx) 
+        {
+            zmcrypto_memset(ctx, 0, sizeof(struct tea_ctx));
+        }
+
+        int32_t tea_block_size(void)
+            { return 8; }
+
+        int32_t tea_ksize_min(void)
+            { return 16; }
+
+        int32_t tea_ksize_max(void)
+            { return 16; }
+
+        int32_t tea_ksize_multiple(void)
+            { return 16; }
 
         zmerror tea_set_ekey(struct tea_ctx* ctx, uint8_t* key, uint32_t ksize) 
         { 
@@ -81,8 +102,41 @@ extern "C" {
             return ZMCRYPTO_ERR_SUCCESSED; 
         }
 
-        void tea_enc_block(struct tea_ctx* ctx, uint8_t* plaintext, uint8_t* ciphertext) {}
-        void tea_dec_block(struct tea_ctx* ctx, uint8_t* ciphertext, uint8_t* plaintext) {}
+        void tea_enc_block(struct tea_ctx* ctx, uint8_t* plaintext, uint8_t* ciphertext)
+        {
+            unsigned int key[4];
+            uint32_t in[2];
+            GET_UINT32_BE(key[0], ctx->key, 0);
+            GET_UINT32_BE(key[1], ctx->key, 4);
+            GET_UINT32_BE(key[2], ctx->key, 8);
+            GET_UINT32_BE(key[3], ctx->key, 12);
+            
+            GET_UINT32_BE(in[0], plaintext, 0);
+            GET_UINT32_BE(in[1], plaintext, 4);
+
+            tea_encrypt(in, key);
+
+            PUT_UINT32_BE(in[0], ciphertext, 0);
+            PUT_UINT32_BE(in[1], ciphertext, 4);
+        }
+
+        void tea_dec_block(struct tea_ctx* ctx, uint8_t* ciphertext, uint8_t* plaintext)
+        {
+            unsigned int key[4];
+            uint32_t in[2];
+            GET_UINT32_BE(key[0], ctx->key, 0);
+            GET_UINT32_BE(key[1], ctx->key, 4);
+            GET_UINT32_BE(key[2], ctx->key, 8);
+            GET_UINT32_BE(key[3], ctx->key, 12);
+            
+            GET_UINT32_BE(in[0], ciphertext, 0);
+            GET_UINT32_BE(in[1], ciphertext, 4);
+
+            tea_decrypt(in, key);
+            
+            PUT_UINT32_BE(in[0], plaintext, 0);
+            PUT_UINT32_BE(in[1], plaintext, 4);
+        }
 
     #endif
 

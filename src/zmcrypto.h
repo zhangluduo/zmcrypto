@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Nov. 2022
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
@@ -371,34 +371,46 @@ extern "C" {
     #define CCM_STARTS_ARGS \
             key, klen, nonce, noncelen, datalen, aadlen, taglen, direction
 
+    #define CCM_FINAL_PARAM \
+            uint8_t *tag
+
+    #define CCM_FINAL_ARGS \
+            tag
+
     #define GCM_STARTS_PARAM \
             uint8_t *key, uint32_t klen, uint8_t *iv, uint32_t ivlen, uint32_t direction
 
     #define GCM_STARTS_ARGS \
             key, klen, iv, ivlen, direction
 
-    #define AEAD_FUNCTION_DECLARA(name, cipher_param, starts_param)\
+    #define GCM_FINAL_PARAM \
+            uint8_t *tag, uint32_t tag_len
+
+    #define GCM_FINAL_ARGS \
+            tag, tag_len
+
+    #define AEAD_FUNCTION_DECLARA(name, cipher_param, starts_param, final_param)\
         API CONTEXT_TYPE_PTR(name) zm_##name##_new (void);\
         API void    zm_##name##_free(CONTEXT_TYPE_PTR(name) ctx);\
         API void    zm_##name##_init(CONTEXT_TYPE_PTR(name) ctx, cipher_param);\
         API zmerror zm_##name##_starts(CONTEXT_TYPE_PTR(name) ctx, starts_param);\
         API zmerror zm_##name##_update_aad(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen);\
         API zmerror zm_##name##_update_data(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen, uint8_t *output);\
-        API zmerror zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output);\
+        API zmerror zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, final_param);\
         typedef CONTEXT_TYPE_PTR(name) (*pfn_##name##_new) (void);\
         typedef void    (*pfn_##name##_free)(CONTEXT_TYPE_PTR(name) ctx);\
         typedef void    (*pfn_##name##_init)(CONTEXT_TYPE_PTR(name) ctx, cipher_param);\
         typedef zmerror (*pfn_##name##_starts)(CONTEXT_TYPE_PTR(name) ctx, starts_param);\
         typedef zmerror (*pfn_##name##_update_aad)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen);\
         typedef zmerror (*pfn_##name##_update_data)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen, uint8_t *output);\
-        typedef zmerror (*pfn_##name##_final)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output);
+        typedef zmerror (*pfn_##name##_final)(CONTEXT_TYPE_PTR(name) ctx, final_param);
 
     #if defined ZMCRYPTO_ALGO_CCM
-        AEAD_FUNCTION_DECLARA(ccm, CIPHER_MODE_INIT_PARAM, CCM_STARTS_PARAM)
+        AEAD_FUNCTION_DECLARA(ccm, CIPHER_MODE_INIT_PARAM, CCM_STARTS_PARAM, CCM_FINAL_PARAM)
     #endif
 
     #if defined ZMCRYPTO_ALGO_GCM
-        AEAD_FUNCTION_DECLARA(gcm, CIPHER_MODE_INIT_PARAM, GCM_STARTS_PARAM)
+        AEAD_FUNCTION_DECLARA(gcm, CIPHER_MODE_INIT_PARAM, GCM_STARTS_PARAM, GCM_FINAL_PARAM)
     #endif
 
     #if defined ZMCRYPTO_ALGO_BASE64
@@ -413,6 +425,10 @@ extern "C" {
         BINTXT_FUNCTION_DECLARA(base32)
     #endif
 
+    #if defined ZMCRYPTO_ALGO_BASE16
+        BINTXT_FUNCTION_DECLARA(base16)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_ADLER32
         CHECKSUM_FUNCTION_DECLARA(adler32)
     #endif
@@ -425,6 +441,18 @@ extern "C" {
         HASH_FUNCTION_DECLARA(md5)
     #endif
    
+    #if defined ZMCRYPTO_ALGO_MD4
+        HASH_FUNCTION_DECLARA(md4)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_MD2
+        HASH_FUNCTION_DECLARA(md2)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_ED2K
+        HASH_FUNCTION_DECLARA(ed2k)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_AES
         BLOCKCIPHER_FUNCTION_DECLARA(aes)
     #endif

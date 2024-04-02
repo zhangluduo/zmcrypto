@@ -9,7 +9,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Sep 2023
+ *   Date: Sep. 2023
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
@@ -57,7 +57,8 @@ extern "C" {
             uint64_t datalen,                         /* 0 <= l(m) < 2^(8L) */
             uint64_t aadlen,                          /* the length of additional authenticated data, 0 <= l(a) < 2^64 */
             uint32_t taglen,                          /* Valid values are 4, 6, 8, 10, 12, 14, and 16 */
-            uint32_t direction                        /* 0=encrypt or 1=decrypt */
+            uint32_t direction                        /* The operation to perform:
+                                                         DO_ENCRYPT or DO_DECRYPT*/
         );
 
         zmerror ccm_update_aad (

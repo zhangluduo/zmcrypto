@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Sep 2023
+ *   Date: Sep. 2023
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/
  */
@@ -35,17 +35,17 @@
 namespace{
     zmcrypto::sdk g_ccm_sdk;
     #if defined ZMCRYPTO_ALGO_AES       
-             void*   _aes_new            (void) { return g_ccm_sdk.zm_aes_new(); }
-             void    _aes_free           (void* ctx) { g_ccm_sdk.zm_aes_free((aes_ctx*)ctx); }
-             void    _aes_init           (void* ctx) { g_ccm_sdk.zm_aes_init((aes_ctx*)ctx); }
-             int32_t _aes_block_size     (void) { return g_ccm_sdk.zm_aes_block_size(); }
-             int32_t _aes_ksize_min      (void) { return g_ccm_sdk.zm_aes_ksize_min(); }
-             int32_t _aes_ksize_max      (void) { return g_ccm_sdk.zm_aes_ksize_max(); }
-             int32_t _aes_ksize_multiple (void) { return g_ccm_sdk.zm_aes_ksize_multiple(); }
-             int32_t _aes_set_ekey       (void* ctx, uint8_t* key, uint32_t ksize) { return g_ccm_sdk.zm_aes_set_ekey((aes_ctx*)ctx, key, ksize); }
-             int32_t _aes_set_dkey       (void* ctx, uint8_t* key, uint32_t ksize) { return g_ccm_sdk.zm_aes_set_dkey((aes_ctx*)ctx, key, ksize); }
-             void    _aes_enc_block      (void* ctx, uint8_t* plaintext, uint8_t* ciphertext) { return g_ccm_sdk.zm_aes_enc_block((aes_ctx*)ctx, plaintext, ciphertext); }
-             void    _aes_dec_block      (void* ctx, uint8_t* ciphertext, uint8_t* plaintext) { return g_ccm_sdk.zm_aes_enc_block((aes_ctx*)ctx, ciphertext, plaintext); }
+        void*   _aes_new            (void) { return g_ccm_sdk.zm_aes_new(); }
+        void    _aes_free           (void* ctx) { g_ccm_sdk.zm_aes_free((aes_ctx*)ctx); }
+        void    _aes_init           (void* ctx) { g_ccm_sdk.zm_aes_init((aes_ctx*)ctx); }
+        int32_t _aes_block_size     (void) { return g_ccm_sdk.zm_aes_block_size(); }
+        int32_t _aes_ksize_min      (void) { return g_ccm_sdk.zm_aes_ksize_min(); }
+        int32_t _aes_ksize_max      (void) { return g_ccm_sdk.zm_aes_ksize_max(); }
+        int32_t _aes_ksize_multiple (void) { return g_ccm_sdk.zm_aes_ksize_multiple(); }
+        int32_t _aes_set_ekey       (void* ctx, uint8_t* key, uint32_t ksize) { return g_ccm_sdk.zm_aes_set_ekey((aes_ctx*)ctx, key, ksize); }
+        int32_t _aes_set_dkey       (void* ctx, uint8_t* key, uint32_t ksize) { return g_ccm_sdk.zm_aes_set_dkey((aes_ctx*)ctx, key, ksize); }
+        void    _aes_enc_block      (void* ctx, uint8_t* plaintext, uint8_t* ciphertext) { return g_ccm_sdk.zm_aes_enc_block((aes_ctx*)ctx, plaintext, ciphertext); }
+        void    _aes_dec_block      (void* ctx, uint8_t* ciphertext, uint8_t* plaintext) { return g_ccm_sdk.zm_aes_enc_block((aes_ctx*)ctx, ciphertext, plaintext); }
     #endif
     #if defined ZMCRYPTO_ALGO_DES
 

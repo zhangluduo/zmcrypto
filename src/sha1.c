@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Nov. 2022
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
@@ -88,8 +88,10 @@
         GET_UINT32_BE( W[14], data, 56 );
         GET_UINT32_BE( W[15], data, 60 );
 
+        #undef S
         #define S(x,n) ((x << n) | ((x & 0xFFFFFFFF) >> (32 - n)))
 
+        #undef R
         #define R(t)                                            \
         (                                                       \
             temp = W[( t -  3 ) & 0x0F] ^ W[( t - 8 ) & 0x0F] ^ \
@@ -97,6 +99,7 @@
             ( W[t & 0x0F] = S(temp,1) )                         \
         )
 
+        #undef P
         #define P(a,b,c,d,e,x)                                  \
         {                                                       \
             e += S(a,5) + F(b,c,d) + K + x; b = S(b,30);        \
@@ -108,6 +111,8 @@
         D = ctx->state[3];
         E = ctx->state[4];
 
+        #undef F
+        #undef K
         #define F(x,y,z) (z ^ (x & (y ^ z)))
         #define K 0x5A827999
 

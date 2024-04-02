@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Oct 2023
+ *   Date: Oct. 2023
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
@@ -211,7 +211,7 @@ NOTE:
             return ZMCRYPTO_ERR_SUCCESSED;
         }
 
-        zmerror err;
+        zmerror err = ZMCRYPTO_ERR_SUCCESSED;
         uint8_t* start = data;
         uint8_t* end = data + (dlen - 1); /* Points to the last valid character */
         //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dlen: %08x(%d)", start, *start, end, *end, dlen, dlen);
@@ -239,7 +239,8 @@ NOTE:
 
         len_d = start;
         len_l = (uint32_t)(end - start + 1);
-        if (asn1_decode_length(len_d, &len_l, &len_len) != ZMCRYPTO_ERR_SUCCESSED)
+        err = asn1_decode_length(len_d, &len_l, &len_len);
+        if (err != ZMCRYPTO_ERR_SUCCESSED)
             { return err; }
         else
             { start += len_l; }

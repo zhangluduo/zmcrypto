@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Nov. 2022
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/
  */
@@ -71,6 +71,10 @@ namespace zmcrypto
         /**
          * Binary to Text Encoders and Decoders
          */
+        #if defined ZMCRYPTO_ALGO_BASE16
+            BINTXT_FUNCTION_DECLARA(base16)
+        #endif
+        
         #if defined ZMCRYPTO_ALGO_BASE64
             BINTXT_FUNCTION_DECLARA(base64)
         #endif
@@ -95,8 +99,34 @@ namespace zmcrypto
             HASH_FUNCTION_DECLARA(md5)
         #endif
 
+        #if defined ZMCRYPTO_ALGO_MD4
+            HASH_FUNCTION_DECLARA(md4)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_MD2
+            HASH_FUNCTION_DECLARA(md2)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_ED2K
+            HASH_FUNCTION_DECLARA(ed2k)
+        #endif
+
         #if defined ZMCRYPTO_ALGO_SHA1
             HASH_FUNCTION_DECLARA(sha1)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_SHA2
+            HASH_FUNCTION_DECLARA(sha224)
+            HASH_FUNCTION_DECLARA(sha256)
+            HASH_FUNCTION_DECLARA(sha384)
+            HASH_FUNCTION_DECLARA(sha512)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_SHA3
+            HASH_FUNCTION_DECLARA(sha3_224)
+            HASH_FUNCTION_DECLARA(sha3_256)
+            HASH_FUNCTION_DECLARA(sha3_384)
+            HASH_FUNCTION_DECLARA(sha3_512)
         #endif
 
         #if defined ZMCRYPTO_ALGO_SM3
@@ -176,11 +206,11 @@ namespace zmcrypto
         #endif
 
         #if defined ZMCRYPTO_ALGO_CCM
-            AEAD_FUNCTION_DECLARA(ccm, CIPHER_MODE_INIT_PARAM, CCM_STARTS_PARAM)
+            AEAD_FUNCTION_DECLARA(ccm, CIPHER_MODE_INIT_PARAM, CCM_STARTS_PARAM, CCM_FINAL_PARAM)
         #endif
 
         #if defined ZMCRYPTO_ALGO_GCM
-            AEAD_FUNCTION_DECLARA(gcm, CIPHER_MODE_INIT_PARAM, GCM_STARTS_PARAM)
+            AEAD_FUNCTION_DECLARA(gcm, CIPHER_MODE_INIT_PARAM, GCM_STARTS_PARAM, GCM_FINAL_PARAM)
         #endif
 
         #if defined ZMCRYPTO_ALGO_RC4

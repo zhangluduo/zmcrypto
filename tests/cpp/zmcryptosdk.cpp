@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Nov. 2022
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/
  */
@@ -586,7 +586,7 @@ namespace zmcrypto
         _pfn_##name##_update_data = (pfn_##name##_update_data)GetProcAddress(m_modulehandle, "zm_" #name "_update_data");\
         _pfn_##name##_final       = (pfn_##name##_final      )GetProcAddress(m_modulehandle, "zm_" #name "_final"      );
 
-     #define AEAD_POINTER_IMPL(name, cipher_param, cipher_args, starts_param, starts_args)\
+     #define AEAD_POINTER_IMPL(name, cipher_param, cipher_args, starts_param, starts_args, final_param, final_args)\
         CONTEXT_TYPE_PTR(name) sdk::zm_##name##_new (void)\
         {\
             if (_pfn_##name##_new){\
@@ -627,10 +627,10 @@ namespace zmcrypto
             }\
             return ZMCRYPTO_ERR_NULL_PTR;\
         }\
-        zmerror sdk::zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output)\
+        zmerror sdk::zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, final_param)\
         {\
             if (_pfn_##name##_final) { \
-                return _pfn_##name##_final(ctx, output); \
+                return _pfn_##name##_final(ctx, final_args); \
             }\
             return ZMCRYPTO_ERR_NULL_PTR;\
         }
@@ -741,6 +741,11 @@ namespace zmcrypto
             return ZMCRYPTO_ERR_NULL_PTR;\
         }
 
+    #if defined ZMCRYPTO_ALGO_BASE16
+        BINTXT_POINTER_DECLARA(base16)
+        BINTXT_POINTER_IMPL(base16)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_BASE64
         BINTXT_POINTER_DECLARA(base64)
         BINTXT_POINTER_IMPL(base64)
@@ -761,9 +766,46 @@ namespace zmcrypto
         HASH_POINTER_IMPL(md5)
     #endif
     
+    #if defined ZMCRYPTO_ALGO_MD4
+        HASH_POINTER_DECLARA(md4)
+        HASH_POINTER_IMPL(md4)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_MD2
+        HASH_POINTER_DECLARA(md2)
+        HASH_POINTER_IMPL(md2)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_ED2K
+        HASH_POINTER_DECLARA(ed2k)
+        HASH_POINTER_IMPL(ed2k)
+    #endif
+
     #if defined ZMCRYPTO_ALGO_SHA1
         HASH_POINTER_DECLARA(sha1)
         HASH_POINTER_IMPL(sha1)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_SHA2
+        HASH_POINTER_DECLARA(sha224)
+        HASH_POINTER_IMPL(sha224)
+        HASH_POINTER_DECLARA(sha256)
+        HASH_POINTER_IMPL(sha256)
+        HASH_POINTER_DECLARA(sha384)
+        HASH_POINTER_IMPL(sha384)
+        HASH_POINTER_DECLARA(sha512)
+        HASH_POINTER_IMPL(sha512)
+    #endif
+
+    #if defined ZMCRYPTO_ALGO_SHA3
+        HASH_POINTER_DECLARA(sha3_224)
+        HASH_POINTER_IMPL(sha3_224)
+        HASH_POINTER_DECLARA(sha3_256)
+        HASH_POINTER_IMPL(sha3_256)
+        HASH_POINTER_DECLARA(sha3_384)
+        HASH_POINTER_IMPL(sha3_384)
+        HASH_POINTER_DECLARA(sha3_512)
+        HASH_POINTER_IMPL(sha3_512)
     #endif
 
     #if defined ZMCRYPTO_ALGO_SM3
@@ -843,12 +885,12 @@ namespace zmcrypto
 
     #if defined ZMCRYPTO_ALGO_CCM
         ADAE_POINTER_DECLARA(ccm)
-        AEAD_POINTER_IMPL(ccm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, CCM_STARTS_PARAM, CCM_STARTS_ARGS)
+        AEAD_POINTER_IMPL(ccm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, CCM_STARTS_PARAM, CCM_STARTS_ARGS, CCM_FINAL_PARAM, CCM_FINAL_ARGS)
     #endif
 
     #if defined ZMCRYPTO_ALGO_GCM
         ADAE_POINTER_DECLARA(gcm)
-        AEAD_POINTER_IMPL(gcm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, GCM_STARTS_PARAM, GCM_STARTS_ARGS)
+        AEAD_POINTER_IMPL(gcm, CIPHER_MODE_INIT_PARAM, CIPHER_MODE_INIT_ARGS, GCM_STARTS_PARAM, GCM_STARTS_ARGS, GCM_FINAL_PARAM, GCM_FINAL_ARGS)
     #endif
 
     #if defined ZMCRYPTO_ALGO_RC4
@@ -938,6 +980,10 @@ namespace zmcrypto
             _pfn_blockdepad_pkcs7     = (pfn_blockdepad_pkcs7   )GetProcAddress(m_modulehandle, "zm_blockdepad_pkcs7"   );
         #endif
 
+        #if defined ZMCRYPTO_ALGO_BASE16
+            BINTXT_POINTER_LOAD(base16)
+        #endif
+
         #if defined ZMCRYPTO_ALGO_BASE64
             BINTXT_POINTER_LOAD(base64)
         #endif
@@ -954,8 +1000,34 @@ namespace zmcrypto
             HASH_POINTER_LOAD(md5)
         #endif
 
+        #if defined ZMCRYPTO_ALGO_MD4
+            HASH_POINTER_LOAD(md4)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_MD2
+            HASH_POINTER_LOAD(md2)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_ED2K
+            HASH_POINTER_LOAD(ed2k)
+        #endif
+
         #if defined ZMCRYPTO_ALGO_SHA1
             HASH_POINTER_LOAD(sha1)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_SHA2
+            HASH_POINTER_LOAD(sha224)
+            HASH_POINTER_LOAD(sha256)
+            HASH_POINTER_LOAD(sha384)
+            HASH_POINTER_LOAD(sha512)
+        #endif
+
+        #if defined ZMCRYPTO_ALGO_SHA3
+            HASH_POINTER_LOAD(sha3_224)
+            HASH_POINTER_LOAD(sha3_256)
+            HASH_POINTER_LOAD(sha3_384)
+            HASH_POINTER_LOAD(sha3_512)
         #endif
 
         #if defined ZMCRYPTO_ALGO_SM3

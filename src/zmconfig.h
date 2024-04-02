@@ -8,7 +8,7 @@
 *
 *
 * Author: Zhang Luduo (zhangluduo@qq.com)
-*   Date: Nov 2022
+*   Date: Nov. 2022
 *   Home: https://zmcrypto.cn/
 *         https://github.com/zhangluduo/zmcrypto/
 */
@@ -29,6 +29,7 @@
         #include "msinttypes/inttypes.h"
         #include "msinttypes/stdint.h"
     #else
+        #define _GNU_SOURCE
         #include <stdint.h>
         #include <stddef.h>
         #include <stdio.h>
@@ -56,17 +57,18 @@ typedef int32_t zmerror;
 #define ZMCRYPTO_ERR_INVALID_BSIZE             (zmerror)(ZMCRYPTO_ERR_BASE - 0x0004U) /* invalid block size */
 #define ZMCRYPTO_ERR_INVALID_TSIZE             (zmerror)(ZMCRYPTO_ERR_BASE - 0x0005U) /* invalid tag/MAC size */
 #define ZMCRYPTO_ERR_INVALID_IVSIZE            (zmerror)(ZMCRYPTO_ERR_BASE - 0x0006U) /* invalid IV/N-once size */
-#define ZMCRYPTO_ERR_INVALID_PAD               (zmerror)(ZMCRYPTO_ERR_BASE - 0x0007U) /* invalid padding */
-#define ZMCRYPTO_ERR_INVALID_DATA              (zmerror)(ZMCRYPTO_ERR_BASE - 0x0009U) /* invalid input data */
-#define ZMCRYPTO_ERR_INVALID_CHAR              (zmerror)(ZMCRYPTO_ERR_BASE - 0x000aU) /* invalid character */
-#define ZMCRYPTO_ERR_WEAK_KEY                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000bU) /* Weak keys for DES, RC4, IDEA, Blowfish etc. */
-#define ZMCRYPTO_ERR_MALLOC                    (zmerror)(ZMCRYPTO_ERR_BASE - 0x000cU) /* malloc memory failed */
-#define ZMCRYPTO_ERR_OVERFLOW                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000dU) /* buffer to small, or array out of bounds */
-#define ZMCRYPTO_ERR_CALLBACK                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000eU) /* The callback function returns failed */
+#define ZMCRYPTO_ERR_INVALID_AADSIZE           (zmerror)(ZMCRYPTO_ERR_BASE - 0x0007U) /* invalid IV/N-once size */
+#define ZMCRYPTO_ERR_INVALID_PAD               (zmerror)(ZMCRYPTO_ERR_BASE - 0x0009U) /* invalid padding */
+#define ZMCRYPTO_ERR_INVALID_DATA              (zmerror)(ZMCRYPTO_ERR_BASE - 0x000aU) /* invalid input data */
+#define ZMCRYPTO_ERR_INVALID_CHAR              (zmerror)(ZMCRYPTO_ERR_BASE - 0x000bU) /* invalid character */
+#define ZMCRYPTO_ERR_WEAK_KEY                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000cU) /* Weak keys for DES, RC4, IDEA, Blowfish etc. */
+#define ZMCRYPTO_ERR_MALLOC                    (zmerror)(ZMCRYPTO_ERR_BASE - 0x000dU) /* malloc memory failed */
+#define ZMCRYPTO_ERR_OVERFLOW                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000eU) /* buffer to small, or array out of bounds */
+#define ZMCRYPTO_ERR_CALLBACK                  (zmerror)(ZMCRYPTO_ERR_BASE - 0x000fU) /* The callback function returns failed */
 
-#define ZMCRYPTO_ERR_ASN1_INVALID_TAG          (zmerror)(ZMCRYPTO_ERR_BASE - 0x000fU)
-#define ZMCRYPTO_ERR_ASN1_INVALID_LEN          (zmerror)(ZMCRYPTO_ERR_BASE - 0x0010U)
-#define ZMCRYPTO_ERR_ASN1_INVALID_VAL          (zmerror)(ZMCRYPTO_ERR_BASE - 0x0011U)
+#define ZMCRYPTO_ERR_ASN1_INVALID_TAG          (zmerror)(ZMCRYPTO_ERR_BASE - 0x0010U)
+#define ZMCRYPTO_ERR_ASN1_INVALID_LEN          (zmerror)(ZMCRYPTO_ERR_BASE - 0x0011U)
+#define ZMCRYPTO_ERR_ASN1_INVALID_VAL          (zmerror)(ZMCRYPTO_ERR_BASE - 0x0012U)
 
 #define ZMCRYPTO_ERR_VERIFY                    (zmerror)(ZMCRYPTO_ERR_BASE - 0x0012U) /* verify failed */
 
@@ -96,6 +98,13 @@ typedef int32_t zmerror;
     #if defined _MSC_VER && _MSC_VER <= 1200
         #define for if (0); else for 
     #endif
+#endif
+
+/* ulong64: 64-bit data type */
+#ifdef _MSC_VER
+   #define CONST64(n) n ## ui64
+#else
+   #define CONST64(n) n ## ULL
 #endif
 
 /*
@@ -271,6 +280,37 @@ Use the following macros to make this library do clipping
 #endif
 
 /*
+ * 64-bit integer manipulation macros (big endian)
+ */
+#ifndef GET_UINT64_BE
+#define GET_UINT64_BE(n,b,i)                            \
+{                                                       \
+    (n) = ( (uint64_t) (b)[(i)    ] << 56 )             \
+        | ( (uint64_t) (b)[(i) + 1] << 48 )             \
+        | ( (uint64_t) (b)[(i) + 2] << 40 )             \
+        | ( (uint64_t) (b)[(i) + 3] << 32 )             \
+        | ( (uint64_t) (b)[(i) + 4] << 24 )             \
+        | ( (uint64_t) (b)[(i) + 5] << 16 )             \
+        | ( (uint64_t) (b)[(i) + 6] <<  8 )             \
+        | ( (uint64_t) (b)[(i) + 7]       );            \
+}
+#endif
+
+#ifndef PUT_UINT64_BE
+#define PUT_UINT64_BE(n,b,i)                            \
+{                                                       \
+    (b)[(i)    ] = (uint8_t) ( (n) >> 56 );             \
+    (b)[(i) + 1] = (uint8_t) ( (n) >> 48 );             \
+    (b)[(i) + 2] = (uint8_t) ( (n) >> 40 );             \
+    (b)[(i) + 3] = (uint8_t) ( (n) >> 32 );             \
+    (b)[(i) + 4] = (uint8_t) ( (n) >> 24 );             \
+    (b)[(i) + 5] = (uint8_t) ( (n) >> 16 );             \
+    (b)[(i) + 6] = (uint8_t) ( (n) >>  8 );             \
+    (b)[(i) + 7] = (uint8_t) ( (n)       );             \
+}
+#endif
+
+/*
  * 32-bit integer manipulation macros (little endian)
  */
 #ifndef GET_UINT32_LE
@@ -286,10 +326,41 @@ Use the following macros to make this library do clipping
 #ifndef PUT_UINT32_LE
 #define PUT_UINT32_LE(n,b,i)                            \
 {                                                       \
-    (b)[(i)    ] = (unsigned char) ( (n)       );       \
-    (b)[(i) + 1] = (unsigned char) ( (n) >>  8 );       \
-    (b)[(i) + 2] = (unsigned char) ( (n) >> 16 );       \
-    (b)[(i) + 3] = (unsigned char) ( (n) >> 24 );       \
+    (b)[(i)    ] = (uint8_t) ( (n)       );             \
+    (b)[(i) + 1] = (uint8_t) ( (n) >>  8 );             \
+    (b)[(i) + 2] = (uint8_t) ( (n) >> 16 );             \
+    (b)[(i) + 3] = (uint8_t) ( (n) >> 24 );             \
+}
+#endif
+
+/*
+ * 64-bit integer manipulation macros (little endian)
+ */
+#ifndef GET_UINT64_LE
+#define GET_UINT64_LE(n,b,i)                            \
+{                                                       \
+    (n) = ( (uint64_t) (b)[(i)    ]       )             \
+        | ( (uint64_t) (b)[(i) + 1] <<  8 )             \
+        | ( (uint64_t) (b)[(i) + 2] << 16 )             \
+        | ( (uint64_t) (b)[(i) + 3] << 24 )             \
+        | ( (uint64_t) (b)[(i) + 4] << 32 )             \
+        | ( (uint64_t) (b)[(i) + 5] << 40 )             \
+        | ( (uint64_t) (b)[(i) + 6] << 48 )             \
+        | ( (uint64_t) (b)[(i) + 7] << 56 );            \
+}
+#endif
+
+#ifndef PUT_UINT64_LE
+#define PUT_UINT64_LE(n,b,i)                            \
+{                                                       \
+    (b)[(i)    ] = (uint8_t) ( (n)       );             \
+    (b)[(i) + 1] = (uint8_t) ( (n) >>  8 );             \
+    (b)[(i) + 2] = (uint8_t) ( (n) >> 16 );             \
+    (b)[(i) + 3] = (uint8_t) ( (n) >> 24 );             \
+    (b)[(i) + 4] = (uint8_t) ( (n) >> 32 );             \
+    (b)[(i) + 5] = (uint8_t) ( (n) >> 40 );             \
+    (b)[(i) + 6] = (uint8_t) ( (n) >> 48 );             \
+    (b)[(i) + 7] = (uint8_t) ( (n) >> 56 );             \
 }
 #endif
 
@@ -338,21 +409,25 @@ Use the following macros to make this library do clipping
 
 #ifndef UINT32_BYTE_COUNT
     #define UINT32_BYTE_COUNT(x, ret) \
-    do                               \
-    {                                \
-        ret = 0;                     \
-        uint32_t x_copy = x;         \
-        x_copy &= 0xffffffff;        \
-        while (x_copy)               \
-        {                            \
-            ret++;                   \
-            x_copy >>= 8;            \
-        }                            \
+    do                                \
+    {                                 \
+        ret = 0;                      \
+        uint32_t x_copy = x;          \
+        x_copy &= 0xffffffff;         \
+        while (x_copy)                \
+        {                             \
+            ret++;                    \
+            x_copy >>= 8;             \
+        }                             \
     } while (0);                     
 #endif
 
 #ifndef ROTL32
     #define ROTL32(x,n) ((x) << n | ((x) >> (32 - n)))
+#endif
+
+#ifndef ROTL64
+    #define ROTL64(x,n) ((x) << n | ((x) >> (64 - n)))
 #endif
 
 /* detect x86/i386 32bit */
@@ -365,6 +440,14 @@ Use the following macros to make this library do clipping
 #if defined(__x86_64__) || defined(_M_X64) || defined(_M_AMD64)
     #define ENDIAN_LITTLE
     #define ENDIAN_64BITWORD
+#endif
+
+#ifndef DO_ENCRYPT
+    #define DO_ENCRYPT 0
+#endif
+
+#ifndef DO_DECRYPT
+    #define DO_DECRYPT 1
 #endif
 
 /* detects MIPS */

@@ -32,26 +32,22 @@
 
         struct rc4_ctx* rc4_new (void)
         {
-            ZMCRYPTO_LOG("");
             struct rc4_ctx* ctx = (struct rc4_ctx*)zmcrypto_malloc(sizeof(struct rc4_ctx));
             return ctx;
         }
 
         void rc4_free (struct rc4_ctx* ctx)
         {
-            ZMCRYPTO_LOG("");
             zmcrypto_free(ctx);
         }
 
         void rc4_init (struct rc4_ctx* ctx)
         {
-            ZMCRYPTO_LOG("");
             zmcrypto_memset(ctx, 0, sizeof(struct rc4_ctx));
         }
 
         zmerror rc4_set_ekey(struct rc4_ctx* ctx, uint8_t* key, uint32_t ksize)
         {
-            ZMCRYPTO_LOG("");
             if (!(ksize >= 1 && ksize <= 256)) { return ZMCRYPTO_ERR_INVALID_KSIZE; }
 
             uint32_t i, j, a;
@@ -83,13 +79,11 @@
 
         zmerror rc4_set_dkey(struct rc4_ctx* ctx, uint8_t* key, uint32_t ksize)
         {
-            ZMCRYPTO_LOG("");
             return rc4_set_ekey(ctx, key, ksize);
         }
 
         void rc4_encrypt(struct rc4_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)
         {
-            ZMCRYPTO_LOG("");
             uint32_t x, y, a, b;
             uint32_t i;
             uint8_t* m;
@@ -115,7 +109,6 @@
 
         void rc4_decrypt(struct rc4_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)
         {
-            ZMCRYPTO_LOG("");
             rc4_encrypt(ctx, input, ilen, output);
         }
 

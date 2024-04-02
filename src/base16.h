@@ -9,13 +9,13 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov. 2022
+ *   Date: Mar. 2024
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
 
-#if !defined ZMCRYPTO_BASE64_H
-#define ZMCRYPTO_BASE64_H
+#if !defined ZMCRYPTO_BASE16_H
+#define ZMCRYPTO_BASE16_H
 
 #include "zmconfig.h"
 
@@ -23,18 +23,17 @@
 extern "C" {
 #endif
 
-    #if defined ZMCRYPTO_ALGO_BASE64
+    #if defined ZMCRYPTO_ALGO_BASE16
 
         /*
         options:
             The upper 32 bits are used to indicate how many characters are needed to wrap a line.
             The lower 32 bits indicate which encoding table to use.
             here are two coding tables here, 
-            table[0] is "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-            table[1] is "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+            table[0] is "0~9A~F"
+            table[1] is "0~9a~f"
         */
-       
-        zmerror base64_encode(
+        zmerror base16_encode(
             uint8_t *input, 
             uint32_t ilen, 
             uint8_t *output, 
@@ -42,7 +41,7 @@ extern "C" {
             uint32_t options
         );
 
-        zmerror base64_decode(
+        zmerror base16_decode(
             uint8_t *input,  
             uint32_t ilen, 
             uint8_t *output, 
@@ -56,4 +55,4 @@ extern "C" {
 }
 #endif
 
-#endif /* ZMCRYPTO_BASE64_H */
+#endif /* ZMCRYPTO_BASE16_H */

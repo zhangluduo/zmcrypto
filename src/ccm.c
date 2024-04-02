@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Sep 2023
+ *   Date: Sep. 2023
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
@@ -103,7 +103,7 @@
         uint64_t current_aadlen;       /* length of the currently provided aad */
         uint64_t current_datalen;      /* length of the currently provided data */
 
-        uint32_t direction;            /* 0=encrypt, 1=decrypt */
+        uint32_t direction;            /* The operation to perform: DO_ENCRYPT or DO_DECRYPT */
 
         #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
             uint8_t b[16]; /* B_0, B_1 ... B_n */
@@ -284,7 +284,7 @@
         uint64_t datalen,                         /* 0 <= l(m) < 2^(8L) */
         uint64_t aadlen,                          /* the length of additional authenticated data, 0 <= l(a) < 2^64 */
         uint32_t taglen,                          /* Valid values are 4, 6, 8, 10, 12, 14, and 16 */
-        uint32_t direction                        /* 0=encrypt or 1=decrypt */
+        uint32_t direction                        /* The operation to perform: DO_ENCRYPT or DO_DECRYPT*/
     )
     {
         int32_t ret;
@@ -479,7 +479,7 @@
         for (uint32_t i = 0; i < dlen; i++)
         {
             output[i] = ctx->s[ctx->b_len] ^ data[i];
-            if (ctx->direction == 0) 
+            if (ctx->direction == DO_ENCRYPT) 
                 { ctx->bx[ctx->b_len] = ctx->x[ctx->b_len] ^ data[i]; }
             else 
                 { ctx->bx[ctx->b_len] = ctx->x[ctx->b_len] ^ output[i]; }

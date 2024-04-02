@@ -9,7 +9,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Apr. 2024
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
@@ -70,9 +70,11 @@ extern "C" {
             uint8_t *output
         );
 
+        /*valid taglen bwtween 4 and 16*/
         zmerror gcm_final (
             struct gcm_ctx* ctx,
-            uint8_t *tag
+            uint8_t *tag,
+            uint32_t taglen
         );
 
     #endif

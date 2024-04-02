@@ -9,7 +9,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Aug 2023
+ *   Date: Aug. 2023
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
-        #define ZMCRYPTO_LOG(...) zmcrypto_log(__FILE__, __FUNCTION__, __LINE__, __VA_ARGS__);
+        #define ZMCRYPTO_LOG(...) zmcrypto_log(__FILE__, (char*)__FUNCTION__, __LINE__, __VA_ARGS__);
         void zmcrypto_log(char* file, char* fn, int ln, char* fmt, ...);
     #else
         #define ZMCRYPTO_LOG(...)

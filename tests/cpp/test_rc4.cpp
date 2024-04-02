@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Sep 2023
+ *   Date: Sep. 2023
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/
  */
@@ -22,6 +22,7 @@
 #include <memory.h>
 
 #if defined TEST_FOR_CRYPTOPP
+    #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
     #include "cryptopp820/include/cryptlib.h"
     #include "cryptopp820/include/secblock.h"
     #include "cryptopp820/include/arc4.h"

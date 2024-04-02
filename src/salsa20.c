@@ -40,43 +40,36 @@
 
     int32_t salsa20_ksize_min (void)
     { 
-        ZMCRYPTO_LOG("");
         return 16; 
     }
 
     int32_t salsa20_ksize_max (void)
     { 
-        ZMCRYPTO_LOG("");
         return 32; 
     }
 
     int32_t salsa20_ksize_multiple (void)
     { 
-        ZMCRYPTO_LOG("");
         return 16; 
     }
 
     struct salsa20_ctx* salsa20_new (void)
     { 
-        ZMCRYPTO_LOG("");
         return 0; 
     }
 
     void salsa20_free (struct salsa20_ctx* ctx)
     { 
-        ZMCRYPTO_LOG("");
         return ; 
     }
 
     void salsa20_init (struct salsa20_ctx* ctx)
     { 
-        ZMCRYPTO_LOG("");
         return ; 
     }
 
     zmerror salsa20_set_ekey(struct salsa20_ctx* ctx, uint8_t* key, uint32_t ksize)
     { 
-        ZMCRYPTO_LOG("");
         if (ksize != 16 && ksize != 32)
             { return ZMCRYPTO_ERR_INVALID_KSIZE; }
 
@@ -120,7 +113,6 @@
 
     zmerror salsa20_set_dkey(struct salsa20_ctx* ctx, uint8_t* key, uint32_t ksize)
     { 
-        ZMCRYPTO_LOG("");
         return salsa20_set_ekey(ctx, key, ksize); 
     }
 
@@ -131,12 +123,10 @@
 
     void salsa20_encrypt(struct salsa20_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)
     { 
-        ZMCRYPTO_LOG("");
     }
 
     void salsa20_decrypt(struct salsa20_ctx* ctx, uint8_t* input, uint32_t ilen, uint8_t* output)
     { 
-        ZMCRYPTO_LOG("");
         return ; 
     }
 

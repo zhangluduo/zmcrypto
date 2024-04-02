@@ -79,6 +79,7 @@
     <ClCompile Include="..\..\src\adler32.c" />
     <ClCompile Include="..\..\src\aes.c" />
     <ClCompile Include="..\..\src\asn1.c" />
+    <ClCompile Include="..\..\src\base16.c" />
     <ClCompile Include="..\..\src\base32.c" />
     <ClCompile Include="..\..\src\base58.c" />
     <ClCompile Include="..\..\src\base64.c" />
@@ -147,6 +148,7 @@
     <ClInclude Include="..\..\src\adler32.h" />
     <ClInclude Include="..\..\src\aes.h" />
     <ClInclude Include="..\..\src\asn1.h" />
+    <ClInclude Include="..\..\src\base16.h" />
     <ClInclude Include="..\..\src\base32.h" />
     <ClInclude Include="..\..\src\base58.h" />
     <ClInclude Include="..\..\src\base64.h" />

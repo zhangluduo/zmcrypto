@@ -8,12 +8,13 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Aug 2023
+ *   Date: Aug. 2023
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
 
 #include "debug.h"
+#include "zmconfig.h"
 
 #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
     #if defined _WIN32
@@ -39,7 +40,7 @@
             va_list args;
             va_start(args, fmt);
 
-            (void)vasprintf(&pstr, fmt, args);
+            (void)vasprintf(&pstr, (const char *)fmt, args);
             va_end(args);
             zmcrypto_printf ("[%s:%d:%s] %s\n", file, ln, fn, pstr);
             zmcrypto_free(pstr);

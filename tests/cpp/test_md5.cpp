@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Nov. 2022
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/
  */
@@ -21,6 +21,7 @@
 #include "test_md5.h"
 
 #if defined TEST_FOR_CRYPTOPP
+    #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
     #include "cryptopp820/include/cryptlib.h"
     #include "cryptopp820/include/secblock.h"
     #include "cryptopp820/include/md5.h"
@@ -82,7 +83,7 @@ void test_case_md5(zmcrypto::sdk* _sdk)
         #endif
 
         #if defined TEST_FOR_CRYPTOPP
-            CryptoPP::HashTransformation* HashPtr = new CryptoPP::MD5();
+            CryptoPP::HashTransformation* HashPtr = new CryptoPP::Weak::MD5();
             HashPtr->Update((const CryptoPP::byte *)(uint8_t*)message.c_str(), message.length());
             CryptoPP::SecByteBlock output2(HashPtr->DigestSize());
             HashPtr->Final (output2);

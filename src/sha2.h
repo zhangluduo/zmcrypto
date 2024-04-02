@@ -9,7 +9,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Mar. 2024
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
@@ -24,9 +24,11 @@ extern "C" {
 #endif
 
     #if defined ZMCRYPTO_ALGO_SHA2
-        struct sha2_ctx;
 
-        typedef struct sha2_ctx sha224_ctx, sha256_ctx, sha384_ctx, sha512_ctx;
+        struct sha224_ctx;
+        struct sha256_ctx;
+        struct sha384_ctx;
+        struct sha512_ctx;
 
         struct sha224_ctx* sha224_new (
             void

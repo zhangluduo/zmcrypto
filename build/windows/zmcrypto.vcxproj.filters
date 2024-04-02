@@ -204,6 +204,9 @@
     <ClCompile Include="..\..\src\zuc.c">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\base16.c">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\adler32.h">
@@ -405,6 +408,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\zuc.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\base16.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

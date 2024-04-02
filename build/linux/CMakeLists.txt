@@ -6,7 +6,7 @@ project(zmcrypto)
 #set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_BUILD_TYPE Release)
 
-add_definitions(-w -W)
+#add_definitions(-w -W)
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
 	message("Build Type: Debug")
@@ -30,8 +30,12 @@ add_library(
 	../../src/base64.c
 	../../src/base58.c
 	../../src/base32.c
+	../../src/base16.c
 	../../src/crc32.c
 	../../src/md5.c
+	../../src/md4.c
+	../../src/md2.c
+	../../src/ed2k.c
 	../../src/sha1.c
 	../../src/sha2.c
 	../../src/sha3.c

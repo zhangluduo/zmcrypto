@@ -8,7 +8,7 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Nov 2022
+ *   Date: Nov. 2022
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/
  */
@@ -69,17 +69,17 @@ void test_case_hook_aes(zmcrypto::sdk* _sdk)
     }
 
 #if defined __linux__
-    p1 =  dlsym(modulehandle, "aes_block_size2");
-    p2 =  dlsym(modulehandle, "aes_dec_block2");
-    p3 =  dlsym(modulehandle, "aes_enc_block2");
-    p4 =  dlsym(modulehandle, "aes_free2");
-    p5 =  dlsym(modulehandle, "aes_init2");
-    p6 =  dlsym(modulehandle, "aes_ksize_max2");
-    p7 =  dlsym(modulehandle, "aes_ksize_min2");
-    p8 =  dlsym(modulehandle, "aes_ksize_multiple2");
-    p9 =  dlsym(modulehandle, "aes_new2");
-    p10 = dlsym(modulehandle, "aes_set_dkey2");
-    p11 = dlsym(modulehandle, "aes_set_ekey2");
+    p1 =  dlsym(modulehandle, "hook_aes_block_size");
+    p2 =  dlsym(modulehandle, "hook_aes_dec_block");
+    p3 =  dlsym(modulehandle, "hook_aes_enc_block");
+    p4 =  dlsym(modulehandle, "hook_aes_free");
+    p5 =  dlsym(modulehandle, "hook_aes_init");
+    p6 =  dlsym(modulehandle, "hook_aes_ksize_max");
+    p7 =  dlsym(modulehandle, "hook_aes_ksize_min");
+    p8 =  dlsym(modulehandle, "hook_aes_ksize_multiple");
+    p9 =  dlsym(modulehandle, "hook_aes_new");
+    p10 = dlsym(modulehandle, "hook_aes_set_dkey");
+    p11 = dlsym(modulehandle, "hook_aes_set_ekey");
 #elif defined _WIN32
     p1 =  GetProcAddress((HMODULE)modulehandle, "aes_block_size2");
     p2 =  GetProcAddress((HMODULE)modulehandle, "aes_dec_block2");
