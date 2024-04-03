@@ -70,7 +70,7 @@
             0xff, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0xff, /* `abcdefg */
         };
 
-        uint16_t hi = (uint16_t)(options >> 16);         /* skip whitespace(0x0d, 0x0a, 0x20) */
+        uint16_t hi = (uint16_t)(options >> 16);         /* skip whitespace(0x0d, 0x0a, 0x20, 0x09) */
         uint16_t lo = (uint16_t)(options & 0x000000ff);  /* table index */
 
         if (lo != 0 && lo != 1) { return ZMCRYPTO_ERR_OVERFLOW; }

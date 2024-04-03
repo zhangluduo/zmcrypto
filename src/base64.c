@@ -112,7 +112,7 @@
 
     zmerror base64_decode(uint8_t *input, uint32_t ilen, uint8_t *output, uint32_t *olen, uint32_t options)
     {
-        uint16_t hi = (uint16_t)(options >> 16);         /* skip whitespace(0x0d, 0x0a, 0x20) */
+        uint16_t hi = (uint16_t)(options >> 16);         /* skip whitespace(0x0d, 0x0a, 0x20, 0x09) */
         uint16_t lo = (uint16_t)(options & 0x000000ff);  /* table index */
 
         if (lo != 0 && lo != 1) { return ZMCRYPTO_ERR_OVERFLOW; }
@@ -129,7 +129,7 @@
 
         for (j = 3, x = 0, i = 0; i < ilen; i++, input++)
         {
-            if (*input == 0x0d || *input == 0x0a || *input == 0x20)
+            if (*input == 0x0d || *input == 0x0a || *input == 0x20 || *input == 0x09)
             {
                 if (!hi) { return ZMCRYPTO_ERR_INVALID_CHAR; }
                 continue;

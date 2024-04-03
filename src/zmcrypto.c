@@ -656,39 +656,39 @@ extern "C" {
         return len;
     }
 
-    uint32_t zm_string_equals(const char* s1, const char* s2)
+    zmbool zm_string_equals(const char* s1, const char* s2)
     {
         uint32_t len1 = zm_string_len(s1);
         uint32_t len2 = zm_string_len(s2);
         if (len1 == len2)
-            { return (zmcrypto_memcmp(s1, s2, len1) == 0) ? 1 : 0; }
+            { return (zmcrypto_memcmp(s1, s2, len1) == 0) ? zmtrue : zmfalse; }
         else
             { return 0; }        
     }
 
     const void* zm_replace_fnc(const char* fname, void* pfn)
     {
-        if (zm_string_equals(fname, "zm_aes_block_size") == 1) 
+        if (zm_string_equals(fname, "zm_aes_block_size") == zmtrue) 
             { void* p = _pfn_aes_block_size; _pfn_aes_block_size = pfn; return p; }
-        if (zm_string_equals(fname, "zm_aes_dec_block") == 1) 
+        if (zm_string_equals(fname, "zm_aes_dec_block") == zmtrue) 
             { void* p = _pfn_aes_dec_block; _pfn_aes_dec_block = pfn; return p; }
-        if (zm_string_equals(fname, "zm_aes_enc_block") == 1) 
+        if (zm_string_equals(fname, "zm_aes_enc_block") == zmtrue) 
             { void* p = _pfn_aes_enc_block; _pfn_aes_enc_block = pfn; return p; }
-        if (zm_string_equals(fname, "zm_aes_free") == 1) 
+        if (zm_string_equals(fname, "zm_aes_free") == zmtrue) 
             { void* p = _pfn_aes_free; _pfn_aes_free = pfn; return p; }
-        if (zm_string_equals(fname, "zm_aes_init") == 1) 
+        if (zm_string_equals(fname, "zm_aes_init") == zmtrue) 
             { void* p = _pfn_aes_init; _pfn_aes_init = pfn; return p; }
-        if (zm_string_equals(fname, "zm_aes_ksize_max") == 1) 
+        if (zm_string_equals(fname, "zm_aes_ksize_max") == zmtrue) 
             { void* p = _pfn_aes_ksize_max; _pfn_aes_ksize_max = pfn; return p; }
-        if (zm_string_equals(fname, "zm_aes_ksize_min") == 1) 
+        if (zm_string_equals(fname, "zm_aes_ksize_min") == zmtrue) 
             { void* p = _pfn_aes_ksize_min; _pfn_aes_ksize_min = pfn; return p; }
-        if (zm_string_equals(fname, "zm_aes_ksize_multiple") == 1) 
+        if (zm_string_equals(fname, "zm_aes_ksize_multiple") == zmtrue) 
             { void* p = _pfn_aes_ksize_multiple; _pfn_aes_ksize_multiple = pfn; return p; }
-        if (zm_string_equals(fname, "zm_aes_new") == 1) 
+        if (zm_string_equals(fname, "zm_aes_new") == zmtrue) 
             { void* p = _pfn_aes_new; _pfn_aes_new = pfn; return p; }
-        if (zm_string_equals(fname, "zm_aes_set_dkey") == 1) 
+        if (zm_string_equals(fname, "zm_aes_set_dkey") == zmtrue) 
             { void* p = _pfn_aes_set_dkey; _pfn_aes_set_dkey = pfn; return p; }
-        if (zm_string_equals(fname, "zm_aes_set_ekey") == 1) 
+        if (zm_string_equals(fname, "zm_aes_set_ekey") == zmtrue) 
             { void* p = _pfn_aes_set_ekey; _pfn_aes_set_ekey = pfn; return p; }
 
         return NULL;
@@ -696,27 +696,27 @@ extern "C" {
 
     const void* zm_get_orig_fnc(const char* fname)
     {
-        if (zm_string_equals(fname, "zm_aes_block_size") == 1) 
+        if (zm_string_equals(fname, "zm_aes_block_size") == zmtrue) 
             { return aes_block_size; }
-        if (zm_string_equals(fname, "zm_aes_dec_block") == 1) 
+        if (zm_string_equals(fname, "zm_aes_dec_block") == zmtrue) 
             { return aes_dec_block; }
-        if (zm_string_equals(fname, "zm_aes_enc_block") == 1) 
+        if (zm_string_equals(fname, "zm_aes_enc_block") == zmtrue) 
             { return aes_enc_block; }
-        if (zm_string_equals(fname, "zm_aes_free") == 1) 
+        if (zm_string_equals(fname, "zm_aes_free") == zmtrue) 
             { return aes_free; }
-        if (zm_string_equals(fname, "zm_aes_init") == 1) 
+        if (zm_string_equals(fname, "zm_aes_init") == zmtrue) 
             { return aes_init; }
-        if (zm_string_equals(fname, "zm_aes_ksize_max") == 1) 
+        if (zm_string_equals(fname, "zm_aes_ksize_max") == zmtrue) 
             { return aes_ksize_max; }
-        if (zm_string_equals(fname, "zm_aes_ksize_min") == 1) 
+        if (zm_string_equals(fname, "zm_aes_ksize_min") == zmtrue) 
             { return aes_ksize_min; }
-        if (zm_string_equals(fname, "zm_aes_ksize_multiple") == 1) 
+        if (zm_string_equals(fname, "zm_aes_ksize_multiple") == zmtrue) 
             { return aes_ksize_multiple; }
-        if (zm_string_equals(fname, "zm_aes_new") == 1) 
+        if (zm_string_equals(fname, "zm_aes_new") == zmtrue) 
             {  return aes_new; }
-        if (zm_string_equals(fname, "zm_aes_set_dkey") == 1) 
+        if (zm_string_equals(fname, "zm_aes_set_dkey") == zmtrue) 
             { return aes_set_dkey; }
-        if (zm_string_equals(fname, "zm_aes_set_ekey") == 1) 
+        if (zm_string_equals(fname, "zm_aes_set_ekey") == zmtrue) 
             { return aes_set_ekey; }
         return NULL;
     }

@@ -341,7 +341,7 @@
             { return ZMCRYPTO_ERR_SUCCESSED; }
 
         const uint8_t *p;
-        uint64_t use_len, i, offset;
+        uint32_t use_len, i, offset;
 
         offset = ctx->add_len % 16;
         p = aad;

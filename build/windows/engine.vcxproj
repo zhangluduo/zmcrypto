@@ -80,12 +80,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\engine\dlmain.c" />
     <ClCompile Include="..\..\engine\new_aes.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\engine\dlmain.h" />
     <ClInclude Include="..\..\engine\new_aes.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\engine\engine.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

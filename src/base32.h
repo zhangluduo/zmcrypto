@@ -25,6 +25,21 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_BASE32
 
+        #define BASE32_RFC4648   (0 & 0xff) 
+        #define BASE32_BASE32HEX (1 & 0xff) 
+        #define BASE32_ZBASE32   (2 & 0xff) 
+        #define BASE32_CROCKFORD (3 & 0xff) 
+
+        /*
+        options:
+            The upper 32 bits are used to indicate how many characters are needed to wrap a line.
+            The lower 32 bits indicate which encoding table to use.
+            here are two coding tables here, 
+            table[0] is "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
+            table[1] is "0123456789ABCDEFGHIJKLMNOPQRSTUV"
+            table[2] is "ybndrfg8ejkmcpqxot1uwisza345h769"
+            table[3] is "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
+        */
         zmerror base32_encode(
             uint8_t *input, 
             uint32_t ilen, 

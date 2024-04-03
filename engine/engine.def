@@ -1,13 +1,13 @@
 LIBRARY "engine"
 EXPORTS
-    aes_new2
-    aes_free2
-    aes_init2
-    aes_block_size2
-    aes_ksize_min2
-    aes_ksize_max2
-    aes_ksize_multiple2
-    aes_set_ekey2
-    aes_set_dkey2
-    aes_enc_block2
-    aes_dec_block2
+    hook_aes_new
+    hook_aes_free
+    hook_aes_init
+    hook_aes_block_size
+    hook_aes_ksize_min
+    hook_aes_ksize_max
+    hook_aes_ksize_multiple
+    hook_aes_set_ekey
+    hook_aes_set_dkey
+    hook_aes_enc_block
+    hook_aes_dec_block
