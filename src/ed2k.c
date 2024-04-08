@@ -88,9 +88,9 @@
         md4_starts (ctx->md4_ctx_final);
     }
 
-    void ed2k_update (struct ed2k_ctx* ctx, uint8_t* data, uint32_t dlen)
+    void ed2k_update (struct ed2k_ctx* ctx, uint8_t* data, uint32_t dsize)
     { 
-        if (ctx->update_size + dlen >= _ED2K_CHUNKSIZE)
+        if (ctx->update_size + dsize >= _ED2K_CHUNKSIZE)
         {
             md4_update(ctx->md4_ctx, data, _ED2K_CHUNKSIZE - ctx->update_size);
             md4_final(ctx->md4_ctx, ctx->output);
@@ -99,14 +99,14 @@
             ctx->update_count++;
 
             int Offset = _ED2K_CHUNKSIZE - ctx->update_size;
-            ctx->update_size = dlen - Offset;
+            ctx->update_size = dsize - Offset;
             if (ctx->update_size)
                 { md4_update(ctx->md4_ctx, data + Offset, ctx->update_size); }
         }
         else
         {
-            md4_update(ctx->md4_ctx, data, dlen);
-            ctx->update_size += dlen;
+            md4_update(ctx->md4_ctx, data, dsize);
+            ctx->update_size += dsize;
         }
     }
 

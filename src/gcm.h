@@ -66,7 +66,7 @@ extern "C" {
         zmerror gcm_update_data (
             struct gcm_ctx* ctx,
             uint8_t *data, 
-            uint32_t dlen, 
+            uint32_t dsize, 
             uint8_t *output
         );
 

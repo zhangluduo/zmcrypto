@@ -42,7 +42,7 @@ extern "C" {
             int32_t (*hash_block_size)  (void),
             void    (*hash_init)        (void* ctx),
             void    (*hash_starts)      (void* ctx),
-            void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dlen),
+            void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dsize),
             void    (*hash_final)       (void* ctx, uint8_t* output)
         );
 
@@ -55,7 +55,7 @@ extern "C" {
         void hmac_update (
             struct hmac_ctx* ctx, 
             uint8_t* data, 
-            uint32_t dlen
+            uint32_t dsize
         );
 
         void hmac_final (

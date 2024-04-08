@@ -70,7 +70,7 @@ extern "C" {
               int32_t (*hash_block_size)  (void),
               void    (*hash_init)        (void* ctx),
               void    (*hash_starts)      (void* ctx),
-              void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dlen),
+              void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dsize),
               void    (*hash_final)       (void* ctx, uint8_t* output),
           uint8_t* p, uint32_t plen, uint8_t* s, uint32_t slen, uint32_t c, uint8_t* dk, uint32_t dklen);
       typedef zmerror (*pfn_pbkdf2) (
@@ -80,31 +80,31 @@ extern "C" {
               int32_t (*hash_block_size)  (void),
               void    (*hash_init)        (void* ctx),
               void    (*hash_starts)      (void* ctx),
-              void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dlen),
+              void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dsize),
               void    (*hash_final)       (void* ctx, uint8_t* output),
           uint8_t* p, uint32_t plen, uint8_t* s, uint32_t slen, uint32_t c, uint8_t* dk, uint32_t dklen);
     #endif
 
     #if defined ZMCRYPTO_ALGO_BLOCKPAD
-      API zmerror zm_blockpad_zero (uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen);
-      API zmerror zm_blockpad_iso10126 (uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen, void (*rng_get_bytes) (uint8_t* data, uint32_t dlen));
-      API zmerror zm_blockpad_ansix923 (uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen);
-      API zmerror zm_blockpad_pkcs7 (uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen);
+      API zmerror zm_blockpad_zero (uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen);
+      API zmerror zm_blockpad_iso10126 (uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen, void (*rng_get_bytes) (uint8_t* data, uint32_t dsize));
+      API zmerror zm_blockpad_ansix923 (uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen);
+      API zmerror zm_blockpad_pkcs7 (uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen);
 
-      API zmerror zm_blockdepad_zero(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen);
-      API zmerror zm_blockdepad_iso10126(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen);
-      API zmerror zm_blockdepad_ansix923(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen);
-      API zmerror zm_blockdepad_pkcs7(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen);
+      API zmerror zm_blockdepad_zero(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize);
+      API zmerror zm_blockdepad_iso10126(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize);
+      API zmerror zm_blockdepad_ansix923(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize);
+      API zmerror zm_blockdepad_pkcs7(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize);
 
-      typedef zmerror (*pfn_blockpad_zero) (uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen);
-      typedef zmerror (*pfn_blockpad_iso10126) (uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen, void (*rng_get_bytes) (uint8_t* data, uint32_t dlen));
-      typedef zmerror (*pfn_blockpad_ansix923) (uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen);
-      typedef zmerror (*pfn_blockpad_pkcs7) (uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen);
+      typedef zmerror (*pfn_blockpad_zero) (uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen);
+      typedef zmerror (*pfn_blockpad_iso10126) (uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen, void (*rng_get_bytes) (uint8_t* data, uint32_t dsize));
+      typedef zmerror (*pfn_blockpad_ansix923) (uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen);
+      typedef zmerror (*pfn_blockpad_pkcs7) (uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen);
 
-      typedef zmerror (*pfn_blockdepad_zero)(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen);
-      typedef zmerror (*pfn_blockdepad_iso10126)(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen);
-      typedef zmerror (*pfn_blockdepad_ansix923)(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen);
-      typedef zmerror (*pfn_blockdepad_pkcs7)(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen);
+      typedef zmerror (*pfn_blockdepad_zero)(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize);
+      typedef zmerror (*pfn_blockdepad_iso10126)(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize);
+      typedef zmerror (*pfn_blockdepad_ansix923)(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize);
+      typedef zmerror (*pfn_blockdepad_pkcs7)(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize);
     #endif
 
     /**
@@ -126,14 +126,14 @@ extern "C" {
         API int32_t zm_##name##_checksum_size(void);\
         API void zm_##name##_init(CONTEXT_TYPE_PTR(name) ctx);\
         API void zm_##name##_starts(CONTEXT_TYPE_PTR(name));\
-        API void zm_##name##_update(CONTEXT_TYPE_PTR(name), uint8_t* data, uint32_t dlen);\
+        API void zm_##name##_update(CONTEXT_TYPE_PTR(name), uint8_t* data, uint32_t dsize);\
         API void zm_##name##_final(CONTEXT_TYPE_PTR(name), uint8_t* output);\
         typedef CONTEXT_TYPE_PTR(name) (*pfn_##name##_new)(void);\
         typedef void (*pfn_##name##_free)(CONTEXT_TYPE_PTR(name) ctx);\
         typedef int32_t (*pfn_##name##_checksum_size)(void);\
         typedef void (*pfn_##name##_init)(CONTEXT_TYPE_PTR(name) ctx);\
         typedef void (*pfn_##name##_starts)(CONTEXT_TYPE_PTR(name));\
-        typedef void (*pfn_##name##_update)(CONTEXT_TYPE_PTR(name), uint8_t* data, uint32_t dlen);\
+        typedef void (*pfn_##name##_update)(CONTEXT_TYPE_PTR(name), uint8_t* data, uint32_t dsize);\
         typedef void (*pfn_##name##_final)(CONTEXT_TYPE_PTR(name), uint8_t* output);
 
     /**
@@ -147,7 +147,7 @@ extern "C" {
         API int32_t zm_##name##_block_size(void);\
         API void zm_##name##_init(CONTEXT_TYPE_PTR(name) ctx);\
         API void zm_##name##_starts(CONTEXT_TYPE_PTR(name) ctx);\
-        API void zm_##name##_update(CONTEXT_TYPE_PTR(name), uint8_t* data, uint32_t dlen);\
+        API void zm_##name##_update(CONTEXT_TYPE_PTR(name), uint8_t* data, uint32_t dsize);\
         API void zm_##name##_final(CONTEXT_TYPE_PTR(name), uint8_t* output);\
         typedef CONTEXT_TYPE_PTR(name) (*pfn_##name##_new)(void);\
         typedef void (*pfn_##name##_free)(CONTEXT_TYPE_PTR(name) ctx);\
@@ -155,7 +155,7 @@ extern "C" {
         typedef int32_t (*pfn_##name##_block_size)(void);\
         typedef void (*pfn_##name##_init)(CONTEXT_TYPE_PTR(name) ctx);\
         typedef void (*pfn_##name##_starts)(CONTEXT_TYPE_PTR(name) ctx);\
-        typedef void (*pfn_##name##_update)(CONTEXT_TYPE_PTR(name), uint8_t* data, uint32_t dlen);\
+        typedef void (*pfn_##name##_update)(CONTEXT_TYPE_PTR(name), uint8_t* data, uint32_t dsize);\
         typedef void (*pfn_##name##_final)(CONTEXT_TYPE_PTR(name), uint8_t* output);
 
     /**
@@ -227,7 +227,7 @@ extern "C" {
         int32_t (*hash_block_size)  (void),\
         void    (*hash_init)        (void* ctx),\
         void    (*hash_starts)      (void* ctx),\
-        void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dlen),\
+        void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dsize),\
         void    (*hash_final)       (void* ctx, uint8_t* output)
 
     #define HMAC_INIT_ARGS\
@@ -271,14 +271,14 @@ extern "C" {
         API void    zm_##name##_free(CONTEXT_TYPE_PTR(name) ctx);\
         API void    zm_##name##_init(CONTEXT_TYPE_PTR(name) ctx, param);\
         API zmerror zm_##name##_starts(CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t klen);\
-        API void    zm_##name##_update(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen);\
+        API void    zm_##name##_update(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dsize);\
         API void    zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output);\
         API int32_t zm_##name##_digest_size(CONTEXT_TYPE_PTR(name) ctx);\
         typedef CONTEXT_TYPE_PTR(name) (*pfn_##name##_new) (void);\
         typedef void    (*pfn_##name##_free)(CONTEXT_TYPE_PTR(name) ctx);\
         typedef void    (*pfn_##name##_init)(CONTEXT_TYPE_PTR(name) ctx, param);\
         typedef zmerror (*pfn_##name##_starts)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* key, uint32_t klen);\
-        typedef void    (*pfn_##name##_update)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen);\
+        typedef void    (*pfn_##name##_update)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dsize);\
         typedef void    (*pfn_##name##_final)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output);\
         typedef int32_t (*pfn_##name##_digest_size)(CONTEXT_TYPE_PTR(name) ctx);
 
@@ -366,10 +366,10 @@ extern "C" {
 
     #define CCM_STARTS_PARAM \
             uint8_t *key, uint32_t klen, uint8_t *nonce, uint32_t noncelen,\
-            uint64_t datalen, uint64_t aadlen, uint32_t taglen, uint32_t direction
+            uint64_t datalen, uint64_t aadsize, uint32_t taglen, uint32_t direction
 
     #define CCM_STARTS_ARGS \
-            key, klen, nonce, noncelen, datalen, aadlen, taglen, direction
+            key, klen, nonce, noncelen, datalen, aadsize, taglen, direction
 
     #define CCM_FINAL_PARAM \
             uint8_t *tag
@@ -394,15 +394,15 @@ extern "C" {
         API void    zm_##name##_free(CONTEXT_TYPE_PTR(name) ctx);\
         API void    zm_##name##_init(CONTEXT_TYPE_PTR(name) ctx, cipher_param);\
         API zmerror zm_##name##_starts(CONTEXT_TYPE_PTR(name) ctx, starts_param);\
-        API zmerror zm_##name##_update_aad(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen);\
-        API zmerror zm_##name##_update_data(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen, uint8_t *output);\
+        API zmerror zm_##name##_update_aad(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dsize);\
+        API zmerror zm_##name##_update_data(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dsize, uint8_t *output);\
         API zmerror zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, final_param);\
         typedef CONTEXT_TYPE_PTR(name) (*pfn_##name##_new) (void);\
         typedef void    (*pfn_##name##_free)(CONTEXT_TYPE_PTR(name) ctx);\
         typedef void    (*pfn_##name##_init)(CONTEXT_TYPE_PTR(name) ctx, cipher_param);\
         typedef zmerror (*pfn_##name##_starts)(CONTEXT_TYPE_PTR(name) ctx, starts_param);\
-        typedef zmerror (*pfn_##name##_update_aad)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen);\
-        typedef zmerror (*pfn_##name##_update_data)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen, uint8_t *output);\
+        typedef zmerror (*pfn_##name##_update_aad)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dsize);\
+        typedef zmerror (*pfn_##name##_update_data)(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dsize, uint8_t *output);\
         typedef zmerror (*pfn_##name##_final)(CONTEXT_TYPE_PTR(name) ctx, final_param);
 
     #if defined ZMCRYPTO_ALGO_CCM

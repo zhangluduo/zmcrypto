@@ -191,40 +191,40 @@
         ctx->state[7] = 0xB0FB0E4E;
     }
 
-    void sm3_update (struct sm3_ctx* ctx, uint8_t* data, uint32_t dlen)
+    void sm3_update (struct sm3_ctx* ctx, uint8_t* data, uint32_t dsize)
     {
         uint32_t fill, left;
 
-        if (dlen == 0)
+        if (dsize == 0)
             { return; }
 
         left = ctx->total[0] & 0x3F;
         fill = 64 - left;
 
-        ctx->total[0] += dlen;
+        ctx->total[0] += dsize;
         ctx->total[0] &= 0xFFFFFFFF;
 
-        if (ctx->total[0] < (unsigned int) dlen)
+        if (ctx->total[0] < (unsigned int) dsize)
             { ctx->total[1]++; }
 
-        if (left && dlen >= fill)
+        if (left && dsize >= fill)
         {
             (void)zmcrypto_memcpy( (void *) (ctx->buffer + left), (void *) data, fill );
             sm3_process( ctx, ctx->buffer );
             data += fill;
-            dlen  -= fill;
+            dsize  -= fill;
             left = 0;
         }
 
-        while( dlen >= 64 )
+        while( dsize >= 64 )
         {
             sm3_process( ctx, data );
             data += 64;
-            dlen  -= 64;
+            dsize  -= 64;
         }
 
-        if (dlen > 0)
-            { (void)zmcrypto_memcpy( (void *) (ctx->buffer + left), (void *) data, dlen ); }
+        if (dsize > 0)
+            { (void)zmcrypto_memcpy( (void *) (ctx->buffer + left), (void *) data, dsize ); }
     }
 
     void sm3_final (struct sm3_ctx* ctx, uint8_t* output)

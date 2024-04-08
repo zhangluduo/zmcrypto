@@ -53,7 +53,7 @@ where
         int32_t (*hash_block_size)  (void);
         void    (*hash_init)        (void* ctx);
         void    (*hash_starts)      (void* ctx);
-        void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dlen);
+        void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dsize);
         void    (*hash_final)       (void* ctx, uint8_t* output);
     } ;
 
@@ -84,7 +84,7 @@ where
         int32_t (*hash_block_size)  (void),
         void    (*hash_init)        (void* ctx),
         void    (*hash_starts)      (void* ctx),
-        void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dlen),
+        void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dsize),
         void    (*hash_final)       (void* ctx, uint8_t* output)
     )
     {
@@ -103,12 +103,12 @@ where
         zmcrypto_memset(ctx->opad, 0, DIGEST_MAX_BLOCK_SIZE);
     }
 
-    void hmac_do_hash (struct hmac_ctx* ctx, uint8_t* data, uint32_t dlen, uint8_t* output)
+    void hmac_do_hash (struct hmac_ctx* ctx, uint8_t* data, uint32_t dsize, uint8_t* output)
     {
         void* hashctx = (void*)(ctx->hash_new());
         ctx->hash_init(hashctx);
         ctx->hash_starts(hashctx);
-        ctx->hash_update(hashctx, data, dlen);
+        ctx->hash_update(hashctx, data, dsize);
         ctx->hash_final(hashctx, output);
         ctx->hash_free(hashctx);
     }
@@ -147,11 +147,11 @@ where
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 
-    void hmac_update (struct hmac_ctx* ctx, uint8_t* data, uint32_t dlen)
+    void hmac_update (struct hmac_ctx* ctx, uint8_t* data, uint32_t dsize)
     {
         if (ctx->hash_update)
         {
-            ctx->hash_update(ctx->hash_ctx, data, dlen);
+            ctx->hash_update(ctx->hash_ctx, data, dsize);
         }
     }
 

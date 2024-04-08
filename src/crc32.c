@@ -169,14 +169,14 @@
     Jean-loup Gailly        Mark Adler
     gzip@prep.ai.mit.edu    madler@cco.caltech.edu
     */
-    void crc32_update (struct crc32_ctx* ctx, uint8_t* data, uint32_t dlen)
+    void crc32_update (struct crc32_ctx* ctx, uint8_t* data, uint32_t dsize)
     {
-		if (!data || dlen == 0) { return; }
+		if (!data || dsize == 0) { return; }
         ctx->checksum = ctx->checksum ^ 0xffffffffL;
-        if (dlen){
+        if (dsize){
             do {
                 ctx->checksum = crc_table[((int)(ctx->checksum) ^ (*data++)) & 0xff] ^ (ctx->checksum >> 8);
-            } while (--dlen);
+            } while (--dsize);
         }
 
         ctx->checksum = ctx->checksum ^ 0xffffffffL;

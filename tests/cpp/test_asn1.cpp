@@ -273,13 +273,13 @@ uint8_t google_cert_der[] =
 
 uint32_t google_cert_der_len = sizeof(google_cert_der);
 
-void helper_print_asn1_data(uint8_t* data, uint32_t dlen){
-    for (uint32_t i = 0; i < dlen; i++) { printf ("%02x ", data[i]); }
+void helper_print_asn1_data(uint8_t* data, uint32_t dsize){
+    for (uint32_t i = 0; i < dsize; i++) { printf ("%02x ", data[i]); }
     printf ("\n");
 }
 
 void helper_print_asn1_ctx(struct asn1_ctx* ctx, uint32_t level, uint32_t offset){
-    printf ("[%4d][%4d]:", offset, asn1_get_value_dlen(ctx));
+    printf ("[%4d][%4d]:", offset, asn1_get_value_dsize(ctx));
 
     const char* s = asn1_debug_tag_to_string(asn1_get_tag_data(ctx)[0]);
     printf("%*s", level * 2, "");
@@ -447,68 +447,68 @@ void test_asn1_case4()
         goto fail;
     }
 
-    if (asn1_get_tag_dlen(ctx) != 1 || zmcrypto_memcmp(asn1_get_tag_data(ctx), der_data, asn1_get_tag_dlen(ctx)) != 0){
+    if (asn1_get_tag_dsize(ctx) != 1 || zmcrypto_memcmp(asn1_get_tag_data(ctx), der_data, asn1_get_tag_dsize(ctx)) != 0){
         goto fail;
     }
 
-    if (asn1_get_length_dlen(ctx) != 1 || zmcrypto_memcmp(asn1_get_length_data(ctx), der_data + 1, asn1_get_length_dlen(ctx)) != 0){
+    if (asn1_get_length_dsize(ctx) != 1 || zmcrypto_memcmp(asn1_get_length_data(ctx), der_data + 1, asn1_get_length_dsize(ctx)) != 0){
         goto fail;
     }
 
-    if (asn1_get_value_dlen(ctx) != 127 || zmcrypto_memcmp(asn1_get_value_data(ctx), der_data + 2, asn1_get_value_dlen(ctx)) != 0){
+    if (asn1_get_value_dsize(ctx) != 127 || zmcrypto_memcmp(asn1_get_value_data(ctx), der_data + 2, asn1_get_value_dsize(ctx)) != 0){
         goto fail;
     }
 
-    if (asn1_get_next_data(ctx) == NULL || asn1_get_next_dlen(ctx) == 0){
+    if (asn1_get_next_data(ctx) == NULL || asn1_get_next_dsize(ctx) == 0){
         goto fail;
     }
 
-    if (asn1_get_next_dlen(ctx) != 134 || zmcrypto_memcmp(asn1_get_next_data(ctx), der_data + 129, asn1_get_next_dlen(ctx)) != 0){
+    if (asn1_get_next_dsize(ctx) != 134 || zmcrypto_memcmp(asn1_get_next_data(ctx), der_data + 129, asn1_get_next_dsize(ctx)) != 0){
         goto fail;
     }
 
-    err = asn1_parse_data(asn1_get_next_data(ctx), asn1_get_next_dlen(ctx), ctx2, copy);
+    err = asn1_parse_data(asn1_get_next_data(ctx), asn1_get_next_dsize(ctx), ctx2, copy);
     if (ZMCRYPTO_IS_ERROR(err)){
         goto fail;
     }
 
-    if (asn1_get_tag_dlen(ctx2) != 1 || zmcrypto_memcmp(asn1_get_tag_data(ctx2), der_data + 129, asn1_get_tag_dlen(ctx2)) != 0){
+    if (asn1_get_tag_dsize(ctx2) != 1 || zmcrypto_memcmp(asn1_get_tag_data(ctx2), der_data + 129, asn1_get_tag_dsize(ctx2)) != 0){
         goto fail;
     }
 
-    if (asn1_get_length_dlen(ctx2) != 1 || zmcrypto_memcmp(asn1_get_length_data(ctx2), der_data + 130, asn1_get_length_dlen(ctx2)) != 0){
+    if (asn1_get_length_dsize(ctx2) != 1 || zmcrypto_memcmp(asn1_get_length_data(ctx2), der_data + 130, asn1_get_length_dsize(ctx2)) != 0){
         goto fail;
     }
 
-    if (asn1_get_value_dlen(ctx2) != 1 || zmcrypto_memcmp(asn1_get_value_data(ctx2), der_data + 131, asn1_get_value_dlen(ctx2)) != 0){
+    if (asn1_get_value_dsize(ctx2) != 1 || zmcrypto_memcmp(asn1_get_value_data(ctx2), der_data + 131, asn1_get_value_dsize(ctx2)) != 0){
         goto fail;
     }
 
-    if (asn1_get_next_data(ctx2) == NULL || asn1_get_next_dlen(ctx2) == 0){
+    if (asn1_get_next_data(ctx2) == NULL || asn1_get_next_dsize(ctx2) == 0){
         goto fail;
     }
-    if (asn1_get_next_dlen(ctx2) != 131 || zmcrypto_memcmp(asn1_get_next_data(ctx2), der_data + 129+3, asn1_get_next_dlen(ctx2)) != 0){
+    if (asn1_get_next_dsize(ctx2) != 131 || zmcrypto_memcmp(asn1_get_next_data(ctx2), der_data + 129+3, asn1_get_next_dsize(ctx2)) != 0){
         goto fail;
     }
 
-    err = asn1_parse_data(asn1_get_next_data(ctx2), asn1_get_next_dlen(ctx2), ctx3, copy);
+    err = asn1_parse_data(asn1_get_next_data(ctx2), asn1_get_next_dsize(ctx2), ctx3, copy);
     if (ZMCRYPTO_IS_ERROR(err)){
         goto fail;
     }
 
-    if (asn1_get_next_data(ctx3) != NULL || asn1_get_next_dlen(ctx3) != 0){
+    if (asn1_get_next_data(ctx3) != NULL || asn1_get_next_dsize(ctx3) != 0){
         goto fail;
     }
 
-    if (asn1_get_tag_dlen(ctx3) != 1 || zmcrypto_memcmp(asn1_get_tag_data(ctx3), der_data + (129+3), asn1_get_tag_dlen(ctx3)) != 0){
+    if (asn1_get_tag_dsize(ctx3) != 1 || zmcrypto_memcmp(asn1_get_tag_data(ctx3), der_data + (129+3), asn1_get_tag_dsize(ctx3)) != 0){
         goto fail;
     }
 
-    if (asn1_get_length_dlen(ctx3) != 2 || zmcrypto_memcmp(asn1_get_length_data(ctx3), der_data + (129+3) + 1, asn1_get_length_dlen(ctx3)) != 0){
+    if (asn1_get_length_dsize(ctx3) != 2 || zmcrypto_memcmp(asn1_get_length_data(ctx3), der_data + (129+3) + 1, asn1_get_length_dsize(ctx3)) != 0){
         goto fail;
     }
 
-    if (asn1_get_value_dlen(ctx3) != 128 || zmcrypto_memcmp(asn1_get_value_data(ctx3), der_data + (129+3) + 3, asn1_get_value_dlen(ctx3)) != 0){
+    if (asn1_get_value_dsize(ctx3) != 128 || zmcrypto_memcmp(asn1_get_value_data(ctx3), der_data + (129+3) + 3, asn1_get_value_dsize(ctx3)) != 0){
         goto fail;
     }
 
@@ -614,7 +614,7 @@ echo -e -n "\
     uint32_t nested_der_len = sizeof(nested_der);
 
     uint8_t* data = nested_der;
-    uint32_t dlen = nested_der_len;
+    uint32_t dsize = nested_der_len;
     uint32_t copy = 0;
     uint32_t result = 0;
     uint32_t level = 0;
@@ -645,7 +645,7 @@ _begin:
         ctx = asn1_ctx_new(); 
         _new.push_back(ctx);
         _free.push_back(ctx);
-        zmerror err = asn1_parse_data(data, dlen, ctx, copy);
+        zmerror err = asn1_parse_data(data, dsize, ctx, copy);
         if (ZMCRYPTO_IS_ERROR(err)){
             goto fail;
         }
@@ -656,15 +656,15 @@ _begin:
         /* constructed */
         if (result == 1){
             data = asn1_get_value_data(ctx);
-            dlen = asn1_get_value_dlen(ctx);
+            dsize = asn1_get_value_dsize(ctx);
             _stack.push(ctx);
             pushed++;
             continue;
         }
         /* has next */
-        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dlen(ctx) > 0){
+        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dsize(ctx) > 0){
             data = asn1_get_next_data(ctx);
-            dlen = asn1_get_next_dlen(ctx);
+            dsize = asn1_get_next_dsize(ctx);
             continue;
         }
         else{
@@ -674,9 +674,9 @@ _pop:
                 _stack.pop();
                 pushed--;
 
-                if(asn1_get_next_data(top) != NULL && asn1_get_next_dlen(top) > 0){
+                if(asn1_get_next_data(top) != NULL && asn1_get_next_dsize(top) > 0){
                     data = asn1_get_next_data(top);
-                    dlen = asn1_get_next_dlen(top);
+                    dsize = asn1_get_next_dsize(top);
                     goto _begin;
                 }
                 else if (pushed > 0){
@@ -808,7 +808,7 @@ zhangluduo@zhangluduo-B85-HD3:~$
     uint32_t nested_der_len = sizeof(nested_der);
 
     uint8_t* data = nested_der;
-    uint32_t dlen = nested_der_len;
+    uint32_t dsize = nested_der_len;
     uint32_t copy = 0;
     uint32_t result = 0;
     uint32_t level = 0;
@@ -859,7 +859,7 @@ _begin:
         ctx = asn1_ctx_new(); 
         _new.push_back(ctx);
         _free.push_back(ctx);
-        zmerror err = asn1_parse_data(data, dlen, ctx, copy);
+        zmerror err = asn1_parse_data(data, dsize, ctx, copy);
         if (ZMCRYPTO_IS_ERROR(err)){
             goto fail;
         }
@@ -872,15 +872,15 @@ _begin:
         /* constructed */
         if (result == 1){
             data = asn1_get_value_data(ctx);
-            dlen = asn1_get_value_dlen(ctx);
+            dsize = asn1_get_value_dsize(ctx);
             _stack.push(ctx);
             pushed++;
             continue;
         }
         /* has next */
-        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dlen(ctx) > 0){
+        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dsize(ctx) > 0){
             data = asn1_get_next_data(ctx) ;
-            dlen = asn1_get_next_dlen(ctx);
+            dsize = asn1_get_next_dsize(ctx);
             continue;
         }
         else{
@@ -890,9 +890,9 @@ _pop:
                 _stack.pop();
                 pushed--;
 
-                if(asn1_get_next_data(top) != NULL && asn1_get_next_dlen(top) > 0){
+                if(asn1_get_next_data(top) != NULL && asn1_get_next_dsize(top) > 0){
                     data = asn1_get_next_data(top);
-                    dlen = asn1_get_next_dlen(top);
+                    dsize = asn1_get_next_dsize(top);
                     goto _begin;
                 }
                 else if (pushed > 0){
@@ -966,7 +966,7 @@ void test_asn1_case8()
     uint32_t nested_der_len = sizeof(nested_der);
 
     uint8_t* data = nested_der;
-    uint32_t dlen = nested_der_len;
+    uint32_t dsize = nested_der_len;
     uint32_t copy = 0;
     uint32_t result = 0;
     uint32_t level = 0;
@@ -994,7 +994,7 @@ _begin:
         ctx = asn1_ctx_new(); 
         _new.push_back(ctx);
         _free.push_back(ctx);
-        zmerror err = asn1_parse_data(data, dlen, ctx, copy);
+        zmerror err = asn1_parse_data(data, dsize, ctx, copy);
         if (ZMCRYPTO_IS_ERROR(err)){
             goto fail;
         }
@@ -1007,15 +1007,15 @@ _begin:
         /* constructed */
         if (result == 1){
             data = asn1_get_value_data(ctx);
-            dlen = asn1_get_value_dlen(ctx);
+            dsize = asn1_get_value_dsize(ctx);
             _stack.push(ctx);
             pushed++;
             continue;
         }
         /* has next */
-        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dlen(ctx) > 0){
+        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dsize(ctx) > 0){
             data = asn1_get_next_data(ctx);
-            dlen = asn1_get_next_dlen(ctx);
+            dsize = asn1_get_next_dsize(ctx);
             continue;
         }
         else{
@@ -1025,9 +1025,9 @@ _pop:
                 _stack.pop();
                 pushed--;
 
-                if(asn1_get_next_data(top) != NULL && asn1_get_next_dlen(top) > 0){
+                if(asn1_get_next_data(top) != NULL && asn1_get_next_dsize(top) > 0){
                     data = asn1_get_next_data(top);
-                    dlen = asn1_get_next_dlen(top);
+                    dsize = asn1_get_next_dsize(top);
                     goto _begin;
                 }
                 else if (pushed > 0){
@@ -1076,7 +1076,7 @@ succ:
 void test_asn1_case9()
 {
     uint8_t* data = baidu_cert_der;
-    uint32_t dlen = baidu_cert_der_len;
+    uint32_t dsize = baidu_cert_der_len;
     uint32_t copy = 0;
     uint32_t result = 0;
     uint32_t level = 0;
@@ -1184,7 +1184,7 @@ _begin:
         ctx = asn1_ctx_new(); 
         _new.push_back(ctx);
         _free.push_back(ctx);
-        zmerror err = asn1_parse_data(data, dlen, ctx, copy);
+        zmerror err = asn1_parse_data(data, dsize, ctx, copy);
         if (ZMCRYPTO_IS_ERROR(err)){
             goto fail;
         }
@@ -1197,15 +1197,15 @@ _begin:
         /* constructed */
         if (result == 1){
             data = asn1_get_value_data(ctx);
-            dlen = asn1_get_value_dlen(ctx);
+            dsize = asn1_get_value_dsize(ctx);
             _stack.push(ctx);
             pushed++;
             continue;
         }
         /* has next */
-        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dlen(ctx) > 0){
+        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dsize(ctx) > 0){
             data = asn1_get_next_data(ctx);
-            dlen = asn1_get_next_dlen(ctx);
+            dsize = asn1_get_next_dsize(ctx);
             continue;
         }
         else{
@@ -1215,9 +1215,9 @@ _pop:
                 _stack.pop();
                 pushed--;
 
-                if(asn1_get_next_data(top) != NULL && asn1_get_next_dlen(top) > 0){
+                if(asn1_get_next_data(top) != NULL && asn1_get_next_dsize(top) > 0){
                     data = asn1_get_next_data(top);
-                    dlen = asn1_get_next_dlen(top);
+                    dsize = asn1_get_next_dsize(top);
                     goto _begin;
                 }
                 else if (pushed > 0){
@@ -1266,7 +1266,7 @@ succ:
 void test_asn1_case10()
 {
     uint8_t* data = google_cert_der;
-    uint32_t dlen = google_cert_der_len;
+    uint32_t dsize = google_cert_der_len;
     uint32_t copy = 0;
     uint32_t result = 0;
     uint32_t level = 0;
@@ -1359,7 +1359,7 @@ _begin:
         ctx = asn1_ctx_new(); 
         _new.push_back(ctx);
         _free.push_back(ctx);
-        zmerror err = asn1_parse_data(data, dlen, ctx, copy);
+        zmerror err = asn1_parse_data(data, dsize, ctx, copy);
         if (ZMCRYPTO_IS_ERROR(err)){
             goto fail;
         }
@@ -1372,15 +1372,15 @@ _begin:
         /* constructed */
         if (result == 1){
             data = asn1_get_value_data(ctx);
-            dlen = asn1_get_value_dlen(ctx);
+            dsize = asn1_get_value_dsize(ctx);
             _stack.push(ctx);
             pushed++;
             continue;
         }
         /* has next */
-        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dlen(ctx) > 0){
+        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dsize(ctx) > 0){
             data = asn1_get_next_data(ctx);
-            dlen = asn1_get_next_dlen(ctx);
+            dsize = asn1_get_next_dsize(ctx);
             continue;
         }
         else{
@@ -1390,9 +1390,9 @@ _pop:
                 _stack.pop();
                 pushed--;
 
-                if(asn1_get_next_data(top) != NULL && asn1_get_next_dlen(top) > 0){
+                if(asn1_get_next_data(top) != NULL && asn1_get_next_dsize(top) > 0){
                     data = asn1_get_next_data(top);
-                    dlen = asn1_get_next_dlen(top);
+                    dsize = asn1_get_next_dsize(top);
                     goto _begin;
                 }
                 else if (pushed > 0){
@@ -1473,7 +1473,7 @@ echo -e -n "\
     uint32_t nested_der_len = sizeof(nested_der);
 
     uint8_t* data = nested_der;
-    uint32_t dlen = nested_der_len;
+    uint32_t dsize = nested_der_len;
 
     uint32_t copy = 1;
     uint32_t result = 0;
@@ -1513,7 +1513,7 @@ _begin:
         _new.push_back(ctx);
         _free.push_back(ctx);
 
-        zmerror err = asn1_parse_data(data, dlen, ctx, copy);
+        zmerror err = asn1_parse_data(data, dsize, ctx, copy);
         if (ZMCRYPTO_IS_ERROR(err)){
             goto fail;
         }
@@ -1526,20 +1526,20 @@ _begin:
         /* tag is constructed */
         if (result == 1){
             data = asn1_get_value_data(ctx);
-            dlen = asn1_get_value_dlen(ctx);
+            dsize = asn1_get_value_dsize(ctx);
 
             level++;
-            offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx);
+            offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx);
 
             _stack.push(ctx);
             pushed++;
             continue;
         }
         /* has next */
-        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dlen(ctx) > 0){
+        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dsize(ctx) > 0){
             data = asn1_get_next_data(ctx);
-            dlen = asn1_get_next_dlen(ctx);
-            offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx) + asn1_get_value_dlen(ctx);
+            dsize = asn1_get_next_dsize(ctx);
+            offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx) + asn1_get_value_dsize(ctx);
             continue;
         }
         else{
@@ -1550,10 +1550,10 @@ _pop:
                 pushed--;
                 level--;
 
-                if(asn1_get_next_data(top) != NULL && asn1_get_next_dlen(top) > 0){
+                if(asn1_get_next_data(top) != NULL && asn1_get_next_dsize(top) > 0){
                     data = asn1_get_next_data(top);
-                    dlen = asn1_get_next_dlen(top);
-                    offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx) + asn1_get_value_dlen(ctx);
+                    dsize = asn1_get_next_dsize(top);
+                    offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx) + asn1_get_value_dsize(ctx);
                     goto _begin;
                 }
                 else if (pushed > 0){
@@ -1624,7 +1624,7 @@ void test_asn1_case12(){
     uint32_t nested_der_len = sizeof(nested_der);
 
     uint8_t* data = nested_der;
-    uint32_t dlen = nested_der_len;
+    uint32_t dsize = nested_der_len;
 
     uint32_t copy = 1;
     uint32_t result = 0;
@@ -1719,7 +1719,7 @@ _begin:
         _new.push_back(ctx);
         _free.push_back(ctx);
 
-        zmerror err = asn1_parse_data(data, dlen, ctx, copy);
+        zmerror err = asn1_parse_data(data, dsize, ctx, copy);
         if (ZMCRYPTO_IS_ERROR(err)){
             goto fail;
         }
@@ -1732,20 +1732,20 @@ _begin:
         /* tag is constructed */
         if (result == 1){
             data = asn1_get_value_data(ctx);
-            dlen = asn1_get_value_dlen(ctx);
+            dsize = asn1_get_value_dsize(ctx);
 
             level++;
-            offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx);
+            offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx);
 
             _stack.push(ctx);
             pushed++;
             continue;
         }
         /* has next */
-        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dlen(ctx) > 0){
+        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dsize(ctx) > 0){
             data = asn1_get_next_data(ctx);
-            dlen = asn1_get_next_dlen(ctx);
-            offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx) + asn1_get_value_dlen(ctx);
+            dsize = asn1_get_next_dsize(ctx);
+            offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx) + asn1_get_value_dsize(ctx);
             continue;
         }
         else{
@@ -1756,10 +1756,10 @@ _pop:
                 pushed--;
                 level--;
 
-                if(asn1_get_next_data(top) != NULL && asn1_get_next_dlen(top) > 0){
+                if(asn1_get_next_data(top) != NULL && asn1_get_next_dsize(top) > 0){
                     data = asn1_get_next_data(top);
-                    dlen = asn1_get_next_dlen(top);
-                    offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx) + asn1_get_value_dlen(ctx);
+                    dsize = asn1_get_next_dsize(top);
+                    offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx) + asn1_get_value_dsize(ctx);
                     goto _begin;
                 }
                 else if (pushed > 0){
@@ -1830,7 +1830,7 @@ void test_asn1_case13(){
     uint32_t nested_der_len = sizeof(nested_der);
 
     uint8_t* data = nested_der;
-    uint32_t dlen = nested_der_len;
+    uint32_t dsize = nested_der_len;
 
     uint32_t copy = 1;
     uint32_t result = 0;
@@ -1885,7 +1885,7 @@ _begin:
         _new.push_back(ctx);
         _free.push_back(ctx);
 
-        zmerror err = asn1_parse_data(data, dlen, ctx, copy);
+        zmerror err = asn1_parse_data(data, dsize, ctx, copy);
         if (ZMCRYPTO_IS_ERROR(err)){
             goto fail;
         }
@@ -1898,20 +1898,20 @@ _begin:
         /* tag is constructed */
         if (result == 1){
             data = asn1_get_value_data(ctx);
-            dlen = asn1_get_value_dlen(ctx);
+            dsize = asn1_get_value_dsize(ctx);
 
             level++;
-            offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx);
+            offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx);
 
             _stack.push(ctx);
             pushed++;
             continue;
         }
         /* has next */
-        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dlen(ctx) > 0){
+        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dsize(ctx) > 0){
             data = asn1_get_next_data(ctx);
-            dlen = asn1_get_next_dlen(ctx);
-            offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx) + asn1_get_value_dlen(ctx);
+            dsize = asn1_get_next_dsize(ctx);
+            offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx) + asn1_get_value_dsize(ctx);
             continue;
         }
         else{
@@ -1922,10 +1922,10 @@ _pop:
                 pushed--;
                 level--;
 
-                if(asn1_get_next_data(top) != NULL && asn1_get_next_dlen(top) > 0){
+                if(asn1_get_next_data(top) != NULL && asn1_get_next_dsize(top) > 0){
                     data = asn1_get_next_data(top);
-                    dlen = asn1_get_next_dlen(top);
-                    offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx) + asn1_get_value_dlen(ctx);
+                    dsize = asn1_get_next_dsize(top);
+                    offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx) + asn1_get_value_dsize(ctx);
                     goto _begin;
                 }
                 else if (pushed > 0){
@@ -1977,7 +1977,7 @@ succ:
 void test_asn1_case14(){
 
     uint8_t* data = baidu_cert_der;
-    uint32_t dlen = baidu_cert_der_len;
+    uint32_t dsize = baidu_cert_der_len;
 
     uint32_t copy = 1;
     uint32_t result = 0;
@@ -2094,7 +2094,7 @@ _begin:
         _new.push_back(ctx);
         _free.push_back(ctx);
 
-        zmerror err = asn1_parse_data(data, dlen, ctx, copy);
+        zmerror err = asn1_parse_data(data, dsize, ctx, copy);
         if (ZMCRYPTO_IS_ERROR(err)){
             goto fail;
         }
@@ -2107,20 +2107,20 @@ _begin:
         /* tag is constructed */
         if (result == 1){
             data = asn1_get_value_data(ctx);
-            dlen = asn1_get_value_dlen(ctx);
+            dsize = asn1_get_value_dsize(ctx);
 
             level++;
-            offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx);
+            offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx);
 
             _stack.push(ctx);
             pushed++;
             continue;
         }
         /* has next */
-        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dlen(ctx) > 0){
+        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dsize(ctx) > 0){
             data = asn1_get_next_data(ctx);
-            dlen = asn1_get_next_dlen(ctx);
-            offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx) + asn1_get_value_dlen(ctx);
+            dsize = asn1_get_next_dsize(ctx);
+            offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx) + asn1_get_value_dsize(ctx);
             continue;
         }
         else{
@@ -2131,10 +2131,10 @@ _pop:
                 pushed--;
                 level--;
 
-                if(asn1_get_next_data(top) != NULL && asn1_get_next_dlen(top) > 0){
+                if(asn1_get_next_data(top) != NULL && asn1_get_next_dsize(top) > 0){
                     data = asn1_get_next_data(top);
-                    dlen = asn1_get_next_dlen(top);
-                    offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx) + asn1_get_value_dlen(ctx);
+                    dsize = asn1_get_next_dsize(top);
+                    offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx) + asn1_get_value_dsize(ctx);
                     goto _begin;
                 }
                 else if (pushed > 0){
@@ -2207,10 +2207,10 @@ void test_asn1_case15(){
     uint32_t nested_der_len = sizeof(nested_der);
 
     uint8_t* data = baidu_cert_der;
-    uint32_t dlen = baidu_cert_der_len;
+    uint32_t dsize = baidu_cert_der_len;
 
     // uint8_t* data = nested_der;
-    // uint32_t dlen = nested_der_len;
+    // uint32_t dsize = nested_der_len;
 
     uint32_t copy = 1;
     uint32_t result = 0;
@@ -2230,7 +2230,7 @@ void test_asn1_case15(){
         _new.push_back(ctx);
         _free.push_back(ctx);
 
-        zmerror err = asn1_parse_data(data, dlen, ctx, copy);
+        zmerror err = asn1_parse_data(data, dsize, ctx, copy);
         if (ZMCRYPTO_IS_ERROR(err)){
             goto fail;
         }
@@ -2242,19 +2242,19 @@ void test_asn1_case15(){
         /* tag is constructed */
         if (result == 1){
             data = asn1_get_value_data(ctx);
-            dlen = asn1_get_value_dlen(ctx);
+            dsize = asn1_get_value_dsize(ctx);
 
             level++;
-            offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx);
+            offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx);
 
             _stack.push(ctx);
             pushed++;
         }
         /* has next */
-        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dlen(ctx) > 0){
+        else if(asn1_get_next_data(ctx) != NULL && asn1_get_next_dsize(ctx) > 0){
             data = asn1_get_next_data(ctx);
-            dlen = asn1_get_next_dlen(ctx);
-            offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx) + asn1_get_value_dlen(ctx);
+            dsize = asn1_get_next_dsize(ctx);
+            offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx) + asn1_get_value_dsize(ctx);
         }
         else{
             int exit_parent_while = 0;
@@ -2265,10 +2265,10 @@ void test_asn1_case15(){
                     pushed--;
                     level--;
 
-                    if(asn1_get_next_data(top) != NULL && asn1_get_next_dlen(top) > 0){
+                    if(asn1_get_next_data(top) != NULL && asn1_get_next_dsize(top) > 0){
                         data = asn1_get_next_data(top);
-                        dlen = asn1_get_next_dlen(top);
-                        offset += asn1_get_tag_dlen(ctx) + asn1_get_length_dlen(ctx) + asn1_get_value_dlen(ctx);
+                        dsize = asn1_get_next_dsize(top);
+                        offset += asn1_get_tag_dsize(ctx) + asn1_get_length_dsize(ctx) + asn1_get_value_dsize(ctx);
 
                         helper_print_asn1_right_end(level, offset);
                         break;
@@ -2460,13 +2460,13 @@ void test_asn1_case18()
     {
         uint8_t oid_der[] = { 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x0B};
         uint32_t oid_words[] = {1, 2, 840, 113549, 1, 1, 11};
-        uint32_t oid_dlen = sizeof(oid_der);
+        uint32_t oid_dsize = sizeof(oid_der);
 
         uint32_t out[10];
         uint32_t olen = 10;
         memset(out, 0, sizeof(uint32_t) * 10);
 
-        zmerror err = asn1_decode_object_identifier(oid_der, oid_dlen, out, &olen);
+        zmerror err = asn1_decode_object_identifier(oid_der, oid_dsize, out, &olen);
         if (ZMCRYPTO_IS_ERROR(err)){
             goto fail;
         }
@@ -2482,13 +2482,13 @@ void test_asn1_case18()
     {
         uint8_t oid_der[] = { 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x0B};
         uint32_t oid_words[] = {1, 2, 840, 113549, 1, 1, 11};
-        uint32_t oid_dlen = sizeof(oid_der);
+        uint32_t oid_dsize = sizeof(oid_der);
 
         uint32_t out[6];
         uint32_t olen = 6;
         memset(out, 0, sizeof(uint32_t) * 6);
 
-        zmerror err = asn1_decode_object_identifier(oid_der, oid_dlen, out, &olen);
+        zmerror err = asn1_decode_object_identifier(oid_der, oid_dsize, out, &olen);
         if (ZMCRYPTO_ERR_OVERFLOW == err){
             /*goto succ;*/
         }
@@ -2498,13 +2498,13 @@ void test_asn1_case18()
     }
     {
         uint8_t oid_der[] = { 0x2A, 0x86, 0xF7, 0xF7, 0xF7, 0x0D};
-        uint32_t oid_dlen = sizeof(oid_der);
+        uint32_t oid_dsize = sizeof(oid_der);
 
         uint32_t out[2];
         uint32_t olen = 2;
         memset(out, 0, sizeof(uint32_t) * 2);
 
-        zmerror err = asn1_decode_object_identifier(oid_der, oid_dlen, out, &olen);
+        zmerror err = asn1_decode_object_identifier(oid_der, oid_dsize, out, &olen);
         if (ZMCRYPTO_ERR_ASN1_INVALID_VAL == err){
             goto succ;
         }

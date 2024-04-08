@@ -17,70 +17,70 @@
 
 #if defined ZMCRYPTO_ALGO_BLOCKPAD
 
-	zmerror blockpad_zero(uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen) 
+	zmerror blockpad_zero(uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen) 
 	{ 
 		if (blen % 8 != 0){
 			return ZMCRYPTO_ERR_INVALID_BSIZE;
 		}
 
-		if (dlen >= blen){
+		if (dsize >= blen){
 			return ZMCRYPTO_ERR_INVALID_DSIZE;
 		}
 
 		zmcrypto_memset(block, 0, blen);
-		zmcrypto_memcpy(block, data, dlen);
+		zmcrypto_memcpy(block, data, dsize);
 		return ZMCRYPTO_ERR_SUCCESSED; 
 	}
 
-	zmerror blockpad_iso10126(uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen, 
-      void (*rng_get_bytes) (uint8_t* data, uint32_t dlen)) 
+	zmerror blockpad_iso10126(uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen, 
+      void (*rng_get_bytes) (uint8_t* data, uint32_t dsize)) 
 	{ 
 		if (blen % 8 != 0){
 			return ZMCRYPTO_ERR_INVALID_BSIZE;
 		}
 
-		if (dlen >= blen){
+		if (dsize >= blen){
 			return ZMCRYPTO_ERR_INVALID_DSIZE;
 		}
 
 		rng_get_bytes(block, blen);
-		zmcrypto_memcpy(block, data, dlen);
-		block[blen - 1] = blen - dlen;
+		zmcrypto_memcpy(block, data, dsize);
+		block[blen - 1] = blen - dsize;
 		return ZMCRYPTO_ERR_SUCCESSED; 
 	}
 
-	zmerror blockpad_ansix923(uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen) 
+	zmerror blockpad_ansix923(uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen) 
 	{ 
 		if (blen % 8 != 0){
 			return ZMCRYPTO_ERR_INVALID_BSIZE;
 		}
 
-		if (dlen >= blen){
+		if (dsize >= blen){
 			return ZMCRYPTO_ERR_INVALID_DSIZE;
 		}
 
 		zmcrypto_memset(block, 0, blen);
-		zmcrypto_memcpy(block, data, dlen);
-		block[blen - 1] = blen - dlen;
+		zmcrypto_memcpy(block, data, dsize);
+		block[blen - 1] = blen - dsize;
 		return ZMCRYPTO_ERR_SUCCESSED; 
 	}
 
-	zmerror blockpad_pkcs7(uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen) 
+	zmerror blockpad_pkcs7(uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen) 
 	{ 
 		if (blen % 8 != 0){
 			return ZMCRYPTO_ERR_INVALID_BSIZE;
 		}
 
-		if (dlen >= blen){
+		if (dsize >= blen){
 			return ZMCRYPTO_ERR_INVALID_DSIZE;
 		}
 
-		zmcrypto_memset(block, blen - dlen, blen);
-		zmcrypto_memcpy(block, data, dlen);
+		zmcrypto_memset(block, blen - dsize, blen);
+		zmcrypto_memcpy(block, data, dsize);
 		return ZMCRYPTO_ERR_SUCCESSED; 
 	}
 
-	zmerror blockdepad_zero(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen) 
+	zmerror blockdepad_zero(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize) 
 	{ 
 		if (blen % 8 != 0){
 			return ZMCRYPTO_ERR_INVALID_BSIZE;
@@ -94,16 +94,16 @@
 			zcount++;
 		}
 
-		if (blen - zcount > (*dlen)){
+		if (blen - zcount > (*dsize)){
 			return ZMCRYPTO_ERR_INVALID_DSIZE;
 		}
 
 		zmcrypto_memcpy(data, block, blen - zcount);
-		*dlen = blen - zcount;
+		*dsize = blen - zcount;
 		return ZMCRYPTO_ERR_SUCCESSED; 
 	}
 
-	zmerror blockdepad_iso10126(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen) 
+	zmerror blockdepad_iso10126(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize) 
 	{ 
 		if (blen % 8 != 0){
 			return ZMCRYPTO_ERR_INVALID_BSIZE;
@@ -111,16 +111,16 @@
 
 		uint32_t remove = block[blen - 1];
 
-		if (((int32_t)(blen - remove)) < 0 || blen - remove > (*dlen)){
+		if (((int32_t)(blen - remove)) < 0 || blen - remove > (*dsize)){
 			return ZMCRYPTO_ERR_INVALID_DSIZE;
 		}
 
 		zmcrypto_memcpy(data, block, blen - remove);
-		*dlen = blen - remove;
+		*dsize = blen - remove;
 		return ZMCRYPTO_ERR_SUCCESSED; 
 	}
 
-	zmerror blockdepad_ansix923(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen) 
+	zmerror blockdepad_ansix923(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize) 
 	{
 		if (blen % 8 != 0){
 			return ZMCRYPTO_ERR_INVALID_BSIZE;
@@ -128,7 +128,7 @@
 
 		uint32_t remove = block[blen - 1];
 
-		if (((int32_t)(blen - remove)) < 0 || blen - remove > (*dlen)){
+		if (((int32_t)(blen - remove)) < 0 || blen - remove > (*dsize)){
 			return ZMCRYPTO_ERR_INVALID_DSIZE;
 		}
 
@@ -139,11 +139,11 @@
 		}
 
 		zmcrypto_memcpy(data, block, blen - remove);
-		*dlen = blen - remove;
+		*dsize = blen - remove;
 		return ZMCRYPTO_ERR_SUCCESSED; 
 	}
 
-	zmerror blockdepad_pkcs7(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen) 
+	zmerror blockdepad_pkcs7(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize) 
 	{ 
 		if (blen % 8 != 0){
 			return ZMCRYPTO_ERR_INVALID_BSIZE;
@@ -151,7 +151,7 @@
 
 		uint32_t remove = block[blen - 1];
 
-		if (((int32_t)(blen - remove)) < 0 || blen - remove > (*dlen)){
+		if (((int32_t)(blen - remove)) < 0 || blen - remove > (*dsize)){
 			return ZMCRYPTO_ERR_INVALID_DSIZE;
 		}
 
@@ -162,7 +162,7 @@
 		}
 
 		zmcrypto_memcpy(data, block, blen - remove);
-		*dlen = blen - remove;
+		*dsize = blen - remove;
 		return ZMCRYPTO_ERR_SUCCESSED; 
 	}
 

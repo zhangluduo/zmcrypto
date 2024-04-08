@@ -234,22 +234,22 @@
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 
-    void cmac_update (struct cmac_ctx* ctx, uint8_t* data, uint32_t dlen) 
+    void cmac_update (struct cmac_ctx* ctx, uint8_t* data, uint32_t dsize) 
     {
         /* Is there data still to process from the last call, that's greater in
         * size than a block? */
-        if (ctx->unprocessed_len > 0 && dlen > (uint32_t)(ctx->cipher_block_size() - ctx->unprocessed_len))
+        if (ctx->unprocessed_len > 0 && dsize > (uint32_t)(ctx->cipher_block_size() - ctx->unprocessed_len))
         {
             zmcrypto_memcpy (&(ctx->unprocessed_block[ctx->unprocessed_len]), data, ctx->cipher_block_size() - ctx->unprocessed_len);
             cmac_xor_block (ctx->state, ctx->unprocessed_block, ctx->state, ctx->cipher_block_size());
             ctx->cipher_enc_block(ctx->cipher_ctx, ctx->state, ctx->state);
             data += ctx->cipher_block_size() - ctx->unprocessed_len;
-            dlen -= ctx->cipher_block_size() - ctx->unprocessed_len;
+            dsize -= ctx->cipher_block_size() - ctx->unprocessed_len;
             ctx->unprocessed_len = 0;
         }
 
         /* n is the number of blocks including any final partial block */
-        uint32_t n = (dlen + ctx->cipher_block_size() - 1) / ctx->cipher_block_size();
+        uint32_t n = (dsize + ctx->cipher_block_size() - 1) / ctx->cipher_block_size();
 
         /* Iterate across the input data in block sized chunks, excluding any
         * final partial or complete block */
@@ -257,15 +257,15 @@
         {
             cmac_xor_block (ctx->state, data, ctx->state, ctx->cipher_block_size());
             ctx->cipher_enc_block(ctx->cipher_ctx, ctx->state, ctx->state);
-            dlen -= ctx->cipher_block_size();
+            dsize -= ctx->cipher_block_size();
             data += ctx->cipher_block_size();
         }
 
         /* If there is data left over that wasn't aligned to a block */
-        if (dlen > 0)
+        if (dsize > 0)
         {
-            zmcrypto_memcpy (&(ctx->unprocessed_block[ctx->unprocessed_len]), data, dlen);
-            ctx->unprocessed_len += dlen;
+            zmcrypto_memcpy (&(ctx->unprocessed_block[ctx->unprocessed_len]), data, dsize);
+            ctx->unprocessed_len += dsize;
         }
     }
 

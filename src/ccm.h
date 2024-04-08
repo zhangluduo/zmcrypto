@@ -55,7 +55,7 @@ extern "C" {
             uint8_t *key, uint32_t klen,              /* the key of block cipher */
             uint8_t *nonce, uint32_t noncelen,        /* N-Once of counter, and it length, nust between 7 and 13 in rfc3610 */
             uint64_t datalen,                         /* 0 <= l(m) < 2^(8L) */
-            uint64_t aadlen,                          /* the length of additional authenticated data, 0 <= l(a) < 2^64 */
+            uint64_t aadsize,                          /* the length of additional authenticated data, 0 <= l(a) < 2^64 */
             uint32_t taglen,                          /* Valid values are 4, 6, 8, 10, 12, 14, and 16 */
             uint32_t direction                        /* The operation to perform:
                                                          DO_ENCRYPT or DO_DECRYPT*/
@@ -71,7 +71,7 @@ extern "C" {
         zmerror ccm_update_data (
             struct ccm_ctx *ctx, 
             uint8_t *data, 
-            uint32_t dlen,                            /* Updating data at one time, up to 4 bytes, 
+            uint32_t dsize,                            /* Updating data at one time, up to 4 bytes, 
                                                          and a total data length of up to 8 bytes */
             uint8_t *output
         );

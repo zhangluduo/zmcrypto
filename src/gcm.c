@@ -388,7 +388,7 @@
     zmerror gcm_update_data (
         struct gcm_ctx* ctx,
         uint8_t *data, 
-        uint32_t dlen, 
+        uint32_t dsize, 
         uint8_t *output
         )
     {
@@ -396,12 +396,12 @@
         * on a potentially null pointer.
         * Returning early also means that the last partial block of AD remains
         * untouched for gcm_finish */
-        if( dlen == 0 )
+        if( dsize == 0 )
             { return ZMCRYPTO_ERR_SUCCESSED; }
 
         /* Total length is restricted to 2^39 - 256 bits, ie 2^36 - 2^5 bytes
         * Also check for possible overflow */
-        if( (uint64_t) ctx->len + dlen > 0xFFFFFFFE0ull )
+        if( (uint64_t) ctx->len + dsize > 0xFFFFFFFE0ull )
             { return ZMCRYPTO_ERR_OVERFLOW; }
 
         zmerror ret;
@@ -419,8 +419,8 @@
         if( offset != 0 )
         {
             uint32_t use_len = 16 - offset;
-            if( use_len > dlen )
-                { use_len = dlen; }
+            if( use_len > dsize )
+                { use_len = dsize; }
 
             if( ( ret = gcm_mask( ctx, ectr, offset, use_len, p, out_p ) ) != ZMCRYPTO_ERR_SUCCESSED )
                 { return ret; }
@@ -429,14 +429,14 @@
                 { gcm_mult( ctx, ctx->buf, ctx->buf ); }
 
             ctx->len += use_len;
-            dlen -= use_len;
+            dsize -= use_len;
             p += use_len;
             out_p += use_len;
         }
 
-        ctx->len += dlen;
+        ctx->len += dsize;
 
-        while( dlen >= 16 )
+        while( dsize >= 16 )
         {
             gcm_incr( ctx->y );
             if( ( ret = gcm_mask( ctx, ectr, 0, 16, p, out_p ) ) != ZMCRYPTO_ERR_SUCCESSED )
@@ -444,15 +444,15 @@
 
             gcm_mult( ctx, ctx->buf, ctx->buf );
 
-            dlen -= 16;
+            dsize -= 16;
             p += 16;
             out_p += 16;
         }
 
-        if( dlen > 0 )
+        if( dsize > 0 )
         {
             gcm_incr( ctx->y );
-            if( ( ret = gcm_mask( ctx, ectr, 0, dlen, p, out_p ) ) != ZMCRYPTO_ERR_SUCCESSED )
+            if( ( ret = gcm_mask( ctx, ectr, 0, dsize, p, out_p ) ) != ZMCRYPTO_ERR_SUCCESSED )
                 { return ret; }
         }
 

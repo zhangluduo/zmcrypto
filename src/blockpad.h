@@ -41,35 +41,35 @@ extern "C" {
         
         /*
         data       [in] The data to pad
-        dlen       [in] The size of the data before padding
+        dsize       [in] The size of the data before padding
         block      [out] The new data block after padding
         blen       [in] Reference block size for 'block'
         */
         zmerror blockpad_zero (
             uint8_t* data, 
-            uint32_t dlen, 
+            uint32_t dsize, 
             uint8_t* block,
             uint32_t blen
         );
 
         zmerror blockpad_iso10126 (
             uint8_t* data, 
-            uint32_t dlen, 
+            uint32_t dsize, 
             uint8_t* block, 
             uint32_t blen, 
-            void (*rng_get_bytes) (uint8_t* data, uint32_t dlen)
+            void (*rng_get_bytes) (uint8_t* data, uint32_t dsize)
         );
 
         zmerror blockpad_ansix923 (
             uint8_t* data, 
-            uint32_t dlen, 
+            uint32_t dsize, 
             uint8_t* block, 
             uint32_t blen
         );
 
         zmerror blockpad_pkcs7 (
             uint8_t* data, 
-            uint32_t dlen, 
+            uint32_t dsize, 
             uint8_t* block, 
             uint32_t blen
         );
@@ -78,34 +78,34 @@ extern "C" {
         block      [in] The data block after remove padding
         blen       [in] Reference block size for 'block'
         data       [in] The data to depad
-        dlen       [in/out] The size of the data before/after remove padding
+        dsize       [in/out] The size of the data before/after remove padding
         */
         zmerror blockdepad_zero(
             uint8_t* block, 
             uint32_t blen, 
             uint8_t* data, 
-            uint32_t* dlen
+            uint32_t* dsize
         );
 
         zmerror blockdepad_iso10126
             (uint8_t* block, 
             uint32_t blen, 
             uint8_t* data, 
-            uint32_t* dlen
+            uint32_t* dsize
         );
 
         zmerror blockdepad_ansix923(
             uint8_t* block, 
             uint32_t blen, 
             uint8_t* data, 
-            uint32_t* dlen
+            uint32_t* dsize
         );
 
         zmerror blockdepad_pkcs7(
             uint8_t* block, 
             uint32_t blen, 
             uint8_t* data, 
-            uint32_t* dlen
+            uint32_t* dsize
         );
 
     #endif

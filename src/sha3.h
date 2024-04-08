@@ -57,7 +57,7 @@ extern "C" {
         void sha3_224_update (
             struct sha3_224_ctx* ctx, 
             uint8_t* data, 
-            uint32_t dlen
+            uint32_t dsize
         );
 
         void sha3_224_final (
@@ -92,7 +92,7 @@ extern "C" {
         void sha3_256_update (
             struct sha3_256_ctx* ctx, 
             uint8_t* data, 
-            uint32_t dlen
+            uint32_t dsize
         );
 
         void sha3_256_final (
@@ -127,7 +127,7 @@ extern "C" {
         void sha3_384_update (
             struct sha3_384_ctx* ctx, 
             uint8_t* data, 
-            uint32_t dlen
+            uint32_t dsize
         );
 
         void sha3_384_final (
@@ -162,7 +162,7 @@ extern "C" {
         void sha3_512_update (
             struct sha3_512_ctx* ctx, 
             uint8_t* data, 
-            uint32_t dlen
+            uint32_t dsize
         );
 
         void sha3_512_final (

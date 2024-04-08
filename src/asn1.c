@@ -27,7 +27,7 @@ NOTE:
         struct asn1_data
         {
             uint8_t* data;
-            uint32_t dlen;
+            uint32_t dsize;
         };
 
     /* public: */
@@ -174,13 +174,13 @@ NOTE:
         if (ctx->copy)
         {
             if (ctx->tag.data)
-                { zmcrypto_free(ctx->tag.data); ctx->tag.data = NULL; ctx->tag.dlen = 0; }
+                { zmcrypto_free(ctx->tag.data); ctx->tag.data = NULL; ctx->tag.dsize = 0; }
             if (ctx->length.data)
-                { zmcrypto_free(ctx->length.data); ctx->length.data = NULL; ctx->length.dlen = 0; }
+                { zmcrypto_free(ctx->length.data); ctx->length.data = NULL; ctx->length.dsize = 0; }
             if (ctx->value.data)
-                { zmcrypto_free(ctx->value.data); ctx->value.data = NULL; ctx->value.dlen = 0; }
+                { zmcrypto_free(ctx->value.data); ctx->value.data = NULL; ctx->value.dsize = 0; }
             if (ctx->next.data)
-                { zmcrypto_free(ctx->next.data); ctx->next.data = NULL; ctx->next.dlen = 0; }
+                { zmcrypto_free(ctx->next.data); ctx->next.data = NULL; ctx->next.dsize = 0; }
         }
         zmcrypto_free(ctx);
     }
@@ -190,31 +190,31 @@ NOTE:
         zmcrypto_memset(ctx, 0, sizeof(struct asn1_ctx));
     }
 
-    zmerror asn1_parse_data(uint8_t* data, uint32_t dlen, struct asn1_ctx* ctx, uint32_t copy)
+    zmerror asn1_parse_data(uint8_t* data, uint32_t dsize, struct asn1_ctx* ctx, uint32_t copy)
     {
-        //ZMCRYPTO_LOG("dlen: %d", dlen);
+        //ZMCRYPTO_LOG("dsize: %d", dsize);
 
-        if (dlen == 0)
+        if (dsize == 0)
         {
             ctx->tag.data = NULL;
-            ctx->tag.dlen = 0;
+            ctx->tag.dsize = 0;
 
             ctx->length.data = NULL;
-            ctx->length.dlen = 0;
+            ctx->length.dsize = 0;
 
             ctx->value.data = NULL;
-            ctx->value.dlen = 0;
+            ctx->value.dsize = 0;
 
             ctx->next.data = NULL;
-            ctx->next.dlen = 0;
+            ctx->next.dsize = 0;
 
             return ZMCRYPTO_ERR_SUCCESSED;
         }
 
         zmerror err = ZMCRYPTO_ERR_SUCCESSED;
         uint8_t* start = data;
-        uint8_t* end = data + (dlen - 1); /* Points to the last valid character */
-        //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dlen: %08x(%d)", start, *start, end, *end, dlen, dlen);
+        uint8_t* end = data + (dsize - 1); /* Points to the last valid character */
+        //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dsize: %08x(%d)", start, *start, end, *end, dsize, dsize);
 
         uint8_t* tag_d = NULL;
         uint8_t* len_d = NULL;
@@ -230,7 +230,7 @@ NOTE:
         tag_d = start;
         tag_l = 1;
         start++; /* skip tag */
-        //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dlen: %08x(%d)", start, *start, end, *end, dlen, dlen);
+        //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dsize: %08x(%d)", start, *start, end, *end, dsize, dsize);
 
         if (start > end){
             //ZMCRYPTO_LOG("");
@@ -251,57 +251,57 @@ NOTE:
 
         if ((start - 1) > end)
         {
-            //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dlen: %08x(%d)", start, *start, end, *end, dlen, dlen);
+            //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dsize: %08x(%d)", start, *start, end, *end, dsize, dsize);
             return ZMCRYPTO_ERR_OVERFLOW;
         }
         else if ((start - 1) < end)
         {
-            //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dlen: %08x(%d)", start, *start, end, *end, dlen, dlen);
+            //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dsize: %08x(%d)", start, *start, end, *end, dsize, dsize);
             next_d = start;
             next_l = end - (start - 1);
         }
         else
         {
-            //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dlen: %08x(%d)", start, *start, end, *end, dlen, dlen);
+            //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dsize: %08x(%d)", start, *start, end, *end, dsize, dsize);
         }
 
         ctx->copy = copy;
         if (copy)
         {
             ctx->tag.data = zmcrypto_malloc(tag_l);
-            ctx->tag.dlen = tag_l;
+            ctx->tag.dsize = tag_l;
             zmcrypto_memcpy(ctx->tag.data, tag_d, tag_l);
 
             ctx->length.data = zmcrypto_malloc(len_l);
-            ctx->length.dlen = len_l;
+            ctx->length.dsize = len_l;
             zmcrypto_memcpy(ctx->length.data, len_d, len_l);
 
             ctx->value.data = zmcrypto_malloc(val_l);
-            ctx->value.dlen = val_l;
+            ctx->value.dsize = val_l;
             zmcrypto_memcpy(ctx->value.data, val_d, val_l);
 
             if (next_d)
             {
                 ctx->next.data = zmcrypto_malloc(next_l);
-                ctx->next.dlen = next_l;
+                ctx->next.dsize = next_l;
                 zmcrypto_memcpy(ctx->next.data, next_d, next_l);
             }
         }
         else
         {
             ctx->tag.data = tag_d;
-            ctx->tag.dlen = tag_l;
+            ctx->tag.dsize = tag_l;
 
             ctx->length.data = len_d;
-            ctx->length.dlen = len_l;
+            ctx->length.dsize = len_l;
 
             ctx->value.data = val_d;
-            ctx->value.dlen = val_l;
+            ctx->value.dsize = val_l;
 
             if (next_d)
             {
                 ctx->next.data = next_d;
-                ctx->next.dlen = next_l;
+                ctx->next.dsize = next_l;
                 //ZMCRYPTO_LOG("");
             }
         }
@@ -330,24 +330,24 @@ NOTE:
         return ctx->next.data;
     }
 
-    uint32_t asn1_get_tag_dlen(struct asn1_ctx* ctx)
+    uint32_t asn1_get_tag_dsize(struct asn1_ctx* ctx)
     {
-        return ctx->tag.dlen;
+        return ctx->tag.dsize;
     }
 
-    uint32_t asn1_get_length_dlen(struct asn1_ctx* ctx)
+    uint32_t asn1_get_length_dsize(struct asn1_ctx* ctx)
     {
-        return ctx->length.dlen;
+        return ctx->length.dsize;
     }
 
-    uint32_t asn1_get_value_dlen(struct asn1_ctx* ctx)
+    uint32_t asn1_get_value_dsize(struct asn1_ctx* ctx)
     {
-        return ctx->value.dlen;
+        return ctx->value.dsize;
     }
 
-    uint32_t asn1_get_next_dlen(struct asn1_ctx* ctx)
+    uint32_t asn1_get_next_dsize(struct asn1_ctx* ctx)
     {
-        return ctx->next.dlen;
+        return ctx->next.dsize;
     }
 
     zmerror asn1_is_tag_boolean(uint8_t tag)

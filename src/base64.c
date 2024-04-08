@@ -53,19 +53,19 @@
 
         if (lo != 0 && lo != 1) { return ZMCRYPTO_ERR_OVERFLOW; }
 
-        uint32_t dlen = (ilen << 3) / 6;
-        switch ((ilen << 3) - (dlen * 6))
+        uint32_t dsize = (ilen << 3) / 6;
+        switch ((ilen << 3) - (dsize * 6))
         {
-            case  2: dlen += 3; break;
-            case  4: dlen += 2; break;
+            case  2: dsize += 3; break;
+            case  4: dsize += 2; break;
             default: break;
         }
 
-        if (hi > 0) { dlen += (dlen / hi); }
+        if (hi > 0) { dsize += (dsize / hi); }
 
-        if (*olen < dlen + 1 || !output)
+        if (*olen < dsize + 1 || !output)
         {
-            *olen = dlen + 1;
+            *olen = dsize + 1;
             return ZMCRYPTO_ERR_OVERFLOW;
         }
 

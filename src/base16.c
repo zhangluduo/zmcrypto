@@ -32,17 +32,17 @@
         };
 
         const char *alphabet = alphabets[lo];
-        uint32_t dlen = ilen * 2;
+        uint32_t dsize = ilen * 2;
 
-        if (hi > 0) { dlen += (dlen / hi); }
+        if (hi > 0) { dsize += (dsize / hi); }
 
         if (!output)
         {
-            *olen = dlen;
+            *olen = dsize;
             return ZMCRYPTO_ERR_SUCCESSED;
         }
 
-        if (*olen < dlen)
+        if (*olen < dsize)
             { return ZMCRYPTO_ERR_OVERFLOW; }
 
         uint32_t x = 0;
@@ -53,7 +53,7 @@
             output[x++] = alphabet[input[i]      & 0x0f]; if (hi > 0 && ++line >= hi) { output[x++] = '\n'; line = 0; }
         }
 
-        *olen = dlen;
+        *olen = dsize;
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 

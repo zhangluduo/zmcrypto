@@ -681,7 +681,7 @@ int main()
 
     // return 1;
     
-#if 1
+#if 0
     srand((unsigned int)time(NULL));
     print_env();
 
@@ -704,7 +704,7 @@ int main()
     // test_asn1_case17();
     // test_asn1_case18();
 
-    test_engine(&_sdk);
+    // test_engine(&_sdk);
     // test_case(&_sdk);
     // test_speed(&_sdk);
     // test_info(&_sdk);

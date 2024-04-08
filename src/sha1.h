@@ -53,7 +53,7 @@ extern "C" {
         void sha1_update (
             struct sha1_ctx* ctx, 
             uint8_t* data, 
-            uint32_t dlen
+            uint32_t dsize
         );
 
         void sha1_final (

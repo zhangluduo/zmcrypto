@@ -80,18 +80,18 @@
         ctx->checksum = 1;
     }
 
-    void adler32_update (struct adler32_ctx* ctx, uint8_t* data, uint32_t dlen) 
+    void adler32_update (struct adler32_ctx* ctx, uint8_t* data, uint32_t dsize) 
     {
         uint32_t s1 = ctx->checksum & 0xffff;
         uint32_t s2 = (ctx->checksum >> 16) & 0xffff;
         int32_t k = 0;
 
-		if (!data || dlen == 0) { return; }
+		if (!data || dsize == 0) { return; }
 
-        while (dlen > 0) 
+        while (dsize > 0) 
         {
-            k = dlen < NMAX ? dlen : NMAX;
-            dlen -= k;
+            k = dsize < NMAX ? dsize : NMAX;
+            dsize -= k;
             while (k >= 16) 
             {
                 DO16(data);

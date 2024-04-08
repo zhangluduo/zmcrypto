@@ -94,13 +94,13 @@
         void    (*cipher_dec_block)      (void* ctx, uint8_t* ciphertext, uint8_t* plaintext);
 
         void*    cipher_ctx;
-        uint64_t dlen;                 /* length that will be enc / dec */
-        uint64_t aadlen;               /* length of the aad */
+        uint64_t dsize;                 /* length that will be enc / dec */
+        uint64_t aadsize;               /* length of the aad */
         uint32_t L;                    /* L value */
         uint32_t noncelen;             /* length of the nonce */
         uint32_t taglen;               /* length of the tag */
 
-        uint64_t current_aadlen;       /* length of the currently provided aad */
+        uint64_t current_aadsize;       /* length of the currently provided aad */
         uint64_t current_datalen;      /* length of the currently provided data */
 
         uint32_t direction;            /* The operation to perform: DO_ENCRYPT or DO_DECRYPT */
@@ -146,21 +146,21 @@
     returns the encoded data size, and fill encoded data into output
     */
     uint32_t ccm_encode_l_a(struct ccm_ctx* ctx, uint8_t output[10] /* max */ ){
-        if (ctx->aadlen < ((1UL << 16) - (1UL << 8)))
+        if (ctx->aadsize < ((1UL << 16) - (1UL << 8)))
         {
-            output[0] = (ctx->aadlen >> 8) & 0xff;
-            output[1] = (ctx->aadlen     ) &  0xff;
+            output[0] = (ctx->aadsize >> 8) & 0xff;
+            output[1] = (ctx->aadsize     ) &  0xff;
             /*ZMCRYPTO_OUTPUT("encoded l(a): ", output, 2);*/
             return 2U;
         }
-        else if (ctx->aadlen < (uint64_t)1 << 32)
+        else if (ctx->aadsize < (uint64_t)1 << 32)
         {
             output[0] = 0xff;
             output[1] = 0xfe;
-            output[2] = (ctx->aadlen >> 24) & 0xff;
-            output[3] = (ctx->aadlen >> 16) & 0xff;
-            output[4] = (ctx->aadlen >> 8 ) & 0xff;
-            output[5] = (ctx->aadlen      ) & 0xff;
+            output[2] = (ctx->aadsize >> 24) & 0xff;
+            output[3] = (ctx->aadsize >> 16) & 0xff;
+            output[4] = (ctx->aadsize >> 8 ) & 0xff;
+            output[5] = (ctx->aadsize      ) & 0xff;
             /*ZMCRYPTO_OUTPUT("encoded l(a): ", output, 6);*/
             return 6U;
         }
@@ -168,14 +168,14 @@
         {
             output[0] = 0xff;
             output[1] = 0xff;
-            output[2] = (ctx->aadlen >> 56) & 0xff;
-            output[3] = (ctx->aadlen >> 48) & 0xff;
-            output[4] = (ctx->aadlen >> 40) & 0xff;
-            output[5] = (ctx->aadlen >> 32) & 0xff;
-            output[6] = (ctx->aadlen >> 24) & 0xff;
-            output[7] = (ctx->aadlen >> 16) & 0xff;
-            output[8] = (ctx->aadlen >> 8 ) & 0xff;
-            output[9] = (ctx->aadlen      ) & 0xff;
+            output[2] = (ctx->aadsize >> 56) & 0xff;
+            output[3] = (ctx->aadsize >> 48) & 0xff;
+            output[4] = (ctx->aadsize >> 40) & 0xff;
+            output[5] = (ctx->aadsize >> 32) & 0xff;
+            output[6] = (ctx->aadsize >> 24) & 0xff;
+            output[7] = (ctx->aadsize >> 16) & 0xff;
+            output[8] = (ctx->aadsize >> 8 ) & 0xff;
+            output[9] = (ctx->aadsize      ) & 0xff;
             /*ZMCRYPTO_OUTPUT("encoded l(a): ", output, 10);*/
             return 10U;
         }
@@ -210,7 +210,7 @@
 
         /* store b_0 flags */
         b_0[0] = (uint8_t)(
-                ((ctx->aadlen > 0) ? (1 << 6) : 0) | /* Adata */
+                ((ctx->aadsize > 0) ? (1 << 6) : 0) | /* Adata */
                 (((ctx->taglen - 2)>>1)<<3) |        /* M' */
                 (ctx->L - 1)                         /* L' is size of l(m), the value is limited between 2-8 bytes*/
                 );
@@ -224,7 +224,7 @@
         /* store l(m) */
         for (uint32_t i = 16 - ctx->L; i < 16; i++)
         {
-            b_0[i] = (uint8_t)(ctx->dlen >> ((16 - 1 - i) * 8));
+            b_0[i] = (uint8_t)(ctx->dsize >> ((16 - 1 - i) * 8));
         }
     }
 
@@ -282,7 +282,7 @@
         uint8_t *key, uint32_t klen,              /* the key of block cipher */
         uint8_t *nonce, uint32_t noncelen,        /* N-Once of counter, and it length */
         uint64_t datalen,                         /* 0 <= l(m) < 2^(8L) */
-        uint64_t aadlen,                          /* the length of additional authenticated data, 0 <= l(a) < 2^64 */
+        uint64_t aadsize,                          /* the length of additional authenticated data, 0 <= l(a) < 2^64 */
         uint32_t taglen,                          /* Valid values are 4, 6, 8, 10, 12, 14, and 16 */
         uint32_t direction                        /* The operation to perform: DO_ENCRYPT or DO_DECRYPT*/
     )
@@ -296,7 +296,7 @@
 
         /* let's get the L value. What's the L value? It's Number of octets in data length field */
         ctx->L = 0;
-        ctx->dlen = datalen;
+        ctx->dsize = datalen;
         while (datalen)
         {
             ctx->L++;
@@ -309,7 +309,7 @@
 
         ctx->taglen    = taglen;
         ctx->noncelen  = noncelen;
-        ctx->aadlen    = aadlen;
+        ctx->aadsize    = aadsize;
         ctx->direction = direction;
 
         /* rfc3610: CCM is defined for use with 128-bit block ciphers */
@@ -369,12 +369,12 @@
             return ZMCRYPTO_ERR_SUCCESSED;
         }
 
-        if (ctx->current_aadlen + alen > ctx->aadlen)
+        if (ctx->current_aadsize + alen > ctx->aadsize)
         {
             return ZMCRYPTO_ERR_INVALID_DATA;
         }
 
-        if (ctx->current_aadlen == 0)
+        if (ctx->current_aadsize == 0)
         {
             /* setup flag of B_1 */
             ctx->b_len = 0;
@@ -399,7 +399,7 @@
             #endif
 
             ctx->b_len++;
-            ctx->current_aadlen++;
+            ctx->current_aadsize++;
 
             if (ctx->b_len == 16){
                 ctx->b_len = 0;
@@ -414,7 +414,7 @@
             }
         }
 
-        if (ctx->current_aadlen == ctx->aadlen && (ctx->b_len > 0 && ctx->b_len < 16))
+        if (ctx->current_aadsize == ctx->aadsize && (ctx->b_len > 0 && ctx->b_len < 16))
         {
             for (uint32_t i = ctx->b_len; i < 16; i++)
             {
@@ -424,7 +424,7 @@
                 #endif
 
                 ctx->b_len++;
-                ctx->current_aadlen++;
+                ctx->current_aadsize++;
                 
                 if (ctx->b_len == 16){
 
@@ -451,17 +451,17 @@
     /*
     S_i := E( K, A_i )   for i=0, 1, 2, ...
     */
-    zmerror ccm_update_data (struct ccm_ctx *ctx, uint8_t *data, uint32_t dlen, uint8_t *output)
+    zmerror ccm_update_data (struct ccm_ctx *ctx, uint8_t *data, uint32_t dsize, uint8_t *output)
     {
-        if (ctx->current_datalen + dlen > ctx->dlen)
+        if (ctx->current_datalen + dsize > ctx->dsize)
             { return ZMCRYPTO_ERR_INVALID_DATA; }
 
-        if (dlen == 0)
+        if (dsize == 0)
             { return ZMCRYPTO_ERR_SUCCESSED; }
 
         if (ctx->current_datalen == 0)
         {
-            if (ctx->current_aadlen == 0)
+            if (ctx->current_aadsize == 0)
             {
                 ctx->b_len = 0;
                 ctx->cipher_enc_block(ctx->cipher_ctx, ctx->bx, ctx->x); 
@@ -476,7 +476,7 @@
 */
         }
 
-        for (uint32_t i = 0; i < dlen; i++)
+        for (uint32_t i = 0; i < dsize; i++)
         {
             output[i] = ctx->s[ctx->b_len] ^ data[i];
             if (ctx->direction == DO_ENCRYPT) 
@@ -509,7 +509,7 @@
             }
         }
 
-        if (ctx->current_datalen == ctx->dlen && (ctx->b_len > 0 && ctx->b_len < 16))
+        if (ctx->current_datalen == ctx->dsize && (ctx->b_len > 0 && ctx->b_len < 16))
         {
             for (uint32_t i = ctx->b_len; i < 16; i++)
             {
@@ -541,7 +541,7 @@
         }
 
         #if defined ZMCRYPTO_DEBUG && ZMCRYPTO_DEBUG == 1
-            if (ctx->current_datalen == ctx->dlen)
+            if (ctx->current_datalen == ctx->dsize)
             {
                 // ZMCRYPTO_OUTPUT("MAC: ", ctx->x, ctx->taglen);
             }

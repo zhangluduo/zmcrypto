@@ -53,7 +53,7 @@ extern "C" {
         void sm3_update (
             struct sm3_ctx* ctx, 
             uint8_t* data, 
-            uint32_t dlen
+            uint32_t dsize
         );
 
         void sm3_final (

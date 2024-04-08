@@ -104,7 +104,7 @@ extern "C" {
               int32_t (*hash_block_size)  (void),
               void    (*hash_init)        (void* ctx),
               void    (*hash_starts)      (void* ctx),
-              void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dlen),
+              void    (*hash_update)      (void* ctx, uint8_t* data, uint32_t dsize),
               void    (*hash_final)       (void* ctx, uint8_t* output),
           uint8_t* p, uint32_t plen, uint8_t* s, uint32_t slen, uint32_t c, uint8_t* dk, uint32_t dklen)
         {
@@ -124,44 +124,44 @@ extern "C" {
         pfn_blockdepad_ansix923  _pfn_blockdepad_ansix923 = blockdepad_ansix923;
         pfn_blockdepad_pkcs7     _pfn_blockdepad_pkcs7    = blockdepad_pkcs7;
 
-        zmerror zm_blockpad_zero (uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen)
+        zmerror zm_blockpad_zero (uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen)
         {
-            return _pfn_blockpad_zero (data, dlen, block, blen);
+            return _pfn_blockpad_zero (data, dsize, block, blen);
         }
 
-        zmerror zm_blockpad_iso10126 (uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen, void (*rng_get_bytes) (uint8_t* data, uint32_t dlen))
+        zmerror zm_blockpad_iso10126 (uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen, void (*rng_get_bytes) (uint8_t* data, uint32_t dsize))
         {
-            return _pfn_blockpad_iso10126 (data, dlen, block, blen, rng_get_bytes);
+            return _pfn_blockpad_iso10126 (data, dsize, block, blen, rng_get_bytes);
         }
 
-        zmerror zm_blockpad_ansix923 (uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen)
+        zmerror zm_blockpad_ansix923 (uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen)
         {
-            return _pfn_blockpad_ansix923 (data, dlen, block, blen);
+            return _pfn_blockpad_ansix923 (data, dsize, block, blen);
         }
 
-        zmerror zm_blockpad_pkcs7 (uint8_t* data, uint32_t dlen, uint8_t* block, uint32_t blen)
+        zmerror zm_blockpad_pkcs7 (uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen)
         {
-            return _pfn_blockpad_pkcs7 (data, dlen, block, blen);
+            return _pfn_blockpad_pkcs7 (data, dsize, block, blen);
         }
 
-        zmerror zm_blockdepad_zero(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen)
+        zmerror zm_blockdepad_zero(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize)
         {
-            return _pfn_blockdepad_zero(block, blen, data, dlen);
+            return _pfn_blockdepad_zero(block, blen, data, dsize);
         }
 
-        zmerror zm_blockdepad_iso10126(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen)
+        zmerror zm_blockdepad_iso10126(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize)
         {
-            return _pfn_blockdepad_iso10126(block, blen, data, dlen);
+            return _pfn_blockdepad_iso10126(block, blen, data, dsize);
         }
 
-        zmerror zm_blockdepad_ansix923(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen)
+        zmerror zm_blockdepad_ansix923(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize)
         {
-            return _pfn_blockdepad_ansix923(block, blen, data, dlen);
+            return _pfn_blockdepad_ansix923(block, blen, data, dsize);
         }
 
-        zmerror zm_blockdepad_pkcs7(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dlen)
+        zmerror zm_blockdepad_pkcs7(uint8_t* block, uint32_t blen, uint8_t* data, uint32_t* dsize)
         {
-            return _pfn_blockdepad_pkcs7(block, blen, data, dlen);
+            return _pfn_blockdepad_pkcs7(block, blen, data, dsize);
         }
 #endif
 
@@ -206,9 +206,9 @@ extern "C" {
         {\
             _pfn_##name##_starts(ctx);\
         }\
-        void zm_##name##_update(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen)\
+        void zm_##name##_update(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dsize)\
         {\
-            _pfn_##name##_update(ctx, data, dlen);\
+            _pfn_##name##_update(ctx, data, dsize);\
         }\
         void zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output)\
         {\
@@ -249,9 +249,9 @@ extern "C" {
         {\
             _pfn_##name##_starts(ctx);\
         }\
-        void zm_##name##_update(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen)\
+        void zm_##name##_update(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dsize)\
         {\
-            _pfn_##name##_update(ctx, data, dlen);\
+            _pfn_##name##_update(ctx, data, dsize);\
         }\
         void zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, uint8_t* output)\
         {\
@@ -336,9 +336,9 @@ extern "C" {
         {\
             return _pfn_##name##_starts(ctx, key, klen);\
         }\
-        void zm_##name##_update (CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen)\
+        void zm_##name##_update (CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dsize)\
         {\
-            _pfn_##name##_update(ctx, data, dlen);\
+            _pfn_##name##_update(ctx, data, dsize);\
         }\
         void zm_##name##_final (CONTEXT_TYPE_PTR(name) ctx, uint8_t* output)\
         {\
@@ -468,13 +468,13 @@ extern "C" {
         {\
             return _pfn_##name##_starts(ctx, starts_args);\
         }\
-        zmerror zm_##name##_update_aad(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen)\
+        zmerror zm_##name##_update_aad(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dsize)\
         {\
-            return _pfn_##name##_update_aad(ctx, data, dlen);\
+            return _pfn_##name##_update_aad(ctx, data, dsize);\
         }\
-        zmerror zm_##name##_update_data(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dlen, uint8_t *output)\
+        zmerror zm_##name##_update_data(CONTEXT_TYPE_PTR(name) ctx, uint8_t* data, uint32_t dsize, uint8_t *output)\
         {\
-            return _pfn_##name##_update_data(ctx, data, dlen, output);\
+            return _pfn_##name##_update_data(ctx, data, dsize, output);\
         }\
         zmerror zm_##name##_final(CONTEXT_TYPE_PTR(name) ctx, final_param)\
         {\

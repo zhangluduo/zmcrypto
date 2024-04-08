@@ -348,8 +348,8 @@
         ((struct sha2_ctx*)ctx)->state[7] = 0xBEFA4FA4;
     }
 
-    void sha224_update (struct sha224_ctx* ctx, uint8_t* data, uint32_t dlen)
-        { sha256_update ((struct sha256_ctx*)ctx, data, dlen); }
+    void sha224_update (struct sha224_ctx* ctx, uint8_t* data, uint32_t dsize)
+        { sha256_update ((struct sha256_ctx*)ctx, data, dsize); }
 
     void sha224_final (struct sha224_ctx* ctx, uint8_t* output)
     {
@@ -415,41 +415,41 @@
         ((struct sha2_ctx*)ctx)->state[7] = 0x5BE0CD19;
     }
 
-    void sha256_update (struct sha256_ctx* ctx, uint8_t* data, uint32_t dlen)
+    void sha256_update (struct sha256_ctx* ctx, uint8_t* data, uint32_t dsize)
     {
         uint32_t fill;
         uint32_t left;
 
-        if (dlen == 0 )
+        if (dsize == 0 )
             { return; }
 
         left = ((struct sha2_ctx*)ctx)->total[0] & 0x3F;
         fill = 64 - left;
 
-        ((struct sha2_ctx*)ctx)->total[0] += (uint32_t) dlen;
+        ((struct sha2_ctx*)ctx)->total[0] += (uint32_t) dsize;
         ((struct sha2_ctx*)ctx)->total[0] &= 0xFFFFFFFF;
 
-        if ( ((struct sha2_ctx*)ctx)->total[0] < (uint32_t) dlen )
+        if ( ((struct sha2_ctx*)ctx)->total[0] < (uint32_t) dsize )
             { ((struct sha2_ctx*)ctx)->total[1]++; }
 
-        if ( left && dlen >= fill )
+        if ( left && dsize >= fill )
         {
             zmcrypto_memcpy( (void *) (((struct sha2_ctx*)ctx)->buffer + left), data, fill );
             sha256_process( ((struct sha2_ctx*)ctx), ((struct sha2_ctx*)ctx)->buffer );
             data += fill;
-            dlen -= fill;
+            dsize -= fill;
             left = 0;
         }
 
-        while ( dlen >= 64 )
+        while ( dsize >= 64 )
         {
             sha256_process( ((struct sha2_ctx*)ctx), data );
             data += 64;
-            dlen -= 64;
+            dsize -= 64;
         }
 
-        if( dlen > 0 )
-            { zmcrypto_memcpy( (void *) (((struct sha2_ctx*)ctx)->buffer + left), data, dlen ); }
+        if( dsize > 0 )
+            { zmcrypto_memcpy( (void *) (((struct sha2_ctx*)ctx)->buffer + left), data, dsize ); }
     }
 
     void sha256_final (struct sha256_ctx* ctx, uint8_t* output)
@@ -517,8 +517,8 @@
         ((struct sha2_ctx*)ctx)->state[7] = CONST64(0x47B5481DBEFA4FA4);
     }
 
-    void sha384_update (struct sha384_ctx* ctx, uint8_t* data, uint32_t dlen)
-        { sha512_update ((struct sha512_ctx*)ctx, data, dlen); }
+    void sha384_update (struct sha384_ctx* ctx, uint8_t* data, uint32_t dsize)
+        { sha512_update ((struct sha512_ctx*)ctx, data, dsize); }
 
     void sha384_final (struct sha384_ctx* ctx, uint8_t* output)
     {
@@ -583,40 +583,40 @@
         ((struct sha2_ctx*)ctx)->state[7] = CONST64(0x5BE0CD19137E2179);
     }
 
-    void sha512_update (struct sha512_ctx* ctx, uint8_t* data, uint32_t dlen)
+    void sha512_update (struct sha512_ctx* ctx, uint8_t* data, uint32_t dsize)
     {
         uint32_t fill;
         uint32_t left;
 
-        if (dlen == 0)
+        if (dsize == 0)
             { return; }
 
         left = (uint32_t) (((struct sha2_ctx*)ctx)->total[0] & 0x7F);
         fill = 128 - left;
 
-        ((struct sha2_ctx*)ctx)->total[0] += (uint64_t) dlen;
+        ((struct sha2_ctx*)ctx)->total[0] += (uint64_t) dsize;
 
-        if( ((struct sha2_ctx*)ctx)->total[0] < (uint64_t) dlen )
+        if( ((struct sha2_ctx*)ctx)->total[0] < (uint64_t) dsize )
             { ((struct sha2_ctx*)ctx)->total[1]++; }
 
-        if( left && dlen >= fill )
+        if( left && dsize >= fill )
         {
             zmcrypto_memcpy( (void *) (((struct sha2_ctx*)ctx)->buffer + left), data, fill );
             sha512_process( ((struct sha2_ctx*)ctx), ((struct sha2_ctx*)ctx)->buffer );
             data += fill;
-            dlen -= fill;
+            dsize -= fill;
             left = 0;
         }
 
-        while( dlen >= 128 )
+        while( dsize >= 128 )
         {
             sha512_process( ((struct sha2_ctx*)ctx), data );
             data += 128;
-            dlen -= 128;
+            dsize -= 128;
         }
 
-        if( dlen > 0 )
-            { zmcrypto_memcpy( (void *) (((struct sha2_ctx*)ctx)->buffer + left), data, dlen ); }
+        if( dsize > 0 )
+            { zmcrypto_memcpy( (void *) (((struct sha2_ctx*)ctx)->buffer + left), data, dsize ); }
     }
 
     void sha512_final (struct sha512_ctx* ctx, uint8_t* output)

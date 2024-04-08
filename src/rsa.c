@@ -19,14 +19,14 @@
 
         struct rsa_key
         {
-            uint8_t*  n; uint32_t  nlen; /* modulus                   */
-            uint8_t*  e; uint32_t  elen; /* public exponent           */
-            uint8_t*  d; uint32_t  dlen; /* private exponent          */
-            uint8_t*  p; uint32_t  plen; /* prime1                    */
-            uint8_t*  q; uint32_t  qlen; /* prime2                    */
-            uint8_t* dp; uint32_t dplen; /* exponent1 -- d mod (p-1)  */
-            uint8_t* dq; uint32_t dqlen; /* exponent2 -- d mod (q-1)  */
-            uint8_t* qp; uint32_t qplen; /* (inverse of q) mod p      */
+            uint8_t*  n; uint32_t  nsize; /* modulus                   */
+            uint8_t*  e; uint32_t  esize; /* public exponent           */
+            uint8_t*  d; uint32_t  dsize; /* private exponent          */
+            uint8_t*  p; uint32_t  psize; /* prime1                    */
+            uint8_t*  q; uint32_t  qsize; /* prime2                    */
+            uint8_t* dp; uint32_t dpsize; /* exponent1 -- d mod (p-1)  */
+            uint8_t* dq; uint32_t dqsize; /* exponent2 -- d mod (q-1)  */
+            uint8_t* qp; uint32_t qpsize; /* (inverse of q) mod p      */
         };
 
         struct md_method
@@ -38,7 +38,7 @@
             int32_t md_block_size (void);
             void md_init (void* ctx);
             void md_starts (void* ctx);
-            void md_update (void* ctx, uint8_t* data, uint32_t dlen);
+            void md_update (void* ctx, uint8_t* data, uint32_t dsize);
             void md_final (void* ctx, uint8_t* output);
         }
 

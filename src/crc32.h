@@ -30,7 +30,7 @@ extern "C" {
         int32_t crc32_checksum_size (void);
         void crc32_init (struct crc32_ctx* ctx);
         void crc32_starts (struct crc32_ctx* ctx);
-        void crc32_update (struct crc32_ctx* ctx, uint8_t* data, uint32_t dlen);
+        void crc32_update (struct crc32_ctx* ctx, uint8_t* data, uint32_t dsize);
         void crc32_final (struct crc32_ctx* ctx, uint8_t* output);
     #endif
 

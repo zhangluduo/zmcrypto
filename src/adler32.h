@@ -45,7 +45,7 @@ extern "C" {
             struct adler32_ctx* ctx);
 
         void adler32_update (
-            struct adler32_ctx* ctx, uint8_t* data, uint32_t dlen
+            struct adler32_ctx* ctx, uint8_t* data, uint32_t dsize
         );
 
         void adler32_final (

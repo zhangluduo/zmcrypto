@@ -228,43 +228,43 @@
         ctx->state[4] += E;
     }
 
-    void sha1_update (struct sha1_ctx* ctx, uint8_t* data, uint32_t dlen)
+    void sha1_update (struct sha1_ctx* ctx, uint8_t* data, uint32_t dsize)
     {
         uint32_t fill;
         uint32_t left;
 
-        if( dlen == 0 ){
+        if( dsize == 0 ){
             return;
         }
 
         left = ctx->total[0] & 0x3F;
         fill = 64 - left;
 
-        ctx->total[0] += (uint32_t) dlen;
+        ctx->total[0] += (uint32_t) dsize;
         ctx->total[0] &= 0xFFFFFFFF;
 
-        if( ctx->total[0] < (uint32_t) dlen ){
+        if( ctx->total[0] < (uint32_t) dsize ){
             ctx->total[1]++;
         }
 
-        if( left && dlen >= fill )
+        if( left && dsize >= fill )
         {
             zmcrypto_memcpy( (void *) (ctx->buffer + left), data, fill );
             sha1_process( ctx, ctx->buffer );
             data += fill;
-            dlen  -= fill;
+            dsize  -= fill;
             left = 0;
         }
 
-        while( dlen >= 64 )
+        while( dsize >= 64 )
         {
             sha1_process( ctx, data );
             data += 64;
-            dlen  -= 64;
+            dsize  -= 64;
         }
 
-        if( dlen > 0 ){
-            zmcrypto_memcpy( (void *) (ctx->buffer + left), data, dlen );
+        if( dsize > 0 ){
+            zmcrypto_memcpy( (void *) (ctx->buffer + left), data, dsize );
         }
     }
 

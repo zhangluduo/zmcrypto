@@ -53,7 +53,7 @@ extern "C" {
         void md4_update (
             struct md4_ctx* ctx, 
             uint8_t* data, 
-            uint32_t dlen
+            uint32_t dsize
         );
 
         void md4_final (

@@ -53,7 +53,7 @@ extern "C" {
         void md2_update (
             struct md2_ctx* ctx, 
             uint8_t* data, 
-            uint32_t dlen
+            uint32_t dsize
         );
 
         void md2_final (

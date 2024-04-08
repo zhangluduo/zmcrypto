@@ -42,16 +42,16 @@ extern "C" {
         uint8_t* asn1_get_length_data(struct asn1_ctx* ctx); /* return ctx->length.data; */
         uint8_t* asn1_get_value_data (struct asn1_ctx* ctx); /* return ctx->value.data; */
         uint8_t* asn1_get_next_data  (struct asn1_ctx* ctx); /* return ctx->next.data; */
-        uint32_t asn1_get_tag_dlen   (struct asn1_ctx* ctx); /* return ctx->tag.dlen; */
-        uint32_t asn1_get_length_dlen(struct asn1_ctx* ctx); /* return ctx->length.dlen; */
-        uint32_t asn1_get_value_dlen (struct asn1_ctx* ctx); /* return ctx->value.dlen; */
-        uint32_t asn1_get_next_dlen  (struct asn1_ctx* ctx); /* return ctx->next.dlen; */
+        uint32_t asn1_get_tag_dsize   (struct asn1_ctx* ctx); /* return ctx->tag.dsize; */
+        uint32_t asn1_get_length_dsize(struct asn1_ctx* ctx); /* return ctx->length.dsize; */
+        uint32_t asn1_get_value_dsize (struct asn1_ctx* ctx); /* return ctx->value.dsize; */
+        uint32_t asn1_get_next_dsize  (struct asn1_ctx* ctx); /* return ctx->next.dsize; */
 
         /*
         param:
             data: 
                 Input asn1 DER format encoded data
-            dlen: 
+            dsize: 
                 size of data in bytes
             ctx:  
                 output raw data of tag, length and value. If the input 'data'
@@ -70,7 +70,7 @@ extern "C" {
         return:
             ZMCRYPTO_ERR_SUCCESSED for parse succeed, or other code when error occurs.
         */
-        zmerror asn1_parse_data(uint8_t* data, uint32_t dlen, struct asn1_ctx* ctx, uint32_t copy);
+        zmerror asn1_parse_data(uint8_t* data, uint32_t dsize, struct asn1_ctx* ctx, uint32_t copy);
 
         zmerror asn1_encode_length(uint32_t in, uint8_t* out, uint32_t* olen);
         zmerror asn1_decode_length(uint8_t* in, uint32_t* ilen, uint32_t* out);

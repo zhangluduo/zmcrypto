@@ -54,7 +54,7 @@ extern "C" {
         );        
 
         void cmac_update (
-            struct cmac_ctx* ctx, uint8_t* data, uint32_t dlen
+            struct cmac_ctx* ctx, uint8_t* data, uint32_t dsize
         );
 
         void cmac_final (

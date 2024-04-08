@@ -53,7 +53,7 @@ extern "C" {
         void md5_update (
             struct md5_ctx* ctx, 
             uint8_t* data, 
-            uint32_t dlen
+            uint32_t dsize
         );
 
         void md5_final (

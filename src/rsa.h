@@ -98,7 +98,7 @@ extern "C" {
         int32_t rsa_get_key_bits(struct rsa_ctx* ctx);
         zmerror rsa_gen_key (struct rsa_ctx* ctx, uint32_t bits);
         zmerror rsa_load_key (struct rsa_ctx* ctx, 
-            uint8_t*  n, uint32_t  nlen, uint8_t*  e, uint32_t  elen, uint8_t*  d, uint32_t  dlen,
+            uint8_t*  n, uint32_t  nlen, uint8_t*  e, uint32_t  elen, uint8_t*  d, uint32_t  dsize,
             uint8_t*  p, uint32_t  plen, uint8_t*  q, uint32_t  qlen, uint8_t* dp, uint32_t dplen,
             uint8_t* dq, uint32_t dqlen, uint8_t* qp, uint32_t qplen
         );
@@ -117,19 +117,19 @@ extern "C" {
         zmerror rsa_rsassa_pss_verify_onshot          (rsa_ctx* ctx, uint8_t* md_oid, uint32_t oid_size, uint8_t* digest, uint8_t* sig);
 
         zmerror rsa_rsassa_pkcs1_v15_signature_init   (rsa_ctx* ctx, uint8_t* md_oid, uint32_t oid_size);
-        zmerror rsa_rsassa_pkcs1_v15_signature_update (rsa_ctx* ctx, uint8_t* data, uint32_t dlen);
+        zmerror rsa_rsassa_pkcs1_v15_signature_update (rsa_ctx* ctx, uint8_t* data, uint32_t dsize);
         zmerror rsa_rsassa_pkcs1_v15_signature_final  (rsa_ctx* ctx, uint8_t* sig);
 
         zmerror rsa_rsassa_pkcs1_v15_verify_init      (rsa_ctx* ctx, uint8_t* md_oid, uint32_t oid_size);
-        zmerror rsa_rsassa_pkcs1_v15_verify_update    (rsa_ctx* ctx, uint8_t* data, uint32_t dlen);
+        zmerror rsa_rsassa_pkcs1_v15_verify_update    (rsa_ctx* ctx, uint8_t* data, uint32_t dsize);
         zmerror rsa_rsassa_pkcs1_v15_verify_final     (rsa_ctx* ctx, uint8_t* sig);
 
         zmerror rsa_rsassa_pss_signature_init         (rsa_ctx* ctx, uint8_t* md_oid, uint32_t oid_size);
-        zmerror rsa_rsassa_pss_signature_update       (rsa_ctx* ctx, uint8_t* data, uint32_t dlen);
+        zmerror rsa_rsassa_pss_signature_update       (rsa_ctx* ctx, uint8_t* data, uint32_t dsize);
         zmerror rsa_rsassa_pss_signature_final        (rsa_ctx* ctx, uint8_t* sig);
 
         zmerror rsa_rsassa_pss_verify_init            (rsa_ctx* ctx, uint8_t* md_oid, uint32_t oid_size);
-        zmerror rsa_rsassa_pss_verify_update          (rsa_ctx* ctx, uint8_t* data, uint32_t dlen);
+        zmerror rsa_rsassa_pss_verify_update          (rsa_ctx* ctx, uint8_t* data, uint32_t dsize);
         zmerror rsa_rsassa_pss_verify_final           (rsa_ctx* ctx, uint8_t* sig);
 
     #endif

@@ -134,22 +134,22 @@
         }
     }
 
-    void md2_update (struct md2_ctx* ctx, uint8_t* data, uint32_t dlen)
+    void md2_update (struct md2_ctx* ctx, uint8_t* data, uint32_t dsize)
     { 
         uint32_t fill;
 
-        while( dlen > 0 )
+        while( dsize > 0 )
         {
-            if( ctx->left + dlen > 16 )
+            if( ctx->left + dsize > 16 )
                 { fill = 16 - ctx->left; }
             else
-                { fill = dlen; }
+                { fill = dsize; }
 
             zmcrypto_memcpy( ctx->buffer + ctx->left, data, fill );
 
             ctx->left += fill;
             data += fill;
-            dlen  -= fill;
+            dsize  -= fill;
 
             if( ctx->left == 16 )
             {
