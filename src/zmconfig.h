@@ -32,14 +32,10 @@
         #define _GNU_SOURCE
         #include <stdint.h>
         #include <stddef.h>
-        #include <stdio.h>
-        #include <stdlib.h>
     #endif
 #else
     #include <stdint.h>
     #include <stddef.h>
-    #include <stdio.h>
-    #include <stdlib.h>
 #endif
 
 /**
@@ -255,6 +251,12 @@ Use the following macros to make this library do clipping
     #define zmcrypto_printf(...)                   printf (__VA_ARGS__)
     #define zmcrypto_sprintf(...)                   sprintf (__VA_ARGS__)
 #endif
+
+/*
+#define USED_RANDOM_CTR_DRBG
+#define USED_RANDOM_MERSENNE_TWISTER
+#define USED_RANDOM_OS
+*/
 
 /*
  * 32-bit integer manipulation macros (big endian)

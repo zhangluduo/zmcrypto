@@ -1,0 +1,112 @@
+zhangluduo@zhangluduo-B85-HD3:~/Documents/Z/code/sm2_alone$ cmake ./ 
+-- The C compiler identification is GNU 9.4.0
+-- The CXX compiler identification is GNU 9.4.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/zhangluduo/Documents/Z/code/sm2_alone
+zhangluduo@zhangluduo-B85-HD3:~/Documents/Z/code/sm2_alone$ make 
+Scanning dependencies of target test
+[ 16%] Building CXX object CMakeFiles/test.dir/log.cpp.o
+[ 33%] Building CXX object CMakeFiles/test.dir/sm2.cpp.o
+[ 50%] Building CXX object CMakeFiles/test.dir/sm2bn.cpp.o
+[ 66%] Building CXX object CMakeFiles/test.dir/sm3.cpp.o
+[ 83%] Building CXX object CMakeFiles/test.dir/test.cpp.o
+[100%] Linking CXX executable test
+[100%] Built target test
+zhangluduo@zhangluduo-B85-HD3:~/Documents/Z/code/sm2_alone$ ./test 
+public-x: 9f 54 34 33 eb 7b d4 fe f1 4c 35 df ae 2a 09 5c 76 19 33 49 bb 51 6e 2a 49 99 48 f1 1d 74 38 ea 
+public-y: a9 5b ba 54 8f 9a 36 de c2 24 a3 e4 81 51 ea 20 e2 e6 34 36 9d 80 3e c6 ef b3 c3 b4 5c 34 3f 88 
+private: 31 b0 29 55 34 14 11 21 1a 34 ae fa 8e 13 97 26 ca e7 1e cc 4a d5 d3 72 b6 8e 4b 98 75 0c ce a6 
+public-x: 9f 54 34 33 eb 7b d4 fe f1 4c 35 df ae 2a 09 5c 76 19 33 49 bb 51 6e 2a 49 99 48 f1 1d 74 38 ea 
+public-y: a9 5b ba 54 8f 9a 36 de c2 24 a3 e4 81 51 ea 20 e2 e6 34 36 9d 80 3e c6 ef b3 c3 b4 5c 34 3f 88 
+sig:    r = a5 1b 27 30 a7 15 76 f8 78 b4 26 87 ee 89 f1 e9 ce 11 2c b1 40 6a fd 0e 18 25 d0 c5 cc 59 d9 83 
+        s = b8 31 1e d7 6c 3d 8a ae b2 53 82 83 02 84 b1 a7 64 b2 ce fc bd f0 88 3e 6a f2 8b 36 7a 39 d8 9d 
+sig(der): 30 46 02 21 00 a5 1b 27 30 a7 15 76 f8 78 b4 26 87 ee 89 f1 e9 ce 11 2c b1 40 6a fd 0e 18 25 d0 c5 cc 59 d9 83 02 21 00 b8 31 1e d7 6c 3d 8a ae b2 53 82 83 02 84 b1 a7 64 b2 ce fc bd f0 88 3e 6a f2 8b 36 7a 39 d8 9d 
+sig2:   r = a5 1b 27 30 a7 15 76 f8 78 b4 26 87 ee 89 f1 e9 ce 11 2c b1 40 6a fd 0e 18 25 d0 c5 cc 59 d9 83 
+        s = b8 31 1e d7 6c 3d 8a ae b2 53 82 83 02 84 b1 a7 64 b2 ce fc bd f0 88 3e 6a f2 8b 36 7a 39 d8 9d 
+[BEANPOD][2022-11-12T14:10:06+0800][91092] /home/zhangluduo/Documents/Z/code/sm2_alone/test.cpp, int test_evp_sm2_veri(unsigned char*, int):201 verify successed
+[BEANPOD][2022-11-12T14:10:06+0800][91092] /home/zhangluduo/Documents/Z/code/sm2_alone/test.cpp, int test_evp_sm2_veri(unsigned char*, int):207 successed
+verify successed
+cipher result: 
+        x: 5d dc d2 15 b1 14 d4 8a f9 a6 58 fe b4 9f 3e aa e0 4f c3 34 40 a8 97 5d 34 9c bf 1c 92 64 ac 46 
+        y: 81 06 05 47 d5 7a 59 62 01 41 d8 de a8 ec 45 dd 35 f7 a8 df f5 e9 11 88 62 36 ea 57 b1 7b 23 2b 
+        digest: 50 50 fd ef d4 56 db 71 67 38 9f 09 5c 53 b1 d8 83 54 3d 32 b8 19 8e 58 77 c7 5b 65 bd 15 8e c4 
+        ct: 92 24 02 e8 6e 5b 56 d5 a5 c0 
+cipher text(der): 30 73 02 20 5d dc d2 15 b1 14 d4 8a f9 a6 58 fe b4 9f 3e aa e0 4f c3 34 40 a8 97 5d 34 9c bf 1c 92 64 ac 46 02 21 00 81 06 05 47 d5 7a 59 62 01 41 d8 de a8 ec 45 dd 35 f7 a8 df f5 e9 11 88 62 36 ea 57 b1 7b 23 2b 04 20 50 50 fd ef d4 56 db 71 67 38 9f 09 5c 53 b1 d8 83 54 3d 32 b8 19 8e 58 77 c7 5b 65 bd 15 8e c4 04 0a 92 24 02 e8 6e 5b 56 d5 a5 c0 
+pt(openssl): 68 65 6c 6c 6f 77 6f 72 6c 64 
+[BEANPOD][2022-11-12T14:10:06+0800][91092] /home/zhangluduo/Documents/Z/code/sm2_alone/test.cpp, int test_evp_sm2_dec(unsigned char*, unsigned int):282 successed
+plain text: 
+68 65 6c 6c 6f 77 6f 72 6c 64 
+ret: 1
+point.x: f3 13 43 d7 11 28 43 3a 9d b4 df 79 ea e9 5c 4f 97 a3 fa 26 3b e7 f6 63 aa 00 c2 4d cc d4 29 39 
+point.y: b2 57 d1 18 ef cb a8 27 73 3f 23 ee e7 16 ae 8c 10 45 1d c3 64 b1 a9 cb 07 67 c8 f0 a5 5a 92 49 
+digest: 8d 1b b6 0f ec e2 62 20 fb 25 d3 2f 1e fb 69 e8 79 f6 b6 9d 15 a4 ab 83 aa 37 dc 15 6f 79 ca 8f 
+cipher text: 94 eb a8 b9 bb 76 2c 2c 25 49 
+ret: 1
+point.x: f3 13 43 d7 11 28 43 3a 9d b4 df 79 ea e9 5c 4f 97 a3 fa 26 3b e7 f6 63 aa 00 c2 4d cc d4 29 39 
+point.y: b2 57 d1 18 ef cb a8 27 73 3f 23 ee e7 16 ae 8c 10 45 1d c3 64 b1 a9 cb 07 67 c8 f0 a5 5a 92 49 
+digest: 8d 1b b6 0f ec e2 62 20 fb 25 d3 2f 1e fb 69 e8 79 f6 b6 9d 15 a4 ab 83 aa 37 dc 15 6f 79 ca 8f 
+cipher text: 94 eb a8 b9 bb 76 2c 2c 25 49 
+successed
+zhangluduo@zhangluduo-B85-HD3:~/Documents/Z/code/sm2_alone$ valgrind ./test 
+==91143== Memcheck, a memory error detector
+==91143== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==91143== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==91143== Command: ./test
+==91143== 
+public-x: 77 db 23 cb a8 1a b6 bf ff c8 97 0d 68 1d 48 da ef 50 5a 69 91 2a e4 66 a6 5e d3 9d 37 68 1d be 
+public-y: 6e c9 b0 f3 e4 e3 be 6b 5b 49 7d 8c 6e a7 c8 d2 98 87 11 71 74 d1 35 94 6b ff ec 25 d2 93 ec 6f 
+private: 3a 8b c9 c9 0d ea 8c 0e a5 8d 5b 4b ab 89 a5 7e c6 0a fb de 3f 32 06 48 ef 82 63 12 66 ad be a0 
+public-x: 77 db 23 cb a8 1a b6 bf ff c8 97 0d 68 1d 48 da ef 50 5a 69 91 2a e4 66 a6 5e d3 9d 37 68 1d be 
+public-y: 91 36 4f 0b 1b 1c 41 94 a4 b6 82 73 91 58 37 2d 67 78 ee 8d 8b 2e ca 6c 94 00 13 da 2d 6c 13 90 
+sig:    r = 33 91 db f9 2f 46 5b 49 51 54 9c 34 e5 d2 f1 b1 16 5d f5 fc f4 c5 db 98 f8 c6 7b 78 f4 fc 3d f2 
+        s = 30 64 2c 32 ed 27 37 fa f6 a0 fb aa 21 61 46 f9 1d a9 66 ef 5a 32 2e 2b 81 12 47 d2 d9 26 0c b7 
+sig(der): 30 44 02 20 33 91 db f9 2f 46 5b 49 51 54 9c 34 e5 d2 f1 b1 16 5d f5 fc f4 c5 db 98 f8 c6 7b 78 f4 fc 3d f2 02 20 30 64 2c 32 ed 27 37 fa f6 a0 fb aa 21 61 46 f9 1d a9 66 ef 5a 32 2e 2b 81 12 47 d2 d9 26 0c b7 
+sig2:   r = 33 91 db f9 2f 46 5b 49 51 54 9c 34 e5 d2 f1 b1 16 5d f5 fc f4 c5 db 98 f8 c6 7b 78 f4 fc 3d f2 
+        s = 30 64 2c 32 ed 27 37 fa f6 a0 fb aa 21 61 46 f9 1d a9 66 ef 5a 32 2e 2b 81 12 47 d2 d9 26 0c b7 
+[BEANPOD][2022-11-12T14:10:16+0800][91143] /home/zhangluduo/Documents/Z/code/sm2_alone/test.cpp, int test_evp_sm2_veri(unsigned char*, int):201 verify successed
+[BEANPOD][2022-11-12T14:10:16+0800][91143] /home/zhangluduo/Documents/Z/code/sm2_alone/test.cpp, int test_evp_sm2_veri(unsigned char*, int):207 successed
+verify successed
+cipher result: 
+        x: 8d 2c 59 14 33 78 16 fd 7f ef d7 0e 72 22 5a 65 8f e4 7b 6f 97 14 60 ad 45 29 8d 9c 82 4d 14 84 
+        y: 45 ba 6b e4 c2 b3 a0 27 50 67 81 08 81 54 5e 7e 2e d6 bb 22 f6 46 d8 50 29 60 bb 21 aa e8 b9 61 
+        digest: e8 dd 64 92 97 7d 7d ee 48 af c8 89 d7 d7 68 b8 ec f4 7d 7e 3e 13 60 66 92 b2 f6 19 47 06 6b 1c 
+        ct: c4 05 5b 5e f2 f2 9d c0 30 ce 
+cipher text(der): 30 73 02 21 00 8d 2c 59 14 33 78 16 fd 7f ef d7 0e 72 22 5a 65 8f e4 7b 6f 97 14 60 ad 45 29 8d 9c 82 4d 14 84 02 20 45 ba 6b e4 c2 b3 a0 27 50 67 81 08 81 54 5e 7e 2e d6 bb 22 f6 46 d8 50 29 60 bb 21 aa e8 b9 61 04 20 e8 dd 64 92 97 7d 7d ee 48 af c8 89 d7 d7 68 b8 ec f4 7d 7e 3e 13 60 66 92 b2 f6 19 47 06 6b 1c 04 0a c4 05 5b 5e f2 f2 9d c0 30 ce 
+pt(openssl): 68 65 6c 6c 6f 77 6f 72 6c 64 
+[BEANPOD][2022-11-12T14:10:16+0800][91143] /home/zhangluduo/Documents/Z/code/sm2_alone/test.cpp, int test_evp_sm2_dec(unsigned char*, unsigned int):282 successed
+plain text: 
+68 65 6c 6c 6f 77 6f 72 6c 64 
+ret: 1
+point.x: f3 13 43 d7 11 28 43 3a 9d b4 df 79 ea e9 5c 4f 97 a3 fa 26 3b e7 f6 63 aa 00 c2 4d cc d4 29 39 
+point.y: b2 57 d1 18 ef cb a8 27 73 3f 23 ee e7 16 ae 8c 10 45 1d c3 64 b1 a9 cb 07 67 c8 f0 a5 5a 92 49 
+digest: 8d 1b b6 0f ec e2 62 20 fb 25 d3 2f 1e fb 69 e8 79 f6 b6 9d 15 a4 ab 83 aa 37 dc 15 6f 79 ca 8f 
+cipher text: 94 eb a8 b9 bb 76 2c 2c 25 49 
+ret: 1
+point.x: f3 13 43 d7 11 28 43 3a 9d b4 df 79 ea e9 5c 4f 97 a3 fa 26 3b e7 f6 63 aa 00 c2 4d cc d4 29 39 
+point.y: b2 57 d1 18 ef cb a8 27 73 3f 23 ee e7 16 ae 8c 10 45 1d c3 64 b1 a9 cb 07 67 c8 f0 a5 5a 92 49 
+digest: 8d 1b b6 0f ec e2 62 20 fb 25 d3 2f 1e fb 69 e8 79 f6 b6 9d 15 a4 ab 83 aa 37 dc 15 6f 79 ca 8f 
+cipher text: 94 eb a8 b9 bb 76 2c 2c 25 49 
+successed
+==91143== 
+==91143== HEAP SUMMARY:
+==91143==     in use at exit: 0 bytes in 0 blocks
+==91143==   total heap usage: 3,372 allocs, 3,372 frees, 213,244 bytes allocated
+==91143== 
+==91143== All heap blocks were freed -- no leaks are possible
+==91143== 
+==91143== For lists of detected and suppressed errors, rerun with: -s
+==91143== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+zhangluduo@zhangluduo-B85-HD3:~/Documents/Z/code/sm2_alone$ 
