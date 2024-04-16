@@ -26,7 +26,7 @@ add_library(
 	zmcrypto
 	SHARED
 	../../src/adler32.c
-	../../src/blockpad.c
+	../../src/block_pad.c
 	../../src/base64.c
 	../../src/base58.c
 	../../src/base32.c

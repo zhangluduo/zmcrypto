@@ -210,6 +210,14 @@ Use the following macros to make this library do clipping
     #define ZMCRYPTO_ALGO_EDDSA
     #define ZMCRYPTO_ALGO_DSA
 
+/* PRNG engine */
+#define ZMCRYPTO_RANDOM_CTR_DRBG_WITH_AES
+// #define ZMCRYPTO_RANDOM_CTR_DRBG_WITH_SM4
+// #define ZMCRYPTO_RANDOM_HASH_DRBG_WITH_SM3
+// #define ZMCRYPTO_RANDOM_HASH_DRBG_WITH_SHA256
+// #define ZMCRYPTO_RANDOM_MERSENNE_TWISTER
+// #define ZMCRYPTO_RANDOM_OS
+
 /* Key Agreement
   #define ZMCRYPTO_ALGO_ECDH
 */
@@ -241,6 +249,8 @@ Use the following macros to make this library do clipping
     #define zmcrypto_printf(...)                   printf (__VA_ARGS__)
 #else
     #include <memory.h>
+    #include <stdio.h>
+    #include <stdlib.h>
     /*default to libc stuff*/
     #define zmcrypto_malloc(size)                  malloc(size)
     #define zmcrypto_realloc(ptr, size)            realloc((ptr), (size))
@@ -249,7 +259,7 @@ Use the following macros to make this library do clipping
     #define zmcrypto_memcmp(s1, s2, size)          memcmp((s1), (s2), (size))
     #define zmcrypto_memset(s, c, size)            memset ((s), (c), (size))
     #define zmcrypto_printf(...)                   printf (__VA_ARGS__)
-    #define zmcrypto_sprintf(...)                   sprintf (__VA_ARGS__)
+    #define zmcrypto_sprintf(...)                  sprintf (__VA_ARGS__)
 #endif
 
 /*
