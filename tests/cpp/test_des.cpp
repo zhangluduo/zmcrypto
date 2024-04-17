@@ -1502,8 +1502,8 @@ void test_speed_des(zmcrypto::sdk* _sdk)
             _sdk->zm_des_free(ctx);
 
             uint32_t elapsed = (uint32_t)(end - start);
-            double rate = (double)dsize / (double)elapsed * 1000;
-            format_output("des encryption|%.2f KB/s\n", rate);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("des encryption|%ss\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
         } /* for */
         for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
         {
@@ -1525,8 +1525,8 @@ void test_speed_des(zmcrypto::sdk* _sdk)
             _sdk->zm_des_free(ctx);
 
             uint32_t elapsed = (uint32_t)(end - start);
-            double rate = (double)dsize / (double)elapsed * 1000;
-            format_output("des decryption|%.2f KB/s\n", rate);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("des decryption|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
         } /* for */
     #endif
 }

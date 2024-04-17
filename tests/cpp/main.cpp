@@ -681,7 +681,7 @@ int main()
 
     // return 1;
     
-#if 0
+#if 1
     srand((unsigned int)time(NULL));
     print_env();
 
@@ -706,7 +706,7 @@ int main()
 
     // test_engine(&_sdk);
     // test_case(&_sdk);
-    // test_speed(&_sdk);
+    test_speed(&_sdk);
     // test_info(&_sdk);
 #endif
 

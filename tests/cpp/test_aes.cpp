@@ -1491,8 +1491,9 @@ void test_speed_aes(zmcrypto::sdk* _sdk)
             _sdk->zm_aes_free(ctx);
 
             uint32_t elapsed = (uint32_t)(end - start);
-            double rate = (double)dsize / (double)elapsed * 1000;
-            format_output("aes-%d encryption|%.2f KB/s\n", key_sizes[i]*8, rate);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("aes-%d encryption|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
+            
         } /* for */
         for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
         {
@@ -1514,8 +1515,8 @@ void test_speed_aes(zmcrypto::sdk* _sdk)
             _sdk->zm_aes_free(ctx);
 
             uint32_t elapsed = (uint32_t)(end - start);
-            double rate = (double)dsize / (double)elapsed * 1000;
-            format_output("aes-%d decryption|%.2f KB/s\n", key_sizes[i]*8, rate);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("aes-%d decryption|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate*1000)).c_str());
         } /* for */
     #endif
 }

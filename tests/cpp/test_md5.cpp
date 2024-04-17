@@ -124,8 +124,8 @@ void test_speed_md5(zmcrypto::sdk* _sdk)
                 break;
         }
         uint32_t elapsed = (uint32_t)(end - start);
-        double rate = (double)dsize / (double)elapsed * 1000;
-        format_output("md5|%.2f KB/s\n", rate);
+        double rate = (double)dsize / (double)elapsed;
+        format_output("md5|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
 
         _sdk->zm_md5_final (ctx, output);
         _sdk->zm_md5_free (ctx);

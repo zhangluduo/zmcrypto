@@ -123,8 +123,9 @@ void test_speed_adler32(zmcrypto::sdk* _sdk)
                 break;
         }
         uint32_t elapsed = (uint32_t)(end - start);
-        double rate = (double)dsize / (double)elapsed * 1000;
-        format_output("adler32|%.2f KB/s\n", rate);
+        double rate = (double)dsize / (double)elapsed;
+
+        format_output("adler32|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
 
         _sdk->zm_adler32_final (ctx, output);
         _sdk->zm_adler32_free (ctx);

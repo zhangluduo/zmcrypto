@@ -125,8 +125,8 @@ void test_speed_crc32(zmcrypto::sdk* _sdk)
                 break;
         }
         uint32_t elapsed = (uint32_t)(end - start);
-        double rate = (double)dsize / (double)elapsed * 1000;
-        format_output("crc32|%.2f KB/s\n", rate);
+        double rate = (double)dsize / (double)elapsed;
+        format_output("crc32|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
 
         _sdk->zm_crc32_final (ctx, output);
         _sdk->zm_crc32_free (ctx);

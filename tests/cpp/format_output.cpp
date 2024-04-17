@@ -19,7 +19,49 @@
 #include <stdarg.h>
 #include <string.h>
 
-#include <string>
+std::string bytes_to_human_readable_format(uint64_t bytes){
+
+#if defined __linux__
+    #define base 1000
+#elif defined _WIN32
+    #define base 1024
+#endif
+    char text[50];
+	memset(text, 0, 50);
+    const uint64_t _kb = base;
+    const uint64_t _mb = _kb * base;
+    const uint64_t _gb = _mb * base;
+    const uint64_t _tb = _gb * base;
+    const uint64_t _eb = _tb * base;
+
+#if defined __linux__
+    if (bytes >= _eb)     { double c = bytes; sprintf (text, "%.1f EB", c /_eb); }
+    else if (bytes >= _tb){ double c = bytes; sprintf (text, "%.1f TB", c /_tb); }
+    else if (bytes >= _gb){ double c = bytes; sprintf (text, "%.1f GB", c /_gb); }
+    else if (bytes >= _mb){ double c = bytes; sprintf (text, "%.1f MB", c /_mb); }
+    else if (bytes >= _kb){ double c = bytes; sprintf (text, "%.1f KB", c /_kb); }
+    else                  { sprintf (text, "%ld bytes", bytes); }
+#elif defined _WIN32
+    if (bytes >= _eb)     { double c = (double)bytes; sprintf (text, "%.2f EB", c /_eb); }
+    else if (bytes >= _tb){ double c = (double)bytes; sprintf (text, "%.2f TB", c /_tb); }
+    else if (bytes >= _gb){ double c = (double)bytes; sprintf (text, "%.2f GB", c /_gb); }
+    else if (bytes >= _mb){ double c = (double)bytes; sprintf (text, "%.2f MB", c /_mb); }
+    else if (bytes >= _kb){ double c = (double)bytes; sprintf (text, "%.2f KB", c /_kb); }
+    else                  { sprintf (text, "%ld bytes", bytes); }
+#endif
+
+#if 0
+    //537.8 MB (537,751,757 bytes)
+    //63.7 kB (63,748 bytes)
+    //506 bytes
+    uint64_t bytes = 506;
+    char text[50];
+    file_bytes_to_human_readable_format(bytes, text);
+    printf ("[%s]\n", text);
+#endif
+
+    return std::string(text);
+}
 
 // printf("[%-*.*s]\n", 
 //     5, 3, "0123456789");

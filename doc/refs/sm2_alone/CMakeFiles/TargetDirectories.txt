@@ -1,0 +1,3 @@
+/home/zhangluduo/data2t/zmcrypto_git/sm2_alone/CMakeFiles/test.dir
+/home/zhangluduo/data2t/zmcrypto_git/sm2_alone/CMakeFiles/edit_cache.dir
+/home/zhangluduo/data2t/zmcrypto_git/sm2_alone/CMakeFiles/rebuild_cache.dir

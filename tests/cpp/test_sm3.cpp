@@ -140,8 +140,8 @@ void test_speed_sm3(zmcrypto::sdk* _sdk)
                 break;
         }
         uint32_t elapsed = (uint32_t)(end - start);
-        double rate = (double)dsize / (double)elapsed * 1000;
-        format_output("sm3|%.2f KB/s\n", rate);
+        double rate = (double)dsize / (double)elapsed;
+        format_output("sm3|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
 
         sdk.zm_sm3_final (ctx, output);
         sdk.zm_sm3_free (ctx);
