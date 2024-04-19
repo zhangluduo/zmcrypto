@@ -28,6 +28,10 @@
     #include "cryptopp820/include/sm4.h"
 #endif
 
+#if defined TEST_FOR_OPENSSL_SPEED
+    #include <openssl/evp.h>
+#endif
+
 /* unnamed */
 namespace{
 
@@ -1466,9 +1470,9 @@ void test_case_sm4_ctr(zmcrypto::sdk* _sdk)
 void test_speed_sm4(zmcrypto::sdk* _sdk)
 {
     uint8_t key[24] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
-    uint32_t key_sizes[3] = { 16,24,32 };
-    uint8_t pt[16] = { 0 };
-    uint8_t ct[16] = { 0 };
+    uint32_t key_sizes[1] = { 16 };
+    uint8_t in[16] = { 0 };
+    uint8_t out[16] = { 0 };
 
     #if defined ZMCRYPTO_ALGO_SM4
         for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
@@ -1481,7 +1485,7 @@ void test_speed_sm4(zmcrypto::sdk* _sdk)
             uint64_t dsize = 0;
             while (true)
             {
-                _sdk->zm_sm4_enc_block(ctx, pt, ct);
+                _sdk->zm_sm4_enc_block(ctx, in, out);
                 end = get_timestamp_us();
                 dsize += _sdk->zm_sm4_block_size();          
                 if (end - start >= TEST_TOTAL_SEC * 1000000){
@@ -1491,8 +1495,8 @@ void test_speed_sm4(zmcrypto::sdk* _sdk)
             _sdk->zm_sm4_free(ctx);
 
             uint32_t elapsed = (uint32_t)(end - start);
-            double rate = (double)dsize / (double)elapsed * 1000;
-            format_output("sm4-%d encryption|%.2f KB/s\n", key_sizes[i]*8, rate);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("sm4 encryption by zmcrypto|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
         } /* for */
         for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
         {
@@ -1504,7 +1508,7 @@ void test_speed_sm4(zmcrypto::sdk* _sdk)
             uint64_t dsize = 0;
             while (true)
             {
-                _sdk->zm_sm4_dec_block(ctx, pt, ct);
+                _sdk->zm_sm4_dec_block(ctx, in, out);
                 end = get_timestamp_us();
                 dsize += _sdk->zm_sm4_block_size();
                 if (end - start >= TEST_TOTAL_SEC * 1000000){
@@ -1514,8 +1518,123 @@ void test_speed_sm4(zmcrypto::sdk* _sdk)
             _sdk->zm_sm4_free(ctx);
 
             uint32_t elapsed = (uint32_t)(end - start);
-            double rate = (double)dsize / (double)elapsed * 1000;
-            format_output("sm4-%d decryption|%.2f KB/s\n", key_sizes[i]*8, rate);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("sm4 decryption by zmcrypto|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
+        } /* for */
+    #endif
+
+    #if defined TEST_FOR_CRYPTOPP && defined TEST_FOR_CRYPTOPP_SPEED
+        for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
+        {
+            CryptoPP::BlockCipher* pCipher = new CryptoPP::SM4::Encryption();
+            pCipher->SetKey(key, key_sizes[i]);
+
+            uint64_t start = get_timestamp_us();
+            uint64_t end = 0;
+            uint64_t dsize = 0;
+            while (true)
+            {
+                pCipher->ProcessBlock(in, out);
+                
+                end = get_timestamp_us();
+                dsize += 16;
+                if (end - start >= TEST_TOTAL_SEC * 1000000){
+                    break;
+                }
+            }
+
+            uint32_t elapsed = (uint32_t)(end - start);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("sm4 encryption by Crypto++|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
+            delete pCipher;
+            pCipher = NULL;
+        } /* for */
+        for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
+        {
+            CryptoPP::BlockCipher* pCipher = new CryptoPP::SM4::Decryption();
+            pCipher->SetKey(key, key_sizes[i]);
+
+            uint64_t start = get_timestamp_us();
+            uint64_t end = 0;
+            uint64_t dsize = 0;
+            while (true)
+            {
+                pCipher->ProcessBlock(in, out);
+                
+                end = get_timestamp_us();
+                dsize += 16;
+                if (end - start >= TEST_TOTAL_SEC * 1000000){
+                    break;
+                }
+            }
+
+            uint32_t elapsed = (uint32_t)(end - start);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("sm4 encryption by Crypto++|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
+            delete pCipher;
+            pCipher = NULL;
+        } /* for */
+    #endif 
+
+    #if defined TEST_FOR_OPENSSL_SPEED
+        int ilen = 16;
+        int olen = 16;
+        for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
+        {
+            const EVP_CIPHER *cipher = EVP_sm4_ecb();
+            EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+            EVP_EncryptInit(ctx, cipher, key, NULL);
+
+            uint64_t start = get_timestamp_us();
+            uint64_t end = 0;
+            uint64_t dsize = 0;
+            while (true)
+            {
+                ilen = 16;
+                olen = 16;
+                EVP_EncryptUpdate(ctx, in, &olen, out, ilen);
+                
+                end = get_timestamp_us();
+                dsize += 16;
+                if (end - start >= TEST_TOTAL_SEC * 1000000){
+                    break;
+                }
+            }
+            EVP_EncryptFinal(ctx, out, &olen);
+            EVP_CIPHER_CTX_free(ctx);
+
+            uint32_t elapsed = (uint32_t)(end - start);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("sm4 encryption by OpenSSL|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
+        } /* for */
+        for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
+        for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
+        {
+            const EVP_CIPHER *cipher = EVP_sm4_ecb();
+            EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+            EVP_EncryptInit(ctx, cipher, key, NULL);
+
+            uint64_t start = get_timestamp_us();
+            uint64_t end = 0;
+            uint64_t dsize = 0;
+            while (true)
+            {
+                ilen = 16;
+                olen = 16;
+                EVP_DecryptUpdate(ctx, in, &olen, out, ilen);
+                
+                end = get_timestamp_us();
+                dsize += 16;
+                if (end - start >= TEST_TOTAL_SEC * 1000000){
+                    break;
+                }
+            }
+            EVP_DecryptFinal(ctx, out, &olen);
+            EVP_CIPHER_CTX_free(ctx);
+
+            uint32_t elapsed = (uint32_t)(end - start);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("sm4 decryption by OpenSSL|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
         } /* for */
     #endif
 }

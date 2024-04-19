@@ -94,7 +94,8 @@ target_link_libraries (engine LINK_PUBLIC
 include_directories(
 	${PROJECT_SOURCE_DIR}/../../tests/cpp/ # for zmcrypto.h
 	${PROJECT_SOURCE_DIR}/../../src/ # for zmcryptosdk.h
-	/home/zhangluduo/data2t/toolchain/
+	#/home/zhangluduo/data2t/toolchain/
+	#/home/zhangluduo/data2t/backup_work/y_opensource_tool_sdk/openssl-1.1.1n/include
 )
 
 link_directories(
@@ -103,8 +104,10 @@ link_directories(
 )
 
 add_definitions(
-	-DTEST_FOR_CRYPTOPP
-	-DDONOT_DETECT_MEM_LEAK_FOR_CRYPTOPP
+	#-DTEST_FOR_CRYPTOPP
+	#-DTEST_FOR_CRYPTOPP_SPEED
+	#-DTEST_FOR_OPENSSL_SPEED
+	#-DDONOT_DETECT_MEM_LEAK_FOR_CRYPTOPP
 )
 
 add_executable(
@@ -144,7 +147,8 @@ add_executable(
 
 target_link_libraries (test LINK_PUBLIC 
 	dl
-	cryptopp #Crypto++ Library
+	#cryptopp #Crypto++ Library
+	#crypto #libcrypto for openssl 
 )
 
 #------------------- APPs -------------------

@@ -28,6 +28,10 @@
     #include "cryptopp820/include/aes.h"
 #endif
 
+#if defined TEST_FOR_OPENSSL_SPEED
+    #include <openssl/aes.h>
+#endif
+
 /* unnamed */
 namespace{
 
@@ -1467,8 +1471,8 @@ void test_speed_aes(zmcrypto::sdk* _sdk)
 {
     uint8_t key[24] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
     uint32_t key_sizes[3] = { 16,24,32 };
-    uint8_t pt[16] = { 0 };
-    uint8_t ct[16] = { 0 };
+    uint8_t in[16] = { 0 };
+    uint8_t out[16] = { 0 };
 
     #if defined ZMCRYPTO_ALGO_AES
         for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
@@ -1481,7 +1485,7 @@ void test_speed_aes(zmcrypto::sdk* _sdk)
             uint64_t dsize = 0;
             while (true)
             {
-                _sdk->zm_aes_enc_block(ctx, pt, ct);
+                _sdk->zm_aes_enc_block(ctx, in, out);
                 end = get_timestamp_us();
                 dsize += _sdk->zm_aes_block_size();          
                 if (end - start >= TEST_TOTAL_SEC * 1000000){
@@ -1492,7 +1496,7 @@ void test_speed_aes(zmcrypto::sdk* _sdk)
 
             uint32_t elapsed = (uint32_t)(end - start);
             double rate = (double)dsize / (double)elapsed;
-            format_output("aes-%d encryption|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
+            format_output("aes-%d encryption by ZmCrypto|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
             
         } /* for */
         for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
@@ -1505,7 +1509,7 @@ void test_speed_aes(zmcrypto::sdk* _sdk)
             uint64_t dsize = 0;
             while (true)
             {
-                _sdk->zm_aes_dec_block(ctx, pt, ct);
+                _sdk->zm_aes_dec_block(ctx, in, out);
                 end = get_timestamp_us();
                 dsize += _sdk->zm_aes_block_size();
                 if (end - start >= TEST_TOTAL_SEC * 1000000){
@@ -1516,7 +1520,109 @@ void test_speed_aes(zmcrypto::sdk* _sdk)
 
             uint32_t elapsed = (uint32_t)(end - start);
             double rate = (double)dsize / (double)elapsed;
-            format_output("aes-%d decryption|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate*1000)).c_str());
+            format_output("aes-%d decryption by ZmCrypto|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
+        } /* for */
+    #endif
+
+    #if defined TEST_FOR_CRYPTOPP && defined TEST_FOR_CRYPTOPP_SPEED
+        for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
+        {
+            CryptoPP::BlockCipher* pCipher = new CryptoPP::AES::Encryption();
+            pCipher->SetKey(key, key_sizes[i]);
+
+            uint64_t start = get_timestamp_us();
+            uint64_t end = 0;
+            uint64_t dsize = 0;
+            while (true)
+            {
+                pCipher->ProcessBlock(in, out);
+                
+                end = get_timestamp_us();
+                dsize += 16;
+                if (end - start >= TEST_TOTAL_SEC * 1000000){
+                    break;
+                }
+            }
+
+            uint32_t elapsed = (uint32_t)(end - start);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("aes-%d encryption by Crypto++|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
+            delete pCipher;
+            pCipher = NULL;
+        } /* for */
+        for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
+        {
+            CryptoPP::BlockCipher* pCipher = new CryptoPP::AES::Decryption();
+            pCipher->SetKey(key, key_sizes[i]);
+
+            uint64_t start = get_timestamp_us();
+            uint64_t end = 0;
+            uint64_t dsize = 0;
+            while (true)
+            {
+                pCipher->ProcessBlock(in, out);
+                
+                end = get_timestamp_us();
+                dsize += 16;
+                if (end - start >= TEST_TOTAL_SEC * 1000000){
+                    break;
+                }
+            }
+
+            uint32_t elapsed = (uint32_t)(end - start);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("aes-%d encryption by Crypto++|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
+            delete pCipher;
+            pCipher = NULL;
+        } /* for */
+    #endif 
+
+    #if defined TEST_FOR_OPENSSL_SPEED
+        for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
+        {
+            AES_KEY aesKey;
+            AES_set_encrypt_key(key, key_sizes[i] * 8, &aesKey);
+
+            uint64_t start = get_timestamp_us();
+            uint64_t end = 0;
+            uint64_t dsize = 0;
+            while (true)
+            {
+                AES_encrypt(in, out, &aesKey);
+                
+                end = get_timestamp_us();
+                dsize += 16;
+                if (end - start >= TEST_TOTAL_SEC * 1000000){
+                    break;
+                }
+            }
+
+            uint32_t elapsed = (uint32_t)(end - start);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("aes-%d encryption by OpenSSL|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
+        } /* for */
+        for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
+        {
+            AES_KEY aesKey;
+            AES_set_decrypt_key(key, key_sizes[i] * 8, &aesKey);
+
+            uint64_t start = get_timestamp_us();
+            uint64_t end = 0;
+            uint64_t dsize = 0;
+            while (true)
+            {
+                AES_decrypt(in, out, &aesKey);
+                
+                end = get_timestamp_us();
+                dsize += 16;
+                if (end - start >= TEST_TOTAL_SEC * 1000000){
+                    break;
+                }
+            }
+
+            uint32_t elapsed = (uint32_t)(end - start);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("aes-%d encryption by OpenSSL|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
         } /* for */
     #endif
 }

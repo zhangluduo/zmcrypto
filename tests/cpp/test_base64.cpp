@@ -137,7 +137,6 @@ void test_case_base64(zmcrypto::sdk* _sdk)
                 Enc->IsolatedInitialize(params);
             }
 
-
             Enc->Put2 ((const CryptoPP::byte *)(message.c_str()), message.length(), 1, true/* must be true, otherwise throw an exception*/);
 
             SecByteBlock output(200);

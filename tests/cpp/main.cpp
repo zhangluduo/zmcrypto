@@ -128,14 +128,15 @@ void test_engine(zmcrypto::sdk* _sdk){
 }
 
 void test_speed(zmcrypto::sdk* _sdk){
-    test_speed_adler32(_sdk);
-    test_speed_crc32(_sdk);
-    test_speed_md5(_sdk);
-    test_speed_sha1(_sdk);
-    test_speed_sm3(_sdk);
-    test_speed_aes(_sdk);
-    test_speed_des(_sdk);
-    test_speed_blowfish(_sdk);
+    // test_speed_adler32(_sdk);
+    // test_speed_crc32(_sdk);
+    // test_speed_md5(_sdk);
+    // test_speed_sha1(_sdk);
+    // test_speed_sm3(_sdk);
+    test_speed_sm4(_sdk);
+    // test_speed_aes(_sdk);
+    // test_speed_des(_sdk);
+    // test_speed_blowfish(_sdk);
 }
 
 void test_info(zmcrypto::sdk* _sdk){
