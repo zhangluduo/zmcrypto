@@ -21,9 +21,9 @@
 #include "test_crc32.h"
 
 #if defined TEST_FOR_CRYPTOPP
-    #include "cryptopp820/include/cryptlib.h"
-    #include "cryptopp820/include/secblock.h"
-    #include "cryptopp820/include/crc.h"
+    #include "include/cryptlib.h"
+    #include "include/secblock.h"
+    #include "include/crc.h"
 #endif
 
 void test_info_crc32(zmcrypto::sdk* _sdk)
@@ -134,4 +134,35 @@ void test_speed_crc32(zmcrypto::sdk* _sdk)
         delete[] output;
         output = NULL;
     #endif
+
+    #if defined TEST_FOR_CRYPTOPP && defined TEST_FOR_CRYPTOPP_SPEED
+    {
+        CryptoPP::HashTransformation* HashPtr = new CryptoPP::CRC32();
+        uint8_t* output = new uint8_t[4];
+
+        uint8_t msg[16] = { 0 };
+        uint32_t mlen = 16;
+        uint64_t start = get_timestamp_us();
+        uint64_t end = 0;
+        uint64_t dsize = 0;
+        while (true)
+        {
+            HashPtr->Update((const CryptoPP::byte *)msg, mlen);
+            dsize += mlen;
+            end = get_timestamp_us();
+            if (end - start >= TEST_TOTAL_SEC * 1000000)
+                break;
+        }
+        uint32_t elapsed = (uint32_t)(end - start);
+        double rate = (double)dsize / (double)elapsed;
+
+        format_output("crc32 by Crypto++|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
+
+        delete HashPtr;
+        HashPtr = NULL;
+
+        delete[] output;
+        output = NULL;
+    }
+    #endif 
 }

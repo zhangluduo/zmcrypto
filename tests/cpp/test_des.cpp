@@ -22,10 +22,10 @@
 #include <memory.h>
 
 #if defined TEST_FOR_CRYPTOPP
-    #include "cryptopp820/include/cryptlib.h"
-    #include "cryptopp820/include/secblock.h"
-    #include "cryptopp820/include/modes.h"
-    #include "cryptopp820/include/des.h"
+    #include "include/cryptlib.h"
+    #include "include/secblock.h"
+    #include "include/modes.h"
+    #include "include/des.h"
 #endif
 
 /* unnamed */

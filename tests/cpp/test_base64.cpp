@@ -22,9 +22,9 @@
 #include <memory.h>
 
 #if defined TEST_FOR_CRYPTOPP
-    #include "cryptopp820/include/cryptlib.h"
-    #include "cryptopp820/include/secblock.h"
-    #include "cryptopp820/include/base64.h"
+    #include "include/cryptlib.h"
+    #include "include/secblock.h"
+    #include "include/base64.h"
     using namespace CryptoPP;
 #endif
 

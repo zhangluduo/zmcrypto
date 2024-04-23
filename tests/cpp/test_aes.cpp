@@ -22,14 +22,18 @@
 #include <memory.h>
 
 #if defined TEST_FOR_CRYPTOPP
-    #include "cryptopp820/include/cryptlib.h"
-    #include "cryptopp820/include/secblock.h"
-    #include "cryptopp820/include/modes.h"
-    #include "cryptopp820/include/aes.h"
+    #include "include/cryptlib.h"
+    #include "include/secblock.h"
+    #include "include/modes.h"
+    #include "include/aes.h"
 #endif
 
 #if defined TEST_FOR_OPENSSL_SPEED
     #include <openssl/aes.h>
+#endif
+
+#if defined TEST_FOR_MBEDTLS_SPEED
+    #include <mbedtls/aes.h>
 #endif
 
 /* unnamed */
@@ -1571,7 +1575,7 @@ void test_speed_aes(zmcrypto::sdk* _sdk)
 
             uint32_t elapsed = (uint32_t)(end - start);
             double rate = (double)dsize / (double)elapsed;
-            format_output("aes-%d encryption by Crypto++|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
+            format_output("aes-%d decryption by Crypto++|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
             delete pCipher;
             pCipher = NULL;
         } /* for */
@@ -1622,9 +1626,60 @@ void test_speed_aes(zmcrypto::sdk* _sdk)
 
             uint32_t elapsed = (uint32_t)(end - start);
             double rate = (double)dsize / (double)elapsed;
-            format_output("aes-%d encryption by OpenSSL|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
+            format_output("aes-%d decryption by OpenSSL|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
         } /* for */
     #endif
+
+    #if defined TEST_FOR_MBEDTLS_SPEED
+        for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
+        {
+            mbedtls_aes_context ctx;
+            mbedtls_aes_init(&ctx);
+            mbedtls_aes_setkey_enc(&ctx, key, key_sizes[i] * 8);
+
+            uint64_t start = get_timestamp_us();
+            uint64_t end = 0;
+            uint64_t dsize = 0;
+            while (true)
+            {
+                mbedtls_aes_crypt_ecb(&ctx, MBEDTLS_AES_ENCRYPT, in, out);
+                
+                end = get_timestamp_us();
+                dsize += 16;
+                if (end - start >= TEST_TOTAL_SEC * 1000000){
+                    break;
+                }
+            }
+
+            uint32_t elapsed = (uint32_t)(end - start);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("aes-%d encryption by mbedTLS|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
+        } /* for */
+        for (size_t i = 0; i < sizeof(key_sizes) / sizeof(key_sizes[0]); i++)
+        {
+            mbedtls_aes_context ctx;
+            mbedtls_aes_init(&ctx);
+            mbedtls_aes_setkey_dec(&ctx, key, key_sizes[i] * 8);
+
+            uint64_t start = get_timestamp_us();
+            uint64_t end = 0;
+            uint64_t dsize = 0;
+            while (true)
+            {
+                mbedtls_aes_crypt_ecb(&ctx, MBEDTLS_AES_DECRYPT, in, out);
+                
+                end = get_timestamp_us();
+                dsize += 16;
+                if (end - start >= TEST_TOTAL_SEC * 1000000){
+                    break;
+                }
+            }
+
+            uint32_t elapsed = (uint32_t)(end - start);
+            double rate = (double)dsize / (double)elapsed;
+            format_output("aes-%d decryption by mbedTLS|%s/s\n", key_sizes[i]*8, bytes_to_human_readable_format((uint64_t)(rate*1000000)).c_str());
+        } /* for */
+    #endif 
 }
 
 void test_info_aes(zmcrypto::sdk* _sdk)

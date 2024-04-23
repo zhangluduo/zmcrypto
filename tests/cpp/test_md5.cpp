@@ -22,9 +22,13 @@
 
 #if defined TEST_FOR_CRYPTOPP
     #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
-    #include "cryptopp820/include/cryptlib.h"
-    #include "cryptopp820/include/secblock.h"
-    #include "cryptopp820/include/md5.h"
+    #include "include/cryptlib.h"
+    #include "include/secblock.h"
+    #include "include/md5.h"
+#endif
+
+#if defined TEST_FOR_OPENSSL_SPEED
+    #include <openssl/md5.h>
 #endif
 
 void test_info_md5(zmcrypto::sdk* _sdk)
@@ -125,12 +129,76 @@ void test_speed_md5(zmcrypto::sdk* _sdk)
         }
         uint32_t elapsed = (uint32_t)(end - start);
         double rate = (double)dsize / (double)elapsed;
-        format_output("md5|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
+        format_output("md5 by zmcrypto|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
 
         _sdk->zm_md5_final (ctx, output);
         _sdk->zm_md5_free (ctx);
 
         delete[] output;
         output = NULL;
+    #endif
+
+    #if defined TEST_FOR_CRYPTOPP && defined TEST_FOR_CRYPTOPP_SPEED
+    {
+        CryptoPP::HashTransformation* HashPtr = new CryptoPP::Weak::MD5();
+        uint8_t* output = new uint8_t[4];
+
+        uint8_t msg[16] = { 0 };
+        uint32_t mlen = 16;
+        uint64_t start = get_timestamp_us();
+        uint64_t end = 0;
+        uint64_t dsize = 0;
+        while (true)
+        {
+            HashPtr->Update((const CryptoPP::byte *)msg, mlen);
+            dsize += mlen;
+            end = get_timestamp_us();
+            if (end - start >= TEST_TOTAL_SEC * 1000000)
+                break;
+        }
+        uint32_t elapsed = (uint32_t)(end - start);
+        double rate = (double)dsize / (double)elapsed;
+
+        format_output("md5 by Crypto++|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
+
+        delete HashPtr;
+        HashPtr = NULL;
+
+        delete[] output;
+        output = NULL;
+    }
+    #endif 
+
+    #if defined TEST_FOR_OPENSSL_SPEED
+    {
+        MD5_CTX context;
+        MD5_Init(&context);
+
+        uint8_t* output = new uint8_t[16];
+
+        uint8_t msg[16] = { 0 };
+        uint32_t mlen = 16;
+        uint64_t start = get_timestamp_us();
+        uint64_t end = 0;
+        uint64_t dsize = 0;
+        while (true)
+        {
+            MD5_Update(&context, msg, mlen);
+            dsize += mlen;
+            end = get_timestamp_us();
+            if (end - start >= TEST_TOTAL_SEC * 1000000)
+                break;
+        }
+
+        MD5_Final(output, &context);
+
+        uint32_t elapsed = (uint32_t)(end - start);
+        double rate = (double)dsize / (double)elapsed;
+
+        format_output("md5 by OpenSSL|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
+
+        delete[] output;
+        output = NULL;
+    }
     #endif
 }

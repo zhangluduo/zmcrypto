@@ -22,11 +22,11 @@
 
 #if defined TEST_FOR_CRYPTOPP
     #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
-    #include "cryptopp820/include/cryptlib.h"
-    #include "cryptopp820/include/secblock.h"
-    #include "cryptopp820/include/hmac.h"
-    #include "cryptopp820/include/md5.h"
-    #include "cryptopp820/include/sha.h"
+    #include "include/cryptlib.h"
+    #include "include/secblock.h"
+    #include "include/hmac.h"
+    #include "include/md5.h"
+    #include "include/sha.h"
     using namespace CryptoPP;
 #endif
 

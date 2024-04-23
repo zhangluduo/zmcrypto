@@ -24,11 +24,11 @@
     #include <string>
     using namespace std;
 
-    #include "cryptopp820/include/cryptlib.h"
-    #include "cryptopp820/include/secblock.h"
-    #include "cryptopp820/include/ccm.h"
-    #include "cryptopp820/include/aes.h"
-    #include "cryptopp820/include/filters.h"
+    #include "include/cryptlib.h"
+    #include "include/secblock.h"
+    #include "include/ccm.h"
+    #include "include/aes.h"
+    #include "include/filters.h"
     using namespace CryptoPP;
 #endif
 

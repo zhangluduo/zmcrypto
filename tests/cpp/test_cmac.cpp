@@ -21,11 +21,11 @@
 #include "test_cmac.h"
 
 #if defined TEST_FOR_CRYPTOPP
-    #include "cryptopp820/include/cryptlib.h"
-    #include "cryptopp820/include/secblock.h"
-    #include "cryptopp820/include/cmac.h"
-    #include "cryptopp820/include/aes.h"
-    #include "cryptopp820/include/des.h"
+    #include "include/cryptlib.h"
+    #include "include/secblock.h"
+    #include "include/cmac.h"
+    #include "include/aes.h"
+    #include "include/des.h"
     using namespace CryptoPP;
 #endif
 

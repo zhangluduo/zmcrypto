@@ -21,9 +21,9 @@
 #include "test_adler32.h"
 
 #if defined TEST_FOR_CRYPTOPP
-    #include "cryptopp820/include/cryptlib.h"
-    #include "cryptopp820/include/secblock.h"
-    #include "cryptopp820/include/adler32.h"
+    #include "include/cryptlib.h"
+    #include "include/secblock.h"
+    #include "include/adler32.h"
 #endif
 
 void test_info_adler32(zmcrypto::sdk* _sdk)
@@ -103,7 +103,11 @@ void test_case_adler32(zmcrypto::sdk* _sdk)
 
 void test_speed_adler32(zmcrypto::sdk* _sdk)
 {
+        uint8_t msg[16] = { 0 };
+        uint32_t mlen = 16;
+
     #if defined ZMCRYPTO_ALGO_ADLER32
+    {
         CONTEXT_TYPE_PTR(adler32) ctx = _sdk->zm_adler32_new();
         uint8_t* output = new uint8_t[_sdk->zm_adler32_checksum_size()];
         _sdk->zm_adler32_init (ctx);
@@ -125,12 +129,47 @@ void test_speed_adler32(zmcrypto::sdk* _sdk)
         uint32_t elapsed = (uint32_t)(end - start);
         double rate = (double)dsize / (double)elapsed;
 
-        format_output("adler32|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
+        format_output("adler32 by zmcrypto|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
 
         _sdk->zm_adler32_final (ctx, output);
         _sdk->zm_adler32_free (ctx);
 
         delete[] output;
         output = NULL;
+    }
+    #endif
+
+    #if defined TEST_FOR_CRYPTOPP && defined TEST_FOR_CRYPTOPP_SPEED
+    {
+        CryptoPP::HashTransformation* HashPtr = new CryptoPP::Adler32();
+        uint8_t* output = new uint8_t[4];
+
+        uint8_t msg[16] = { 0 };
+        uint32_t mlen = 16;
+        uint64_t start = get_timestamp_us();
+        uint64_t end = 0;
+        uint64_t dsize = 0;
+        while (true)
+        {
+            HashPtr->Update((const CryptoPP::byte *)msg, mlen);
+            dsize += mlen;
+            end = get_timestamp_us();
+            if (end - start >= TEST_TOTAL_SEC * 1000000)
+                break;
+        }
+        uint32_t elapsed = (uint32_t)(end - start);
+        double rate = (double)dsize / (double)elapsed;
+
+        format_output("adler32 by Crypto++|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
+
+        delete HashPtr;
+        HashPtr = NULL;
+
+        delete[] output;
+        output = NULL;
+    }
+    #endif 
+
+    #if defined TEST_FOR_OPENSSL_SPEED
     #endif
 }

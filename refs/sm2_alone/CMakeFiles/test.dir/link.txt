@@ -1,0 +1,1 @@
+g++ -rdynamic CMakeFiles/test.dir/log.cpp.o CMakeFiles/test.dir/sm2.cpp.o CMakeFiles/test.dir/sm2bn.cpp.o CMakeFiles/test.dir/sm3.cpp.o CMakeFiles/test.dir/test.cpp.o -o test  -ldl -lcrypto 
