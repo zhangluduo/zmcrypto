@@ -58,7 +58,7 @@ extern "C" {
 
         void sm3_final (
             struct sm3_ctx* ctx, 
-            uint8_t* output
+            uint8_t output[32]
         );
     #endif
 

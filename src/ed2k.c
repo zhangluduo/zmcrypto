@@ -110,7 +110,7 @@
         }
     }
 
-    void ed2k_final (struct ed2k_ctx* ctx, uint8_t* output)
+    void ed2k_final (struct ed2k_ctx* ctx, uint8_t output[16])
     {
         if (ctx->update_size)
             { md4_final(ctx->md4_ctx, ctx->output); }

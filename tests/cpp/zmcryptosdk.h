@@ -18,9 +18,9 @@
 
 #if defined __linux__
     #include <dlfcn.h>
-    #define GetProcAddress dlsym
 #elif defined _WIN32
     #include <windows.h>
+	#define dlsym GetProcAddress
 #endif
 
 #if !defined ZMCRYPTOSDK_H
@@ -224,7 +224,8 @@ namespace zmcrypto
             STREAMCIPHER_WITH_IV_FUNCTION_DECLARA(xsalsa20)
         #endif
 
-    private:
+    //private:
+    public:
 
         const char* m_modulefile;
 

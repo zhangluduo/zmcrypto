@@ -175,7 +175,7 @@ void test_speed_sha1(zmcrypto::sdk* _sdk)
         uint32_t elapsed = (uint32_t)(end - start);
         double rate = (double)dsize / (double)elapsed;
 
-        format_output("md5 by Crypto++|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
+        format_output("sha1 by Crypto++|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
 
         delete HashPtr;
         HashPtr = NULL;
@@ -211,7 +211,7 @@ void test_speed_sha1(zmcrypto::sdk* _sdk)
         uint32_t elapsed = (uint32_t)(end - start);
         double rate = (double)dsize / (double)elapsed;
 
-        format_output("md5 by OpenSSL|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
+        format_output("sha1 by OpenSSL|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
 
         delete[] output;
         output = NULL;

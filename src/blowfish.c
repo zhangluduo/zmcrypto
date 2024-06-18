@@ -484,7 +484,7 @@
         return blowfish_internal_set_key (ctx, key, ksize * 8);
     }
 
-    void blowfish_enc_block (struct blowfish_ctx* ctx, uint8_t* plaintext, uint8_t* ciphertext)
+    void blowfish_enc_block (struct blowfish_ctx* ctx, uint8_t plaintext[8], uint8_t ciphertext[8])
     {
         uint32_t X0, X1;
 
@@ -495,7 +495,7 @@
         PUT_UINT32_BE( X1, ciphertext,  4 );
     }
 
-    void blowfish_dec_block (struct blowfish_ctx* ctx, uint8_t* ciphertext, uint8_t* plaintext)
+    void blowfish_dec_block (struct blowfish_ctx* ctx, uint8_t ciphertext[8], uint8_t plaintext[8])
     {
         uint32_t X0, X1;
 

@@ -69,14 +69,14 @@ extern "C" {
 
         void twofish_enc_block (
             struct twofish_ctx* ctx, 
-            uint8_t* plaintext, 
-            uint8_t* ciphertext
+            uint8_t plaintext[16], 
+            uint8_t ciphertext[16]
         );
 
         void twofish_dec_block (
             struct twofish_ctx* ctx, 
-            uint8_t* ciphertext, 
-            uint8_t* plaintext
+            uint8_t ciphertext[16], 
+            uint8_t plaintext[16]
         );
 
     #endif /* ZMCRYPTO_ALGO_TWOFISH */

@@ -58,7 +58,7 @@ extern "C" {
 
         void sha1_final (
             struct sha1_ctx* ctx, 
-            uint8_t* output
+            uint8_t output[20]
         );
     #endif
 

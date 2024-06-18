@@ -69,14 +69,14 @@ extern "C" {
 
         void blowfish_enc_block (
             struct blowfish_ctx* ctx, 
-            uint8_t* plaintext, 
-            uint8_t* ciphertext
+            uint8_t plaintext[8], 
+            uint8_t ciphertext[8]
         );
 
         void blowfish_dec_block (
             struct blowfish_ctx* ctx, 
-            uint8_t* ciphertext, 
-            uint8_t* plaintext
+            uint8_t ciphertext[8], 
+            uint8_t plaintext[8]
         );
 
     #endif /* ZMCRYPTO_ALGO_BLOWFISH */

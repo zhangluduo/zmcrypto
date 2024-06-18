@@ -18,6 +18,7 @@
 #define _FORMATOUTPUT_HEADER_H
 
 #include <string>
+#include <stdint.h>
 
 void format_output(const char* const fmt, ...);
 std::string bytes_to_human_readable_format(uint64_t bytes);

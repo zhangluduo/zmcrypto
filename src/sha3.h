@@ -62,7 +62,7 @@ extern "C" {
 
         void sha3_224_final (
             struct sha3_224_ctx* ctx, 
-            uint8_t* output
+            uint8_t output[28]
         );
 
         struct sha3_256_ctx* sha3_256_new (
@@ -97,7 +97,7 @@ extern "C" {
 
         void sha3_256_final (
             struct sha3_256_ctx* ctx, 
-            uint8_t* output
+            uint8_t output[32]
         );
 
         struct sha3_384_ctx* sha3_384_new (
@@ -132,7 +132,7 @@ extern "C" {
 
         void sha3_384_final (
             struct sha3_384_ctx* ctx, 
-            uint8_t* output
+            uint8_t output[48]
         );
 
         struct sha3_512_ctx* sha3_512_new (
@@ -167,7 +167,7 @@ extern "C" {
 
         void sha3_512_final (
             struct sha3_512_ctx* ctx, 
-            uint8_t* output
+            uint8_t output[64]
         );
     #endif
 

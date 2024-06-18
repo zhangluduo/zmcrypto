@@ -276,7 +276,7 @@
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
 
-    void sha1_final (struct sha1_ctx* ctx, uint8_t* output)
+    void sha1_final (struct sha1_ctx* ctx, uint8_t output[20])
     {
         uint32_t last, padn;
         uint32_t high, low;

@@ -508,7 +508,7 @@
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 
-    void aes_enc_block (struct aes_ctx* ctx, uint8_t* plaintext, uint8_t* ciphertext)
+    void aes_enc_block (struct aes_ctx* ctx, uint8_t plaintext[16], uint8_t ciphertext[16])
     {
         uint32_t i;
         uint32_t *RK, X0, X1, X2, X3, Y0, Y1, Y2, Y3;
@@ -558,7 +558,7 @@
         PUT_UINT32_LE( X3, ciphertext, 12 );
     }
 
-    void aes_dec_block (struct aes_ctx* ctx, uint8_t* ciphertext, uint8_t* plaintext)
+    void aes_dec_block (struct aes_ctx* ctx, uint8_t ciphertext[16], uint8_t plaintext[16])
     {
         uint32_t i;
         uint32_t *RK, X0, X1, X2, X3, Y0, Y1, Y2, Y3;

@@ -15,18 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\engine\new_aes.c">
+    <ClCompile Include="..\..\hook\hook.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\hook\replace_aes.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\engine\new_aes.h">
+    <ClInclude Include="..\..\hook\hook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\engine\engine.def">
-      <Filter>Source Files</Filter>
-    </None>
+    <ClInclude Include="..\..\hook\replace_aes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

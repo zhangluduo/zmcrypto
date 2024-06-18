@@ -210,13 +210,15 @@ Use the following macros to make this library do clipping
     #define ZMCRYPTO_ALGO_EDDSA
     #define ZMCRYPTO_ALGO_DSA
 
-/* PRNG engine */
+/* PRBG engine */
 #define ZMCRYPTO_RANDOM_CTR_DRBG_WITH_AES
 // #define ZMCRYPTO_RANDOM_CTR_DRBG_WITH_SM4
 // #define ZMCRYPTO_RANDOM_HASH_DRBG_WITH_SM3
-// #define ZMCRYPTO_RANDOM_HASH_DRBG_WITH_SHA256
+// #define ZMCRYPTO_RANDOM_HASH_DRBG_WITH_SHA3_256
+
+/* PRNG engine */
 // #define ZMCRYPTO_RANDOM_MERSENNE_TWISTER
-// #define ZMCRYPTO_RANDOM_OS
+
 
 /* Key Agreement
   #define ZMCRYPTO_ALGO_ECDH

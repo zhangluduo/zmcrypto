@@ -67,14 +67,14 @@ extern "C" {
 
         void tea_enc_block(
             struct tea_ctx* ctx, 
-            uint8_t* plaintext, 
-            uint8_t* ciphertext
+            uint8_t plaintext[8], 
+            uint8_t ciphertext[8]
         );
 
         void tea_dec_block(
             struct tea_ctx* ctx, 
-            uint8_t* ciphertext, 
-            uint8_t* plaintext
+            uint8_t ciphertext[8], 
+            uint8_t plaintext[8]
         );
 
     #endif

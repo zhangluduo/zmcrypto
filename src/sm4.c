@@ -243,12 +243,12 @@
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 
-    void sm4_enc_block (struct sm4_ctx* ctx, uint8_t* plaintext, uint8_t* ciphertext)
+    void sm4_enc_block (struct sm4_ctx* ctx, uint8_t plaintext[16], uint8_t ciphertext[16])
     {
         sm4_one_round (ctx->sk, plaintext, ciphertext);
     }
 
-    void sm4_dec_block (struct sm4_ctx* ctx, uint8_t* ciphertext, uint8_t* plaintext)
+    void sm4_dec_block (struct sm4_ctx* ctx, uint8_t ciphertext[16], uint8_t plaintext[16])
     {
         sm4_one_round (ctx->sk, ciphertext, plaintext);
     }

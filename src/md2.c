@@ -159,7 +159,7 @@
         }   
     }
 
-    void md2_final (struct md2_ctx* ctx, uint8_t* output)
+    void md2_final (struct md2_ctx* ctx, uint8_t output[16])
     {
         uint32_t i;
         uint8_t x;

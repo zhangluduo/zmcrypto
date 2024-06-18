@@ -107,7 +107,7 @@
         ctx->checksum = (s2 << 16) | s1;
     }
 
-    void adler32_final (struct adler32_ctx* ctx, uint8_t* output) 
+    void adler32_final (struct adler32_ctx* ctx, uint8_t output[4]) 
     {
         #if defined ENDIAN_LITTLE
             *(output + 0) = *(((uint8_t*)(&(ctx->checksum))) + 3);

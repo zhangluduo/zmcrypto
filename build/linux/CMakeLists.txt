@@ -26,7 +26,7 @@ add_library(
 	zmcrypto
 	SHARED
 	../../src/adler32.c
-	../../src/block_pad.c
+	../../src/blockpad.c
 	../../src/base64.c
 	../../src/base58.c
 	../../src/base32.c
@@ -71,22 +71,22 @@ set_target_properties(
     PROPERTIES PREFIX "" SUFFIX ".so"
 )
 
-#------------------- engine.so -------------------
+#------------------- hook.so -------------------
 add_library(
-	engine
+	hook
 	SHARED
-	../../engine/new_aes.c
-	../../src/zmcrypto.c
+	../../hook/replace_aes.c
+	../../hook/hook.c
 )
 
 set_target_properties(
-    engine 
+    hook 
     PROPERTIES PREFIX "" SUFFIX ".so"
 )
 
-target_link_libraries (engine LINK_PUBLIC 
+target_link_libraries (hook LINK_PUBLIC 
 	dl
-	zmcrypto
+	pthread
 )
 
 #------------------- test -------------------
@@ -140,7 +140,7 @@ add_executable(
 	../../tests/cpp/test_sm4.cpp
 	../../tests/cpp/test_blowfish.cpp
 	../../tests/cpp/test_blockpad.cpp
-	../../tests/cpp/test_engine.cpp
+	../../tests/cpp/test_hook.cpp
 
 	../../tests/cpp/test_asn1.cpp
 	../../src/asn1.c
@@ -152,26 +152,27 @@ target_link_libraries (test LINK_PUBLIC
 	cryptopp #Crypto++ Library
 	crypto #libcrypto for openssl 
 	mbedcrypto #libmbedcrypto.a
+	pthread
 )
 
 #------------------- APPs -------------------
-
-add_executable(
-	app_asn1
-	../../app/app_asn1.c
-)
-
-add_executable(
-	app_x509
-	../../app/app_x509.c
-)
-
-add_executable(
-	app_bitoper
-	../../app/app_bitoper.c
-)
-
-add_executable(
-	app_hex
-	../../app/app_hex.c
-)
+#
+#add_executable(
+#	app_asn1
+#	../../app/app_asn1.c
+#)
+#
+#add_executable(
+#	app_x509
+#	../../app/app_x509.c
+#)
+#
+#add_executable(
+#	app_bitoper
+#	../../app/app_bitoper.c
+#)
+#
+#add_executable(
+#	app_hex
+#	../../app/app_hex.c
+#)

@@ -1,4 +1,3 @@
-
 /**
  *  Copyright 2022 The ZmCrypto Project. All Rights Reserved.
  *
@@ -9,24 +8,25 @@
  * 
  * 
  * Author: Zhang Luduo (zhangluduo@qq.com)
- *   Date: Sep. 2023
+ *   Date: Nov 2022
  *   Home: https://zmcrypto.cn/
  *         https://github.com/zhangluduo/zmcrypto/
  */
 
-#if !defined ZMCRYPTO_APP_HEX_H
-#define ZMCRYPTO_APP_HEX_H
+#if !defined HOOK_H
+#define HOOK_H
 
-#include "zmconfig.h"
+#include "../src/zmcrypto.h"
 
 #ifdef  __cplusplus
 extern "C" {
 #endif
 
-    
+    API zmerror hook_start(void* modue);
+	API zmerror hook_finish();
 
 #ifdef  __cplusplus
 }
 #endif
 
-#endif /* ZMCRYPTO_APP_HEX_H */
+#endif /* ZMCRYPTO_AES_H */

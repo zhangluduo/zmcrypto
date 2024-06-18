@@ -12,7 +12,6 @@
     <ClCompile Include="..\..\tests\cpp\test_cmac.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_crc32.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_des.cpp" />
-    <ClCompile Include="..\..\tests\cpp\test_engine.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_hmac.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_md5.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_pbkdf2.cpp" />
@@ -26,6 +25,7 @@
     <ClCompile Include="..\..\tests\cpp\test_blowfish.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_asn1.cpp" />
     <ClCompile Include="..\..\src\asn1.c" />
+    <ClCompile Include="..\..\tests\cpp\test_hook.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\tests\cpp\format_output.h" />
@@ -39,7 +39,6 @@
     <ClInclude Include="..\..\tests\cpp\test_config.h" />
     <ClInclude Include="..\..\tests\cpp\test_crc32.h" />
     <ClInclude Include="..\..\tests\cpp\test_des.h" />
-    <ClInclude Include="..\..\tests\cpp\test_engine.h" />
     <ClInclude Include="..\..\tests\cpp\test_hmac.h" />
     <ClInclude Include="..\..\tests\cpp\test_md5.h" />
     <ClInclude Include="..\..\tests\cpp\test_pbkdf2.h" />
@@ -53,6 +52,7 @@
     <ClInclude Include="..\..\tests\cpp\test_blowfish.h" />
     <ClInclude Include="..\..\tests\cpp\test_asn1.h" />
     <ClInclude Include="..\..\src\asn1.h" />
+    <ClInclude Include="..\..\tests\cpp\test_hook.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\tests\cpp\test_report.txt" />

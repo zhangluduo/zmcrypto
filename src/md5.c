@@ -245,7 +245,7 @@
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
 
-    void md5_final (struct md5_ctx* ctx, uint8_t* output)
+    void md5_final (struct md5_ctx* ctx, uint8_t output[16])
     {
         uint32_t last, padn;
         uint32_t high, low;

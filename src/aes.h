@@ -68,14 +68,14 @@ extern "C" {
 
         void aes_enc_block (
             struct aes_ctx* ctx, 
-            uint8_t* plaintext, 
-            uint8_t* ciphertext
+            uint8_t plaintext[16], 
+            uint8_t ciphertext[16]
         );
 
         void aes_dec_block (
             struct aes_ctx* ctx, 
-            uint8_t* ciphertext, 
-            uint8_t* plaintext
+            uint8_t ciphertext[16], 
+            uint8_t plaintext[16]
         );
     #endif
 

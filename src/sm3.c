@@ -227,7 +227,7 @@
             { (void)zmcrypto_memcpy( (void *) (ctx->buffer + left), (void *) data, dsize ); }
     }
 
-    void sm3_final (struct sm3_ctx* ctx, uint8_t* output)
+    void sm3_final (struct sm3_ctx* ctx, uint8_t output[32])
     {
         uint32_t last, padn;
         uint32_t high, low;

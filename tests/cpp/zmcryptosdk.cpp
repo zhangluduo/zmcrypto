@@ -15,6 +15,8 @@
 
 #include "zmcryptosdk.h"
 
+#define ZMCRYPTO_DL_FILE ""
+
 namespace zmcrypto
 {
     pfn_version_num   _pfn_version_num  = NULL;
@@ -122,8 +124,8 @@ namespace zmcrypto
         pfn_##name##_decode _pfn_##name##_decode = NULL;
 
      #define BINTXT_POINTER_LOAD(name)\
-        _pfn_##name##_encode = (pfn_##name##_encode)GetProcAddress(m_modulehandle, "zm_" #name "_encode");\
-        _pfn_##name##_decode = (pfn_##name##_decode)GetProcAddress(m_modulehandle, "zm_" #name "_decode");
+        _pfn_##name##_encode = (pfn_##name##_encode)dlsym(m_modulehandle, "zm_" #name "_encode");\
+        _pfn_##name##_decode = (pfn_##name##_decode)dlsym(m_modulehandle, "zm_" #name "_decode");
 
     #define BINTXT_POINTER_IMPL(name)\
         zmerror sdk::zm_##name##_encode(uint8_t *input, uint32_t ilen, uint8_t *output, uint32_t *olen, uint32_t options)\
@@ -155,13 +157,13 @@ namespace zmcrypto
         pfn_##name##_final         _pfn_##name##_final         = NULL;
 
     #define CHECKSUM_POINTER_LOAD(name)\
-        _pfn_##name##_new              = (pfn_##name##_new            )GetProcAddress(m_modulehandle, "zm_" #name "_new"            );\
-        _pfn_##name##_free             = (pfn_##name##_free           )GetProcAddress(m_modulehandle, "zm_" #name "_free"           );\
-        _pfn_##name##_checksum_size    = (pfn_##name##_checksum_size  )GetProcAddress(m_modulehandle, "zm_" #name "_checksum_size"  );\
-        _pfn_##name##_init             = (pfn_##name##_init           )GetProcAddress(m_modulehandle, "zm_" #name "_init"           );\
-        _pfn_##name##_starts           = (pfn_##name##_starts         )GetProcAddress(m_modulehandle, "zm_" #name "_starts"         );\
-        _pfn_##name##_update           = (pfn_##name##_update         )GetProcAddress(m_modulehandle, "zm_" #name "_update"         );\
-        _pfn_##name##_final            = (pfn_##name##_final          )GetProcAddress(m_modulehandle, "zm_" #name "_final"          );
+        _pfn_##name##_new              = (pfn_##name##_new            )dlsym(m_modulehandle, "zm_" #name "_new"            );\
+        _pfn_##name##_free             = (pfn_##name##_free           )dlsym(m_modulehandle, "zm_" #name "_free"           );\
+        _pfn_##name##_checksum_size    = (pfn_##name##_checksum_size  )dlsym(m_modulehandle, "zm_" #name "_checksum_size"  );\
+        _pfn_##name##_init             = (pfn_##name##_init           )dlsym(m_modulehandle, "zm_" #name "_init"           );\
+        _pfn_##name##_starts           = (pfn_##name##_starts         )dlsym(m_modulehandle, "zm_" #name "_starts"         );\
+        _pfn_##name##_update           = (pfn_##name##_update         )dlsym(m_modulehandle, "zm_" #name "_update"         );\
+        _pfn_##name##_final            = (pfn_##name##_final          )dlsym(m_modulehandle, "zm_" #name "_final"          );
 
     #define CHECKSUM_POINTER_IMPL(name)\
         CONTEXT_TYPE_PTR(name) sdk::zm_##name##_new(void)\
@@ -220,14 +222,14 @@ namespace zmcrypto
         pfn_##name##_final       _pfn_##name##_final       = NULL;
 
     #define HASH_POINTER_LOAD(name)\
-        _pfn_##name##_new            = (pfn_##name##_new          )GetProcAddress(m_modulehandle, "zm_" #name "_new"          );\
-        _pfn_##name##_free           = (pfn_##name##_free         )GetProcAddress(m_modulehandle, "zm_" #name "_free"         );\
-        _pfn_##name##_digest_size    = (pfn_##name##_digest_size  )GetProcAddress(m_modulehandle, "zm_" #name "_digest_size"  );\
-        _pfn_##name##_block_size     = (pfn_##name##_block_size   )GetProcAddress(m_modulehandle, "zm_" #name "_block_size"   );\
-        _pfn_##name##_init           = (pfn_##name##_init         )GetProcAddress(m_modulehandle, "zm_" #name "_init"         );\
-        _pfn_##name##_starts         = (pfn_##name##_starts       )GetProcAddress(m_modulehandle, "zm_" #name "_starts"       );\
-        _pfn_##name##_update         = (pfn_##name##_update       )GetProcAddress(m_modulehandle, "zm_" #name "_update"       );\
-        _pfn_##name##_final          = (pfn_##name##_final        )GetProcAddress(m_modulehandle, "zm_" #name "_final"        );
+        _pfn_##name##_new            = (pfn_##name##_new          )dlsym(m_modulehandle, "zm_" #name "_new"          );\
+        _pfn_##name##_free           = (pfn_##name##_free         )dlsym(m_modulehandle, "zm_" #name "_free"         );\
+        _pfn_##name##_digest_size    = (pfn_##name##_digest_size  )dlsym(m_modulehandle, "zm_" #name "_digest_size"  );\
+        _pfn_##name##_block_size     = (pfn_##name##_block_size   )dlsym(m_modulehandle, "zm_" #name "_block_size"   );\
+        _pfn_##name##_init           = (pfn_##name##_init         )dlsym(m_modulehandle, "zm_" #name "_init"         );\
+        _pfn_##name##_starts         = (pfn_##name##_starts       )dlsym(m_modulehandle, "zm_" #name "_starts"       );\
+        _pfn_##name##_update         = (pfn_##name##_update       )dlsym(m_modulehandle, "zm_" #name "_update"       );\
+        _pfn_##name##_final          = (pfn_##name##_final        )dlsym(m_modulehandle, "zm_" #name "_final"        );
 
     #define HASH_POINTER_IMPL(name)\
         CONTEXT_TYPE_PTR(name) sdk::zm_##name##_new(void)\
@@ -300,17 +302,17 @@ namespace zmcrypto
         pfn_##name##_dec_block      _pfn_##name##_dec_block      = NULL;
 
     #define BLOCKCIPHER_POINTER_LOAD(name)\
-        _pfn_##name##_new            = (pfn_##name##_new           )GetProcAddress(m_modulehandle, "zm_" #name "_new"           );\
-        _pfn_##name##_free           = (pfn_##name##_free          )GetProcAddress(m_modulehandle, "zm_" #name "_free"          );\
-        _pfn_##name##_init           = (pfn_##name##_init          )GetProcAddress(m_modulehandle, "zm_" #name "_init"          );\
-        _pfn_##name##_block_size     = (pfn_##name##_block_size    )GetProcAddress(m_modulehandle, "zm_" #name "_block_size"    );\
-        _pfn_##name##_ksize_min      = (pfn_##name##_ksize_min     )GetProcAddress(m_modulehandle, "zm_" #name "_ksize_min"     );\
-        _pfn_##name##_ksize_max      = (pfn_##name##_ksize_max     )GetProcAddress(m_modulehandle, "zm_" #name "_ksize_max"     );\
-        _pfn_##name##_ksize_multiple = (pfn_##name##_ksize_multiple)GetProcAddress(m_modulehandle, "zm_" #name "_ksize_multiple");\
-        _pfn_##name##_set_ekey       = (pfn_##name##_set_ekey      )GetProcAddress(m_modulehandle, "zm_" #name "_set_ekey"      );\
-        _pfn_##name##_set_dkey       = (pfn_##name##_set_dkey      )GetProcAddress(m_modulehandle, "zm_" #name "_set_dkey"      );\
-        _pfn_##name##_enc_block      = (pfn_##name##_enc_block     )GetProcAddress(m_modulehandle, "zm_" #name "_enc_block"     );\
-        _pfn_##name##_dec_block      = (pfn_##name##_dec_block     )GetProcAddress(m_modulehandle, "zm_" #name "_dec_block"     );
+        _pfn_##name##_new            = (pfn_##name##_new           )dlsym(m_modulehandle, "zm_" #name "_new"           );\
+        _pfn_##name##_free           = (pfn_##name##_free          )dlsym(m_modulehandle, "zm_" #name "_free"          );\
+        _pfn_##name##_init           = (pfn_##name##_init          )dlsym(m_modulehandle, "zm_" #name "_init"          );\
+        _pfn_##name##_block_size     = (pfn_##name##_block_size    )dlsym(m_modulehandle, "zm_" #name "_block_size"    );\
+        _pfn_##name##_ksize_min      = (pfn_##name##_ksize_min     )dlsym(m_modulehandle, "zm_" #name "_ksize_min"     );\
+        _pfn_##name##_ksize_max      = (pfn_##name##_ksize_max     )dlsym(m_modulehandle, "zm_" #name "_ksize_max"     );\
+        _pfn_##name##_ksize_multiple = (pfn_##name##_ksize_multiple)dlsym(m_modulehandle, "zm_" #name "_ksize_multiple");\
+        _pfn_##name##_set_ekey       = (pfn_##name##_set_ekey      )dlsym(m_modulehandle, "zm_" #name "_set_ekey"      );\
+        _pfn_##name##_set_dkey       = (pfn_##name##_set_dkey      )dlsym(m_modulehandle, "zm_" #name "_set_dkey"      );\
+        _pfn_##name##_enc_block      = (pfn_##name##_enc_block     )dlsym(m_modulehandle, "zm_" #name "_enc_block"     );\
+        _pfn_##name##_dec_block      = (pfn_##name##_dec_block     )dlsym(m_modulehandle, "zm_" #name "_dec_block"     );
 
     #define BLOCKCIPHER_POINTER_IMPL(name)\
         CONTEXT_TYPE_PTR(name) sdk::zm_##name##_new(void)\
@@ -397,13 +399,13 @@ namespace zmcrypto
         pfn_##name##_digest_size  _pfn_##name##_digest_size  = NULL;
 
     #define MAC_POINTER_LOAD(name)\
-        _pfn_##name##_new           = (pfn_##name##_new          )GetProcAddress(m_modulehandle, "zm_" #name "_new"          );\
-        _pfn_##name##_free          = (pfn_##name##_free         )GetProcAddress(m_modulehandle, "zm_" #name "_free"         );\
-        _pfn_##name##_init          = (pfn_##name##_init         )GetProcAddress(m_modulehandle, "zm_" #name "_init"         );\
-        _pfn_##name##_starts        = (pfn_##name##_starts       )GetProcAddress(m_modulehandle, "zm_" #name "_starts"       );\
-        _pfn_##name##_update        = (pfn_##name##_update       )GetProcAddress(m_modulehandle, "zm_" #name "_update"       );\
-        _pfn_##name##_final         = (pfn_##name##_final        )GetProcAddress(m_modulehandle, "zm_" #name "_final"        );\
-        _pfn_##name##_digest_size   = (pfn_##name##_digest_size  )GetProcAddress(m_modulehandle, "zm_" #name "_digest_size"  );
+        _pfn_##name##_new           = (pfn_##name##_new          )dlsym(m_modulehandle, "zm_" #name "_new"          );\
+        _pfn_##name##_free          = (pfn_##name##_free         )dlsym(m_modulehandle, "zm_" #name "_free"         );\
+        _pfn_##name##_init          = (pfn_##name##_init         )dlsym(m_modulehandle, "zm_" #name "_init"         );\
+        _pfn_##name##_starts        = (pfn_##name##_starts       )dlsym(m_modulehandle, "zm_" #name "_starts"       );\
+        _pfn_##name##_update        = (pfn_##name##_update       )dlsym(m_modulehandle, "zm_" #name "_update"       );\
+        _pfn_##name##_final         = (pfn_##name##_final        )dlsym(m_modulehandle, "zm_" #name "_final"        );\
+        _pfn_##name##_digest_size   = (pfn_##name##_digest_size  )dlsym(m_modulehandle, "zm_" #name "_digest_size"  );
 
     #define MAC_POINTER_IMPL(name, param, args)\
         CONTEXT_TYPE_PTR(name) sdk::zm_##name##_new (void)\
@@ -462,13 +464,13 @@ namespace zmcrypto
         pfn_##name##_dec        _pfn_##name##_dec      = NULL;
 
     #define CIPHER_MODE_POINTER_LOAD(name)\
-        _pfn_##name##_new      = (pfn_##name##_new     )GetProcAddress(m_modulehandle, "zm_" #name "_new"       );\
-        _pfn_##name##_free     = (pfn_##name##_free    )GetProcAddress(m_modulehandle, "zm_" #name "_free"      );\
-        _pfn_##name##_init     = (pfn_##name##_init    )GetProcAddress(m_modulehandle, "zm_" #name "_init"      );\
-        _pfn_##name##_set_ekey = (pfn_##name##_set_ekey)GetProcAddress(m_modulehandle, "zm_" #name "_set_ekey"  );\
-        _pfn_##name##_set_dkey = (pfn_##name##_set_dkey)GetProcAddress(m_modulehandle, "zm_" #name "_set_dkey"  );\
-        _pfn_##name##_enc      = (pfn_##name##_enc     )GetProcAddress(m_modulehandle, "zm_" #name "_enc"       );\
-        _pfn_##name##_dec      = (pfn_##name##_dec     )GetProcAddress(m_modulehandle, "zm_" #name "_dec"       );
+        _pfn_##name##_new      = (pfn_##name##_new     )dlsym(m_modulehandle, "zm_" #name "_new"       );\
+        _pfn_##name##_free     = (pfn_##name##_free    )dlsym(m_modulehandle, "zm_" #name "_free"      );\
+        _pfn_##name##_init     = (pfn_##name##_init    )dlsym(m_modulehandle, "zm_" #name "_init"      );\
+        _pfn_##name##_set_ekey = (pfn_##name##_set_ekey)dlsym(m_modulehandle, "zm_" #name "_set_ekey"  );\
+        _pfn_##name##_set_dkey = (pfn_##name##_set_dkey)dlsym(m_modulehandle, "zm_" #name "_set_dkey"  );\
+        _pfn_##name##_enc      = (pfn_##name##_enc     )dlsym(m_modulehandle, "zm_" #name "_enc"       );\
+        _pfn_##name##_dec      = (pfn_##name##_dec     )dlsym(m_modulehandle, "zm_" #name "_dec"       );
 
     #define CIPHER_MODE_POINTER_IMPL(name, param, args)\
         CONTEXT_TYPE_PTR(name) sdk::zm_##name##_new (void)\
@@ -578,13 +580,13 @@ namespace zmcrypto
         pfn_##name##_final        _pfn_##name##_final        = NULL;
 
      #define AEAD_POINTER_LOAD(name)\
-        _pfn_##name##_new         = (pfn_##name##_new        )GetProcAddress(m_modulehandle, "zm_" #name "_new"        );\
-        _pfn_##name##_free        = (pfn_##name##_free       )GetProcAddress(m_modulehandle, "zm_" #name "_free"       );\
-        _pfn_##name##_init        = (pfn_##name##_init       )GetProcAddress(m_modulehandle, "zm_" #name "_init"       );\
-        _pfn_##name##_starts      = (pfn_##name##_starts     )GetProcAddress(m_modulehandle, "zm_" #name "_starts"     );\
-        _pfn_##name##_update_aad  = (pfn_##name##_update_aad )GetProcAddress(m_modulehandle, "zm_" #name "_update_aad" );\
-        _pfn_##name##_update_data = (pfn_##name##_update_data)GetProcAddress(m_modulehandle, "zm_" #name "_update_data");\
-        _pfn_##name##_final       = (pfn_##name##_final      )GetProcAddress(m_modulehandle, "zm_" #name "_final"      );
+        _pfn_##name##_new         = (pfn_##name##_new        )dlsym(m_modulehandle, "zm_" #name "_new"        );\
+        _pfn_##name##_free        = (pfn_##name##_free       )dlsym(m_modulehandle, "zm_" #name "_free"       );\
+        _pfn_##name##_init        = (pfn_##name##_init       )dlsym(m_modulehandle, "zm_" #name "_init"       );\
+        _pfn_##name##_starts      = (pfn_##name##_starts     )dlsym(m_modulehandle, "zm_" #name "_starts"     );\
+        _pfn_##name##_update_aad  = (pfn_##name##_update_aad )dlsym(m_modulehandle, "zm_" #name "_update_aad" );\
+        _pfn_##name##_update_data = (pfn_##name##_update_data)dlsym(m_modulehandle, "zm_" #name "_update_data");\
+        _pfn_##name##_final       = (pfn_##name##_final      )dlsym(m_modulehandle, "zm_" #name "_final"      );
 
      #define AEAD_POINTER_IMPL(name, cipher_param, cipher_args, starts_param, starts_args, final_param, final_args)\
         CONTEXT_TYPE_PTR(name) sdk::zm_##name##_new (void)\
@@ -651,19 +653,19 @@ namespace zmcrypto
         pfn_##name##_set_iv           _pfn_##name##_set_iv         = NULL;
 
     #define STREAMCIPHER_POINTER_LOAD(name)\
-        _pfn_##name##_ksize_min      = (pfn_##name##_ksize_min     )GetProcAddress(m_modulehandle, "zm_" #name "_ksize_min"     ); \
-        _pfn_##name##_ksize_max      = (pfn_##name##_ksize_max     )GetProcAddress(m_modulehandle, "zm_" #name "_ksize_max"     ); \
-        _pfn_##name##_ksize_multiple = (pfn_##name##_ksize_multiple)GetProcAddress(m_modulehandle, "zm_" #name "_ksize_multiple"); \
-        _pfn_##name##_new            = (pfn_##name##_new           )GetProcAddress(m_modulehandle, "zm_" #name "_new"           ); \
-        _pfn_##name##_free           = (pfn_##name##_free          )GetProcAddress(m_modulehandle, "zm_" #name "_free"          ); \
-        _pfn_##name##_init           = (pfn_##name##_init          )GetProcAddress(m_modulehandle, "zm_" #name "_init"          ); \
-        _pfn_##name##_set_ekey       = (pfn_##name##_set_ekey      )GetProcAddress(m_modulehandle, "zm_" #name "_set_ekey"      ); \
-        _pfn_##name##_set_dkey       = (pfn_##name##_set_dkey      )GetProcAddress(m_modulehandle, "zm_" #name "_set_dkey"      ); \
-        _pfn_##name##_encrypt        = (pfn_##name##_encrypt       )GetProcAddress(m_modulehandle, "zm_" #name "_encrypt"       ); \
-        _pfn_##name##_decrypt        = (pfn_##name##_decrypt       )GetProcAddress(m_modulehandle, "zm_" #name "_decrypt"       ); \
+        _pfn_##name##_ksize_min      = (pfn_##name##_ksize_min     )dlsym(m_modulehandle, "zm_" #name "_ksize_min"     ); \
+        _pfn_##name##_ksize_max      = (pfn_##name##_ksize_max     )dlsym(m_modulehandle, "zm_" #name "_ksize_max"     ); \
+        _pfn_##name##_ksize_multiple = (pfn_##name##_ksize_multiple)dlsym(m_modulehandle, "zm_" #name "_ksize_multiple"); \
+        _pfn_##name##_new            = (pfn_##name##_new           )dlsym(m_modulehandle, "zm_" #name "_new"           ); \
+        _pfn_##name##_free           = (pfn_##name##_free          )dlsym(m_modulehandle, "zm_" #name "_free"          ); \
+        _pfn_##name##_init           = (pfn_##name##_init          )dlsym(m_modulehandle, "zm_" #name "_init"          ); \
+        _pfn_##name##_set_ekey       = (pfn_##name##_set_ekey      )dlsym(m_modulehandle, "zm_" #name "_set_ekey"      ); \
+        _pfn_##name##_set_dkey       = (pfn_##name##_set_dkey      )dlsym(m_modulehandle, "zm_" #name "_set_dkey"      ); \
+        _pfn_##name##_encrypt        = (pfn_##name##_encrypt       )dlsym(m_modulehandle, "zm_" #name "_encrypt"       ); \
+        _pfn_##name##_decrypt        = (pfn_##name##_decrypt       )dlsym(m_modulehandle, "zm_" #name "_decrypt"       ); \
 
     #define STREAMCIPHER_WITH_IV_POINTER_LOAD(name)\
-        _pfn_##name##_set_iv         = (pfn_##name##_set_iv        )GetProcAddress(m_modulehandle, "zm_" #name "_set_iv"        );
+        _pfn_##name##_set_iv         = (pfn_##name##_set_iv        )dlsym(m_modulehandle, "zm_" #name "_set_iv"        );
 
     #define STREAMCIPHER_POINTER_IMPL(name)\
         int32_t sdk::zm_##name##_ksize_min (void)\
@@ -946,7 +948,7 @@ namespace zmcrypto
         }
 
         #if defined __linux__
-            m_modulehandle = dlopen(m_modulefile, RTLD_LAZY);
+            m_modulehandle = dlopen(m_modulefile, RTLD_NOW);
         #elif defined _WIN32
             m_modulehandle = LoadLibraryA(m_modulefile);
         #endif
@@ -960,24 +962,24 @@ namespace zmcrypto
             return;
         }
 
-        _pfn_version_num   = (pfn_version_num  )GetProcAddress(m_modulehandle, "zm_version_num" );
-        _pfn_version_str   = (pfn_version_str  )GetProcAddress(m_modulehandle, "zm_version_str" );
-        _pfn_error_str     = (pfn_error_str    )GetProcAddress(m_modulehandle, "zm_error_str"   );
-        _pfn_replace_fnc   = (pfn_replace_fnc  )GetProcAddress(m_modulehandle, "zm_replace_fnc" );
+        _pfn_version_num   = (pfn_version_num  )dlsym(m_modulehandle, "zm_version_num" );
+        _pfn_version_str   = (pfn_version_str  )dlsym(m_modulehandle, "zm_version_str" );
+        _pfn_error_str     = (pfn_error_str    )dlsym(m_modulehandle, "zm_error_str"   );
+        _pfn_replace_fnc   = (pfn_replace_fnc  )dlsym(m_modulehandle, "zm_replace_fnc" );
 
         #if defined ZMCRYPTO_ALGO_PBKDF2
-            _pfn_pbkdf2 = (pfn_pbkdf2)GetProcAddress(m_modulehandle, "zm_pbkdf2");
+            _pfn_pbkdf2 = (pfn_pbkdf2)dlsym(m_modulehandle, "zm_pbkdf2");
         #endif
         #if defined ZMCRYPTO_ALGO_BLOCKPAD
-            _pfn_blockpad_zero        = (pfn_blockpad_zero      )GetProcAddress(m_modulehandle, "zm_blockpad_zero"      );
-            _pfn_blockpad_iso10126    = (pfn_blockpad_iso10126  )GetProcAddress(m_modulehandle, "zm_blockpad_iso10126"  );
-            _pfn_blockpad_ansix923    = (pfn_blockpad_ansix923  )GetProcAddress(m_modulehandle, "zm_blockpad_ansix923"  );
-            _pfn_blockpad_pkcs7       = (pfn_blockpad_pkcs7     )GetProcAddress(m_modulehandle, "zm_blockpad_pkcs7"     );
+            _pfn_blockpad_zero        = (pfn_blockpad_zero      )dlsym(m_modulehandle, "zm_blockpad_zero"      );
+            _pfn_blockpad_iso10126    = (pfn_blockpad_iso10126  )dlsym(m_modulehandle, "zm_blockpad_iso10126"  );
+            _pfn_blockpad_ansix923    = (pfn_blockpad_ansix923  )dlsym(m_modulehandle, "zm_blockpad_ansix923"  );
+            _pfn_blockpad_pkcs7       = (pfn_blockpad_pkcs7     )dlsym(m_modulehandle, "zm_blockpad_pkcs7"     );
 
-            _pfn_blockdepad_zero      = (pfn_blockdepad_zero    )GetProcAddress(m_modulehandle, "zm_blockdepad_zero"    );
-            _pfn_blockdepad_iso10126  = (pfn_blockdepad_iso10126)GetProcAddress(m_modulehandle, "zm_blockdepad_iso10126");
-            _pfn_blockdepad_ansix923  = (pfn_blockdepad_ansix923)GetProcAddress(m_modulehandle, "zm_blockdepad_ansix923");
-            _pfn_blockdepad_pkcs7     = (pfn_blockdepad_pkcs7   )GetProcAddress(m_modulehandle, "zm_blockdepad_pkcs7"   );
+            _pfn_blockdepad_zero      = (pfn_blockdepad_zero    )dlsym(m_modulehandle, "zm_blockdepad_zero"    );
+            _pfn_blockdepad_iso10126  = (pfn_blockdepad_iso10126)dlsym(m_modulehandle, "zm_blockdepad_iso10126");
+            _pfn_blockdepad_ansix923  = (pfn_blockdepad_ansix923)dlsym(m_modulehandle, "zm_blockdepad_ansix923");
+            _pfn_blockdepad_pkcs7     = (pfn_blockdepad_pkcs7   )dlsym(m_modulehandle, "zm_blockdepad_pkcs7"   );
         #endif
 
         #if defined ZMCRYPTO_ALGO_BASE16

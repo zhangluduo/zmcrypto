@@ -209,7 +209,7 @@
         sha3_process((struct sha3_ctx*)ctx, data, dsize);
     }
 
-    void sha3_224_final (struct sha3_224_ctx* ctx, uint8_t* output)
+    void sha3_224_final (struct sha3_224_ctx* ctx, uint8_t output[28])
     {
         sha3_done((struct sha3_ctx*)ctx, output);
     }
@@ -246,7 +246,7 @@
         sha3_process((struct sha3_ctx*)ctx, data, dsize);
     }
 
-    void sha3_256_final (struct sha3_256_ctx* ctx, uint8_t* output)
+    void sha3_256_final (struct sha3_256_ctx* ctx, uint8_t output[32])
     {
         sha3_done((struct sha3_ctx*)ctx, output);
     }
@@ -283,7 +283,7 @@
         sha3_process((struct sha3_ctx*)ctx, data, dsize);
     }
 
-    void sha3_384_final (struct sha3_384_ctx* ctx, uint8_t* output)
+    void sha3_384_final (struct sha3_384_ctx* ctx, uint8_t output[48])
     {
         sha3_done((struct sha3_ctx*)ctx, output);
     }
@@ -320,7 +320,7 @@
         sha3_process((struct sha3_ctx*)ctx, data, dsize);
     }
 
-    void sha3_512_final (struct sha3_512_ctx* ctx, uint8_t* output)
+    void sha3_512_final (struct sha3_512_ctx* ctx, uint8_t output[64])
     {
         sha3_done((struct sha3_ctx*)ctx, output);
     }

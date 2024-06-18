@@ -49,7 +49,7 @@ extern "C" {
         );
 
         void adler32_final (
-            struct adler32_ctx* ctx, uint8_t* output
+            struct adler32_ctx* ctx, uint8_t output[4]
         );
     #endif
 

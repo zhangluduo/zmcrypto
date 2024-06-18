@@ -29,7 +29,7 @@
 #include "test_rc4.h"
 #include "test_sm4.h"
 #include "test_blowfish.h"
-#include "test_engine.h"
+#include "test_hook.h"
 #include "test_config.h"
 #include "test_blockpad.h"
 #include "test_asn1.h"
@@ -108,7 +108,7 @@ void test_case(zmcrypto::sdk* _sdk){
     test_case_sm4_ctr(_sdk);
 }
 
-void test_engine(zmcrypto::sdk* _sdk){
+void test_hook(zmcrypto::sdk* _sdk){
     test_case_hook_aes(_sdk);
     {
         test_case_aes_ecb(_sdk);
@@ -128,15 +128,15 @@ void test_engine(zmcrypto::sdk* _sdk){
 }
 
 void test_speed(zmcrypto::sdk* _sdk){
-    // test_speed_adler32(_sdk);
-    // test_speed_crc32(_sdk);
-    // test_speed_md5(_sdk);
-    // test_speed_sha1(_sdk);
-    // test_speed_sm3(_sdk);
-    // test_speed_sm4(_sdk);
+    test_speed_adler32(_sdk);
+    test_speed_crc32(_sdk);
+    test_speed_md5(_sdk);
+    test_speed_sha1(_sdk);
+    test_speed_sm3(_sdk);
+    test_speed_sm4(_sdk);
     test_speed_aes(_sdk);
-    // test_speed_des(_sdk);
-    // test_speed_blowfish(_sdk);
+    test_speed_des(_sdk);
+    test_speed_blowfish(_sdk);
 }
 
 void test_info(zmcrypto::sdk* _sdk){
@@ -669,6 +669,14 @@ void temp_test_ed2k(zmcrypto::sdk *_sdk){
 
 int main()
 {
+    // void* modulehandle = dlopen("/home/zhangluduo/data2t/zld/zmcrypto_git/bin/hook.so", RTLD_LAZY);
+    // if (modulehandle){printf ("aaaaaaaaaaaaaa \n");}
+    // else{
+    //     printf ("bbbbb%s \n", dlerror());
+    // }
+
+    // return 0;
+
     zmcrypto::sdk _sdk;
 
     // temp_test_sha3(&_sdk);
@@ -705,9 +713,9 @@ int main()
     // test_asn1_case17();
     // test_asn1_case18();
 
-    // test_engine(&_sdk);
+    test_hook(&_sdk);
     // test_case(&_sdk);
-    test_speed(&_sdk);
+    // test_speed(&_sdk);
     // test_info(&_sdk);
 #endif
 

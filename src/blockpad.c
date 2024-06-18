@@ -13,7 +13,7 @@
  *         https://github.com/zhangluduo/zmcrypto/
  */
 
-#include "block_pad.h"
+#include "blockpad.h"
 
 #if defined ZMCRYPTO_ALGO_BLOCKPAD
 

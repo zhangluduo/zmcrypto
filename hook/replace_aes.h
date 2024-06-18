@@ -13,10 +13,9 @@
  *         https://github.com/zhangluduo/zmcrypto/
  */
 
-#if !defined ZMCRYPTO_AES_H
-#define ZMCRYPTO_AES_H
+#if !defined REPLACE_AES_H
+#define REPLACE_AES_H
 
-#include "../src/zmconfig.h"
 #include "../src/zmcrypto.h"
 
 #ifdef  __cplusplus
@@ -41,4 +40,4 @@ extern "C" {
 }
 #endif
 
-#endif /* ZMCRYPTO_AES_H */
+#endif /* REPLACE_AES_H */

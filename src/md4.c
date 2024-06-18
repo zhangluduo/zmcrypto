@@ -223,7 +223,7 @@
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
 
-    void md4_final (struct md4_ctx* ctx, uint8_t* output)
+    void md4_final (struct md4_ctx* ctx, uint8_t output[16])
     {
         uint32_t last, padn;
         uint32_t high, low;

@@ -67,14 +67,14 @@ extern "C" {
 
         void sm4_enc_block (
             struct sm4_ctx* ctx, 
-            uint8_t* plaintext, 
-            uint8_t* ciphertext
+            uint8_t plaintext[16], 
+            uint8_t ciphertext[16]
         );
 
         void sm4_dec_block (
             struct sm4_ctx* ctx, 
-            uint8_t* ciphertext, 
-            uint8_t* plaintext
+            uint8_t ciphertext[16], 
+            uint8_t plaintext[16]
         );
     #endif
 

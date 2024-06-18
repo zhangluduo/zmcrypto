@@ -58,7 +58,7 @@ extern "C" {
 
         void ed2k_final (
             struct ed2k_ctx* ctx, 
-            uint8_t* output
+            uint8_t output[16]
         );
     #endif
 

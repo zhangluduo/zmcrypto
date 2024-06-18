@@ -59,7 +59,7 @@ extern "C" {
             return xtea_set_ekey(ctx, key, ksize);
         }
 
-        void xtea_enc_block(struct xtea_ctx* ctx, uint8_t* plaintext, uint8_t* ciphertext)
+        void xtea_enc_block(struct xtea_ctx* ctx, uint8_t plaintext[8], uint8_t ciphertext[8])
         {
             uint32_t *k, v0, v1, i;
 
@@ -81,7 +81,7 @@ extern "C" {
             PUT_UINT32_BE( v1, ciphertext, 4 );
         }
 
-        void xtea_dec_block(struct xtea_ctx* ctx, uint8_t* ciphertext, uint8_t* plaintext)
+        void xtea_dec_block(struct xtea_ctx* ctx, uint8_t ciphertext[8], uint8_t plaintext[8])
         {
             uint32_t *k, v0, v1, i;
 

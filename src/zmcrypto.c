@@ -20,7 +20,7 @@
 #include "base32.h"
 #include "base58.h"
 #include "base64.h"
-#include "block_pad.h"
+#include "blockpad.h"
 #include "blowfish.h"
 #include "cbc.h"
 #include "ccm.h"
@@ -87,7 +87,7 @@ extern "C" {
 
     const char* zm_error_str(int32_t code)
     {
-        for (int i = 0; i < sizeof(zm_error_code_map) / sizeof(zm_error_code_map[0]); i++){
+        for (uint32_t i = 0; i < sizeof(zm_error_code_map) / sizeof(zm_error_code_map[0]); i++){
             if (zm_error_code_map[i].val == code) { return zm_error_code_map[i].str; }
         }
 

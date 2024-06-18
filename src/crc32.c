@@ -51,7 +51,7 @@
         ctx->checksum = 0;
     }
 
-    void crc32_final (struct crc32_ctx* ctx, uint8_t* output)
+    void crc32_final (struct crc32_ctx* ctx, uint8_t output[4])
     {
         #if defined ENDIAN_LITTLE
             *(output + 0) = *(((uint8_t*)(&(ctx->checksum))) + 3);

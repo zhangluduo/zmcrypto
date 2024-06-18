@@ -102,7 +102,7 @@ extern "C" {
             return ZMCRYPTO_ERR_SUCCESSED; 
         }
 
-        void tea_enc_block(struct tea_ctx* ctx, uint8_t* plaintext, uint8_t* ciphertext)
+        void tea_enc_block(struct tea_ctx* ctx, uint8_t plaintext[8], uint8_t ciphertext[8])
         {
             unsigned int key[4];
             uint32_t in[2];
@@ -120,7 +120,7 @@ extern "C" {
             PUT_UINT32_BE(in[1], ciphertext, 4);
         }
 
-        void tea_dec_block(struct tea_ctx* ctx, uint8_t* ciphertext, uint8_t* plaintext)
+        void tea_dec_block(struct tea_ctx* ctx, uint8_t ciphertext[8], uint8_t plaintext[8])
         {
             unsigned int key[4];
             uint32_t in[2];

@@ -58,7 +58,7 @@ extern "C" {
 
         void md4_final (
             struct md4_ctx* ctx, 
-            uint8_t* output
+            uint8_t output[16]
         );
     #endif
 

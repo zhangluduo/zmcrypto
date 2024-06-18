@@ -58,7 +58,7 @@ extern "C" {
 
         void md5_final (
             struct md5_ctx* ctx, 
-            uint8_t* output
+            uint8_t output[16]
         );
     #endif
 

@@ -67,14 +67,14 @@ extern "C" {
 
         void des_enc_block(
             struct des_ctx* ctx, 
-            uint8_t* plaintext, 
-            uint8_t* ciphertext
+            uint8_t plaintext[8], 
+            uint8_t ciphertext[8]
         );
 
         void des_dec_block(
             struct des_ctx* ctx, 
-            uint8_t* ciphertext, 
-            uint8_t* plaintext
+            uint8_t ciphertext[8], 
+            uint8_t plaintext[8]
         );
 
     #endif

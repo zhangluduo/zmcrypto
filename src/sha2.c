@@ -351,7 +351,7 @@
     void sha224_update (struct sha224_ctx* ctx, uint8_t* data, uint32_t dsize)
         { sha256_update ((struct sha256_ctx*)ctx, data, dsize); }
 
-    void sha224_final (struct sha224_ctx* ctx, uint8_t* output)
+    void sha224_final (struct sha224_ctx* ctx, uint8_t output[28])
     {
         uint32_t last, padn;
         uint32_t high, low;
@@ -452,7 +452,7 @@
             { zmcrypto_memcpy( (void *) (((struct sha2_ctx*)ctx)->buffer + left), data, dsize ); }
     }
 
-    void sha256_final (struct sha256_ctx* ctx, uint8_t* output)
+    void sha256_final (struct sha256_ctx* ctx, uint8_t output[32])
     {
         uint32_t last, padn;
         uint32_t high, low;
@@ -520,7 +520,7 @@
     void sha384_update (struct sha384_ctx* ctx, uint8_t* data, uint32_t dsize)
         { sha512_update ((struct sha512_ctx*)ctx, data, dsize); }
 
-    void sha384_final (struct sha384_ctx* ctx, uint8_t* output)
+    void sha384_final (struct sha384_ctx* ctx, uint8_t output[48])
     {
         uint64_t last, padn;
         uint64_t high, low;
@@ -619,7 +619,7 @@
             { zmcrypto_memcpy( (void *) (((struct sha2_ctx*)ctx)->buffer + left), data, dsize ); }
     }
 
-    void sha512_final (struct sha512_ctx* ctx, uint8_t* output)
+    void sha512_final (struct sha512_ctx* ctx, uint8_t output[64])
     {
         uint64_t last, padn;
         uint64_t high, low;

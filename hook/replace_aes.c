@@ -19,7 +19,19 @@
  *     https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf
  */
 
-#include "new_aes.h"
+#include "replace_aes.h"
+
+extern pfn_aes_new             _orig_aes_new            ; 
+extern pfn_aes_free            _orig_aes_free           ; 
+extern pfn_aes_init            _orig_aes_init           ; 
+extern pfn_aes_block_size      _orig_aes_block_size     ; 
+extern pfn_aes_ksize_min       _orig_aes_ksize_min      ; 
+extern pfn_aes_ksize_max       _orig_aes_ksize_max      ; 
+extern pfn_aes_ksize_multiple  _orig_aes_ksize_multiple ; 
+extern pfn_aes_set_ekey        _orig_aes_set_ekey       ; 
+extern pfn_aes_set_dkey        _orig_aes_set_dkey       ; 
+extern pfn_aes_enc_block       _orig_aes_enc_block      ; 
+extern pfn_aes_dec_block       _orig_aes_dec_block      ; 
 
 void print_data(char* title, uint8_t* data, uint32_t dlen){
     printf ("%s", title);
@@ -31,9 +43,9 @@ void print_data(char* title, uint8_t* data, uint32_t dlen){
 struct aes_ctx* hook_aes_new(void)
 {
     printf("%s:%d %s\n", __FILE__, __LINE__, __FUNCTION__);
-    pfn_aes_new _pfn_aes_new  = (pfn_aes_new)zm_get_orig_fnc("zm_aes_new");
-    if (_pfn_aes_new){
-        return _pfn_aes_new();
+
+    if (_orig_aes_new){
+       return _orig_aes_new();
     }
 
     return NULL;
@@ -42,47 +54,63 @@ struct aes_ctx* hook_aes_new(void)
 void hook_aes_free (struct aes_ctx* ctx)
 {
     printf("%s:%d %s\n", __FILE__, __LINE__, __FUNCTION__);
-    pfn_aes_free _pfn_aes_free  = (pfn_aes_free)zm_get_orig_fnc("zm_aes_free");
-    if (_pfn_aes_free){
-        _pfn_aes_free(ctx);
+
+    if (_orig_aes_free){
+       _orig_aes_free(ctx);
     }
 }
 
 void hook_aes_init (struct aes_ctx* ctx)
 {
     printf("%s:%d %s\n", __FILE__, __LINE__, __FUNCTION__);
-    pfn_aes_init _pfn_aes_init  = (pfn_aes_init)zm_get_orig_fnc("zm_aes_init");
-    if (_pfn_aes_init){
-        _pfn_aes_init(ctx);
+
+    if (_orig_aes_init){
+       _orig_aes_init(ctx);
     }
 }
 
 int32_t hook_aes_block_size (void)
-    { 
+{ 
     printf("%s:%d %s\n", __FILE__, __LINE__, __FUNCTION__);
-    return 16; }
+    if (_orig_aes_block_size){
+        return _orig_aes_block_size();
+    }
+    return ZMCRYPTO_ERR_NULL_PTR; 
+}
 
 int32_t hook_aes_ksize_min (void)
-    { 
+{ 
     printf("%s:%d %s\n", __FILE__, __LINE__, __FUNCTION__);
-    return 16; }
+    if (_orig_aes_ksize_min){
+        return _orig_aes_ksize_min();
+    }
+    return ZMCRYPTO_ERR_NULL_PTR; 
+}
 
 int32_t hook_aes_ksize_max (void)
-    { 
+{ 
     printf("%s:%d %s\n", __FILE__, __LINE__, __FUNCTION__);
-    return 32; }
+    if (_orig_aes_ksize_max){
+        return _orig_aes_ksize_max();
+    }
+    return ZMCRYPTO_ERR_NULL_PTR; 
+}
 
 int32_t hook_aes_ksize_multiple (void)
-    { 
+{ 
     printf("%s:%d %s\n", __FILE__, __LINE__, __FUNCTION__);
-    return 8; }
+    if (_orig_aes_ksize_multiple){
+        return _orig_aes_ksize_multiple();
+    }
+    return ZMCRYPTO_ERR_NULL_PTR; 
+}
 
 int32_t hook_aes_set_ekey (struct aes_ctx* ctx, uint8_t* key, uint32_t ksize)
 {
     printf("%s:%d %s\n", __FILE__, __LINE__, __FUNCTION__);
-    pfn_aes_set_ekey _pfn_aes_set_key  = (pfn_aes_set_ekey)zm_get_orig_fnc("zm_aes_set_ekey");
-    if (_pfn_aes_set_key){
-        return _pfn_aes_set_key(ctx, key, ksize);
+
+    if (_orig_aes_set_ekey){
+       return _orig_aes_set_ekey(ctx, key, ksize);
     }
 
     return ZMCRYPTO_ERR_NULL_PTR;
@@ -91,12 +119,11 @@ int32_t hook_aes_set_ekey (struct aes_ctx* ctx, uint8_t* key, uint32_t ksize)
 zmerror hook_aes_set_dkey (struct aes_ctx* ctx, uint8_t* key, uint32_t ksize)
 {
     printf("%s:%d %s\n", __FILE__, __LINE__, __FUNCTION__);
-    print_data("key: ", key, ksize);
-    printf ("\n");
-    pfn_aes_set_dkey _pfn_aes_set_key  = (pfn_aes_set_dkey)zm_get_orig_fnc("zm_aes_set_dkey");
-    if (_pfn_aes_set_key){
-        return _pfn_aes_set_key(ctx, key, ksize);
+
+    if (_orig_aes_set_dkey){
+       return _orig_aes_set_dkey(ctx, key, ksize);
     }
+
     return ZMCRYPTO_ERR_NULL_PTR;
 }
 
@@ -105,9 +132,9 @@ void hook_aes_enc_block (struct aes_ctx* ctx, uint8_t* plaintext, uint8_t* ciphe
     printf("%s:%d %s\n", __FILE__, __LINE__, __FUNCTION__);
     print_data("plaintext: ", plaintext, 16);
     printf ("\n");
-    pfn_aes_enc_block _pfn_aes_enc_block  = (pfn_aes_enc_block)zm_get_orig_fnc("zm_aes_enc_block");
-    if (_pfn_aes_enc_block){
-        _pfn_aes_enc_block(ctx, plaintext, ciphertext);
+
+    if (_orig_aes_enc_block){
+       _orig_aes_enc_block(ctx, plaintext, ciphertext);
     }
 }
 
@@ -116,8 +143,8 @@ void hook_aes_dec_block (struct aes_ctx* ctx, uint8_t* ciphertext, uint8_t* plai
     printf("%s:%d %s\n", __FILE__, __LINE__, __FUNCTION__);
     print_data("ciphertext: ", ciphertext, 16);
     printf ("\n");
-    pfn_aes_dec_block _pfn_aes_dec_block  = (pfn_aes_dec_block)zm_get_orig_fnc("zm_aes_dec_block");
-    if (_pfn_aes_dec_block){
-        _pfn_aes_dec_block(ctx, ciphertext, plaintext);
+
+    if (_orig_aes_dec_block){
+       _orig_aes_dec_block(ctx, ciphertext, plaintext);
     }
 }

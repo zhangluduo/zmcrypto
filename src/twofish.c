@@ -47,46 +47,20 @@
         zmcrypto_memset(ctx, 0, sizeof(struct twofish_ctx));
     }
 
-    int32_t twofish_block_size (void
-    ){return 0;}
+    int32_t twofish_block_size (void){return 0;}
 
-    int32_t twofish_ksize_min (void)
-    {
-        return 16;
-    }
+    int32_t twofish_ksize_min (void){return 16;}
 
-    int32_t twofish_ksize_max (void)
-    {
-        return 32;
-    }
+    int32_t twofish_ksize_max (void){return 32;}
 
-    int32_t twofish_ksize_multiple (void)
-    {
-        return 8;
-    }
+    int32_t twofish_ksize_multiple (void){return 8;}
 
-    zmerror twofish_set_ekey (
-        struct twofish_ctx* ctx, 
-        uint8_t* key, 
-        uint32_t ksize
-    ){return 0;}
+    zmerror twofish_set_ekey (struct twofish_ctx* ctx, uint8_t* key, uint32_t ksize){return 0;}
 
-    zmerror twofish_set_dkey (
-        struct twofish_ctx* ctx, 
-        uint8_t* key, 
-        uint32_t ksize
-    ){return 0;}
+    zmerror twofish_set_dkey (struct twofish_ctx* ctx, uint8_t* key, uint32_t ksize){return 0;}
 
-    void twofish_enc_block (
-        struct twofish_ctx* ctx, 
-        uint8_t* plaintext, 
-        uint8_t* ciphertext
-    ){}
+    void twofish_enc_block (struct twofish_ctx* ctx, uint8_t plaintext[16], uint8_t ciphertext[16]){}
 
-    void twofish_dec_block (
-        struct twofish_ctx* ctx, 
-        uint8_t* ciphertext, 
-        uint8_t* plaintext
-    ){}
+    void twofish_dec_block (struct twofish_ctx* ctx, uint8_t ciphertext[16], uint8_t plaintext[16]){}
 
 #endif /* ZMCRYPTO_ALGO_TWOFISH */
