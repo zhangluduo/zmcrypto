@@ -125,6 +125,7 @@ add_executable(
 
 	../../tests/cpp/test_adler32.cpp
 	../../tests/cpp/test_crc32.cpp
+	../../tests/cpp/test_base16.cpp
 	../../tests/cpp/test_base64.cpp
 	../../tests/cpp/test_md2.cpp
 	../../tests/cpp/test_md4.cpp

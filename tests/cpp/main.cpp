@@ -14,6 +14,7 @@
  */
 
 #include "zmcryptosdk.h"
+#include "test_base16.h"
 #include "test_base64.h"
 #include "test_adler32.h"
 #include "test_crc32.h"
@@ -76,6 +77,7 @@ void test_case(zmcrypto::sdk* _sdk){
     // test_case_blockpad(_sdk);
     // test_case_blockdepad(_sdk);
 
+    test_case_base16(_sdk);
     // test_case_base64(_sdk);
     // test_case_base64_line_break(_sdk);
 
@@ -93,7 +95,7 @@ void test_case(zmcrypto::sdk* _sdk){
     // test_case_hmac(_sdk);
     // test_case_cmac(_sdk);
     // test_case_ccm(_sdk);
-    test_case_gcm(_sdk);
+    // test_case_gcm(_sdk);
     // test_case_pbkdf2(_sdk);
 
     // test_case_blowfish_ecb(_sdk);
@@ -212,8 +214,8 @@ int main()
 
     // test_hook(&_sdk);
     test_case(&_sdk);
-    test_speed(&_sdk);
-    test_info(&_sdk);
+    // test_speed(&_sdk);
+    // test_info(&_sdk);
 #endif
 
 #if defined _DEBUG && defined _WIN32
