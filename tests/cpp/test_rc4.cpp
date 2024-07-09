@@ -65,7 +65,7 @@ void test_case_rc4(zmcrypto::sdk* _sdk)
             zmerror err;
             CONTEXT_TYPE_PTR(rc4) ctx = _sdk->zm_rc4_new();
             _sdk->zm_rc4_init(ctx);
-            err = _sdk->zm_rc4_set_ekey(ctx, (uint8_t*)key.c_str(), key.size());
+			err = _sdk->zm_rc4_set_ekey(ctx, (uint8_t*)key.c_str(), (uint32_t)key.size());
             if (ZMCRYPTO_IS_ERROR(err)){
                 delete[] output;
                 output = NULL;
@@ -73,7 +73,7 @@ void test_case_rc4(zmcrypto::sdk* _sdk)
                 _sdk->zm_rc4_free (ctx);
                 return;
             }
-            _sdk->zm_rc4_encrypt(ctx, (uint8_t*)plaintext.c_str(), plaintext.size(), output);
+			_sdk->zm_rc4_encrypt(ctx, (uint8_t*)plaintext.c_str(), (uint32_t)plaintext.size(), output);
             _sdk->zm_rc4_free(ctx);
 
             if (ciphertext == std::string((char*)output, ciphertext.length())){
@@ -92,7 +92,7 @@ void test_case_rc4(zmcrypto::sdk* _sdk)
             zmerror err;
             CONTEXT_TYPE_PTR(rc4) ctx = _sdk->zm_rc4_new();
             _sdk->zm_rc4_init(ctx);
-            err = _sdk->zm_rc4_set_dkey(ctx, (uint8_t*)key.c_str(), key.size());
+			err = _sdk->zm_rc4_set_dkey(ctx, (uint8_t*)key.c_str(), (uint32_t)key.size());
             if (ZMCRYPTO_IS_ERROR(err)){
                 delete[] output;
                 output = NULL;
@@ -100,7 +100,7 @@ void test_case_rc4(zmcrypto::sdk* _sdk)
                 _sdk->zm_rc4_free (ctx);
                 return;
             }
-            _sdk->zm_rc4_decrypt(ctx, (uint8_t*)ciphertext.c_str(), ciphertext.size(), output);
+			_sdk->zm_rc4_decrypt(ctx, (uint8_t*)ciphertext.c_str(), (uint32_t)ciphertext.size(), output);
             _sdk->zm_rc4_free(ctx);
 
             if (plaintext == std::string((char*)output, plaintext.length())){

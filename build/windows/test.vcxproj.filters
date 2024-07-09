@@ -26,6 +26,13 @@
     <ClCompile Include="..\..\tests\cpp\test_asn1.cpp" />
     <ClCompile Include="..\..\src\asn1.c" />
     <ClCompile Include="..\..\tests\cpp\test_hook.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_sha2.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_sha3.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_xtea.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_ed2k.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_md2.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_md4.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_gcm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\tests\cpp\format_output.h" />
@@ -53,6 +60,13 @@
     <ClInclude Include="..\..\tests\cpp\test_asn1.h" />
     <ClInclude Include="..\..\src\asn1.h" />
     <ClInclude Include="..\..\tests\cpp\test_hook.h" />
+    <ClInclude Include="..\..\tests\cpp\test_sha2.h" />
+    <ClInclude Include="..\..\tests\cpp\test_sha3.h" />
+    <ClInclude Include="..\..\tests\cpp\test_xtea.h" />
+    <ClInclude Include="..\..\tests\cpp\test_ed2k.h" />
+    <ClInclude Include="..\..\tests\cpp\test_md2.h" />
+    <ClInclude Include="..\..\tests\cpp\test_md4.h" />
+    <ClInclude Include="..\..\tests\cpp\test_gcm.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\tests\cpp\test_report.txt" />

@@ -19,7 +19,6 @@ NOTE:
 */
 
 #include "asn1.h"
-#include "debug.h"
 
 #if defined ZMCRYPTO_TOOL_ASN1
 
@@ -258,7 +257,7 @@ NOTE:
         {
             //ZMCRYPTO_LOG("start: %p(%02x), end: %p(%02x), dsize: %08x(%d)", start, *start, end, *end, dsize, dsize);
             next_d = start;
-            next_l = end - (start - 1);
+			next_l = (uint32_t)(end - (start - 1));
         }
         else
         {
@@ -513,8 +512,6 @@ NOTE:
         static const char *const pc_text[] =
             { "PRIMITIVE", "CONSTRUCTED" };
 
-        zmcrypto_sprintf(tag_info, "%s[0x%02x]", class_text[_class], _tag_num);
-        /* zmcrypto_printf("%s\n", tag_info); */
 
         return tag_info;
     }

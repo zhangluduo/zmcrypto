@@ -15,8 +15,6 @@
 
 #include "zmcryptosdk.h"
 
-#define ZMCRYPTO_DL_FILE ""
-
 namespace zmcrypto
 {
     pfn_version_num   _pfn_version_num  = NULL;

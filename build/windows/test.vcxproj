@@ -5,9 +5,17 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -22,7 +30,20 @@
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
@@ -35,14 +56,26 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -59,7 +92,38 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
@@ -91,14 +155,21 @@
     <ClCompile Include="..\..\tests\cpp\test_cmac.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_crc32.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_des.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_ed2k.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_gcm.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_hmac.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_hook.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_md2.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_md4.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_md5.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_pbkdf2.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_rc4.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_sha1.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_sha2.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_sha3.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_sm3.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_sm4.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_xtea.cpp" />
     <ClCompile Include="..\..\tests\cpp\time_stamp.cpp" />
     <ClCompile Include="..\..\tests\cpp\vector_file.cpp" />
     <ClCompile Include="..\..\tests\cpp\zmcryptosdk.cpp" />
@@ -118,14 +189,21 @@
     <ClInclude Include="..\..\tests\cpp\test_config.h" />
     <ClInclude Include="..\..\tests\cpp\test_crc32.h" />
     <ClInclude Include="..\..\tests\cpp\test_des.h" />
+    <ClInclude Include="..\..\tests\cpp\test_ed2k.h" />
+    <ClInclude Include="..\..\tests\cpp\test_gcm.h" />
     <ClInclude Include="..\..\tests\cpp\test_hmac.h" />
     <ClInclude Include="..\..\tests\cpp\test_hook.h" />
+    <ClInclude Include="..\..\tests\cpp\test_md2.h" />
+    <ClInclude Include="..\..\tests\cpp\test_md4.h" />
     <ClInclude Include="..\..\tests\cpp\test_md5.h" />
     <ClInclude Include="..\..\tests\cpp\test_pbkdf2.h" />
     <ClInclude Include="..\..\tests\cpp\test_rc4.h" />
     <ClInclude Include="..\..\tests\cpp\test_sha1.h" />
+    <ClInclude Include="..\..\tests\cpp\test_sha2.h" />
+    <ClInclude Include="..\..\tests\cpp\test_sha3.h" />
     <ClInclude Include="..\..\tests\cpp\test_sm3.h" />
     <ClInclude Include="..\..\tests\cpp\test_sm4.h" />
+    <ClInclude Include="..\..\tests\cpp\test_xtea.h" />
     <ClInclude Include="..\..\tests\cpp\time_stamp.h" />
     <ClInclude Include="..\..\tests\cpp\vector_file.h" />
     <ClInclude Include="..\..\tests\cpp\zmcryptosdk.h" />

@@ -113,7 +113,7 @@ void test_case_cmac(zmcrypto::sdk* _sdk)
                 return;
             }
 
-            _sdk->zm_cmac_starts (ctx, (uint8_t*)key.c_str(), key.length());
+			_sdk->zm_cmac_starts(ctx, (uint8_t*)key.c_str(), (uint32_t)key.length());
 
             int loop = 1;
             if (!repeat.empty()){
@@ -121,7 +121,7 @@ void test_case_cmac(zmcrypto::sdk* _sdk)
             }
 
             for (int j = 0; j < loop; j++){
-                _sdk->zm_cmac_update (ctx, (uint8_t*)message.c_str(), message.length());
+				_sdk->zm_cmac_update(ctx, (uint8_t*)message.c_str(), (uint32_t)message.length());
             }
 
             uint8_t* output = new uint8_t[digest_size];

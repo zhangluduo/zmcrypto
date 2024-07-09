@@ -62,7 +62,6 @@ add_library(
 	../../src/asn1.c
 	../../src/mem.c
 	../../src/dlmain.c
-	../../src/debug.c
 	../../src/zmcrypto.c
 )
 
@@ -127,24 +126,29 @@ add_executable(
 	../../tests/cpp/test_adler32.cpp
 	../../tests/cpp/test_crc32.cpp
 	../../tests/cpp/test_base64.cpp
+	../../tests/cpp/test_md2.cpp
+	../../tests/cpp/test_md4.cpp
 	../../tests/cpp/test_md5.cpp
+	../../tests/cpp/test_ed2k.cpp
 	../../tests/cpp/test_sha1.cpp
+	../../tests/cpp/test_sha2.cpp
+	../../tests/cpp/test_sha3.cpp
 	../../tests/cpp/test_sm3.cpp
 	../../tests/cpp/test_hmac.cpp
 	../../tests/cpp/test_cmac.cpp
 	../../tests/cpp/test_ccm.cpp
+	../../tests/cpp/test_gcm.cpp
 	../../tests/cpp/test_pbkdf2.cpp
 	../../tests/cpp/test_aes.cpp
 	../../tests/cpp/test_des.cpp
 	../../tests/cpp/test_rc4.cpp
 	../../tests/cpp/test_sm4.cpp
+	../../tests/cpp/test_xtea.cpp
 	../../tests/cpp/test_blowfish.cpp
 	../../tests/cpp/test_blockpad.cpp
 	../../tests/cpp/test_hook.cpp
-
 	../../tests/cpp/test_asn1.cpp
 	../../src/asn1.c
-	../../src/debug.c
 )
 
 target_link_libraries (test LINK_PUBLIC 

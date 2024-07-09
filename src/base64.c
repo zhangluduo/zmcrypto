@@ -105,7 +105,7 @@
 
             *p++ = '='; if (++chars >= hi && hi > 0) { *p++ = 0x0a; chars = 0; }
         }
-        *olen = p - output;
+		*olen = (uint32_t)(p - output);
         *p = 0;
         return ZMCRYPTO_ERR_SUCCESSED;
     }
@@ -154,7 +154,7 @@
                 if (j > 2) *p++ = (uint8_t)(x      );
             }
         }
-        *olen = p - output;
+		*olen = (uint32_t)(p - output);
         return ZMCRYPTO_ERR_SUCCESSED;
     }
 

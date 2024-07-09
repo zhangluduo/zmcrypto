@@ -18,7 +18,7 @@
 #include "format_output.h"
 #include "time_stamp.h"
 #include "test_config.h"
-#include "test_cmac.h"
+#include "test_ccm.h"
 
 #if defined TEST_FOR_CRYPTOPP
     #include <string>
@@ -306,14 +306,14 @@ void test_case_ccm(zmcrypto::sdk* _sdk)
                     df.Get( (CryptoPP::byte*)pt.data(), n );
 
                     if (plaintext.size() == pt.size() && memcmp(pt.c_str(), plaintext.c_str(), plaintext.size()) == 0){
-                        format_output("%s encryption by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
+                        format_output("%s decryption by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
                     }
                     else{
-                        format_output("%s encryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
+                        format_output("%s decryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
                     }
                 }
                 else{
-                    format_output("%s encryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
+                    format_output("%s decryption by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
                 }
             }
             catch( CryptoPP::Exception& e )

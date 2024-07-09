@@ -15,7 +15,6 @@
  */
 
 #include "salsa20.h"
-#include "debug.h"
 
 #if defined ZMCRYPTO_SALSA20_H
 

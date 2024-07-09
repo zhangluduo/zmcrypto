@@ -95,5 +95,17 @@ zmerror hook_finish(){
     (void)_replace_fnc("zm_aes_enc_block", _orig_aes_enc_block );
     (void)_replace_fnc("zm_aes_dec_block", _orig_aes_dec_block );
 
+	_orig_aes_new = NULL;
+	_orig_aes_free = NULL;
+	_orig_aes_init = NULL;
+	_orig_aes_block_size = NULL;
+	_orig_aes_ksize_min = NULL;
+	_orig_aes_ksize_max = NULL;
+	_orig_aes_ksize_multiple = NULL;
+	_orig_aes_set_ekey = NULL;
+	_orig_aes_set_dkey = NULL;
+	_orig_aes_enc_block = NULL;
+	_orig_aes_dec_block = NULL;
+
     return ZMCRYPTO_ERR_SUCCESSED;
 }

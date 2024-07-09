@@ -13,6 +13,7 @@
  *         https://github.com/zhangluduo/
  */
 
+#include "warning_disable.h"
 #include "vector_file.h"
 #include <memory.h>
 
@@ -97,10 +98,16 @@ void split_to_line(const char* buffer, std::vector<std::string>& lines)
         if (*p == '\r'){
             p++;
             continue;;
-        }else if (*p == '\n'){
-            lines.push_back(temp);
-            temp = "";
-        }
+		}
+		else if (*p == '\n'){
+			lines.push_back(temp);
+			temp = "";
+		}
+		else if (*p == '\\'){
+			p++;
+			while (*p == '\r' || *p == '\n') { p++; }
+			continue;
+		}
         else{
             temp += *p;
         }

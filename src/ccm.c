@@ -35,7 +35,6 @@
  */
 
 #include "ccm.h"
-#include "debug.h"
 
 /*                                                      
 //	X_1 := E( K, B_0 )                                  

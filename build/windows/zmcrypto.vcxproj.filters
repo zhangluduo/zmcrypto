@@ -66,13 +66,7 @@
     <ClCompile Include="..\..\src\ctr.c">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\debug.c">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\des.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\dlmain.c">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\dsa.c">
@@ -269,13 +263,7 @@
     <ClInclude Include="..\..\src\ctr.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\debug.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\des.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\dlmain.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\dsa.h">
@@ -413,5 +401,9 @@
     <ClInclude Include="..\..\src\base16.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="zmcrypto.rc" />
   </ItemGroup>
 </Project>

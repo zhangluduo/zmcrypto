@@ -53,6 +53,15 @@
 #   define ZM_ERROR_STRUCT(x) { x, #x }
 #endif
 
+/*
+example: 
+#define ZMCRYPTO_VERSION_NUM    0x01020304
+#define ZMCRYPTO_VERSION_STR    "ZmCrypto 0.6.0.0"
+*/
+
+#define ZMCRYPTO_VERSION_NUM    0x00010000
+#define ZMCRYPTO_VERSION_STR    "ZmCrypto 0.6.0.0"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

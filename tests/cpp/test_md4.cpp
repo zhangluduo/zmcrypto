@@ -18,64 +18,68 @@
 #include "format_output.h"
 #include "time_stamp.h"
 #include "test_config.h"
-#include "test_adler32.h"
+#include "test_md4.h"
 
 #if defined TEST_FOR_CRYPTOPP
+    #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
     #include "include/cryptlib.h"
     #include "include/secblock.h"
-    #include "include/adler32.h"
+    #include "include/md4.h"
 #endif
 
-void test_info_adler32(zmcrypto::sdk* _sdk)
+#if defined TEST_FOR_OPENSSL_SPEED
+    #include <openssl/md4.h>
+#endif
+
+void test_info_md4(zmcrypto::sdk* _sdk)
 {
-    #if defined ZMCRYPTO_ALGO_ADLER32
-    int32_t _size = _sdk->zm_adler32_checksum_size();
-    printf("adler32 checksum size: %d\n", _size);
+    #if defined ZMCRYPTO_ALGO_MD4
+    int32_t _size = _sdk->zm_md4_digest_size();
+    int32_t _size2 = _sdk->zm_md4_block_size();
+    printf("md4 digest size: %d, block size: %d\n", _size, _size2);
     #endif
 }
 
-void test_case_adler32(zmcrypto::sdk* _sdk)
+
+void test_case_md4(zmcrypto::sdk* _sdk)
 {
     std::vector<key_val_vec> test_vec;
-    if (!read_vector_data(TEST_VECTOR_PATH "adler32.txt", test_vec)){
-        printf("read test vector data failed [%s]\n", TEST_VECTOR_PATH "adler32.txt");
+    if (!read_vector_data(TEST_VECTOR_PATH "md4.txt", test_vec)){
+        printf("read test vector data failed\n");
         return;
     }
 
 	for (size_t i = 0; i < test_vec.size(); i++){
-
-        std::string algorithm, message, checksum;
+        std::string algorithm, message, digest, comment;
+        if (!get_key_val_pair(test_vec, i, "comment", comment)){
+        }
         if (!get_key_val_pair(test_vec, i, "algorithm", algorithm)){
             printf("get key-value pair failed: algorithm\n");
             return;
         }
-
         if (!get_key_val_pair(test_vec, i, "message", message)){
             printf("get key-value pair failed: message\n");
             return;
         }
-
-        if (!get_key_val_pair(test_vec, i, "checksum", checksum)){
-            printf("get key-value pair failed: checksum\n");
+        if (!get_key_val_pair(test_vec, i, "digest", digest)){
+            printf("get key-value pair failed: digest\n");
             return;
         }
 
-        #if defined ZMCRYPTO_ALGO_ADLER32
+        #if defined ZMCRYPTO_ALGO_MD4
 
-            CONTEXT_TYPE_PTR(adler32) ctx = _sdk->zm_adler32_new();
-
-            uint8_t* output = new uint8_t[_sdk->zm_adler32_checksum_size()];
-            _sdk->zm_adler32_init (ctx);
-            _sdk->zm_adler32_starts (ctx);
-            _sdk->zm_adler32_update (ctx, (uint8_t*)message.c_str(), (uint32_t)message.length());
-            _sdk->zm_adler32_final (ctx, output);
-            _sdk->zm_adler32_free (ctx);
-
-            if (checksum == std::string((char*)output, _sdk->zm_adler32_checksum_size())){
-                format_output("%s by ZmCrypto|passed\n", algorithm.c_str());
+            CONTEXT_TYPE_PTR(md4) ctx = _sdk->zm_md4_new();
+            uint8_t* output = new uint8_t[_sdk->zm_md4_digest_size()];
+            _sdk->zm_md4_init (ctx);
+            _sdk->zm_md4_starts (ctx);
+			_sdk->zm_md4_update(ctx, (uint8_t*)message.c_str(), (uint32_t)message.length());
+            _sdk->zm_md4_final (ctx, output);
+            _sdk->zm_md4_free (ctx);
+            if (digest == std::string((char*)output, _sdk->zm_md4_digest_size())){
+                format_output("%s by ZmCrypto|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s by ZmCrypto|failed\n", algorithm.c_str());
+                format_output("%s by ZmCrypto|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete[] output;
@@ -83,16 +87,16 @@ void test_case_adler32(zmcrypto::sdk* _sdk)
         #endif
 
         #if defined TEST_FOR_CRYPTOPP
-            CryptoPP::HashTransformation* HashPtr = new CryptoPP::Adler32();
+            CryptoPP::HashTransformation* HashPtr = new CryptoPP::Weak::MD4();
             HashPtr->Update((const CryptoPP::byte *)(uint8_t*)message.c_str(), message.length());
-            CryptoPP::SecByteBlock digest(HashPtr->DigestSize());
-            HashPtr->Final (digest);
+            CryptoPP::SecByteBlock output2(HashPtr->DigestSize());
+            HashPtr->Final (output2);
 
-            if (checksum == std::string((char*)(CryptoPP::byte *)digest, HashPtr->DigestSize())){
-                format_output("%s by Crypto++ |passed\n", algorithm.c_str());
+            if (digest == std::string((char*)(CryptoPP::byte *)output2, HashPtr->DigestSize())){
+                format_output("%s by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s by Crypto++|failed\n", algorithm.c_str());
+                format_output("%s by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete HashPtr;
@@ -101,17 +105,14 @@ void test_case_adler32(zmcrypto::sdk* _sdk)
     }
 }
 
-void test_speed_adler32(zmcrypto::sdk* _sdk)
+void test_speed_md4(zmcrypto::sdk* _sdk)
 {
-        uint8_t msg[16] = { 0 };
-        uint32_t mlen = 16;
-
-    #if defined ZMCRYPTO_ALGO_ADLER32
-    {
-        CONTEXT_TYPE_PTR(adler32) ctx = _sdk->zm_adler32_new();
-        uint8_t* output = new uint8_t[_sdk->zm_adler32_checksum_size()];
-        _sdk->zm_adler32_init (ctx);
-        _sdk->zm_adler32_starts (ctx);
+    #if defined ZMCRYPTO_ALGO_MD4
+        
+        CONTEXT_TYPE_PTR(md4) ctx = _sdk->zm_md4_new();
+        uint8_t* output = new uint8_t[_sdk->zm_md4_digest_size()];
+        _sdk->zm_md4_init (ctx);
+        _sdk->zm_md4_starts (ctx);
 
         uint8_t msg[16] = { 0 };
         uint32_t mlen = 16;
@@ -120,7 +121,7 @@ void test_speed_adler32(zmcrypto::sdk* _sdk)
         uint64_t dsize = 0;
         while (true)
         {
-            _sdk->zm_adler32_update (ctx, (uint8_t*)msg, mlen);
+            _sdk->zm_md4_update (ctx, (uint8_t*)msg, mlen);
             dsize += mlen;
             end = get_timestamp_us();
             if (end - start >= TEST_TOTAL_SEC * 1000000)
@@ -128,20 +129,18 @@ void test_speed_adler32(zmcrypto::sdk* _sdk)
         }
         uint32_t elapsed = (uint32_t)(end - start);
         double rate = (double)dsize / (double)elapsed;
+        format_output("md4 by zmcrypto|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
 
-        format_output("adler32 by zmcrypto|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
-
-        _sdk->zm_adler32_final (ctx, output);
-        _sdk->zm_adler32_free (ctx);
+        _sdk->zm_md4_final (ctx, output);
+        _sdk->zm_md4_free (ctx);
 
         delete[] output;
         output = NULL;
-    }
     #endif
 
     #if defined TEST_FOR_CRYPTOPP && defined TEST_FOR_CRYPTOPP_SPEED
     {
-        CryptoPP::HashTransformation* HashPtr = new CryptoPP::Adler32();
+        CryptoPP::HashTransformation* HashPtr = new CryptoPP::Weak::MD4();
         uint8_t* output = new uint8_t[4];
 
         uint8_t msg[16] = { 0 };
@@ -160,7 +159,7 @@ void test_speed_adler32(zmcrypto::sdk* _sdk)
         uint32_t elapsed = (uint32_t)(end - start);
         double rate = (double)dsize / (double)elapsed;
 
-        format_output("adler32 by Crypto++|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
+        format_output("md4 by Crypto++|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
 
         delete HashPtr;
         HashPtr = NULL;
@@ -171,5 +170,8 @@ void test_speed_adler32(zmcrypto::sdk* _sdk)
     #endif 
 
     #if defined TEST_FOR_OPENSSL_SPEED
+    {
+
+    }
     #endif
 }

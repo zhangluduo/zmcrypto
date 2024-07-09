@@ -19,7 +19,6 @@
  */
 
 #include "sm3.h"
-#include "debug.h"
 
 #if defined ZMCRYPTO_ALGO_SM3
 

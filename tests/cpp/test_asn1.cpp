@@ -14,6 +14,7 @@
  *         https://github.com/zhangluduo/
  */
 
+#include "warning_disable.h"
 #include "test_asn1.h"
 #include "../../src/asn1.h"
 #include "format_output.h"

@@ -62,7 +62,7 @@ void test_case_crc32(zmcrypto::sdk* _sdk)
             uint8_t* output = new uint8_t[_sdk->zm_crc32_checksum_size()];
             _sdk->zm_crc32_init (ctx);
             _sdk->zm_crc32_starts (ctx);
-            _sdk->zm_crc32_update (ctx, (uint8_t*)message.c_str(), message.length());
+			_sdk->zm_crc32_update(ctx, (uint8_t*)message.c_str(), (uint32_t)message.length());
             _sdk->zm_crc32_final (ctx, output);
             _sdk->zm_crc32_free (ctx);
 

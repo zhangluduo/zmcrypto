@@ -1,5 +1,6 @@
 // machine.cpp: implementation of the machine class.
 
+#include "warning_disable.h"
 #include "machine_info.h"
 #include <time.h>
 #include <stdio.h>

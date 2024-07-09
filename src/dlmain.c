@@ -14,20 +14,16 @@
  *         https://github.com/zhangluduo/zmcrypto/
  */
 
-#include "debug.h"
-
 #if defined __linux__
     void __attribute__ ((constructor)) load_dl(void);
     void __attribute__ ((destructor)) unload_dl(void);
 
     void load_dl(void)
     {
-        ZMCRYPTO_LOG("");
     }
 
     void unload_dl(void)
     {
-        ZMCRYPTO_LOG("");
     }
 #endif
 
@@ -38,16 +34,12 @@
        switch (dwReason)
         {
             case DLL_PROCESS_ATTACH:
-                ZMCRYPTO_LOG("");
                 break;
             case DLL_PROCESS_DETACH:
-                ZMCRYPTO_LOG("");
                 break;
             case DLL_THREAD_ATTACH:
-                ZMCRYPTO_LOG("");
                 break;
             case DLL_THREAD_DETACH:
-                ZMCRYPTO_LOG("");
                 break;
         }
         return TRUE;

@@ -15,7 +15,6 @@
  */
 
 #include "rc4.h"
-#include "debug.h"
 
 #if defined ZMCRYPTO_ALGO_RC4
 

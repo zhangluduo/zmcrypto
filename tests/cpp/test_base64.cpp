@@ -66,14 +66,14 @@ void test_case_base64(zmcrypto::sdk* _sdk)
             zmerror err;
             uint32_t olen = 0;
             uint32_t options = atoi(table.c_str());
-            err = _sdk->zm_base64_encode((uint8_t*)(message.c_str()), message.length(), NULL, &olen, options);
+			err = _sdk->zm_base64_encode((uint8_t*)(message.c_str()), (uint32_t)message.length(), NULL, &olen, options);
             if (err != ZMCRYPTO_ERR_OVERFLOW){
                 format_output("%s by ZmCrypto|failed\n", "base64");
                 return;
             }
 
             uint8_t* output = new uint8_t[olen];
-            err = _sdk->zm_base64_encode((uint8_t*)(message.c_str()), message.length(), output, &olen, options);
+			err = _sdk->zm_base64_encode((uint8_t*)(message.c_str()), (uint32_t)message.length(), output, &olen, options);
             if (ZMCRYPTO_IS_ERROR(err)){
                 delete[] output;
                 output = NULL;
@@ -96,14 +96,14 @@ void test_case_base64(zmcrypto::sdk* _sdk)
 
             uint32_t olen = 0;
             uint32_t options = atoi(table.c_str());
-            err = _sdk->zm_base64_decode((uint8_t*)(result.c_str()), result.length(), NULL, &olen, options);
+			err = _sdk->zm_base64_decode((uint8_t*)(result.c_str()), (uint32_t)result.length(), NULL, &olen, options);
             if (err != ZMCRYPTO_ERR_OVERFLOW){
                 format_output("%s by ZmCrypto|failed\n", "base64");
                 return;
             }
 
             uint8_t* output = new uint8_t[olen];
-            err = _sdk->zm_base64_decode((uint8_t*)(result.c_str()), result.length(), output, &olen, options);
+			err = _sdk->zm_base64_decode((uint8_t*)(result.c_str()), (uint32_t)result.length(), output, &olen, options);
             if (ZMCRYPTO_IS_ERROR(err)){
                 delete[] output;
                 output = NULL;
@@ -111,7 +111,7 @@ void test_case_base64(zmcrypto::sdk* _sdk)
                 return;
             }
 
-            uint32_t rlen = message.length();
+			uint32_t rlen = (uint32_t)message.length();
             if (rlen == olen && memcmp(output, message.c_str(), olen) == 0){
                 format_output("%s by ZmCrypto|passed\n", "base64");
             }
@@ -258,7 +258,7 @@ void test_case_base64_line_break(zmcrypto::sdk* _sdk)
             "AAECAwQFBgcICQoLDA0ODwABAgMEBQYHCAkKCwwNDg8AAQIDBAUGBwgJCgsMDQ4PAAECAwQFBgcI\n"
             "CQoLDA0ODwABAgMEBQYHCAkKCwwNDg8=";
 
-        uint32_t ilen = std::string(input).length();
+		uint32_t ilen = (uint32_t)std::string(input).length();
 
         zmerror err;
 
@@ -303,7 +303,7 @@ void test_case_base64_line_break(zmcrypto::sdk* _sdk)
             "AAECAwQFBgcICQoLDA0ODwABAgMEBQYHCAkKCwwNDg8AAQIDBAUGBwgJCgsMDQ4PAAECAwQFBgcI\n"
             "CQoLDA0ODwABAgMEBQYHCAkKCwwNDg8=";
 
-        uint32_t ilen = std::string(input).length();
+		uint32_t ilen = (uint32_t)std::string(input).length();
 
         zmerror err;
 

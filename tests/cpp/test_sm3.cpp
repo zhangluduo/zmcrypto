@@ -80,7 +80,7 @@ void test_case_sm3(zmcrypto::sdk* _sdk)
             _sdk->zm_sm3_starts (ctx);
 
             for (uint32_t i = 0; i < loop;i ++){
-                _sdk->zm_sm3_update (ctx, (uint8_t*)message.c_str(), message.length());
+				_sdk->zm_sm3_update(ctx, (uint8_t*)message.c_str(), (uint32_t)message.length());
             }
             _sdk->zm_sm3_final (ctx, output);
             _sdk->zm_sm3_free (ctx);

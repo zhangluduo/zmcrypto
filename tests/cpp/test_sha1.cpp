@@ -81,7 +81,7 @@ void test_case_sha1(zmcrypto::sdk* _sdk)
             _sdk->zm_sha1_starts (ctx);
 
             for (uint32_t i = 0; i < loop;i ++){
-                _sdk->zm_sha1_update (ctx, (uint8_t*)message.c_str(), message.length());
+				_sdk->zm_sha1_update(ctx, (uint8_t*)message.c_str(), (uint32_t)message.length());
             }
             _sdk->zm_sha1_final (ctx, output);
             _sdk->zm_sha1_free (ctx);
@@ -124,11 +124,10 @@ void test_case_sha1(zmcrypto::sdk* _sdk)
 void test_speed_sha1(zmcrypto::sdk* _sdk)
 {
     #if defined ZMCRYPTO_ALGO_SHA1
-        zmcrypto::sdk sdk;
-        CONTEXT_TYPE_PTR(sha1) ctx = sdk.zm_sha1_new();
-        uint8_t* output = new uint8_t[sdk.zm_sha1_digest_size()];
-        sdk.zm_sha1_init (ctx);
-        sdk.zm_sha1_starts (ctx);
+        CONTEXT_TYPE_PTR(sha1) ctx = _sdk->zm_sha1_new();
+        uint8_t* output = new uint8_t[_sdk->zm_sha1_digest_size()];
+        _sdk->zm_sha1_init (ctx);
+        _sdk->zm_sha1_starts (ctx);
 
         uint8_t msg[16] = { 0 };
         uint32_t mlen = 16;
@@ -137,7 +136,7 @@ void test_speed_sha1(zmcrypto::sdk* _sdk)
         uint64_t dsize = 0;
         while (true)
         {
-            sdk.zm_sha1_update (ctx, (uint8_t*)msg, mlen);
+            _sdk->zm_sha1_update (ctx, (uint8_t*)msg, mlen);
             dsize += mlen;
             end = get_timestamp_us();
             if (end - start >= TEST_TOTAL_SEC * 1000000)
@@ -147,8 +146,8 @@ void test_speed_sha1(zmcrypto::sdk* _sdk)
         double rate = (double)dsize / (double)elapsed;
         format_output("sha1 by zmcrypto|%s/s\n", bytes_to_human_readable_format((uint64_t)(rate * 1000000)).c_str());
 
-        sdk.zm_sha1_final (ctx, output);
-        sdk.zm_sha1_free (ctx);
+        _sdk->zm_sha1_final (ctx, output);
+        _sdk->zm_sha1_free (ctx);
 
         delete[] output;
         output = NULL;

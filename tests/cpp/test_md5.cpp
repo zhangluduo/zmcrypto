@@ -72,7 +72,7 @@ void test_case_md5(zmcrypto::sdk* _sdk)
             uint8_t* output = new uint8_t[_sdk->zm_md5_digest_size()];
             _sdk->zm_md5_init (ctx);
             _sdk->zm_md5_starts (ctx);
-            _sdk->zm_md5_update (ctx, (uint8_t*)message.c_str(), message.length());
+			_sdk->zm_md5_update(ctx, (uint8_t*)message.c_str(), (uint32_t)message.length());
             _sdk->zm_md5_final (ctx, output);
             _sdk->zm_md5_free (ctx);
             if (digest == std::string((char*)output, _sdk->zm_md5_digest_size())){
@@ -93,10 +93,10 @@ void test_case_md5(zmcrypto::sdk* _sdk)
             HashPtr->Final (output2);
 
             if (digest == std::string((char*)(CryptoPP::byte *)output2, HashPtr->DigestSize())){
-                format_output("%s by Crypto++|passed\n", algorithm.c_str());
+                format_output("%s by Crypto++|%s passed\n", algorithm.c_str(), comment.c_str());
             }
             else{
-                format_output("%s by Crypto++|failed\n", algorithm.c_str());
+                format_output("%s by Crypto++|%s failed\n", algorithm.c_str(), comment.c_str());
             }
 
             delete HashPtr;

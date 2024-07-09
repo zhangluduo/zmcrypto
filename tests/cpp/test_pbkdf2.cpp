@@ -110,17 +110,17 @@ void test_case_pbkdf2(zmcrypto::sdk* _sdk)
             if (algorithm == "pbkdf2-with-hmac-md5"){
                 _sdk->zm_pbkdf2 (
                         _md5_new,_md5_free,_md5_digest_size,_md5_block_size,_md5_init,_md5_starts,_md5_update,_md5_final,
-                        (uint8_t*)password.c_str(), password.length(), (uint8_t*)(salt.c_str()), salt.length(), atoi(iterations.c_str()), dk2, atoi(derived_len.c_str()));
+						(uint8_t*)password.c_str(), (uint32_t)password.length(), (uint8_t*)(salt.c_str()), (uint32_t)salt.length(), atoi(iterations.c_str()), dk2, atoi(derived_len.c_str()));
             }
             else if (algorithm == "pbkdf2-with-hmac-sha1"){
                 _sdk->zm_pbkdf2 (
                         _sha1_new,_sha1_free,_sha1_digest_size,_sha1_block_size,_sha1_init,_sha1_starts,_sha1_update,_sha1_final,
-                        (uint8_t*)password.c_str(), password.length(), (uint8_t*)(salt.c_str()), salt.length(), atoi(iterations.c_str()), dk2, atoi(derived_len.c_str()));
+						(uint8_t*)password.c_str(), (uint32_t)password.length(), (uint8_t*)(salt.c_str()), (uint32_t)salt.length(), atoi(iterations.c_str()), dk2, atoi(derived_len.c_str()));
             }
             else if (algorithm == "pbkdf2-with-hmac-sm3"){
                 _sdk->zm_pbkdf2 (
                         _sm3_new,_sm3_free,_sm3_digest_size,_sm3_block_size,_sm3_init,_sm3_starts,_sm3_update,_sm3_final,
-                        (uint8_t*)password.c_str(), password.length(), (uint8_t*)(salt.c_str()), salt.length(), atoi(iterations.c_str()), dk2, atoi(derived_len.c_str()));
+						(uint8_t*)password.c_str(), (uint32_t)password.length(), (uint8_t*)(salt.c_str()), (uint32_t)salt.length(), atoi(iterations.c_str()), dk2, atoi(derived_len.c_str()));
             }
             else{
                 printf ("algorithm not supports\n");

@@ -38,15 +38,6 @@
     #define CONTEXT_TYPE_PTR(name) struct name##_ctx*
 #endif
 
-/*
-example: 
-#define ZMCRYPTO_VERSION_NUM    0x01020304
-#define ZMCRYPTO_VERSION_STR    "ZmCrypto 1.2.3.4"
-*/
-
-#define ZMCRYPTO_VERSION_NUM    0x00010000
-#define ZMCRYPTO_VERSION_STR    "ZmCrypto 0.1.0.0"
-
 #ifdef __cplusplus
 extern "C" {
 #endif

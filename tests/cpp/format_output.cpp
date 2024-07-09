@@ -19,6 +19,8 @@
 #include <stdarg.h>
 #include <string.h>
 
+#pragma warning(disable:4996)
+
 std::string bytes_to_human_readable_format(uint64_t bytes){
 
 #if defined __linux__
