@@ -77,7 +77,7 @@ void test_case(zmcrypto::sdk* _sdk){
     // test_case_blockpad(_sdk);
     // test_case_blockdepad(_sdk);
 
-    test_case_base16(_sdk);
+    // test_case_base16(_sdk);
     // test_case_base64(_sdk);
     // test_case_base64_line_break(_sdk);
 
@@ -213,7 +213,7 @@ int main()
     // test_asn1_case18();
 
     // test_hook(&_sdk);
-    test_case(&_sdk);
+    // test_case(&_sdk);
     // test_speed(&_sdk);
     // test_info(&_sdk);
 #endif

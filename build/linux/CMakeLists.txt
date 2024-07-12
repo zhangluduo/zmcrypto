@@ -61,7 +61,6 @@ add_library(
 	../../src/salsa20.c
 	../../src/asn1.c
 	../../src/mem.c
-	../../src/dlmain.c
 	../../src/zmcrypto.c
 )
 

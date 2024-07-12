@@ -105,7 +105,7 @@ extern "C" {
     }
 
     #if defined ZMCRYPTO_ALGO_PBKDF2
-        pfn_pbkdf2 _pfn_pbkdf2 = pbkdf2;
+        static pfn_pbkdf2 _pfn_pbkdf2 = pbkdf2;
         zmerror zm_pbkdf2 (
               void*   (*hash_new)         (void),
               void    (*hash_free)        (void* ctx),
@@ -124,14 +124,14 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_BLOCKPAD
 
-        pfn_blockpad_zero        _pfn_blockpad_zero       = blockpad_zero;
-        pfn_blockpad_iso10126    _pfn_blockpad_iso10126   = blockpad_iso10126;
-        pfn_blockpad_ansix923    _pfn_blockpad_ansix923   = blockpad_ansix923;
-        pfn_blockpad_pkcs7       _pfn_blockpad_pkcs7      = blockpad_pkcs7;
-        pfn_blockdepad_zero      _pfn_blockdepad_zero     = blockdepad_zero;
-        pfn_blockdepad_iso10126  _pfn_blockdepad_iso10126 = blockdepad_iso10126;
-        pfn_blockdepad_ansix923  _pfn_blockdepad_ansix923 = blockdepad_ansix923;
-        pfn_blockdepad_pkcs7     _pfn_blockdepad_pkcs7    = blockdepad_pkcs7;
+        static pfn_blockpad_zero        _pfn_blockpad_zero       = blockpad_zero;
+        static pfn_blockpad_iso10126    _pfn_blockpad_iso10126   = blockpad_iso10126;
+        static pfn_blockpad_ansix923    _pfn_blockpad_ansix923   = blockpad_ansix923;
+        static pfn_blockpad_pkcs7       _pfn_blockpad_pkcs7      = blockpad_pkcs7;
+        static pfn_blockdepad_zero      _pfn_blockdepad_zero     = blockdepad_zero;
+        static pfn_blockdepad_iso10126  _pfn_blockdepad_iso10126 = blockdepad_iso10126;
+        static pfn_blockdepad_ansix923  _pfn_blockdepad_ansix923 = blockdepad_ansix923;
+        static pfn_blockdepad_pkcs7     _pfn_blockdepad_pkcs7    = blockdepad_pkcs7;
 
         zmerror zm_blockpad_zero (uint8_t* data, uint32_t dsize, uint8_t* block, uint32_t blen)
         {
@@ -175,8 +175,8 @@ extern "C" {
 #endif
 
 #define BINTXT_FUNCTION_IMPL(name)\
-        pfn_##name##_encode _pfn_##name##_encode = name##_encode;\
-        pfn_##name##_decode _pfn_##name##_decode = name##_decode;\
+        static pfn_##name##_encode _pfn_##name##_encode = name##_encode;\
+        static pfn_##name##_decode _pfn_##name##_decode = name##_decode;\
         zmerror zm_##name##_encode(uint8_t *input, uint32_t ilen, uint8_t *output, uint32_t *olen, uint32_t options)\
         {\
             return _pfn_##name##_encode(input, ilen, output, olen, options);\
@@ -187,13 +187,13 @@ extern "C" {
         }
 
 #define CHECKSUM_FUNCTION_IMPL(name)\
-        pfn_##name##_new            _pfn_##name##_new           = name##_new;\
-        pfn_##name##_free           _pfn_##name##_free          = name##_free;\
-        pfn_##name##_checksum_size  _pfn_##name##_checksum_size = name##_checksum_size;\
-        pfn_##name##_init           _pfn_##name##_init          = name##_init;\
-        pfn_##name##_starts         _pfn_##name##_starts        = name##_starts;\
-        pfn_##name##_update         _pfn_##name##_update        = name##_update;\
-        pfn_##name##_final          _pfn_##name##_final         = name##_final;\
+        static pfn_##name##_new            _pfn_##name##_new           = name##_new;\
+        static pfn_##name##_free           _pfn_##name##_free          = name##_free;\
+        static pfn_##name##_checksum_size  _pfn_##name##_checksum_size = name##_checksum_size;\
+        static pfn_##name##_init           _pfn_##name##_init          = name##_init;\
+        static pfn_##name##_starts         _pfn_##name##_starts        = name##_starts;\
+        static pfn_##name##_update         _pfn_##name##_update        = name##_update;\
+        static pfn_##name##_final          _pfn_##name##_final         = name##_final;\
 \
 	    CONTEXT_TYPE_PTR(name) zm_##name##_new(void)\
 	    {\
@@ -225,14 +225,14 @@ extern "C" {
         }
 
     #define HASH_FUNCTION_IMPL(name)\
-        pfn_##name##_new         _pfn_##name##_new         = name##_new;\
-        pfn_##name##_free        _pfn_##name##_free        = name##_free;\
-        pfn_##name##_digest_size _pfn_##name##_digest_size = name##_digest_size;\
-        pfn_##name##_block_size  _pfn_##name##_block_size  = name##_block_size;\
-        pfn_##name##_init        _pfn_##name##_init        = name##_init;\
-        pfn_##name##_starts      _pfn_##name##_starts      = name##_starts;\
-        pfn_##name##_update      _pfn_##name##_update      = name##_update;\
-        pfn_##name##_final       _pfn_##name##_final       = name##_final;\
+        static pfn_##name##_new         _pfn_##name##_new         = name##_new;\
+        static pfn_##name##_free        _pfn_##name##_free        = name##_free;\
+        static pfn_##name##_digest_size _pfn_##name##_digest_size = name##_digest_size;\
+        static pfn_##name##_block_size  _pfn_##name##_block_size  = name##_block_size;\
+        static pfn_##name##_init        _pfn_##name##_init        = name##_init;\
+        static pfn_##name##_starts      _pfn_##name##_starts      = name##_starts;\
+        static pfn_##name##_update      _pfn_##name##_update      = name##_update;\
+        static pfn_##name##_final       _pfn_##name##_final       = name##_final;\
 \
         CONTEXT_TYPE_PTR(name) zm_##name##_new(void)\
         {\
@@ -268,17 +268,17 @@ extern "C" {
         }
 
     #define BLOCKCIPHER_FUNCTION_IMPL(name)\
-        pfn_##name##_new             _pfn_##name##_new            = name##_new;\
-        pfn_##name##_free            _pfn_##name##_free           = name##_free;\
-        pfn_##name##_init            _pfn_##name##_init           = name##_init;\
-        pfn_##name##_block_size      _pfn_##name##_block_size     = name##_block_size;\
-        pfn_##name##_ksize_min       _pfn_##name##_ksize_min      = name##_ksize_min;\
-        pfn_##name##_ksize_max       _pfn_##name##_ksize_max      = name##_ksize_max;\
-        pfn_##name##_ksize_multiple  _pfn_##name##_ksize_multiple = name##_ksize_multiple;\
-        pfn_##name##_set_ekey        _pfn_##name##_set_ekey       = name##_set_ekey;\
-        pfn_##name##_set_dkey        _pfn_##name##_set_dkey       = name##_set_dkey;\
-        pfn_##name##_enc_block       _pfn_##name##_enc_block      = name##_enc_block;\
-        pfn_##name##_dec_block       _pfn_##name##_dec_block      = name##_dec_block;\
+        static pfn_##name##_new             _pfn_##name##_new            = name##_new;\
+        static pfn_##name##_free            _pfn_##name##_free           = name##_free;\
+        static pfn_##name##_init            _pfn_##name##_init           = name##_init;\
+        static pfn_##name##_block_size      _pfn_##name##_block_size     = name##_block_size;\
+        static pfn_##name##_ksize_min       _pfn_##name##_ksize_min      = name##_ksize_min;\
+        static pfn_##name##_ksize_max       _pfn_##name##_ksize_max      = name##_ksize_max;\
+        static pfn_##name##_ksize_multiple  _pfn_##name##_ksize_multiple = name##_ksize_multiple;\
+        static pfn_##name##_set_ekey        _pfn_##name##_set_ekey       = name##_set_ekey;\
+        static pfn_##name##_set_dkey        _pfn_##name##_set_dkey       = name##_set_dkey;\
+        static pfn_##name##_enc_block       _pfn_##name##_enc_block      = name##_enc_block;\
+        static pfn_##name##_dec_block       _pfn_##name##_dec_block      = name##_dec_block;\
 \
         CONTEXT_TYPE_PTR(name) zm_##name##_new(void)\
         {\
@@ -326,12 +326,12 @@ extern "C" {
         }
 
     #define MAC_FUNCTION_IMPL(name)\
-        pfn_##name##_new          _pfn_##name##_new           = name##_new;\
-        pfn_##name##_free         _pfn_##name##_free          = name##_free;\
-        pfn_##name##_starts       _pfn_##name##_starts        = name##_starts;\
-        pfn_##name##_update       _pfn_##name##_update        = name##_update;\
-        pfn_##name##_final        _pfn_##name##_final         = name##_final;\
-        pfn_##name##_digest_size  _pfn_##name##_digest_size   = name##_digest_size;\
+        static pfn_##name##_new          _pfn_##name##_new           = name##_new;\
+        static pfn_##name##_free         _pfn_##name##_free          = name##_free;\
+        static pfn_##name##_starts       _pfn_##name##_starts        = name##_starts;\
+        static pfn_##name##_update       _pfn_##name##_update        = name##_update;\
+        static pfn_##name##_final        _pfn_##name##_final         = name##_final;\
+        static pfn_##name##_digest_size  _pfn_##name##_digest_size   = name##_digest_size;\
 \
         CONTEXT_TYPE_PTR(name) zm_##name##_new (void)\
         {\
@@ -359,13 +359,13 @@ extern "C" {
         }
 
     #define CIPHER_MODE_FUNCTION_IMPL(name, param, args)\
-        pfn_##name##_new       _pfn_##name##_new      = name##_new;\
-        pfn_##name##_free      _pfn_##name##_free     = name##_free;\
-        pfn_##name##_init      _pfn_##name##_init     = name##_init;\
-        pfn_##name##_set_ekey  _pfn_##name##_set_ekey = name##_set_ekey;\
-        pfn_##name##_set_dkey  _pfn_##name##_set_dkey = name##_set_dkey;\
-        pfn_##name##_enc       _pfn_##name##_enc      = name##_enc;\
-        pfn_##name##_dec       _pfn_##name##_dec      = name##_dec;\
+        static pfn_##name##_new       _pfn_##name##_new      = name##_new;\
+        static pfn_##name##_free      _pfn_##name##_free     = name##_free;\
+        static pfn_##name##_init      _pfn_##name##_init     = name##_init;\
+        static pfn_##name##_set_ekey  _pfn_##name##_set_ekey = name##_set_ekey;\
+        static pfn_##name##_set_dkey  _pfn_##name##_set_dkey = name##_set_dkey;\
+        static pfn_##name##_enc       _pfn_##name##_enc      = name##_enc;\
+        static pfn_##name##_dec       _pfn_##name##_dec      = name##_dec;\
 \
         CONTEXT_TYPE_PTR(name) zm_##name##_new (void)\
         {\
@@ -397,13 +397,13 @@ extern "C" {
         }
 
     #define CIPHER_MODE_WITH_IV_FUNCTION_IMPL(name, param, args)\
-        pfn_##name##_new      _pfn_##name##_new       = name##_new;\
-        pfn_##name##_free     _pfn_##name##_free      = name##_free;\
-        pfn_##name##_init     _pfn_##name##_init      = name##_init;\
-        pfn_##name##_set_ekey _pfn_##name##_set_ekey  = name##_set_ekey;\
-        pfn_##name##_set_dkey _pfn_##name##_set_dkey  = name##_set_dkey;\
-        pfn_##name##_enc      _pfn_##name##_enc       = name##_enc;\
-        pfn_##name##_dec      _pfn_##name##_dec       = name##_dec;\
+        static pfn_##name##_new      _pfn_##name##_new       = name##_new;\
+        static pfn_##name##_free     _pfn_##name##_free      = name##_free;\
+        static pfn_##name##_init     _pfn_##name##_init      = name##_init;\
+        static pfn_##name##_set_ekey _pfn_##name##_set_ekey  = name##_set_ekey;\
+        static pfn_##name##_set_dkey _pfn_##name##_set_dkey  = name##_set_dkey;\
+        static pfn_##name##_enc      _pfn_##name##_enc       = name##_enc;\
+        static pfn_##name##_dec      _pfn_##name##_dec       = name##_dec;\
 \
         CONTEXT_TYPE_PTR(name) zm_##name##_new (void)\
         {\
@@ -436,7 +436,7 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_HMAC
         MAC_FUNCTION_IMPL(hmac)
-        pfn_hmac_init _pfn_hmac_init = hmac_init;
+        static pfn_hmac_init _pfn_hmac_init = hmac_init;
         void zm_hmac_init (CONTEXT_TYPE_PTR(hmac) ctx, HMAC_INIT_PARAM)
         {
             _pfn_hmac_init (ctx, HMAC_INIT_ARGS); 
@@ -445,7 +445,7 @@ extern "C" {
 
     #if defined ZMCRYPTO_ALGO_CMAC
         MAC_FUNCTION_IMPL(cmac)
-        pfn_cmac_init _pfn_cmac_init = cmac_init;
+        static pfn_cmac_init _pfn_cmac_init = cmac_init;
         void zm_cmac_init (CONTEXT_TYPE_PTR(cmac) ctx, CMAC_INIT_PARAM)
         {
             _pfn_cmac_init(ctx, CMAC_INIT_ARGS); 
@@ -453,13 +453,13 @@ extern "C" {
     #endif
 
     #define AEAD_FUNCTION_IMPL(name, cipher_param, cipher_args, starts_param, starts_args, final_param, final_args)\
-        pfn_##name##_new             _pfn_##name##_new         = name##_new         ;\
-        pfn_##name##_free            _pfn_##name##_free        = name##_free        ;\
-        pfn_##name##_init            _pfn_##name##_init        = name##_init        ;\
-        pfn_##name##_starts          _pfn_##name##_starts      = name##_starts      ;\
-        pfn_##name##_update_aad      _pfn_##name##_update_aad  = name##_update_aad  ;\
-        pfn_##name##_update_data     _pfn_##name##_update_data = name##_update_data ;\
-        pfn_##name##_final           _pfn_##name##_final       = name##_final       ;\
+        static pfn_##name##_new             _pfn_##name##_new         = name##_new         ;\
+        static pfn_##name##_free            _pfn_##name##_free        = name##_free        ;\
+        static pfn_##name##_init            _pfn_##name##_init        = name##_init        ;\
+        static pfn_##name##_starts          _pfn_##name##_starts      = name##_starts      ;\
+        static pfn_##name##_update_aad      _pfn_##name##_update_aad  = name##_update_aad  ;\
+        static pfn_##name##_update_data     _pfn_##name##_update_data = name##_update_data ;\
+        static pfn_##name##_final           _pfn_##name##_final       = name##_final       ;\
 \
         CONTEXT_TYPE_PTR(name) zm_##name##_new (void)\
         {\
@@ -491,16 +491,16 @@ extern "C" {
         }
 
     #define STREAMCIPHER_FUNCTION_IMPL(name)\
-        pfn_##name##_ksize_min        _pfn_##name##_ksize_min      = name##_ksize_min      ;\
-        pfn_##name##_ksize_max        _pfn_##name##_ksize_max      = name##_ksize_max      ;\
-        pfn_##name##_ksize_multiple   _pfn_##name##_ksize_multiple = name##_ksize_multiple ;\
-        pfn_##name##_new              _pfn_##name##_new            = name##_new            ;\
-        pfn_##name##_free             _pfn_##name##_free           = name##_free           ;\
-        pfn_##name##_init             _pfn_##name##_init           = name##_init           ;\
-        pfn_##name##_set_ekey         _pfn_##name##_set_ekey       = name##_set_ekey       ;\
-        pfn_##name##_set_dkey         _pfn_##name##_set_dkey       = name##_set_dkey       ;\
-        pfn_##name##_encrypt          _pfn_##name##_encrypt        = name##_encrypt        ;\
-        pfn_##name##_decrypt          _pfn_##name##_decrypt        = name##_decrypt        ;\
+        static pfn_##name##_ksize_min        _pfn_##name##_ksize_min      = name##_ksize_min      ;\
+        static pfn_##name##_ksize_max        _pfn_##name##_ksize_max      = name##_ksize_max      ;\
+        static pfn_##name##_ksize_multiple   _pfn_##name##_ksize_multiple = name##_ksize_multiple ;\
+        static pfn_##name##_new              _pfn_##name##_new            = name##_new            ;\
+        static pfn_##name##_free             _pfn_##name##_free           = name##_free           ;\
+        static pfn_##name##_init             _pfn_##name##_init           = name##_init           ;\
+        static pfn_##name##_set_ekey         _pfn_##name##_set_ekey       = name##_set_ekey       ;\
+        static pfn_##name##_set_dkey         _pfn_##name##_set_dkey       = name##_set_dkey       ;\
+        static pfn_##name##_encrypt          _pfn_##name##_encrypt        = name##_encrypt        ;\
+        static pfn_##name##_decrypt          _pfn_##name##_decrypt        = name##_decrypt        ;\
 \
         int32_t zm_##name##_ksize_min (void) \
             { return _pfn_##name##_ksize_min(); }\
@@ -524,7 +524,7 @@ extern "C" {
             { _pfn_##name##_decrypt(ctx, input, ilen, output); }
 
     #define STREAMCIPHER_WITH_IV_FUNCTION_IMPL(name)\
-        pfn_##name##_set_iv _pfn_##name##_set_iv = name##_set_iv;\
+        static pfn_##name##_set_iv _pfn_##name##_set_iv = name##_set_iv;\
         zmerror zm_##name##_set_iv(CONTEXT_TYPE_PTR(name) ctx, uint8_t* iv) { return _pfn_##name##_set_iv(ctx, iv); }
 
     #if defined ZMCRYPTO_ALGO_CCM
