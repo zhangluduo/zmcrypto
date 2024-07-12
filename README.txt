@@ -16,6 +16,3 @@ make
 ./test
 
 
-请注意：
-因为zmcrypto是一个纯软方式的实现library，做性能横向对比测试时，对于使用到的三方库（Crypto++, mbedTLS, OpenSSL, ...），
-需disabled硬件加速/汇编加速等功能，否则横向性能对比没有任何意义。
