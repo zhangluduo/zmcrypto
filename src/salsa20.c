@@ -69,38 +69,38 @@
 
     zmerror salsa20_set_ekey(struct salsa20_ctx* ctx, uint8_t* key, uint32_t ksize)
     { 
-        if (ksize != 16 && ksize != 32)
-            { return ZMCRYPTO_ERR_INVALID_KSIZE; }
+        // if (ksize != 16 && ksize != 32)
+        //     { return ZMCRYPTO_ERR_INVALID_KSIZE; }
 
-        static const uint32_t TAU[] =
-            { 0x61707865, 0x3120646e, 0x79622d36, 0x6b206574 };
+        // static const uint32_t TAU[] =
+        //     { 0x61707865, 0x3120646e, 0x79622d36, 0x6b206574 };
 
-        static const uint32_t SIGMA[] =
-            { 0x61707865, 0x3320646e, 0x79622d32, 0x6b206574 };
+        // static const uint32_t SIGMA[] =
+        //     { 0x61707865, 0x3320646e, 0x79622d32, 0x6b206574 };
 
-        const uint32_t* CONSTANTS = (ksize == 16) ? TAU : SIGMA;
+        // const uint32_t* CONSTANTS = (ksize == 16) ? TAU : SIGMA;
 
-        ctx->state[0] = CONSTANTS[0];
-        ctx->state[5] = CONSTANTS[1];
-        ctx->state[10] = CONSTANTS[2];
-        ctx->state[15] = CONSTANTS[3];
+        // ctx->state[0] = CONSTANTS[0];
+        // ctx->state[5] = CONSTANTS[1];
+        // ctx->state[10] = CONSTANTS[2];
+        // ctx->state[15] = CONSTANTS[3];
 
-        #if defined ENDIAN_LITTLE
-            GET_UINT32_LE(ctx->state[1], key, 0);
-            GET_UINT32_LE(ctx->state[2], key, 4);
-            GET_UINT32_LE(ctx->state[3], key, 8);
-            GET_UINT32_LE(ctx->state[4], key, 12);
+        // #if defined ENDIAN_LITTLE
+        //     GET_UINT32_LE(ctx->state[1], key, 0);
+        //     GET_UINT32_LE(ctx->state[2], key, 4);
+        //     GET_UINT32_LE(ctx->state[3], key, 8);
+        //     GET_UINT32_LE(ctx->state[4], key, 12);
 
-            if(ksize == 32)
-            {
-                GET_UINT32_LE(ctx->state[11], key, 16);
-                GET_UINT32_LE(ctx->state[12], key, 20);
-                GET_UINT32_LE(ctx->state[13], key, 24);
-                GET_UINT32_LE(ctx->state[14], key, 28);
-            }
-        #else
-            #error no implemention here
-        #endif
+        //     if(ksize == 32)
+        //     {
+        //         GET_UINT32_LE(ctx->state[11], key, 16);
+        //         GET_UINT32_LE(ctx->state[12], key, 20);
+        //         GET_UINT32_LE(ctx->state[13], key, 24);
+        //         GET_UINT32_LE(ctx->state[14], key, 28);
+        //     }
+        // #else
+        //     #error no implemention here
+        // #endif
 /*
         printf ("ctx->state: ");
         for (int i = 0; i < 16; i++){

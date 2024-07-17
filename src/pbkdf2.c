@@ -78,12 +78,7 @@ where:
             hmac_update(_hmac_ctx, s, slen);
             for (uint32_t j = 0; j < 4; j++)
             {
-                #if defined ENDIAN_LITTLE
-                    uint8_t b = (uint8_t)((i + 1) >> ((3 - j) * 8));
-                #else
-                    uint8_t b = (uint8_t)((i + 1) >> ((j) * 8));
-                #endif
-
+                uint8_t b = (uint8_t)((i + 1) >> ((3 - j) * 8));
                 hmac_update(_hmac_ctx, &b, 1);
             }
             hmac_final(_hmac_ctx, digest);

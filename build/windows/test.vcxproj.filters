@@ -33,6 +33,7 @@
     <ClCompile Include="..\..\tests\cpp\test_md2.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_md4.cpp" />
     <ClCompile Include="..\..\tests\cpp\test_gcm.cpp" />
+    <ClCompile Include="..\..\tests\cpp\test_base16.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\tests\cpp\format_output.h" />
@@ -67,6 +68,7 @@
     <ClInclude Include="..\..\tests\cpp\test_md2.h" />
     <ClInclude Include="..\..\tests\cpp\test_md4.h" />
     <ClInclude Include="..\..\tests\cpp\test_gcm.h" />
+    <ClInclude Include="..\..\tests\cpp\test_base16.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\tests\cpp\test_report.txt" />

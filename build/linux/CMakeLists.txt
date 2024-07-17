@@ -3,6 +3,15 @@
 cmake_minimum_required(VERSION 3.0)
 project(zmcrypto)
 
+#set(CMAKE_C_COMPILER      /usr/bin/mips-linux-gnu-gcc)
+#set(CMAKE_CXX_COMPILER    /usr/bin/mips-linux-gnu-g++)
+#SET(CMAKE_FIND_ROOT_PATH  /usr/mips-linux-gnu/lib/)
+#SET(CMAKE_C_FLAGS_INIT "-O3 --sysroot=${CMAKE_FIND_ROOT_PATH}")
+#SET(CMAKE_CXX_FLAGS_INIT "-O3 --sysroot=${CMAKE_FIND_ROOT_PATH}")
+#SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+#SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
+#SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)
+
 #set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_BUILD_TYPE Release)
 
@@ -62,6 +71,7 @@ add_library(
 	../../src/asn1.c
 	../../src/mem.c
 	../../src/zmcrypto.c
+	../../src/dlmain.c
 )
 
 set_target_properties(
@@ -103,11 +113,11 @@ link_directories(
 )
 
 add_definitions(
-	-DTEST_FOR_CRYPTOPP
-	-DTEST_FOR_CRYPTOPP_SPEED
-	-DTEST_FOR_OPENSSL_SPEED
-	-DTEST_FOR_MBEDTLS_SPEED
-	-DDONOT_DETECT_MEM_LEAK_FOR_CRYPTOPP
+	#-DTEST_FOR_CRYPTOPP
+	#-DTEST_FOR_CRYPTOPP_SPEED
+	#-DTEST_FOR_OPENSSL_SPEED
+	#-DTEST_FOR_MBEDTLS_SPEED
+	#-DDONOT_DETECT_MEM_LEAK_FOR_CRYPTOPP
 )
 
 add_executable(
@@ -153,9 +163,9 @@ add_executable(
 
 target_link_libraries (test LINK_PUBLIC 
 	dl
-	cryptopp #Crypto++ Library
-	crypto #libcrypto for openssl 
-	mbedcrypto #libmbedcrypto.a
+	#cryptopp #Crypto++ Library
+	#crypto #libcrypto for openssl 
+	#mbedcrypto #libmbedcrypto.a
 	pthread
 )
 

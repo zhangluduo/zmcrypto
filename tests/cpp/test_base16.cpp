@@ -33,7 +33,7 @@ void test_case_base16(zmcrypto::sdk* _sdk)
 {
     {
         const char* s = "abcdefg"; /*61 62 63 64 65 66 67*/
-        uint32_t len = strlen(s);
+		uint32_t len = (uint32_t)strlen(s);
         uint32_t options = 1 << 16 | 0;
         uint32_t olen = 0;
         zmerror err = _sdk->zm_base16_encode((uint8_t*)s, len, NULL, &olen, options);
@@ -51,7 +51,7 @@ void test_case_base16(zmcrypto::sdk* _sdk)
     }
     {
         const char* s = "abcdefg";
-        uint32_t len = strlen(s);
+		uint32_t len = (uint32_t)strlen(s);
         uint32_t options = 4 << 16 | 0;
         uint32_t olen = 0;
         zmerror err = _sdk->zm_base16_encode((uint8_t*)s, len, NULL, &olen, options);
@@ -69,7 +69,7 @@ void test_case_base16(zmcrypto::sdk* _sdk)
     }
     {
         const char* s = "abcdefg";
-        uint32_t len = strlen(s);
+		uint32_t len = (uint32_t)strlen(s);
         uint32_t options = 1 << 16 | 0;
         uint8_t output[20]; memset(output, 0, 20);
         uint32_t olen = 20;
@@ -82,7 +82,7 @@ void test_case_base16(zmcrypto::sdk* _sdk)
     }
     {
         const char* s = "abcdefg";
-        uint32_t len = strlen(s);
+		uint32_t len = (uint32_t)strlen(s);
         uint32_t options = 1 << 16 | 0;
         uint8_t output[30]; memset(output, 0, 20);
         uint32_t olen = 30;
@@ -100,7 +100,7 @@ void test_case_base16(zmcrypto::sdk* _sdk)
     }
     {
         const char* s = "abcdefg";
-        uint32_t len = strlen(s);
+		uint32_t len = (uint32_t)strlen(s);
         uint32_t options = 4 << 16 | 0;
         uint8_t output[30]; memset(output, 0, 20);
         uint32_t olen = 30;
@@ -119,7 +119,7 @@ void test_case_base16(zmcrypto::sdk* _sdk)
     {
         uint32_t options = 0 << 16 | 0;
         int8_t* b64 = (int8_t*)"61626364656667";
-        uint32_t len = strlen((char*)b64);
+		uint32_t len = (uint32_t)strlen((char*)b64);
         uint8_t output[20]; memset(output, 0, 20);
         uint32_t olen = 20;
         zmerror err = _sdk->zm_base16_decode((uint8_t*)b64, len, output, &olen, options);
@@ -137,7 +137,7 @@ void test_case_base16(zmcrypto::sdk* _sdk)
     {
         uint32_t options = 0 << 16 | 0;
         int8_t* b64 = (int8_t*)"6162636\n4656667";
-        uint32_t len = strlen((char*)b64);
+		uint32_t len = (uint32_t)strlen((char*)b64);
         uint8_t output[20]; memset(output, 0, 20);
         uint32_t olen = 20;
         zmerror err = _sdk->zm_base16_decode((uint8_t*)b64, len, output, &olen, options);
@@ -150,7 +150,7 @@ void test_case_base16(zmcrypto::sdk* _sdk)
     {
         uint32_t options = 1 << 16 | 0;
         int8_t* b64 = (int8_t*)"6162636x4656667";
-        uint32_t len = strlen((char*)b64);
+		uint32_t len = (uint32_t)strlen((char*)b64);
         uint8_t output[20]; memset(output, 0, 20);
         uint32_t olen = 20;
         zmerror err = _sdk->zm_base16_decode((uint8_t*)b64, len, output, &olen, options);
@@ -163,7 +163,7 @@ void test_case_base16(zmcrypto::sdk* _sdk)
     {
         uint32_t options = 1 << 16 | 0;
         int8_t* b64 = (int8_t*)"61626\n36\r4656667";
-        uint32_t len = strlen((char*)b64);
+		uint32_t len = (uint32_t)strlen((char*)b64);
         uint8_t output[20]; memset(output, 0, 20);
         uint32_t olen = 20;
         zmerror err = _sdk->zm_base16_decode((uint8_t*)b64, len, output, &olen, options);
@@ -181,7 +181,7 @@ void test_case_base16(zmcrypto::sdk* _sdk)
     {
         uint32_t options = 1 << 16 | 0;
         int8_t* b64 = (int8_t*)"616h26\n36\r4656667";
-        uint32_t len = strlen((char*)b64);
+		uint32_t len = (uint32_t)strlen((char*)b64);
         uint8_t output[20]; memset(output, 0, 20);
         uint32_t olen = 20;
         zmerror err = _sdk->zm_base16_decode((uint8_t*)b64, len, output, &olen, options);
