@@ -207,13 +207,13 @@ int main()
     // test_asn1_case12();
     // test_asn1_case13();
     // test_asn1_case14();
-    test_asn1_case15();
-    test_asn1_case16();
-    test_asn1_case17();
-    test_asn1_case18();
+    // test_asn1_case15();
+    // test_asn1_case16();
+    // test_asn1_case17();
+    // test_asn1_case18();
 
     // test_hook(&_sdk);
-    //test_case(&_sdk);
+    test_case(&_sdk);
     //test_speed(&_sdk);
     //test_info(&_sdk);
 #endif
